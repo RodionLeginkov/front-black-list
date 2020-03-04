@@ -3,7 +3,7 @@ import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -61,7 +61,7 @@ export default function SignUp() {
       password: form.password,
     };
     try {
-      await axios.post('http://localhost:5000/users/signup', login);
+      await axios.post(`${process.env.REACT_APP_BASE_API}users/signup`, login);
       window.location = '/signin';
     } catch (err) {
       alert('Somthing is going wrong');
@@ -117,7 +117,7 @@ export default function SignUp() {
           </Button>
           <Grid container>
             <Grid>
-              <Link href="http://localhost:3000/signin" variant="body2">
+              <Link to="/signin" variant="body2">
                 Get back
               </Link>
             </Grid>

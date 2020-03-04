@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -66,7 +66,7 @@ export default function SignUp() {
       password: form.password,
     };
     try {
-      const result = await axios.post('http://localhost:5000/users/login', login);
+      const result = await axios.post(`${process.env.REACT_APP_BASE_API}users/login`, login);
       console.log(result);
       localStorage.setItem('tokens', JSON.stringify(result.data));
       toggleAuth(result.data);
@@ -130,12 +130,12 @@ export default function SignUp() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="http://localhost:3000/signup" variant="body2">
+              <Link to="/signup">
                 Don't have an account? Sign Up
               </Link>
             </Grid>

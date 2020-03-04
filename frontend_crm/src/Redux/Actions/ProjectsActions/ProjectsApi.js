@@ -12,7 +12,7 @@ async function getData(url, data) {
 
 
 // eslint-disable-next-line import/prefer-default-export
-export const addNewProject = (project) => postData('http://localhost:5000/project/addproject', project);
+export const addNewProject = (project) => postData(`${process.env.REACT_APP_BASE_API}project/addproject`, project);
 
 // eslint-disable-next-line import/prefer-default-export
-export const loadAllProjects = (project) => getData('http://localhost:5000/project/', project);
+export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BASE_API}project/`, project);

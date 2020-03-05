@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import HeaderBg from '../../Assets/headerBg.jpg';
+// import HeaderBg from '../../Assets/headerBg.jpg';
 import grayBG from '../../Assets/grayBG.jpg';
 // background: `url(${grayBG}) center /cover no-repeat`,
 const useStyles = makeStyles(() => ({

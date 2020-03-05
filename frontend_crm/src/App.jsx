@@ -24,7 +24,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthContextProvider>
-          <div className="App" style={{ marginLeft: '85px' }}>
+          <div className="App">
             <Navbar />
             <Switch>
               <PrivateRoute exact path="/" component={Home} />

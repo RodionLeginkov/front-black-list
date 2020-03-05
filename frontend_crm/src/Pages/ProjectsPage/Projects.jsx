@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   button: {
     fontSize: '13 px',
     height: '40px',
-    padding: '0 10px'
+    padding: '0 10px',
   },
   container: {
     marginTop: '20px',
@@ -46,7 +46,7 @@ export default function StickyHeadTable() {
   }, [dispatch]);
 
   return (
-    <>
+    <div style={{ marginLeft: '85px' }}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
         <Button
@@ -66,6 +66,6 @@ export default function StickyHeadTable() {
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />
-    </>
+    </div>
   );
 }

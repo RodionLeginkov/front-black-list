@@ -11,7 +11,6 @@ export const addProject = (project) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
-    // console.log(rerqwrqwer);
     const { data } = await axios.post(`${process.env.REACT_APP_BASE_API}project/addproject`, { headers: { tokens: loginToken } }, { data: project });
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {

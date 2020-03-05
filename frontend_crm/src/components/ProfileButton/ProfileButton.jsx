@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
   },
   button: {
+    paddingLeft: '6px',
     minWidth: 0,
     padding: 0,
   },
@@ -36,7 +37,7 @@ export default function FadeMenu() {
   };
 
   return (
-    <div>
+    <>
       <Button className={classes.button} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
         <AccountCircleIcon className={classes.completed} />
       </Button>
@@ -52,6 +53,6 @@ export default function FadeMenu() {
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleCloselogout}>Logout</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }

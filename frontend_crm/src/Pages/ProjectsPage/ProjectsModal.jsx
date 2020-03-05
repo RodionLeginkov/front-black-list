@@ -82,6 +82,7 @@ export default function ProjectModal(props) {
     });
   };
 
+
   return (
     <div className={classes.position}>
       <Modal
@@ -101,11 +102,12 @@ export default function ProjectModal(props) {
           <div className={clsx(classes.paper, classes.modalWidth)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={projectPush}>
               <h2>Add new project</h2>
-              <TextField label="Project Name"  variant="outlined" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='name' onChange={handleChange} />
-              <div className={classes.smallForm}> 
-                <FormControl label="Status" placeholder='Status' variant="outlined" className={clsx(classes.formControl, classes.inputForm)} style={{marginRight:5}}>
+              <TextField label="Project Name" variant="outlined" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='name' onChange={handleChange} />
+              <div className={classes.smallForm}>
+                <FormControl label="Status" placeholder='Status' variant="outlined" className={clsx(classes.formControl, classes.inputForm)} style={{ marginRight: 5 }}>
                   <Select
                     name='status'
+                    value={project.status}
                     onChange={handleChange}
                     displayEmpty
                     className={classes.selectEmpty}
@@ -118,11 +120,20 @@ export default function ProjectModal(props) {
                   </Select>
                 </FormControl>
 
-                <TextField type="number" style={{marginLeft:5}} variant="outlined" label="Price" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='price' onChange={handleChange} />
+                <TextField
+                  type="number"
+                  style={{ marginLeft: 5 }}
+                  variant="outlined"
+                  label="Price"
+                  inputProps={{ 'aria-label': 'description' }}
+                  className={classes.inputForm}
+                  name='price'
+                  onChange={handleChange}
+                />
               </div>
-              <StackForm  name='stack' stackChange={stackChange} />
+              <StackForm name='stack' stackChange={stackChange} />
               <TextField
-              variant="outlined"
+                variant="outlined"
                 id="standard-multiline-flexible"
                 label="Description"
                 multiline

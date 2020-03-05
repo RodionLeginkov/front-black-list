@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import projectReducer from './projectReducer/project';
+import projectReducer from './projectReducer/projectReducer';
 
 
 const rootReducers = combineReducers({

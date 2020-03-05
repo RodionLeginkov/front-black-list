@@ -67,7 +67,6 @@ export default function SignUp() {
     };
     try {
       const result = await axios.post(`${process.env.REACT_APP_BASE_API}users/login`, login);
-      console.log(result);
       localStorage.setItem('tokens', JSON.stringify(result.data));
       toggleAuth(result.data);
 

@@ -5,7 +5,6 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -79,7 +78,7 @@ export default function ProjectModal(props) {
     dispatch(addProject(project));
     setIsOpen(false);
     setProject({
-      ...project, name: '', status: '', price: '', stack: [], description: '',
+      ...project, name: '', status: 'active', price: '', stack: ['zxc'], description: 'zcx',
     });
   };
 
@@ -105,7 +104,6 @@ export default function ProjectModal(props) {
               <TextField label="Project Name"  variant="outlined" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='name' onChange={handleChange} />
               <div className={classes.smallForm}> 
                 <FormControl label="Status" placeholder='Status' variant="outlined" className={clsx(classes.formControl, classes.inputForm)} style={{marginRight:5}}>
-      
                   <Select
                     name='status'
                     onChange={handleChange}

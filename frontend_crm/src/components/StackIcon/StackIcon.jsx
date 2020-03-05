@@ -31,6 +31,10 @@ const useStyles = makeStyles(() => ({
     width: '30px',
     padding: '5px 12px',
   },
+  icon: {
+    backgroundRepeat: 'no-repeat !important',
+    backgroundSize: 'contain !important',
+  }
 }));
 const icons = [
   Express,
@@ -46,7 +50,7 @@ function StackIcon(props) {
     size, tech, className,
   } = props;
 
-  const iconClassName = clsx(classes.badge, {
+  const iconClassName = clsx(classes.icon, {
     [classes.small]: size === 'small',
     [classes.medium]: size === 'medium',
     [classes.large]: size === 'large',

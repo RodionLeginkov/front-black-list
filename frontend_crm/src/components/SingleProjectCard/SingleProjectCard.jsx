@@ -8,9 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { useHistory } from 'react-router-dom';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
-import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StackIcon from '../StackIcon/StackIcon.jsx';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +70,11 @@ export default function RecipeReviewCard(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  function handleDelete() {
+    dispatch(deleteProject(card._id));
+    // history.push('/projects');
+  }
+  
   function handleClick() {
     dispatch(findProject(card._id));
     history.push(`/projects/${card._id}`);
@@ -103,6 +111,9 @@ export default function RecipeReviewCard(props) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      <Button onClick={handleDelete}>
+        <DeleteOutlineIcon />
+      </Button>
     </Card>
   );
 }

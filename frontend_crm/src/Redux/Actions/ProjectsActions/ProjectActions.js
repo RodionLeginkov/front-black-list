@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {
 
-  ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, LOAD_RPOJECT, LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR, FIND_PROJECT,
+  ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT, LOAD_RPOJECT, LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR, FIND_PROJECT, DELETE_PROJECT_ERROR,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 // import { addNewProject } from './ProjectsApi';
@@ -32,3 +32,13 @@ export const loadProject = () => async (dispatch) => {
 };
 
 export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
+
+export const deleteProject = (id) => async (dispatch) => {
+  try {
+    const loginToken = JSON.parse(localStorage.getItem('tokens'));
+    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { tokens: loginToken } });
+    dispatch({ type: DELETE_PROJECT, payload: id });
+  } catch (error) {
+    dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
+  }
+};

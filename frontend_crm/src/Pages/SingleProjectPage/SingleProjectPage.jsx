@@ -1,22 +1,40 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import CustomList from '../../components/CustomList/CustomList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
+import { deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
+const useStyles = makeStyles(() => ({
+  footerIcons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  deleteButton: {
 
-
+  }
+}));
 
 function CurrentProject() {
+  const dispatch = useDispatch();
+  const classes = useStyles();
   const history = useHistory();
   const project = useSelector((state) => state.projects.currentProject);
   function handleClick() {
+    history.push('/projects');
+  }
+
+  function handleDelete() {
+    dispatch(deleteProject(project._id));
     history.push('/projects');
   }
 
@@ -42,7 +60,7 @@ function CurrentProject() {
         <Divider />
         <div style={{ margin: '0px 20px', display: 'flex', alignItems: 'center' }}>
           <h2>Stack: </h2>
-          <div style={{ margin: '10px', display:'flex' }}>
+          <div style={{ margin: '10px', display: 'flex' }}>
             {stackList}
           </div>
         </div>
@@ -61,9 +79,14 @@ function CurrentProject() {
           </Typography>
         </div>
         <Divider />
-        <Button onClick={handleClick}>
-          Go back
-        </Button>
+        <div className={classes.footerIcons}>
+          <Button onClick={handleClick}>
+            <ArrowBackIosIcon />
+          </Button>
+          <Button onClick={handleDelete} className={classes.deleteButton}>
+            <DeleteOutlineIcon />
+          </Button>
+        </div>
       </Paper>
 
 

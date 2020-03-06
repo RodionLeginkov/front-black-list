@@ -1,6 +1,7 @@
 import { loadAllUsers } from './UsersApi';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
+  FILTER_USER_STATUS,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = () => async (dispatch) => {
@@ -16,8 +17,10 @@ export const getUsers = () => async (dispatch) => {
 
 export const findUser = (id) => ({ type: FIND_USER, payload: id });
 
-
-
 export const deleteUser = (userId) => {
   return { type: DELETE_USER, payload: userId };
+}
+
+export const filteredUserStatus = (selectedFilters) => {
+  return { type: FILTER_USER_STATUS, payload: selectedFilters };
 }

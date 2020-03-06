@@ -1,9 +1,11 @@
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
+  FILTER_USER_STATUS,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
   users: [],
+  filteredUsers: [],
   loadingUsers: false,
   loadingProjectsError: null,
   loadingCurrentProjects: false,
@@ -15,7 +17,8 @@ const userReducer = (state = initialState, action) => {
     case DELETE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user._id !== action.payload)
+        users: state.users.filter(user => user._id !== action.payload),
+        filteredUsers: state.users.filter(user => user._id !== action.payload),
       }
     case LOAD_USER:
       return {
@@ -26,6 +29,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         users: action.payload,
+        filteredUsers: action.payload,
         loadingUsers: false,
       };
     case LOAD_CURRENT_USER:
@@ -43,6 +47,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: state.users.find((user) => user._id === action.payload),
+      };
+    case FILTER_USER_STATUS:
+      return {
+        ...state,
+        filteredUsers: state.users.filter((user) => user.status && action.payload.includes(user.status)),
       };
     default:
       return state;

@@ -19,7 +19,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -87,12 +86,17 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   iconGroup: {
+    display: 'flex',
+    alignItems: 'center',
     marginLeft: 'auto',
   },
   link: {
-    textDecoration:'none',
-    color: '#000'
-  }
+    textDecoration: 'none',
+    color: '#000',
+  },
+  topProfileIcons: {
+    padding: '4px 8px',
+  },
 }));
 
 export default function MiniDrawer() {
@@ -137,20 +141,19 @@ export default function MiniDrawer() {
             <IconButton
               color="inherit"
               aria-label="open drawer"
+              className={clsx(classes.topProfileIcons)}
             >
               <EmailIcon />
             </IconButton>
             <IconButton
               color="inherit"
+              className={clsx(classes.topProfileIcons)}
             >
               <NotificationsIcon />
             </IconButton>
-            <IconButton
-              color="inherit"
-            >
 
-              <FadeMenu />
-            </IconButton>
+            <FadeMenu className={classes.topProfileIcons} />
+
           </div>
 
         </Toolbar>

@@ -5,7 +5,6 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -79,9 +78,10 @@ export default function ProjectModal(props) {
     dispatch(addProject(project));
     setIsOpen(false);
     setProject({
-      ...project, name: '', status: '', price: '', stack: [], description: '',
+      ...project, name: '', status: 'active', price: '', stack: ['zxc'], description: 'zcx',
     });
   };
+
 
   return (
     <div className={classes.position}>
@@ -102,12 +102,12 @@ export default function ProjectModal(props) {
           <div className={clsx(classes.paper, classes.modalWidth)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={projectPush}>
               <h2>Add new project</h2>
-              <TextField label="Project Name"  variant="outlined" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='name' onChange={handleChange} />
-              <div className={classes.smallForm}> 
-                <FormControl label="Status" placeholder='Status' variant="outlined" className={clsx(classes.formControl, classes.inputForm)} style={{marginRight:5}}>
-      
+              <TextField label="Project Name" variant="outlined" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='name' onChange={handleChange} />
+              <div className={classes.smallForm}>
+                <FormControl label="Status" placeholder='Status' variant="outlined" className={clsx(classes.formControl, classes.inputForm)} style={{ marginRight: 5 }}>
                   <Select
                     name='status'
+                    value={project.status}
                     onChange={handleChange}
                     displayEmpty
                     className={classes.selectEmpty}
@@ -120,11 +120,20 @@ export default function ProjectModal(props) {
                   </Select>
                 </FormControl>
 
-                <TextField type="number" style={{marginLeft:5}} variant="outlined" label="Price" inputProps={{ 'aria-label': 'description' }} className={classes.inputForm} name='price' onChange={handleChange} />
+                <TextField
+                  type="number"
+                  style={{ marginLeft: 5 }}
+                  variant="outlined"
+                  label="Price"
+                  inputProps={{ 'aria-label': 'description' }}
+                  className={classes.inputForm}
+                  name='price'
+                  onChange={handleChange}
+                />
               </div>
-              <StackForm  name='stack' stackChange={stackChange} />
+              <StackForm name='stack' stackChange={stackChange} />
               <TextField
-              variant="outlined"
+                variant="outlined"
                 id="standard-multiline-flexible"
                 label="Description"
                 multiline

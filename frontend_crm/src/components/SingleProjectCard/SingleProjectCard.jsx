@@ -6,11 +6,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
-import { DiReact, DiNodejsSmall } from 'react-icons/di';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import { useHistory } from 'react-router-dom';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
-import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import StackIcon from '../StackIcon/StackIcon.jsx';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,15 +64,26 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '20px',
   },
 }));
-export default function RecipeReviewCard({ card }) {
+export default function RecipeReviewCard(props) {
+  const { card } = props;
+
   const history = useHistory();
   const dispatch = useDispatch();
 
+  function handleDelete() {
+    dispatch(deleteProject(card._id));
+    // history.push('/projects');
+  }
+  
   function handleClick() {
     dispatch(findProject(card._id));
     history.push(`/projects/${card._id}`);
   }
   const classes = useStyles();
+
+  const stackList = card.stack.map((elem) => (
+    <StackIcon key={Math.random()} tech={elem} size='small' />
+  ));
 
   return (
     <Card className={classes.root}>
@@ -80,15 +94,15 @@ export default function RecipeReviewCard({ card }) {
             {card.name[1].toLowerCase()}
           </Avatar>
           {card.name}
-          {/* <FiberManualRecordIcon /> */}
           <CustomBadge text={card.status} icon={<FiberManualRecordSharpIcon />} status={card.status} />
         </div>
         <CardContent>
           <div className={classes.projectInfo}>
             <CustomBadge text={`${card.price}$/hour`} theme="price" />
             <div>
-              <DiNodejsSmall className={classes.medium} />
-              <DiReact className={classes.medium} />
+              <div style={{ margin: '10px', display: 'flex' }}>
+                {stackList}
+              </div>
             </div>
 
           </div>
@@ -97,6 +111,9 @@ export default function RecipeReviewCard({ card }) {
           </Typography>
         </CardContent>
       </CardActionArea>
+      <Button onClick={handleDelete}>
+        <DeleteOutlineIcon />
+      </Button>
     </Card>
   );
 }

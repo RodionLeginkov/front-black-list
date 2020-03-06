@@ -43,9 +43,9 @@ const MenuProps = {
 };
 
 const names = [
-  { tech: 'React.js' },
-  { tech: 'Node.js' },
-  { tech: 'Express.js' },
+  { tech: 'React' },
+  { tech: 'Node' },
+  { tech: 'Express' },
   { tech: 'MongoDb' },
 ];
 

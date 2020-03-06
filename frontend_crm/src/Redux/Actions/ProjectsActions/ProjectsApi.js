@@ -10,9 +10,17 @@ async function getData(url, data) {
   return response;
 }
 
+async function deleteData(url, data) {
+  const response = await axios.delete(url, data);
+  return response;
+}
+
+
 
 // eslint-disable-next-line import/prefer-default-export
 export const addNewProject = (project) => postData(`${process.env.REACT_APP_BASE_API}project/addproject`, project);
 
 // eslint-disable-next-line import/prefer-default-export
 export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BASE_API}project/`, project);
+
+export const deleteProjects = (id) => getData(`${process.env.REACT_APP_BASE_API}projectId/`, id);

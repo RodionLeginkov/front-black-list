@@ -1,26 +1,51 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import UserRoleBadge from '../UserRoleBadge/UserRoleBadge.jsx';
+import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
   root: {
     width: 270,
-
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '4px',
+  },
+  roleBadge: {
+    marginLeft: '10px',
+  },
+  name: {
+    fontSize: '18px',
+    fontWeight: '800',
+  },
+  email: {
+    fontSize: '12px',
   },
 });
 
-export default function ImgMediaCard({imgUrl, userName}) {
+export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, userRole }) {
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   // const { imgUrl } = props;
 
+  function handleClick() {
+    dispatch(findUser(userId));
+    history.push(`/users/${userId}`);
+  }
+
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={handleClick}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -30,20 +55,23 @@ export default function ImgMediaCard({imgUrl, userName}) {
           title="Contemplative Reptile"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {userName}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" />
+          <div className={classes.row}>
+            <div className={classes.name}>
+              {userName}
+            </div>
+            <div className={classes.roleBadge}>
+              <UserRoleBadge
+                text={userRole ? 'Admin' : 'User'}
+                isAdmin={userRole}
+                size={'medium'}
+              />
+            </div>
+          </div>
+          <div className={classes.email}>
+            {userEmail}
+          </div>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
     </Card>
   );
 }

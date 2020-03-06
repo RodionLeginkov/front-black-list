@@ -1,26 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import HomeUsersList from './UserList';
+import Loading from '../../components/Loading';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
+const useStyles = makeStyles({
+  container: {
+    marginLeft: '100px',
   },
   usersWrapper: {
-    justifyContent: 'left',
     width: '100%',
     maxWidth: '1400px',
     margin: '0 auto',
-    paddingBottom: '250px',
+    justifyContent: 'flex-start',
   },
   usersHeader: {
-    maxWidth: '1350px',
+    alignItems: 'center',
+    maxWidth: '1370px',
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0 auto',
@@ -28,32 +26,28 @@ const useStyles = makeStyles((theme) => ({
   },
   h1: {
     fontSize: '40px',
+    marginLeft: '20px',
   },
-}));
+});
 
 function Home() {
   const classes = useStyles();
-  const [users] = useState([
-    { name: 'NAME', info: 'INFO' },
-    { name: 'NAme', info: 'INFO' },
-    { name: 'NAmE', info: 'INFO' },
-    { name: 'nAME', info: 'INFO' },
-    { name: 'NAME', info: 'INFO' },
-  ]);
 
-  // function AddUser(num) {
-  //   setUsers([...users, num]);
-  //   // setUsers((prevState) => [...prevState, num])
-  // }
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+  const loading = useSelector((state) => state.users.loadingUser);
 
+  useEffect(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
+  if(loading) {
+    return <Loading />
+  }
   return (
-    <>
+    <div className={classes.container}>
       <div className={classes.usersHeader}>
-        <h1 className={classes.h1}>Users</h1>
-        {/* <SearchUserBar /> */}
-
-        {/* There was a button for adding a new user. RIP */}
-        {/* <NewUserButton AddUser={AddUser} /> */}
+        <h1 className={classes.h1}>Developers</h1>
       </div>
       <Grid
         className={classes.usersWrapper}
@@ -63,7 +57,7 @@ function Home() {
       >
         <HomeUsersList users={users} />
       </Grid>
-    </>
+    </div>
   );
 }
 

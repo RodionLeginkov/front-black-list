@@ -7,3 +7,5 @@ async function getData(url, token) {
 
 // eslint-disable-next-line import/prefer-default-export
 export const loadAllUsers = (token) => getData(`${process.env.REACT_APP_BASE_API}users/`, token);
+
+export const loadUser = (token, userId) => getData(`${process.env.REACT_APP_BASE_API}users/${userId}`, token);

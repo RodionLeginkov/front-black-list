@@ -1,15 +1,14 @@
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
-  FILTER_USER_STATUS,
+  FILTER_USER_STATUS, LOAD_CURRENT_USER_SUCCESS,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
   users: [],
   filteredUsers: [],
   loadingUsers: false,
-  loadingProjectsError: null,
-  loadingCurrentProjects: false,
-  currentProject: null,
+  loadingCurrentUser: false,
+  currentUser: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -36,6 +35,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loadingCurrentUser: true,
+      };
+    case LOAD_CURRENT_USER_SUCCESS:
+      return {
+        ...state,
+        currentUser: action.payload,
+        loadingCurrentUser: false,
       };
     case CURRENT_USER:
       return {

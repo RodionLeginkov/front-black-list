@@ -15,7 +15,10 @@ async function deleteData(url, data) {
   return response;
 }
 
-
+async function patchData(url, data) {
+  const response = await axios.patch(url, data);
+  return response;
+}
 
 // eslint-disable-next-line import/prefer-default-export
 export const addNewProject = (project) => postData(`${process.env.REACT_APP_BASE_API}project/addproject`, project);
@@ -23,4 +26,8 @@ export const addNewProject = (project) => postData(`${process.env.REACT_APP_BASE
 // eslint-disable-next-line import/prefer-default-export
 export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BASE_API}project/`, project);
 
-export const deleteProjects = (id) => getData(`${process.env.REACT_APP_BASE_API}projectId/`, id);
+export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}project/projectId/`, id);
+
+export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data._id}`, data, { headers: { tokens: token } });
+
+export const loadPoject = (token, projectId) => getData(`${process.env.REACT_APP_BASE_API}users/${projectId}`, token);

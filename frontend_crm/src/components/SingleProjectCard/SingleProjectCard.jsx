@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     width: '100%',
+    display:'flex',
+    flexFlow: 'column ',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
   media: {
     height: 0,
@@ -99,6 +103,7 @@ export default function RecipeReviewCard(props) {
         <CardContent>
           <div className={classes.projectInfo}>
             <CustomBadge text={`${card.price}$/hour`} theme="price" />
+            <CustomBadge text={`${card.duration}`} theme="price" />
             <div>
               <div style={{ margin: '10px', display: 'flex' }}>
                 {stackList}

@@ -1,5 +1,13 @@
 import {
-  ADD_PROJECT, ADD_PROJECT_BEGIN, DELETE_PROJECT_ERROR, DELETE_PROJECT, FIND_PROJECT, ADD_RPOJECT_ERROR, LOAD_RPOJECT, LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR, CURRENT_PROJECT, LOAD_CURRENT_PROJECT,
+  ADD_PROJECT,
+  LOAD_CURRENT_PROJECT,
+  ADD_PROJECT_BEGIN,
+  DELETE_PROJECT_ERROR,
+  DELETE_PROJECT, FIND_PROJECT,
+  ADD_RPOJECT_ERROR, LOAD_RPOJECT,
+  LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
+  CURRENT_PROJECT,
+  EDIT_PROJECT, EDIT_PROJECT_ERROR,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 const initialState = {
@@ -11,6 +19,8 @@ const initialState = {
   loadingCurrentProjects: false,
   currentProject: null,
   deleteProjecError: false,
+  patchProjecError: false,
+  loadingCurrentUser: false,
 };
 
 const projectReducer = (state = initialState, action) => {
@@ -49,17 +59,6 @@ const projectReducer = (state = initialState, action) => {
         addingProject: false,
         loadingProjectsError: action.payload,
       };
-    case LOAD_CURRENT_PROJECT:
-      return {
-        ...state,
-        loadingCurrentProjects: true,
-      };
-    case CURRENT_PROJECT:
-      return {
-        ...state,
-        projects: action.payload,
-        loadingCurrentProjects: false,
-      };
     case FIND_PROJECT:
       return {
         ...state,
@@ -74,6 +73,27 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         deleteProjecError: action.payload,
+      };
+    case EDIT_PROJECT:
+      return {
+        ...state,
+        currentProject: action.payload,
+      };
+    case EDIT_PROJECT_ERROR:
+      return {
+        ...state,
+        editProjectError: action.payload,
+      };
+    case LOAD_CURRENT_PROJECT:
+      return {
+
+        loadingCurrentProjects: true,
+      };
+    case CURRENT_PROJECT:
+      return {
+        ...state,
+        currentProject: action.payload,
+        loadingCurrentUser: false,
       };
     default:
       return state;

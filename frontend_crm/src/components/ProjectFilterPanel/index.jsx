@@ -11,8 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
-  filteredUserStatus, filteredUserName,
-} from '../../Redux/Actions/UsersActions/UserActions';
+  filteredProjectName
+} from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,23 +72,23 @@ export default function DetailedExpansionPanel() {
 
   const dispatch = useDispatch();
 
-  const handleChange = useCallback((name) => (event) => {
-    setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
-    const filtersObject = selectedFilters;
-    if (event.target.checked)
-      filtersObject[name] = name;
-    else
-      filtersObject[name] = event.target.checked;
-    const filters = Object.keys(filtersObject).map((filter) => {
-      if (filtersObject[filter])
-        return filter;
-    });
-    dispatch(filteredUserStatus(filters));
-  }, [selectedFilters, setSelectedFilters, dispatch]);
+  // const handleChange = useCallback((name) => (event) => {
+  //   setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
+  //   const filtersObject = selectedFilters;
+  //   if (event.target.checked)
+  //     filtersObject[name] = name;
+  //   else
+  //     filtersObject[name] = event.target.checked;
+  //   const filters = Object.keys(filtersObject).map((filter) => {
+  //     if (filtersObject[filter])
+  //       return filter;
+  //   });
+  //   dispatch(filteredUserStatus(filters));
+  // }, [selectedFilters, setSelectedFilters, dispatch]);
 
-  const onChangeSearchName = (event) => {
+  const onChangeSearchProjectName = (event) => {
     setSearchName(event.target.value);
-    dispatch(filteredUserName(event.target.value));
+    dispatch(filteredProjectName(event.target.value));
   };
 
 
@@ -109,15 +109,15 @@ export default function DetailedExpansionPanel() {
             <FormGroup className={classes.formGroup}>
               <TextField
                 className={classes.searchField}
-                label="Name"
+                label="Project name"
                 variant="outlined"
                 value={searchName}
-                onChange={onChangeSearchName}
+                onChange={onChangeSearchProjectName}
                 size='small'
               />
             </FormGroup>
           </ExpansionPanelDetails>
-          <ExpansionPanelDetails className={classes.details}>
+          {/* <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Job position</div>
             <FormGroup className={classes.formGroup}>
               <FormControlLabel
@@ -154,7 +154,7 @@ export default function DetailedExpansionPanel() {
                 label="Senior"
               />
             </FormGroup>
-          </ExpansionPanelDetails>
+          </ExpansionPanelDetails> */}
         </div>
       </ExpansionPanel>
     </div>

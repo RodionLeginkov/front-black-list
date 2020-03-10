@@ -66,8 +66,6 @@ function CurrentProject(props) {
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
-  const projects = useSelector((state) => state.projects.projects);
-  console.log('projects', projects)
   useEffect(() => {
     if (!project) 
     dispatch(getProject(projectId));
@@ -81,7 +79,7 @@ function CurrentProject(props) {
   let stackList =[];
   if (!project) {return (<Loading />)}
   else {
-  let stackList = project.stack.map((elem) => (
+  stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem} size='medium' />
   ));}
   

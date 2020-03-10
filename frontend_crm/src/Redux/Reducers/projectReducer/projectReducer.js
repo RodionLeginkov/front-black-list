@@ -8,9 +8,11 @@ import {
   LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
   CURRENT_PROJECT,LOAD_CURRENT_PROJECT_SUCCESS,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
+  FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 const initialState = {
+  filteredProjects: [],
   projects: [],
   addingProject: false,
   addingProjectError: null,
@@ -101,6 +103,12 @@ const projectReducer = (state = initialState, action) => {
         currentProject: action.payload,
         loadingCurrentUser: false,
       }
+      case FILTER_PROJECT_NAME:
+        console.log('pay', action.payload, 'names', state.projects)
+        return {
+          ...state,
+          projects: state.projects.filter((p) => p.name.includes(action.payload))
+        }
     default:
       return state;
   }

@@ -44,7 +44,6 @@ export default function StickyHeadTable() {
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects.projects);
   const loading = useSelector((state) => state.users.loadingProjects);
-  console.log('projects', projects)
   useEffect(() => {
     dispatch(loadProjects());
   }, [dispatch]);

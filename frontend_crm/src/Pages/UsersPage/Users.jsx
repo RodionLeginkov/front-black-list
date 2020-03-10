@@ -24,7 +24,6 @@ const useStyles = makeStyles({
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0 auto',
-    marginTop: '70px',
     marginRight: '20px',
   },
   h1: {
@@ -58,14 +57,6 @@ function Home() {
       <FilterPanel />
       <div className={classes.usersHeader}>
         <h1 className={classes.h1}>Developers</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          onClick={toggleShowingFilterPanel}
-        >
-          Filters
-        </Button>
       </div>
       <Grid
         className={classes.usersWrapper}

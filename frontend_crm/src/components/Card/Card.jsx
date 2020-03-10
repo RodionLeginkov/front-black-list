@@ -11,7 +11,9 @@ import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
   root: {
-    width: 270,
+    width: '100%',
+    marginRight: 20,
+    marginBottom: 20,
   },
   row: {
     display: 'flex',
@@ -69,7 +71,7 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
           </div>
           <div className={classes.email}>
             {userEmail}
-          </div>
+          </div>   
         </CardContent>
       </CardActionArea>
     </Card>

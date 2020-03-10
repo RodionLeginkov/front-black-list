@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import HomeUsersList from './UserList';
 import Loading from '../../components/Loading';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
@@ -15,7 +14,7 @@ const useStyles = makeStyles({
   usersWrapper: {
     width: '100%',
     maxWidth: '1400px',
-    margin: '0 auto',
+    margin: '0',
     justifyContent: 'flex-start',
   },
   usersHeader: {
@@ -23,18 +22,16 @@ const useStyles = makeStyles({
     maxWidth: '1370px',
     justifyContent: 'space-between',
     display: 'flex',
-    margin: '0 auto',
+    margin: '0',
     marginRight: '20px',
   },
   h1: {
     fontSize: '40px',
-    marginLeft: '20px',
   },
 });
 
 function Home() {
   const classes = useStyles();
-  const [isShowingFilterPanel, setIsShowingFilterPanel] = useState(false);
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.filteredUsers);
@@ -43,10 +40,6 @@ function Home() {
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
-
-  const toggleShowingFilterPanel = () => {
-    setIsShowingFilterPanel(!isShowingFilterPanel);
-  };
 
   if (loading) {
     return <Loading />
@@ -61,8 +54,8 @@ function Home() {
       <Grid
         className={classes.usersWrapper}
         container
-        spacing={5}
-        justify="center"
+        spacing={0}
+        justify="flex-start"
       >
         <HomeUsersList users={users} />
       </Grid>

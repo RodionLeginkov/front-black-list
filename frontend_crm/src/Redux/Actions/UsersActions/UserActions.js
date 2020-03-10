@@ -34,7 +34,8 @@ export const deleteUser = (userId) => {
 }
 
 export const filteredUserStatus = (selectedFilters) => {
-  return { type: FILTER_USER_STATUS, payload: selectedFilters };
+  const filters = selectedFilters.filter((f) => f !== undefined);
+  return { type: FILTER_USER_STATUS, payload: filters };
 }
 
 export const filteredUserName = (name) => {

@@ -65,6 +65,7 @@ const userReducer = (state = initialState, action) => {
           name: state.filters.name,
         },
         filteredUsers: state.users.filter((user) => {
+          if (action.payload.length === 0) return state.filteredUsers;
           const filtered =
             user.status && action.payload.includes(user.status)
             && user.login && user.login.indexOf(state.filters.name) > -1;

@@ -10,6 +10,7 @@ import { loadProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 const useStyles = makeStyles({
   button: {
     fontSize: '13 px',
+
     minHeight: '40px',
     padding: '0 10px',
   },
@@ -46,7 +47,7 @@ export default function StickyHeadTable() {
   }, [dispatch]);
 
   return (
-    <>
+    <div style={{ marginLeft: '85px' }}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
         <Button
@@ -66,6 +67,6 @@ export default function StickyHeadTable() {
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />
-    </>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import Home from './Pages/HomePage/Home';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
 import SingleProjectPage from './Pages/SingleProjectPage/SingleProjectPage.jsx';
+import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
 import AuthContextProvider from './context/auth';
 
 
@@ -24,13 +25,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthContextProvider>
-          <div className="App" style={{ marginLeft: '85px' }}>
+          <div className="App">
             <Navbar />
             <Switch>
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/users" component={Users} />
               <PrivateRoute exact path="/projects" component={Projects} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
+              <Route exact path="/users/:userId" component={SingleUserPage} />
               <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={SignUp} />
             </Switch>

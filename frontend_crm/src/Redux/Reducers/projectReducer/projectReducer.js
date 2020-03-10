@@ -6,7 +6,7 @@ import {
   DELETE_PROJECT, FIND_PROJECT,
   ADD_RPOJECT_ERROR, LOAD_RPOJECT,
   LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
-  CURRENT_PROJECT,
+  CURRENT_PROJECT,LOAD_CURRENT_PROJECT_SUCCESS,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
@@ -95,6 +95,12 @@ const projectReducer = (state = initialState, action) => {
         currentProject: action.payload,
         loadingCurrentUser: false,
       };
+      case LOAD_CURRENT_PROJECT_SUCCESS: 
+      return{
+        ...state,
+        currentProject: action.payload,
+        loadingCurrentUser: false,
+      }
     default:
       return state;
   }

@@ -1,9 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import SinglProjectCard from '../../components/SingleProjectCard/SingleProjectCard.jsx';
+import Loading from '../../components/Loading/index.jsx';
 
 function ProjectsCards(props) {
   const { projects } = props;
+  if (!projects) {return (<Loading />)}
+
   return (
     <>
       {projects.map((card) => (

@@ -5,7 +5,9 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
-import { loadProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { loadProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import ProjectFilterPanel from '../../components/ProjectFilterPanel';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles({
   button: {
@@ -41,10 +43,15 @@ export default function StickyHeadTable() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects.projects);
-
+  const loading = useSelector((state) => state.users.loadingProjects);
+  console.log('projects', projects)
   useEffect(() => {
-    dispatch(loadProject());
+    dispatch(loadProjects());
   }, [dispatch]);
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div style={{ marginLeft: '85px' }}>
@@ -60,6 +67,7 @@ export default function StickyHeadTable() {
           Add project
         </Button>
       </div>
+      <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         {/* <ProjectList classes={classes} /> */}
         <Grid container spacing={3}>

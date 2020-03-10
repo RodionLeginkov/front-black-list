@@ -2,6 +2,7 @@ import { loadAllUsers, loadUser } from './UsersApi';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
   FILTER_USER_STATUS, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
+  FILTER_USER_NAME,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = () => async (dispatch) => {
@@ -34,4 +35,8 @@ export const deleteUser = (userId) => {
 
 export const filteredUserStatus = (selectedFilters) => {
   return { type: FILTER_USER_STATUS, payload: selectedFilters };
+}
+
+export const filteredUserName = (name) => {
+  return { type: FILTER_USER_NAME, payload: name };
 }

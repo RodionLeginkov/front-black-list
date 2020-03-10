@@ -55,6 +55,7 @@ function Home() {
 
   return (
     <div className={classes.container}>
+      <FilterPanel />
       <div className={classes.usersHeader}>
         <h1 className={classes.h1}>Developers</h1>
         <Button
@@ -74,10 +75,6 @@ function Home() {
       >
         <HomeUsersList users={users} />
       </Grid>
-      <FilterPanel
-        toggleIsShowingPanel={toggleShowingFilterPanel}
-        isShowungPanel={isShowingFilterPanel}
-      />
     </div>
   );
 }

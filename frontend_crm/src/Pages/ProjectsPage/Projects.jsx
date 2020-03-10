@@ -10,7 +10,8 @@ import { loadProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 const useStyles = makeStyles({
   button: {
     fontSize: '13 px',
-    height: '40px',
+
+    minHeight: '40px',
     padding: '0 10px',
   },
   container: {

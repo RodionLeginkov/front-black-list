@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -49,9 +49,10 @@ const names = [
   { tech: 'MongoDb' },
 ];
 
-export default function StackForm({name, stackChange}) {
+export default function StackForm(props) {
   const classes = useStyles();
-  const [stack, setStack] = React.useState([]);
+  const { stackChange, stackValue, isEdit } = props;
+  const [stack, setStack] = useState(isEdit ? stackValue : []);
 
   const handleChange = (event) => {
     setStack(event.target.value);
@@ -61,15 +62,17 @@ export default function StackForm({name, stackChange}) {
   return (
     <div>
 
-      <FormControl variant="outlined" className={clsx(classes.formControl, classes.inputForm)}>
+      <FormControl
+        label="Stack"
+        value={stack}
+        variant="outlined"
+        className={clsx(classes.formControl, classes.inputForm)}
+      >
         <InputLabel id="demo-mutiple-checkbox-label">Stack</InputLabel>
         <Select
-          labelId="demo-mutiple-checkbox-label"
-          id="demo-mutiple-checkbox"
           multiple
           value={stack}
           onChange={handleChange}
-          input={<Input />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >

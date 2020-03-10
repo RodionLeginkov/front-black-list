@@ -57,13 +57,23 @@ const useStyles = makeStyles((theme) => ({
   tech: {
     color: '#000',
   },
+
+  junior: {
+    backgroundColor: '#1240AB',
+  },
+  middle: {
+    backgroundColor: '#6F0AAA	',
+  },
+  senior: {
+    backgroundColor: '#00C90D	',
+  },
 }));
 
 
 export default function CustomBadge(props) {
   const classes = useStyles();
   const {
-     text, size = 'tiny', theme, status, className,
+     text, size = 'tiny', theme, status, position, className,
   } = props;
 
   const badgeClassName = clsx(classes.badge, {
@@ -76,14 +86,15 @@ export default function CustomBadge(props) {
     [classes.medium]: size === 'medium',
     [classes.large]: size === 'large',
     [classes.tech]: theme === 'tech',
+    [classes.junior]: position === 'junior',
+    [classes.middle]: position === 'middle',
+    [classes.senior]: position === 'senior',
   }, className);
 
 
   return (
-
     <span className={badgeClassName}>
       {text}
     </span>
-
   );
 }

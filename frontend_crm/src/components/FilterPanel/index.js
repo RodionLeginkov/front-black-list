@@ -16,8 +16,8 @@ import {
 
 const useStyles = makeStyles(theme => ({
   root: {
-    marginTop: 80,
     marginRight: 20,
+    marginBottom: 20,
   },
   heading: {
     fontSize: 20,
@@ -83,7 +83,6 @@ export default function DetailedExpansionPanel() {
     setSearchName(event.target.value);
     dispatch(filteredUserName(event.target.value));
   };
-
 
   return (
     <div className={classes.root}>

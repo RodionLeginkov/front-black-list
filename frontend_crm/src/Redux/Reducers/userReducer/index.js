@@ -65,10 +65,11 @@ const userReducer = (state = initialState, action) => {
           name: state.filters.name,
         },
         filteredUsers: state.users.filter((user) => {
-          if (action.payload.length === 0) return state.filteredUsers;
+          if (action.payload.length === 0)
+            return user.login && user.login.indexOf(state.filters.name) > -1;
           const filtered =
             user.status && action.payload.includes(user.status)
-            && user.login && user.login.indexOf(state.filters.name) > -1;
+          && user.login && user.login.indexOf(state.filters.name) > -1;
           return filtered;
         }),
       };
@@ -80,9 +81,11 @@ const userReducer = (state = initialState, action) => {
           name: action.payload,
         },
         filteredUsers: state.users.filter((user) => {
+          if (!action.payload)
+            return state.filters.status.includes(user.status);
           const filtered =
             user.status && state.filters.status.includes(user.status)
-            && user.login && user.login.indexOf(action.payload) > -1;
+            && user.login && user.login.toLowerCase().indexOf(action.payload.toLowerCase()) > -1;
           return filtered;
         }),
       };
@@ -92,7 +95,3 @@ const userReducer = (state = initialState, action) => {
 };
 
 export default userReducer;
-
-
-
-

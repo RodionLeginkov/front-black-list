@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     display: 'flex',
     margin: '0',
     marginRight: '20px',
+    marginTop: 70,
   },
   h1: {
     fontSize: '40px',
@@ -47,10 +48,10 @@ function Home() {
 
   return (
     <div className={classes.container}>
-      <FilterPanel />
       <div className={classes.usersHeader}>
-        <h1 className={classes.h1}>Developers</h1>
+        <h1>Developers</h1>
       </div>
+      <FilterPanel />
       <Grid
         className={classes.usersWrapper}
         container

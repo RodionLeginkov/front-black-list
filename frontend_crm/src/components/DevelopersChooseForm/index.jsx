@@ -5,6 +5,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useSelector } from 'react-redux';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 
@@ -41,45 +42,42 @@ const MenuProps = {
   },
 };
 
-const names = [
-  { tech: 'React' },
-  { tech: 'Node' },
-  { tech: 'Express' },
-  { tech: 'MongoDb' },
-];
 
 export default function StackForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props;
-  const [stack, setStack] = useState(isEdit ? stackValue : []);
+  const { developersChange, developersValue, isEdit } = props;
+  const [developers, setDeveopers] = useState(isEdit ? developersValue : []);
 
   const handleChange = (event) => {
-    setStack(event.target.value);
-    stackChange(event.target.value);
+    setDeveopers(event.target.value);
+    developersChange(event.target.value);
   };
+
+  const  users = useSelector((state) => state.users.users)
+  console.log(users[0].login)
 
   return (
     <div>
 
       <FormControl
-        label="Stack"
-        value={stack}
+        label="Developers"
+        value={developers}
         variant="outlined"
         className={clsx(classes.formControl, classes.inputForm)}
       >
-        <InputLabel id="demo-mutiple-checkbox-label">Stack</InputLabel>
+        <InputLabel id="demo-mutiple-checkbox-label">Developers</InputLabel>
         <Select
-        labelWidth={42}
+        labelWidth={83}
           multiple
-          value={stack}
+          value={developers}
           onChange={handleChange}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
-            <MenuItem key={name.tech} value={name.tech}>
-              <Checkbox checked={stack.indexOf(name.tech) > -1} />
-              <ListItemText primary={name.tech} />
+          {users.map((user) => (
+            <MenuItem key={Math.random()} value={user.login}>
+              <Checkbox checked={developers.indexOf(user.login) > -1} />
+              <ListItemText primary={user.login} />
             </MenuItem>
           ))}
         </Select>

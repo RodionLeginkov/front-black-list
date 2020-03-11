@@ -51,7 +51,6 @@ const projectReducer = (state = initialState, action) => {
         loadingProjects: true,
       };
     case LOAD_RPOJECT_SUCCESS:
-    //  console.log(state)
       return {
         ...state,
         projects: action.payload,
@@ -108,7 +107,6 @@ const projectReducer = (state = initialState, action) => {
         loadingCurrentUser: false,
       }
       case FILTER_PROJECT_NAME:
-        // console.log('pay', action.payload, 'names', state.projects)
         return {
           ...state,
           filteredProjects: state.projects.filter((p) => p.name.includes(action.payload))

@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px',
     color: '#fff',
     marginRight: '10px',
+    marginLeft: '5px',
   },
   active: {
     backgroundColor: yellow[800],
@@ -57,6 +58,14 @@ const useStyles = makeStyles((theme) => ({
   tech: {
     color: '#000',
   },
+  duration: {
+    marginTop: 3,
+    color: '#000',
+    backgroundColor: '#eee',
+    height: '20px',
+    fontSize: '15px',
+    alignItems: 'center',
+  },
 }));
 
 
@@ -68,6 +77,7 @@ export default function CustomBadge(props) {
 
   const badgeClassName = clsx(classes.badge, {
     [classes.price]: theme === 'price',
+    [classes.duration]: theme === 'duration',
     [classes.active]: status === 'active',
     [classes.completed]: status === 'completed',
     [classes.stopped]: status === 'stopped',

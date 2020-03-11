@@ -17,6 +17,7 @@ import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(() => ({
   root: {
     margin: '0 auto',
     maxWidth: '900px',
-    marginTop: '100px',
+    marginTop: '30px',
   },
   content: {
     margin: '0px 20px',
@@ -67,15 +68,16 @@ function CurrentProject(props) {
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    if (!project) 
-    dispatch(getProject(projectId));
+    if (!project) {
+      dispatch(getUsers());
+      dispatch(getProject(projectId));
+    }
   }, [dispatch, projectId, project]);
 
   function handleDelete() {
     dispatch(deleteProject(project._id));
     history.push('/projects');
   }
-  
   let stackList =[];
   if (!project) {return (<Loading />)}
   else {
@@ -85,6 +87,7 @@ function CurrentProject(props) {
   
   return (
     <div style={{ marginLeft: '85px' }}>
+    <h5 style={{margin: '85px 20px '}}>Projects/{project.name}</h5>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}

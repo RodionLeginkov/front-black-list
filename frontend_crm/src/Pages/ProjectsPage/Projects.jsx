@@ -23,12 +23,12 @@ const useStyles = makeStyles({
   },
   tableWrapper: {
     width: '100%',
-    maxWidth: '1400px',
+    maxWidth: '1440px',
     margin: '0 auto',
   },
   projectsHeader: {
     alignItems: 'center',
-    maxWidth: '1370px',
+    maxWidth: '1360px',
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0 auto',
@@ -51,8 +51,8 @@ export default function StickyHeadTable() {
   }, [dispatch]);
 
   const  users = useSelector((state) => state.users.users)
-  //console.log(users)
-
+  
+  // console.log(users)
   if (loading) {
     return <Loading />
   }
@@ -74,7 +74,7 @@ export default function StickyHeadTable() {
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         {/* <ProjectList classes={classes} /> */}
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <ProjectCards projects={projects} />
         </Grid>
       </div>

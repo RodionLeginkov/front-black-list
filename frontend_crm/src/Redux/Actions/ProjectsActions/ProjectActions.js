@@ -3,7 +3,7 @@ import { patchProject, loadProject } from './ProjectsApi';
 import {
 
   ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT,
-  LOAD_RPOJECT,
+  LOAD_RPOJECT,FILTER_PROJECT_STATUS,
   LOAD_RPOJECT_SUCCESS,
   LOAD_RPOJECT_ERROR,
   FIND_PROJECT, DELETE_PROJECT_ERROR,
@@ -43,7 +43,9 @@ export const getProject = (id) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
+
     const { data } = await loadProject(id, loginToken);
+
     dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
@@ -72,4 +74,11 @@ export const updateProject = (project) => async (dispatch) => {
   }
 };
 
-export const filteredProjectName = (name) => ({ type: FILTER_PROJECT_NAME, payload: name });
+
+export const filteredProjectName = (name) => {
+  return { type: FILTER_PROJECT_NAME, payload: name };
+}
+
+export const filteredProjectStatus = (filters) => {
+  return {type: FILTER_PROJECT_STATUS, payload: filters}
+}

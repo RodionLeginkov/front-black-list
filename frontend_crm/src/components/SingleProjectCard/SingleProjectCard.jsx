@@ -13,16 +13,20 @@ import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StackIcon from '../StackIcon/StackIcon.jsx';
-
+import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    marginTop: 20,
+    marginRight: 10,
+    minHeight: 200,
+    maxWidth: 400,
     width: '100%',
     display:'flex',
     flexFlow: 'column ',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
+    // alignItems: 'flex-end',
   },
   media: {
     height: 0,
@@ -67,7 +71,19 @@ const useStyles = makeStyles((theme) => ({
   price: {
     maxHeight: '20px',
   },
+  priceAndDuration: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  cardFooter: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    maxheight: 50,
+  },
 }));
+
+
+
 export default function RecipeReviewCard(props) {
   const { card } = props;
 
@@ -85,11 +101,6 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
   
-  
- 
-
-
-
   const stackList = card.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem} size='small' />
   ));
@@ -107,23 +118,30 @@ export default function RecipeReviewCard(props) {
         </div>
         <CardContent>
           <div className={classes.projectInfo}>
-            <CustomBadge text={`${card.price}$/hour`} theme="price" />
-            <CustomBadge text={`${card.duration}`} theme="price" />
+            <div className={classes.priceAndDuration}>
+              <CustomBadge text={`${card.price}$/hour`} theme="price" />
+              <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px'}}/>
+            </div>
             <div>
               <div style={{ margin: '10px', display: 'flex' }}>
                 {stackList}
               </div>
             </div>
-
           </div>
           <Typography variant="body2" color="textSecondary" component="p" className={classes.lineClamp5}>
             {card.description}
           </Typography>
         </CardContent>
       </CardActionArea>
+        <div className={classes.cardFooter}>
       <Button onClick={handleDelete}>
         <DeleteOutlineIcon />
       </Button>
+      { card.developers.length > 0 ? 
+      
+        <CustomAvatar  users={card.developers} />
+       : ''}
+      </div>
     </Card>
   );
 }

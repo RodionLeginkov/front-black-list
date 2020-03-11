@@ -27,7 +27,7 @@ export const addProject = (project) => async (dispatch) => {
 };
 
 
-export const loadProjects = () => async (dispatch) => {
+export const getProjects = () => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
     dispatch({ type: LOAD_RPOJECT });
@@ -43,8 +43,8 @@ export const getProject = (id) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
-    const {data}  = await loadProject(id, loginToken);
-    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
+    const {data}  = await loadProject(id, loginToken);  
+    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data[0] });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
   }

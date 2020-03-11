@@ -36,6 +36,7 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         projects: [...state.projects, action.payload],
+        filteredProjects: [...state.projects, action.payload],
         addingProject: false,
       };
     case ADD_RPOJECT_ERROR:
@@ -50,9 +51,11 @@ const projectReducer = (state = initialState, action) => {
         loadingProjects: true,
       };
     case LOAD_RPOJECT_SUCCESS:
+    //  console.log(state)
       return {
         ...state,
         projects: action.payload,
+        filteredProjects: action.payload,
         loadingProjects: false,
       };
     case LOAD_RPOJECT_ERROR:
@@ -70,6 +73,7 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         projects: state.projects.filter((p) => p._id !== action.payload),
+        filteredProjects: state.projects.filter((p) => p._id !== action.payload),
       };
     case DELETE_PROJECT_ERROR:
       return {
@@ -92,7 +96,7 @@ const projectReducer = (state = initialState, action) => {
         loadingCurrentProjects: true,
       };
     case CURRENT_PROJECT:
-      return {
+    return {
         ...state,
         currentProject: action.payload,
         loadingCurrentUser: false,
@@ -104,10 +108,10 @@ const projectReducer = (state = initialState, action) => {
         loadingCurrentUser: false,
       }
       case FILTER_PROJECT_NAME:
-        console.log('pay', action.payload, 'names', state.projects)
+        // console.log('pay', action.payload, 'names', state.projects)
         return {
           ...state,
-          projects: state.projects.filter((p) => p.name.includes(action.payload))
+          filteredProjects: state.projects.filter((p) => p.name.includes(action.payload))
         }
     default:
       return state;

@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
-import { loadProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 import Loading from '../../components/Loading';
 
@@ -42,11 +43,15 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projects.projects);
+  const projects = useSelector((state) => state.projects.filteredProjects);
   const loading = useSelector((state) => state.users.loadingProjects);
   useEffect(() => {
-    dispatch(loadProjects());
+    dispatch(getProjects());
+    dispatch(getUsers());
   }, [dispatch]);
+
+  const  users = useSelector((state) => state.users.users)
+  //console.log(users)
 
   if (loading) {
     return <Loading />

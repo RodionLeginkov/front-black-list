@@ -89,6 +89,7 @@ function CurrentProject(props) {
         <div
           className={clsx(classes.content, classes.header)}
         >
+        <h1>{project.name}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={project.status} icon={<FiberManualRecordSharpIcon />} status={project.status} size="large" />
           </div>

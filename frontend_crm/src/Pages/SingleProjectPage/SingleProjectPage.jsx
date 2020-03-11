@@ -14,6 +14,7 @@ import EditSharpIcon from '@material-ui/icons/EditSharp';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import CustomList from '../../components/CustomList/CustomList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
+import Loading from '../../components/Loading/index.jsx';
 import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 
@@ -65,28 +66,30 @@ function CurrentProject(props) {
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
-
   useEffect(() => {
-    if (!project) dispatch(getProject(projectId));
+    if (!project) 
+    dispatch(getProject(projectId));
   }, [dispatch, projectId, project]);
+
   function handleDelete() {
     dispatch(deleteProject(project._id));
     history.push('/projects');
   }
-  const stackList = project.stack.map((elem) => (
+  
+  let stackList =[];
+  if (!project) {return (<Loading />)}
+  else {
+  stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem} size='medium' />
-  ));
-
+  ));}
+  
   return (
     <div style={{ marginLeft: '85px' }}>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}
         >
-          {!project
-            ? (<p>Loading....................</p>) : (
-              <h1>{project.name}</h1>
-            )}
+        <h1>{project.name}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={project.status} icon={<FiberManualRecordSharpIcon />} status={project.status} size="large" />
           </div>

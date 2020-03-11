@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -84,6 +84,11 @@ export default function RecipeReviewCard(props) {
     history.push(`/projects/${card._id}`);
   }
   const classes = useStyles();
+  
+  
+ 
+
+
 
   const stackList = card.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem} size='small' />

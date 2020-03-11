@@ -36,15 +36,12 @@ function Home() {
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.filteredUsers);
-  const loading = useSelector((state) => state.users.loadingUser);
+  const loading = useSelector((state) => state.users.loadingUsers);
 
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  if (loading) {
-    return <Loading />
-  }
 
   return (
     <div className={classes.container}>
@@ -56,9 +53,10 @@ function Home() {
         className={classes.usersWrapper}
         container
         spacing={0}
-        justify="flex-start"
+        justify="center"
       >
-        <HomeUsersList users={users} />
+        {loading ? <Loading /> : <HomeUsersList users={users} />}
+
       </Grid>
     </div>
   );

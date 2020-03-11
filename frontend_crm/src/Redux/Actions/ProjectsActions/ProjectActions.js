@@ -8,7 +8,7 @@ import {
   LOAD_RPOJECT_ERROR,
   FIND_PROJECT, DELETE_PROJECT_ERROR,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
-  LOAD_PROJECT_ERROR,FILTER_PROJECT_NAME,
+  LOAD_PROJECT_ERROR, FILTER_PROJECT_NAME,
   LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
@@ -43,7 +43,9 @@ export const getProject = (id) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
-    const {data}  = await loadProject(id, loginToken); 
+
+    const { data } = await loadProject(id, loginToken);
+
     dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
@@ -71,6 +73,7 @@ export const updateProject = (project) => async (dispatch) => {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
   }
 };
+
 
 export const filteredProjectName = (name) => {
   return { type: FILTER_PROJECT_NAME, payload: name };

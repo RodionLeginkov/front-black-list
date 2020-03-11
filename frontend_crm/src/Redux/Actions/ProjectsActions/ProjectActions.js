@@ -3,7 +3,7 @@ import { patchProject, loadProject } from './ProjectsApi';
 import {
 
   ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT,
-  LOAD_RPOJECT,
+  LOAD_RPOJECT,FILTER_PROJECT_STATUS,
   LOAD_RPOJECT_SUCCESS,
   LOAD_RPOJECT_ERROR,
   FIND_PROJECT, DELETE_PROJECT_ERROR,
@@ -74,4 +74,8 @@ export const updateProject = (project) => async (dispatch) => {
 
 export const filteredProjectName = (name) => {
   return { type: FILTER_PROJECT_NAME, payload: name };
+}
+
+export const filteredProjectStatus = (filters) => {
+  return {type: FILTER_PROJECT_STATUS, payload: filters}
 }

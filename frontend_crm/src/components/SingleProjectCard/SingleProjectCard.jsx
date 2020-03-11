@@ -138,7 +138,6 @@ export default function RecipeReviewCard(props) {
         <DeleteOutlineIcon />
       </Button>
       { card.developers.length > 0 ? 
-      
         <CustomAvatar  users={card.developers} />
        : ''}
       </div>

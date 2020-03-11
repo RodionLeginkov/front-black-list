@@ -46,22 +46,20 @@ const MenuProps = {
 export default function StackForm(props) {
   const classes = useStyles();
   const { developersChange, developersValue, isEdit } = props;
-  const [developers, setDeveopers] = useState(isEdit ? developersValue : []);
+  const [developers, setDevelopers] = useState(isEdit ? developersValue : []);
 
   const handleChange = (event) => {
-    setDeveopers(event.target.value);
+    setDevelopers(event.target.value);
     developersChange(event.target.value);
   };
 
   const  users = useSelector((state) => state.users.users)
-  console.log(users[0].login)
 
   return (
     <div>
-
       <FormControl
         label="Developers"
-        value={developers}
+        value={developers || ' '}
         variant="outlined"
         className={clsx(classes.formControl, classes.inputForm)}
       >
@@ -82,7 +80,6 @@ export default function StackForm(props) {
           ))}
         </Select>
       </FormControl>
-
     </div>
   );
 }

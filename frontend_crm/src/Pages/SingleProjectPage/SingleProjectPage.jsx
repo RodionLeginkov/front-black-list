@@ -87,7 +87,7 @@ function CurrentProject(props) {
   
   return (
     <div style={{ marginLeft: '85px' }}>
-    <h5 style={{margin: '85px 20px '}}>Projects/{project.name}</h5>
+      <h5 style={{margin: '85px 20px', color: '#777777'}}>Projects/{project.name}</h5>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}

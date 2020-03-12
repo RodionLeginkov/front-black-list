@@ -8,6 +8,7 @@ import Projects from './Pages/ProjectsPage/Projects';
 import Home from './Pages/HomePage/Home';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
+import Forgot from './Pages/ForgotPasswordPage/ForgotPassword.jsx';
 import SingleProjectPage from './Pages/SingleProjectPage/SingleProjectPage.jsx';
 import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
 import AuthContextProvider from './context/auth';
@@ -35,6 +36,7 @@ function App() {
               <Route exact path="/users/:userId" component={SingleUserPage} />
               <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={SignUp} />
+              <Route exact path="/Forgot" component={Forgot} />
             </Switch>
           </div>
         </AuthContextProvider>

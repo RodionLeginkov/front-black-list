@@ -11,13 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
-  filteredProjectName, filteredProjectStatus
+  filteredProjectName, filteredProjectStatus,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     // // maxWidth: '1370px',
-    marginBottom : 30,
+    marginBottom: 30,
     // marginRight: 20,
     alignItems: 'center',
     maxWidth: '1370px',
@@ -77,14 +77,10 @@ export default function DetailedExpansionPanel() {
   const handleChange = useCallback((name) => (event) => {
     setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
     const filtersObject = selectedFilters;
-    if (event.target.checked)
-      filtersObject[name] = name;
-    else
-      filtersObject[name] = event.target.checked;
-    const filters = Object.keys(filtersObject).filter((filter) => {
-        return filtersObject[filter];
-    });
-    console.log(filters)
+    if (event.target.checked) filtersObject[name] = name;
+    else filtersObject[name] = event.target.checked;
+    const filters = Object.keys(filtersObject).filter((filter) => filtersObject[filter]);
+    console.log(filters);
     dispatch(filteredProjectStatus(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
 
@@ -123,58 +119,58 @@ export default function DetailedExpansionPanel() {
             <div className={classes.itemTitle}>Project status</div>
             <FormGroup className={classes.formGroup}>
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.completed}
                     onChange={handleChange('completed')}
                     value='completed'
                     color="primary"
                   />
-                }
+                )}
                 label="Completed"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.stopped}
                     onChange={handleChange('stopped')}
                     value='stopped'
                     color="primary"
                   />
-                }
+                )}
                 label="Stopped"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.active}
                     onChange={handleChange('active')}
                     value='active'
                     color="primary"
                   />
-                }
+                )}
                 label="Active"
               />
-                <FormControlLabel
-                control={
+              <FormControlLabel
+                control={(
                   <Checkbox
                     checked={selectedFilters.pending}
                     onChange={handleChange('pending')}
                     value='pending'
                     color="primary"
                   />
-                }
+                )}
                 label="Pending"
               />
-                <FormControlLabel
-                control={
+              <FormControlLabel
+                control={(
                   <Checkbox
                     checked={selectedFilters.onGoing}
                     onChange={handleChange('onGoing')}
                     value='onGoing'
                     color="primary"
                   />
-                }
+                )}
                 label="On going"
               />
             </FormGroup>

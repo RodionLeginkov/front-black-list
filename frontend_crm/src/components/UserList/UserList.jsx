@@ -33,7 +33,6 @@ export default function CustomList(props) {
   const neededUsers = allUsers.filter((elem) => users.includes(elem.login))
 
   function handleClick(userId) {
-    console.log(userId)
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }

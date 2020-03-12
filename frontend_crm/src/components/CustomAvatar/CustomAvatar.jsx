@@ -22,7 +22,6 @@ export default function CustomAvatar(props) {
   const neededUsers = allUsers.filter((user) => users.includes(user.login))
 
   function handleClick(userId) {
-    console.log(userId)
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }

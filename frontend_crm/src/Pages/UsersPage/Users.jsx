@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import HomeUsersList from './UserList';
-import Loading from '../../components/Loading';
+import UsersList from './UsersList.jsx';
+import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import FilterPanel from '../../components/FilterPanel';
+import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
 const useStyles = makeStyles({
   container: {
@@ -13,7 +13,6 @@ const useStyles = makeStyles({
   },
   usersWrapper: {
     width: '100%',
-    maxWidth: '1400px',
     margin: '0',
     justifyContent: 'flex-start',
   },
@@ -31,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Home() {
+function Users() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -53,13 +52,13 @@ function Home() {
         className={classes.usersWrapper}
         container
         spacing={0}
-        justify="center"
+        justify="flex-start"
       >
-        {loading ? <Loading /> : <HomeUsersList users={users} />}
+        {loading ? <Loading /> : <UsersList users={users} />}
 
       </Grid>
     </div>
   );
 }
 
-export default Home;
+export default Users;

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import HomeUsersList from './UserList';
-import Loading from '../../components/Loading';
+import UsersList from './UsersList.jsx';
+import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import FilterPanel from '../../components/FilterPanel';
+import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
 const useStyles = makeStyles({
   container: {
@@ -55,7 +55,7 @@ function Home() {
         spacing={0}
         justify="center"
       >
-        {loading ? <Loading /> : <HomeUsersList users={users} />}
+        {loading ? <Loading /> : <UsersList users={users} />}
 
       </Grid>
     </div>

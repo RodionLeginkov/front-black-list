@@ -29,15 +29,11 @@ export const getUser = (userId) => async (dispatch) => {
 
 export const findUser = (id) => ({ type: FIND_USER, payload: id });
 
-export const deleteUser = (userId) => {
-  return { type: DELETE_USER, payload: userId };
-}
+export const deleteUser = (userId) => ({ type: DELETE_USER, payload: userId });
 
 export const filteredUserStatus = (selectedFilters) => {
   const filters = selectedFilters.filter((f) => f !== undefined);
   return { type: FILTER_USER_STATUS, payload: filters };
-}
+};
 
-export const filteredUserName = (name) => {
-  return { type: FILTER_USER_NAME, payload: name };
-}
+export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });

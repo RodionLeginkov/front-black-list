@@ -20,9 +20,9 @@ const userReducer = (state = initialState, action) => {
     case DELETE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user._id !== action.payload),
-        filteredUsers: state.users.filter(user => user._id !== action.payload),
-      }
+        users: state.users.filter((user) => user._id !== action.payload),
+        filteredUsers: state.users.filter((user) => user._id !== action.payload),
+      };
     case LOAD_USER:
       return {
         ...state,
@@ -67,7 +67,7 @@ const userReducer = (state = initialState, action) => {
         filteredUsers: action.payload.length
           ? state.users.filter((user) => user.status && action.payload.includes(user.status)
             && user.login.includes(state.filters.name))
-          : state.users.filter((user) => user.login && user.login.includes(state.filters.name))
+          : state.users.filter((user) => user.login && user.login.includes(state.filters.name)),
       };
     case FILTER_USER_NAME:
       return {
@@ -79,7 +79,7 @@ const userReducer = (state = initialState, action) => {
         filteredUsers: action.payload
           ? state.users.filter((user) => user.status && state.filters.status.includes(user.status)
             && user.login.toLowerCase().includes(action.payload.toLowerCase()))
-          : state.users.filter((user) => state.filters.status.includes(user.status) || true)
+          : state.users.filter((user) => state.filters.status.includes(user.status) || true),
       };
     default:
       return state;

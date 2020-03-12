@@ -1,6 +1,6 @@
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
-  FILTER_USER_STATUS, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
+  DELETE_USER_ERROR, FILTER_USER_STATUS, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
   loadingUsers: false,
   loadingCurrentUser: false,
   currentUser: null,
+  deleteUserError: false,
   filters: {
     status: ['junior', 'middle', 'senior'],
     name: '',
@@ -22,6 +23,11 @@ const userReducer = (state = initialState, action) => {
         ...state,
         users: state.users.filter((user) => user._id !== action.payload),
         filteredUsers: state.users.filter((user) => user._id !== action.payload),
+      };
+    case DELETE_USER_ERROR:
+      return {
+        ...state,
+        deleteUserError: true,
       };
     case LOAD_USER:
       return {

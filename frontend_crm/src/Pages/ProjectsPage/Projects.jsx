@@ -5,12 +5,16 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
-import { loadProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import ProjectFilterPanel from '../../components/ProjectFilterPanel';
+import Loading from '../../components/Loading';
 
 const useStyles = makeStyles({
   button: {
     fontSize: '13 px',
-    height: '40px',
+
+    minHeight: '40px',
     padding: '0 10px',
   },
   container: {
@@ -19,12 +23,12 @@ const useStyles = makeStyles({
   },
   tableWrapper: {
     width: '100%',
-    maxWidth: '1400px',
+    maxWidth: '1440px',
     margin: '0 auto',
   },
   projectsHeader: {
     alignItems: 'center',
-    maxWidth: '1370px',
+    maxWidth: '1360px',
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0 auto',
@@ -39,11 +43,19 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projects.projects);
-
+  const projects = useSelector((state) => state.projects.filteredProjects);
+  const loading = useSelector((state) => state.users.loadingProjects);
   useEffect(() => {
-    dispatch(loadProject());
+    dispatch(getProjects());
+    dispatch(getUsers());
   }, [dispatch]);
+
+  const  users = useSelector((state) => state.users.users)
+  
+  // console.log(users)
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div style={{ marginLeft: '85px' }}>
@@ -59,9 +71,10 @@ export default function StickyHeadTable() {
           Add project
         </Button>
       </div>
+      <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         {/* <ProjectList classes={classes} /> */}
-        <Grid container spacing={3}>
+        <Grid container spacing={1}>
           <ProjectCards projects={projects} />
         </Grid>
       </div>

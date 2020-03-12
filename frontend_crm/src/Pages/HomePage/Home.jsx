@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-// import HeaderBg from '../../Assets/headerBg.jpg';
-import grayBG from '../../Assets/grayBG.jpg';
-// background: `url(${grayBG}) center /cover no-repeat`,
+import homeBG from '../../Assets/homeBG.jpg';
+
 const useStyles = makeStyles(() => ({
 
   homeTopSection: {
-    background: `url(${grayBG}) center /cover no-repeat`,
+    background: `url(${homeBG}) center /cover no-repeat`,
     minHeight: '100vh',
     textAlign: 'center',
     display: 'flex',
@@ -22,7 +21,7 @@ function Home() {
   return (
     <>
       <div className={classes.homeTopSection}>
-        <h1 style={{ marginTop: '200px' }}>Exceed Team</h1>
+        <h1 style={{ marginTop: '150px' }}>Exceed Team</h1>
       </div>
       {/* <Grid
         className={classes.usersWrapper}

@@ -1,7 +1,15 @@
 import axios from 'axios';
+import { patchProject, loadProject } from './ProjectsApi';
 import {
 
-  ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT, LOAD_RPOJECT, LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR, FIND_PROJECT, DELETE_PROJECT_ERROR,
+  ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT,
+  LOAD_RPOJECT,FILTER_PROJECT_STATUS,
+  LOAD_RPOJECT_SUCCESS,
+  LOAD_RPOJECT_ERROR,
+  FIND_PROJECT, DELETE_PROJECT_ERROR,
+  EDIT_PROJECT, EDIT_PROJECT_ERROR,
+  LOAD_PROJECT_ERROR, FILTER_PROJECT_NAME,
+  LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 // import { addNewProject } from './ProjectsApi';
@@ -19,7 +27,7 @@ export const addProject = (project) => async (dispatch) => {
 };
 
 
-export const loadProject = () => async (dispatch) => {
+export const getProjects = () => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
     dispatch({ type: LOAD_RPOJECT });
@@ -28,6 +36,19 @@ export const loadProject = () => async (dispatch) => {
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_RPOJECT_ERROR, payload: error });
+  }
+};
+
+export const getProject = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_CURRENT_PROJECT });
+    const loginToken = JSON.parse(localStorage.getItem('tokens'));
+
+    const { data } = await loadProject(id, loginToken);
+
+    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
+  } catch (error) {
+    dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
   }
 };
 
@@ -42,3 +63,22 @@ export const deleteProject = (id) => async (dispatch) => {
     dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
   }
 };
+
+export const updateProject = (project) => async (dispatch) => {
+  try {
+    const loginToken = JSON.parse(localStorage.getItem('tokens'));
+    const { data } = await patchProject(project, loginToken);
+    dispatch({ type: EDIT_PROJECT, payload: data[0] });
+  } catch (error) {
+    dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
+  }
+};
+
+
+export const filteredProjectName = (name) => {
+  return { type: FILTER_PROJECT_NAME, payload: name };
+}
+
+export const filteredProjectStatus = (filters) => {
+  return {type: FILTER_PROJECT_STATUS, payload: filters}
+}

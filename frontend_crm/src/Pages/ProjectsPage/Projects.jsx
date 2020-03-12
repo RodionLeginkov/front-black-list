@@ -44,15 +44,12 @@ export default function StickyHeadTable() {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects.filteredProjects);
-  const loading = useSelector((state) => state.users.loadingProjects);
+  const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
 
-  const  users = useSelector((state) => state.users.users)
-  
-  // console.log(users)
   if (loading) {
     return <Loading />
   }

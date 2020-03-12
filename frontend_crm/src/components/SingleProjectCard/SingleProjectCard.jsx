@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,10 +11,9 @@ import { useHistory } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
-import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexFlow: 'column ',
     justifyContent: 'space-between',
-    // alignItems: 'flex-end',
   },
   media: {
     height: 0,
@@ -81,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxheight: 50,
   },
+  button: {
+    color: '#777777',
+  },
 }));
 
 
@@ -131,7 +132,7 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Button onClick={() => setdeleteModalIsOpen(true)}>
+          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
           {card.developers.length > 0 ?

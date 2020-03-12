@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import UserRoleBadge from '../UserRoleBadge/UserRoleBadge.jsx';
+import CustomBage from '../CustomBadge/CustomBadge';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
@@ -32,9 +32,12 @@ const useStyles = makeStyles({
   email: {
     fontSize: '12px',
   },
+  bage: {
+    marginRight: 0,
+  },
 });
 
-export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, userRole }) {
+export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, userPosition }) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -62,10 +65,11 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
               {userName}
             </div>
             <div className={classes.roleBadge}>
-              <UserRoleBadge
-                text={userRole ? 'Admin' : 'User'}
-                isAdmin={userRole}
+              <CustomBage
+                text={userPosition || 'udefined'}
                 size={'medium'}
+                position={userPosition}
+                className={classes.bage}
               />
             </div>
           </div>

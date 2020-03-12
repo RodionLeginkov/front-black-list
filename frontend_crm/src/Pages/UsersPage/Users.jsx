@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     display: 'flex',
     margin: '0',
     marginRight: '20px',
+    marginTop: 70,
   },
   h1: {
     fontSize: '40px',
@@ -35,29 +36,27 @@ function Home() {
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.filteredUsers);
-  const loading = useSelector((state) => state.users.loadingUser);
+  const loading = useSelector((state) => state.users.loadingUsers);
 
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  if (loading) {
-    return <Loading />
-  }
 
   return (
     <div className={classes.container}>
-      <FilterPanel />
       <div className={classes.usersHeader}>
-        <h1 className={classes.h1}>Developers</h1>
+        <h1>Developers</h1>
       </div>
+      <FilterPanel />
       <Grid
         className={classes.usersWrapper}
         container
         spacing={0}
-        justify="flex-start"
+        justify="center"
       >
-        <HomeUsersList users={users} />
+        {loading ? <Loading /> : <HomeUsersList users={users} />}
+
       </Grid>
     </div>
   );

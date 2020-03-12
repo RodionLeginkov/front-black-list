@@ -64,27 +64,22 @@ const userReducer = (state = initialState, action) => {
           status: action.payload,
           name: state.filters.name,
         },
-        filteredUsers: state.users.filter((user) => {
-          if (action.payload.length === 0) return state.filteredUsers;
-          const filtered =
-            user.status && action.payload.includes(user.status)
-            && user.login && user.login.indexOf(state.filters.name) > -1;
-          return filtered;
-        }),
+        filteredUsers: action.payload.length
+          ? state.users.filter((user) => user.status && action.payload.includes(user.status)
+            && user.login.includes(state.filters.name))
+          : state.users.filter((user) => user.login && user.login.includes(state.filters.name))
       };
     case FILTER_USER_NAME:
       return {
         ...state,
         filters: {
-          status: state.filters.status,
+          status: [...state.filters.status],
           name: action.payload,
         },
-        filteredUsers: state.users.filter((user) => {
-          const filtered =
-            user.status && state.filters.status.includes(user.status)
-            && user.login && user.login.indexOf(action.payload) > -1;
-          return filtered;
-        }),
+        filteredUsers: action.payload
+          ? state.users.filter((user) => user.status && state.filters.status.includes(user.status)
+            && user.login.toLowerCase().includes(action.payload.toLowerCase()))
+          : state.users.filter((user) => state.filters.status.includes(user.status) || true)
       };
     default:
       return state;
@@ -92,7 +87,3 @@ const userReducer = (state = initialState, action) => {
 };
 
 export default userReducer;
-
-
-
-

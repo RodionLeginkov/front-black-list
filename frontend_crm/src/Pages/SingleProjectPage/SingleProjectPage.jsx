@@ -18,6 +18,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 function CurrentProject(props) {
+  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,10 +80,6 @@ function CurrentProject(props) {
     }
   }, [dispatch, projectId, project]);
 
-  function handleDelete() {
-    dispatch(deleteProject(project._id));
-    history.push('/projects');
-  }
   let stackList = [];
   if (!project) { return (<Loading />); }
 
@@ -136,12 +134,12 @@ function CurrentProject(props) {
           <Button onClick={() => setIsOpen(true)}>
             <EditSharpIcon />
           </Button>
-          <Button onClick={handleDelete} className={classes.deleteButton}>
+          <Button onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
         </div>
       </Paper>
-
+      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{ ...project }} isEdit />
     </div>
   );

@@ -105,7 +105,6 @@ export default function RecipeReviewCard(props) {
   const stackList = card.stack.map((elem) => (
       <StackIcon key={Math.random()} tech={elem} size='small' />
   ));
-
   return (
     <Card className={classes.root}>
       <CardActionArea onClick={handleClick}>

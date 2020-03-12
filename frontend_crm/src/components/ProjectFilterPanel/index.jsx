@@ -13,18 +13,15 @@ import {
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StatusFilter from './StatusFilter.jsx';
 import StackFilter from './StackFilter.jsx';
+import DurationFilter from './DurationFilter.jsx'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    // // maxWidth: '1370px',
     marginBottom: 30,
-    // marginRight: 20,
     alignItems: 'center',
     maxWidth: '1370px',
     justifyContent: 'space-between',
-    // display: 'flex',
     margin: '0 auto',
-    // marginTop: '70px',
   },
   heading: {
     fontSize: 20,
@@ -74,6 +71,10 @@ export default function DetailedExpansionPanel() {
     React: false,
     MongoDb: false,
     Node: false,
+    '1-3 months': false,
+    '3-6 months':false,
+    '6-12 months': false,
+    Unexpected: false,
   });
   const [searchName, setSearchName] = useState('');
 
@@ -89,7 +90,6 @@ export default function DetailedExpansionPanel() {
     const filters = Object.keys(filtersObject).filter((filter) => {
       return filtersObject[filter];
     });
-    console.log(filters)
     dispatch(filteredProjects(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
 
@@ -101,7 +101,7 @@ export default function DetailedExpansionPanel() {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel defaultExpanded>
+      <ExpansionPanel >
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
@@ -132,6 +132,11 @@ export default function DetailedExpansionPanel() {
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Stack</div>
             <StackFilter handleChange={handleChange} selectedFilters={selectedFilters} />
+          </ExpansionPanelDetails>
+
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.itemTitle}>Duration</div>
+            <DurationFilter handleChange={handleChange} selectedFilters={selectedFilters} />
           </ExpansionPanelDetails>
         </div>
       </ExpansionPanel>

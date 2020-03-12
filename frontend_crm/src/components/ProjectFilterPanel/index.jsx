@@ -11,13 +11,15 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
-  filteredProjectName, filteredProjectStatus
+  filteredProjectName, filteredProjects
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import StatusFilter from './StatusFilter.jsx';
+import StackFilter from './StackFilter.jsx';
 
 const useStyles = makeStyles(theme => ({
   root: {
     // // maxWidth: '1370px',
-    marginBottom : 30,
+    marginBottom: 30,
     // marginRight: 20,
     alignItems: 'center',
     maxWidth: '1370px',
@@ -69,6 +71,11 @@ export default function DetailedExpansionPanel() {
     active: false,
     completed: false,
     pending: false,
+    Express: false,
+    C: false,
+    React: false,
+    MongoDb: false,
+    Node: false,
   });
   const [searchName, setSearchName] = useState('');
 
@@ -82,10 +89,10 @@ export default function DetailedExpansionPanel() {
     else
       filtersObject[name] = event.target.checked;
     const filters = Object.keys(filtersObject).filter((filter) => {
-        return filtersObject[filter];
+      return filtersObject[filter];
     });
     console.log(filters)
-    dispatch(filteredProjectStatus(filters));
+    dispatch(filteredProjects(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
 
   const onChangeSearchProjectName = (event) => {
@@ -121,63 +128,12 @@ export default function DetailedExpansionPanel() {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Project status</div>
-            <FormGroup className={classes.formGroup}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedFilters.completed}
-                    onChange={handleChange('completed')}
-                    value='completed'
-                    color="primary"
-                  />
-                }
-                label="Completed"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedFilters.stopped}
-                    onChange={handleChange('stopped')}
-                    value='stopped'
-                    color="primary"
-                  />
-                }
-                label="Stopped"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedFilters.active}
-                    onChange={handleChange('active')}
-                    value='active'
-                    color="primary"
-                  />
-                }
-                label="Active"
-              />
-                <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedFilters.pending}
-                    onChange={handleChange('pending')}
-                    value='pending'
-                    color="primary"
-                  />
-                }
-                label="Pending"
-              />
-                <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={selectedFilters.onGoing}
-                    onChange={handleChange('onGoing')}
-                    value='onGoing'
-                    color="primary"
-                  />
-                }
-                label="On going"
-              />
-            </FormGroup>
+            <StatusFilter handleChange={handleChange} selectedFilters={selectedFilters} />
+          </ExpansionPanelDetails>
+
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.itemTitle}>Stack</div>
+            <StackFilter handleChange={handleChange} selectedFilters={selectedFilters} />
           </ExpansionPanelDetails>
         </div>
       </ExpansionPanel>

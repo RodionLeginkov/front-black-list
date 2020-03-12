@@ -174,7 +174,7 @@ export default function ProjectModal(props) {
                   </Select>
                 </FormControl>
                 <TextField
-                  value={project.price}
+                  value={project.price || ''}
                   type="number"
                   style={{ marginLeft: 5 }}
                   variant="outlined"

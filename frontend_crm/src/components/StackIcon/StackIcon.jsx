@@ -6,6 +6,7 @@ import C from '../../Assets/devIcons/C.svg';
 import ReactDev from '../../Assets/devIcons/ReactDev.svg';
 import Node from '../../Assets/devIcons/Node.svg';
 import MongoDb from '../../Assets/devIcons/MongoDb.svg';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles(() => ({
 
@@ -58,9 +59,9 @@ function StackIcon(props) {
 
   const findedIcon = icons.find((elem) => elem.includes(tech));
   return (
-
-    <div className={iconClassName} style={{ background: `url(${findedIcon})` }} />
-
+    <Tooltip title={tech}>
+      <div className={iconClassName} style={{ background: `url(${findedIcon})` }} />
+    </Tooltip>
   );
 }
 

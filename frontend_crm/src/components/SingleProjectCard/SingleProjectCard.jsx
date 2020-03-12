@@ -16,6 +16,7 @@ import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 20,
@@ -102,7 +103,7 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
   
   const stackList = card.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech={elem} size='small' />
+      <StackIcon key={Math.random()} tech={elem} size='small' />
   ));
 
   return (
@@ -138,7 +139,6 @@ export default function RecipeReviewCard(props) {
         <DeleteOutlineIcon />
       </Button>
       { card.developers.length > 0 ? 
-      
         <CustomAvatar  users={card.developers} />
        : ''}
       </div>

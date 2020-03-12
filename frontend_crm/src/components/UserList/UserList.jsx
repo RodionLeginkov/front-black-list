@@ -39,11 +39,11 @@ export default function CustomList(props) {
   }
 
   const devList = neededUsers.map((user) =>
-    <>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
+    <div key={user._id}>
+      <ListItem  alignItems="flex-start">
+        <ListItemAvatar >
           <Tooltip title={user.login}>
-            <Avatar onClick={() => handleClick(user._id)} key={user._id} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
+            <Avatar onClick={() => handleClick(user._id)}  alt={user.login.toUpperCase()} src={`${user.userImage}`} />
           </Tooltip>
         </ListItemAvatar>
         <ListItemText
@@ -64,7 +64,7 @@ export default function CustomList(props) {
         />
       </ListItem> 
       <Divider variant="inset" component="li" />
-    </>
+    </div>
   );
 
   if (users.length > 0) {

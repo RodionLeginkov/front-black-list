@@ -28,14 +28,14 @@ export default function CustomAvatar(props) {
   }
 
   const devList = neededUsers.map((user) => 
-    <Tooltip title={user.login}>  
-      <Avatar onClick={() => handleClick(user._id)} key={user._id} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
+    <Tooltip title={user.login} key={user._id}>  
+      <Avatar onClick={() => handleClick(user._id)} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
     </Tooltip>
   );
 
   return ( 
     <>  
-    <AvatarGroup className={classes.avatarGroup}>
+    <AvatarGroup key={Math.random()} className={classes.avatarGroup}>
       {devList}
       </AvatarGroup>
     </>)

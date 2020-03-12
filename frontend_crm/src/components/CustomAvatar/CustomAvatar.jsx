@@ -30,7 +30,7 @@ export default function CustomAvatar(props) {
 
   const devList = neededUsers.map((elem) => 
     <Tooltip title={elem.login}>  
-      <Avatar onClick={() => handleClick(elem._id)} key={Math.random()} alt={elem.login} src={`${elem.userImage}`}></Avatar> 
+      <Avatar onClick={() => handleClick(elem._id)} key={elem._id} alt={elem.login} src={`${elem.userImage}`} />
     </Tooltip>
   );
 

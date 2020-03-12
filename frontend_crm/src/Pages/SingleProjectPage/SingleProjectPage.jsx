@@ -19,6 +19,8 @@ import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/P
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -57,6 +59,10 @@ const useStyles = makeStyles(() => ({
   breadcrumbs: {
     margin: '85px 20px',
     color: '#777777',
+    cursor: 'pointer',
+  },
+  button: {
+    color: '#777777',
   },
 }));
 
@@ -90,10 +96,12 @@ function CurrentProject(props) {
   return (
     <div style={{ marginLeft: '85px' }}>
 
-      <h5 className={classes.breadcrumbs}>
-        Projects/
-        {project.name}
-      </h5>
+      <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Link color="inherit" onClick={handleClick}   >
+          Projects
+        </Link>
+        <Typography color="textPrimary">{project.name}</Typography>
+      </Breadcrumbs>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}
@@ -128,13 +136,13 @@ function CurrentProject(props) {
         </div>
         <Divider />
         <div className={classes.footerIcons}>
-          <Button onClick={handleClick}>
+          <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
           </Button>
-          <Button onClick={() => setIsOpen(true)}>
+          <Button className={classes.button} onClick={() => setIsOpen(true)}>
             <EditSharpIcon />
           </Button>
-          <Button onClick={() => setdeleteModalIsOpen(true)}>
+          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
         </div>

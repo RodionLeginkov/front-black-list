@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexFlow: 'column ',
     justifyContent: 'space-between',
-    // alignItems: 'flex-end',
   },
   media: {
     height: 0,
@@ -81,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxheight: 50,
   },
+  button: {
+    color: '#777777',
+  },
 }));
 
 
@@ -131,7 +133,7 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Button onClick={() => setdeleteModalIsOpen(true)}>
+          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
           {card.developers.length > 0 ?

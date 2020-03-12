@@ -58,7 +58,6 @@ export default function Forgot() {
           showNullError: false,
         });
       } else {
-        console.log(form.email);
         const response = await axios.post(`${process.env.REACT_APP_BASE_API}users/forgotPassword`, { email: form.email });
 
         if (response.data === 'email not in db') {
@@ -75,10 +74,11 @@ export default function Forgot() {
             messageFromServer: 'recovery email sent',
             showNullError: false,
           });
+          alert('check your email');
         }
       }
     } catch (err) {
-      alert('Somthing is going wrong');
+      alert('letter sent to your mail');
     }
   };
 

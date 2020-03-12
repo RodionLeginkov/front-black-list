@@ -80,7 +80,6 @@ export default function DetailedExpansionPanel() {
     if (event.target.checked) filtersObject[name] = name;
     else filtersObject[name] = event.target.checked;
     const filters = Object.keys(filtersObject).filter((filter) => filtersObject[filter]);
-    console.log(filters);
     dispatch(filteredProjectStatus(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
 

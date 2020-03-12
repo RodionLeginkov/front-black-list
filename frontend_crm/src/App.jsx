@@ -11,6 +11,7 @@ import Signin from './Pages/SignInPage/SignIn.jsx';
 import Forgot from './Pages/ForgotPasswordPage/ForgotPassword.jsx';
 import SingleProjectPage from './Pages/SingleProjectPage/SingleProjectPage.jsx';
 import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
+import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 
 
@@ -37,6 +38,7 @@ function App() {
               <Route exact path="/signin" component={Signin} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/Forgot" component={Forgot} />
+              <Route exact path="/Reset/:token" component={ResetPassword} />
             </Switch>
           </div>
         </AuthContextProvider>

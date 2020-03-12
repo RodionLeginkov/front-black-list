@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,10 +11,9 @@ import { useHistory } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
-import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 
 const useStyles = makeStyles((theme) => ({

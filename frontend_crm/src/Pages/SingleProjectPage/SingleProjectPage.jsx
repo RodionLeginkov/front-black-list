@@ -12,10 +12,10 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
-import CustomList from '../../components/CustomList/CustomList.jsx';
+import UserList from '../../components/UserList/UserList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
@@ -97,10 +97,10 @@ function CurrentProject(props) {
     <div style={{ marginLeft: '85px' }}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Link color="inherit" onClick={handleClick}   >
+        <Link color="inherit" onClick={() => history.push('/projects')}   >
           Projects
         </Link>
-        <Typography color="textPrimary">{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project._id}`)} >{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -126,7 +126,8 @@ function CurrentProject(props) {
             </Typography>
           </div>
         </div>
-        <CustomList />
+
+            <UserList users={project.developers} />
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>

@@ -50,9 +50,6 @@ export default function StickyHeadTable() {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const  users = useSelector((state) => state.users.users)
-  
-  // console.log(users)
   if (loading) {
     return <Loading />
   }

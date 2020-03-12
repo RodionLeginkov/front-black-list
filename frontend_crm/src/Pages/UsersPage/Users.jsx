@@ -13,7 +13,6 @@ const useStyles = makeStyles({
   },
   usersWrapper: {
     width: '100%',
-    maxWidth: '1400px',
     margin: '0',
     justifyContent: 'flex-start',
   },
@@ -31,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Home() {
+function Users() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -53,7 +52,7 @@ function Home() {
         className={classes.usersWrapper}
         container
         spacing={0}
-        justify="center"
+        justify="flex-start"
       >
         {loading ? <Loading /> : <UsersList users={users} />}
 
@@ -62,4 +61,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Users;

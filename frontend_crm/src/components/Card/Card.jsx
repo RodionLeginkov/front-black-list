@@ -6,7 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CustomBage from '../CustomBadge/CustomBadge';
+import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
@@ -37,12 +37,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, userPosition }) {
+export default function ImgMediaCard({
+  imgUrl, userName, userEmail, userId, userPosition,
+}) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
-  // const { imgUrl } = props;
 
   function handleClick() {
     dispatch(findUser(userId));
@@ -57,7 +57,7 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
           alt="Contemplative Reptile"
           height="240"
           image={imgUrl}
-          title="Contemplative Reptile"
+          title={userName}
         />
         <CardContent>
           <div className={classes.row}>
@@ -67,7 +67,7 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
             <div className={classes.roleBadge}>
               <CustomBage
                 text={userPosition || 'udefined'}
-                size={'medium'}
+                size="medium"
                 position={userPosition}
                 className={classes.bage}
               />
@@ -75,7 +75,7 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
           </div>
           <div className={classes.email}>
             {userEmail}
-          </div>   
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>

@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DetailedExpansionPanel() {
+const FilterUserPanel = () => {
   const classes = useStyles();
   const [selectedFilters, setSelectedFilters] = useState({
     junior: false,
@@ -151,4 +151,6 @@ export default function DetailedExpansionPanel() {
       </ExpansionPanel>
     </div>
   );
-}
+};
+
+export default FilterUserPanel;

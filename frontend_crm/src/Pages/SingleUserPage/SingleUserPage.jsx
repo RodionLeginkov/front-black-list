@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -72,14 +73,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function UserInfo({ match }) {
+function UserInfo({ match: { params: { userId } } }) {
   const history = useHistory();
   const classes = useStyles();
   function handleClickOnBack() {
     history.push('/users');
   }
-
-  const { userId } = match.params;
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.currentUser);
@@ -138,7 +137,19 @@ function UserInfo({ match }) {
           </div>
         </div>
       </Paper>
-    </div >
+    </div>
   );
 }
+
+UserInfo.propTypes = {
+  match: PropTypes.objectOf({
+    params: PropTypes.objectOf({
+      userId: PropTypes.string,
+    }),
+  }),
+};
+UserInfo.defaultProps = {
+  match: {},
+};
+
 export default UserInfo;

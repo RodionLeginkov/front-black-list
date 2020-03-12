@@ -17,7 +17,7 @@ import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -53,6 +53,10 @@ const useStyles = makeStyles(() => ({
   duration: {
     margitTop: '3px  !important',
   },
+  breadcrumbs: {
+    margin: '85px 20px',
+    color: '#777777',
+  },
 }));
 
 function CurrentProject(props) {
@@ -78,21 +82,25 @@ function CurrentProject(props) {
     dispatch(deleteProject(project._id));
     history.push('/projects');
   }
-  let stackList =[];
-  if (!project) {return (<Loading />)}
-  else {
+  let stackList = [];
+  if (!project) { return (<Loading />); }
+
   stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem} size='medium' />
-  ));}
-  
+  ));
+
   return (
     <div style={{ marginLeft: '85px' }}>
-      <h5 style={{margin: '85px 20px', color: '#777777'}}>Projects/{project.name}</h5>
+
+      <h5 className={classes.breadcrumbs}>
+        Projects/
+        {project.name}
+      </h5>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}
         >
-        <h1>{project.name}</h1>
+          <h1>{project.name}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={project.status} icon={<FiberManualRecordSharpIcon />} status={project.status} size="large" />
           </div>

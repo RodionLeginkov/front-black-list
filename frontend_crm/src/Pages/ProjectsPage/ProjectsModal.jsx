@@ -227,7 +227,6 @@ export default function ProjectModal(props) {
                 </Button>
               </div>
             </form>
-
           </div>
         </Fade>
       </Modal>

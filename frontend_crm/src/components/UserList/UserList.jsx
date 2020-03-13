@@ -7,11 +7,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
+
 import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
-import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
-
+  
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -29,15 +30,16 @@ export default function CustomList(props) {
   const dispatch = useDispatch();
   const { users } = props;
 
-  const allUsers = useSelector((state) => state.users.users);
-  const neededUsers = allUsers.filter((elem) => users.includes(elem.login));
+
 
   function handleClick(userId) {
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }
 
-  const devList = neededUsers.map((user) => (
+
+  const devList = users.map((user) =>
+
     <div key={user._id}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>

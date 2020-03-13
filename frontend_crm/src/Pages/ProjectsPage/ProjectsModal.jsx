@@ -69,11 +69,14 @@ export default function ProjectModal(props) {
     name: '', status: '', price: '', stack: [], description: '', _id: '', duration: '', developers: [],
   };
 
+
   const [project, setProject] = useState(initialValue);
 
   const dispatch = useDispatch();
 
+
   const handleClose = () => {
+    setProject(initialValue);
     setIsOpen(false);
   };
   const handleChange = (e) => {
@@ -82,16 +85,15 @@ export default function ProjectModal(props) {
   const stackChange = (stack) => setProject({ ...project, stack });
   const developersChange = (developers) => setProject({ ...project, developers });
   
-
   const onSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
       dispatch(updateProject(project));
     } else {
       dispatch(addProject(project));
+      setProject(initialValue);
     }
     setIsOpen(false);
-    setProject(initialValue);
   };
 
   const handleCancel = (e) => {

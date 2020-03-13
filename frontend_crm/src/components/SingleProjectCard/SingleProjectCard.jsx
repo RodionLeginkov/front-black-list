@@ -15,6 +15,7 @@ import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
+import AddUserModal from '../AddUserModal/AddUserModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RecipeReviewCard(props) {
   const { card } = props;
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
+  const [addUserModalOpen, setAddUserModalOpen] = useState(false)
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -99,7 +101,7 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
 
   const stackList = card.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech={elem} size='small' />
+    <StackIcon key={Math.random()} tech={elem.tech} size='small' />
   ));
 
   return (
@@ -135,12 +137,12 @@ export default function RecipeReviewCard(props) {
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
-          {card.developers.length > 0 ?
-            <CustomAvatar users={card.developers} />
-            : ''}
+            <CustomAvatar users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen}/>
+
         </div>
       </Card>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card._id} name={card.name} />
+      <AddUserModal  addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
     </>
   );
 }

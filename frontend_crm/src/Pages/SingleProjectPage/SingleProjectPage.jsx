@@ -22,6 +22,7 @@ import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 
+
 const useStyles = makeStyles(() => ({
   footerIcons: {
     display: 'flex',
@@ -67,9 +68,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 function CurrentProject(props) {
-  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
+  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
+ 
   const [isOpen, setIsOpen] = useState(false);
   function handleClick() {
     history.push('/projects');
@@ -88,9 +90,9 @@ function CurrentProject(props) {
 
   let stackList = [];
   if (!project) { return (<Loading />); }
-
+  
   stackList = project.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech={elem} size='medium' />
+    <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
   ));
 
   return (
@@ -149,7 +151,8 @@ function CurrentProject(props) {
         </div>
       </Paper>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
-      <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{ ...project }} isEdit />
+      <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit />
+     
     </div>
   );
 }

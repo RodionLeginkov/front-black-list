@@ -9,15 +9,19 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
+
   filteredProjectName, filteredProjects
+
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StatusFilter from './StatusFilter.jsx';
 import StackFilter from './StackFilter.jsx';
 import DurationFilter from './DurationFilter.jsx'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
+
     marginBottom: 30,
+
     alignItems: 'center',
     maxWidth: '1370px',
     justifyContent: 'space-between',
@@ -83,6 +87,7 @@ export default function DetailedExpansionPanel() {
   const handleChange = useCallback((name) => (event) => {
     setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
     const filtersObject = selectedFilters;
+
     if (event.target.checked)
       filtersObject[name] = name;
     else
@@ -91,6 +96,7 @@ export default function DetailedExpansionPanel() {
       return filtersObject[filter];
     });
     dispatch(filteredProjects(filters));
+
   }, [selectedFilters, setSelectedFilters, dispatch]);
 
   const onChangeSearchProjectName = (event) => {
@@ -126,6 +132,7 @@ export default function DetailedExpansionPanel() {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Project status</div>
+
             <StatusFilter handleChange={handleChange} selectedFilters={selectedFilters} />
           </ExpansionPanelDetails>
 

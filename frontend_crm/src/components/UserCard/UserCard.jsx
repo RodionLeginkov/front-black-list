@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,9 +38,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ImgMediaCard({
+const UserCard = ({
   imgUrl, userName, userEmail, userId, userPosition,
-}) {
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ export default function ImgMediaCard({
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt={userName}
           height="240"
           image={imgUrl}
           title={userName}
@@ -80,4 +81,17 @@ export default function ImgMediaCard({
       </CardActionArea>
     </Card>
   );
-}
+};
+
+UserCard.propTypes = {
+  imgUrl: PropTypes.string,
+  userName: PropTypes.string,
+  userEmail: PropTypes.string,
+  userId: PropTypes.string,
+  userPosition: PropTypes.string,
+};
+UserCard.defaultProps = {
+  imgUrl: 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg',
+};
+
+export default UserCard;

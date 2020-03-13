@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,11 +84,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function UserInfo({ match }) {
+function UserInfo({ match: { params: { userId } } }) {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { userId } = match.params
 
   const handleClickOnBack = () => {
     history.push('/users');
@@ -108,8 +108,8 @@ function UserInfo({ match }) {
 
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const stackList = user.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech="ReactDev" size='medium' /> // /////////////////////////////
+  const stackList = user.stack.map((element) => (
+    <StackIcon key={Math.random()} tech={element} size='medium' /> // /////////////////////////////
   ));
 
   return (
@@ -183,4 +183,16 @@ function UserInfo({ match }) {
     </div>
   );
 }
+
+UserInfo.propTypes = {
+  match: PropTypes.objectOf({
+    params: PropTypes.objectOf({
+      userId: PropTypes.string,
+    }),
+  }),
+};
+UserInfo.defaultProps = {
+  match: {},
+};
+
 export default UserInfo;

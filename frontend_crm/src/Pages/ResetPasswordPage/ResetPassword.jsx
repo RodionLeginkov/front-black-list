@@ -1,19 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { AuthContext } from '../../context/auth';
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,19 +31,69 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
-  const { toggleAuth } = useContext(AuthContext);
+export default function ResetPassword(props) {
   const classes = useStyles();
-  const [form, setState] = useState({
-    email: '',
-    password: '',
-  });
 
-  const onChangheEmail = (e) => {
-    setState({
-      ...form,
-      email: e.target.value,
+  const [form, setState] = useState({
+    login: '',
+    password: '',
+    confirmPassword: '',
+    update: false,
+    isLoading: true,
+    error: false,
+    resetPasswordToken: '',
+  });
+  const tokenId = props.match.params.token;
+  // console.log(tokenId);
+  /* useEffect(() => {
+    async function fetchMyAPI() {
+      console.log(tokenId);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API}users/reset`, { tokenId });
+      console.log('deth');
+      if (response.data.message = 'password reset link a-ok') {
+        setState({
+          ...form,
+          login: response.data.login,
+          updateL: false,
+          isLoading: false,
+          error: false,
+        });
+      } else {
+        setState({
+          ...form,
+          update: false,
+          isLoading: false,
+          error: true,
+        });
+      }
+    }
+    fetchMyAPI();
+  }); */
+
+
+  const updatePassword = async (e) => {
+    e.preventDefault();
+    const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
+      login: form.login,
+      password: form.password,
+      resetPasswordToken: tokenId,
     });
+
+    if (response.data.message === 'password updated') {
+      setState({
+        ...form,
+        updated: true,
+        error: false,
+
+      });
+      window.location = '/signin';
+    } else {
+      setState({
+        ...form,
+        updated: false,
+        error: true,
+      });
+    }
   };
 
   const onChanghePassword = (e) => {
@@ -57,50 +103,18 @@ export default function SignUp() {
     });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-
-    const login = {
-      email: form.email,
-      password: form.password,
-    };
-    try {
-      const result = await axios.post(`${process.env.REACT_APP_BASE_API}users/login`, login);
-      localStorage.setItem('tokens', JSON.stringify(result.data));
-      toggleAuth(result.data);
-
-      window.location = '/';
-    } catch (err) {
-      alert('Wrong loggin or password');
-    }
-    //
-  };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper} onSubmit={onSubmit}>
+      <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Update your password
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={form.email}
-            onChange={onChangheEmail}
-          />
+        <form className={classes.form} onSubmit={updatePassword}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -114,10 +128,6 @@ export default function SignUp() {
             value={form.password}
             onChange={onChanghePassword}
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
           <Button
             type="submit"
             fullWidth
@@ -125,23 +135,19 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Confirm
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link to="/forgot" variant="body2">
-                Forgot password?
+            <Grid>
+              <Link to="/signin" variant="body2">
+                Get back
               </Link>
             </Grid>
-            <Grid item>
-              <Link to="/signup">
-                Don't have an account? Sign Up
-              </Link>
-            </Grid>
+
           </Grid>
+
         </form>
       </div>
-
     </Container>
   );
 }

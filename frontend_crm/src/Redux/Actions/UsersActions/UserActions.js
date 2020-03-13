@@ -1,8 +1,8 @@
 import { loadAllUsers, loadUser, deletedUser } from './UsersApi';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
-  DELETE_USER_ERROR, FILTER_USER_STATUS, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
-  FILTER_USER_NAME,
+  DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
+  FILTER_USER_NAME, FILTER_USER_EMAIL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = () => async (dispatch) => {
@@ -42,7 +42,11 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const filteredUserStatus = (selectedFilters) => {
   const filters = selectedFilters.filter((f) => f !== undefined);
-  return { type: FILTER_USER_STATUS, payload: filters };
+  return { type: FILTER_USER_ROLE, payload: filters };
 };
 
 export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });
+
+export const filteredUserEmail = (email) => ({ type: FILTER_USER_EMAIL, payload: email });
+
+export const filteredUserPhone = (email) => ({ type: FILTER_USER_EMAIL, payload: email });

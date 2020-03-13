@@ -73,26 +73,30 @@ export default function ResetPassword(props) {
 
   const updatePassword = async (e) => {
     e.preventDefault();
-    const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
-      login: form.login,
-      password: form.password,
-      resetPasswordToken: tokenId,
-    });
-
-    if (response.data.message === 'password updated') {
-      setState({
-        ...form,
-        updated: true,
-        error: false,
-
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
+        login: form.login,
+        password: form.password,
+        resetPasswordToken: tokenId,
       });
-      window.location = '/signin';
-    } else {
-      setState({
-        ...form,
-        updated: false,
-        error: true,
-      });
+
+      if (response.data.message === 'password updated') {
+        setState({
+          ...form,
+          updated: true,
+          error: false,
+
+        });
+        window.location = '/signin';
+      } else {
+        setState({
+          ...form,
+          updated: false,
+          error: true,
+        });
+      }
+    } catch (err) {
+      alert('Somthing is going wrong');
     }
   };
 

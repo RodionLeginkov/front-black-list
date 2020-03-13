@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     },
     modalWidth: {
         width: '400px',
+    },
+    header: { 
+        color: '#777',
     },
 }));
 
@@ -76,10 +79,10 @@ export default function ProjectModal(props) {
             >
                 <Fade in={deleteModalIsOpen}>
                     <div className={clsx(classes.paper, classes.modalWidth)}>
-                        <h2>Delete project: {name}?</h2>
+                        <h2 className={classes.header}>Delete project: {name}?</h2>
                         <div className={classes.buttons}>
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="primary"
                                 type="submit"
                                 className={classes.submitButton}
@@ -88,7 +91,7 @@ export default function ProjectModal(props) {
                                 Delete
                             </Button>
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="primary"
                                 type="submit"
                                 className={classes.submitButton}

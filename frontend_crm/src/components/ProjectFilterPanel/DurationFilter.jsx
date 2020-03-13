@@ -22,46 +22,46 @@ function StatusFilter(props) {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedFilters.React}
-                    onChange={handleChange('React')}
-                    value='React'
+                    checked={selectedFilters['1-3 months']}
+                    onChange={handleChange('1-3 months')}
+                    value='1-3 months'
                     color="primary"
                   />
                 }
-                label="React"
+                label="1-3 months"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedFilters.stopped}
-                    onChange={handleChange('stopped')}
-                    value='stopped'
+                    checked={selectedFilters['3-6 months']}
+                    onChange={handleChange('3-6 months')}
+                    value='3-6 months'
                     color="primary"
                   />
                 }
-                label="Stopped"
+                label="3-6 months"
               />
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedFilters.active}
-                    onChange={handleChange('active')}
-                    value='active'
+                    checked={selectedFilters['6-12 months']}
+                    onChange={handleChange('6-12 months')}
+                    value='6-12 months'
                     color="primary"
                   />
                 }
-                label="Active"
+                label="6-12 months"
               />
                 <FormControlLabel
                 control={
                   <Checkbox
-                    checked={selectedFilters.pending}
-                    onChange={handleChange('pending')}
-                    value='pending'
+                    checked={selectedFilters.Unexpected}
+                    onChange={handleChange('Unexpected')}
+                    value='Unexpected'
                     color="primary"
                   />
                 }
-                label="Pending"
+                label="Unexpected"
               />
             </FormGroup>   
         </>

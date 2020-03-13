@@ -4,8 +4,8 @@ import {
 
   ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT,
   LOAD_RPOJECT,FILTER_PROJECT,
-  LOAD_RPOJECT_SUCCESS,
-  LOAD_RPOJECT_ERROR,
+  LOAD_RPOJECT_SUCCESS,EDIT_PROJECT_DEVELOPERS_ERROR,
+  LOAD_RPOJECT_ERROR,EDIT_PROJECT_DEVELOPERS,
   FIND_PROJECT, DELETE_PROJECT_ERROR,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   LOAD_PROJECT_ERROR, FILTER_PROJECT_NAME,
@@ -66,14 +66,27 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
+    // console.log('PROJECT', project)
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
     const { data } = await patchProject(project, loginToken);
+    // console.log('DATA', data)
     dispatch({ type: EDIT_PROJECT, payload: data[0] });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
   }
 };
 
+export const updateProjectDevelopers = (project) => async (dispatch) => {
+  try {
+    // console.log('project', project)
+    const loginToken = JSON.parse(localStorage.getItem('tokens'));
+    const { data } = await patchProject(project, loginToken);
+    // console.log('data', data)
+    dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data[0] });
+  } catch (error) {
+    dispatch({ type: EDIT_PROJECT_DEVELOPERS_ERROR, payload: error });
+  }
+};
 
 export const filteredProjectName = (name) => {
   return { type: FILTER_PROJECT_NAME, payload: name };

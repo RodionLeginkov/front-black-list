@@ -29,15 +29,13 @@ export default function CustomList(props) {
   const dispatch = useDispatch();
   const { users } = props;
 
-  const allUsers = useSelector((state) => state.users.users)
-  const neededUsers = allUsers.filter((elem) => users.includes(elem.login))
 
   function handleClick(userId) {
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }
 
-  const devList = neededUsers.map((user) =>
+  const devList = users.map((user) =>
     <div key={user._id}>
       <ListItem  alignItems="flex-start">
         <ListItemAvatar >

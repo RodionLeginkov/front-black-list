@@ -7,6 +7,10 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -25,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   inputForm: {
+    maxWidth: 700,
     width: '100%',
     margin: '5px 0',
   },
@@ -42,26 +47,61 @@ const MenuProps = {
 };
 
 const names = [
+
   { tech: 'React' },
   { tech: 'Node' },
   { tech: 'Express' },
   { tech: 'MongoDb' },
 ];
 
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
 export default function StackForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props;
+  const { stackChange, stackValue, isEdit } = props; 
   const [stack, setStack] = useState(isEdit ? stackValue : []);
-
-  const handleChange = (event) => {
-    setStack(event.target.value);
-    stackChange(event.target.value);
+  const handleChange = (event, values) => {
+    setStack(values);
+    stackChange(values);
   };
+  let filteredTechs = names
+
+  for (const index in stack){
+    filteredTechs = filteredTechs.filter((t) => {
+      return(
+      t.tech !== stack[index].tech)})
+  }
 
   return (
     <div>
 
-      <FormControl
+      <Autocomplete
+      multiple
+      className={clsx(classes.formControl, classes.inputForm)}
+      id="checkboxes-tags-demo"
+      options={filteredTechs}
+      disableCloseOnSelect
+      getOptionLabel={option => option.tech}
+      onChange={handleChange}
+      defaultValue={stack}
+      renderOption={(option, { selected }) => (
+        <React.Fragment>
+          <Checkbox
+            icon={icon}
+            checkedIcon={checkedIcon}
+            style={{ marginRight: 8 }}
+            checked={selected}
+          />
+          {option.tech}
+        </React.Fragment>
+      )}
+      style={{ width: '100%' }}
+      renderInput={params => (
+          <TextField {...params} variant="outlined" label="Stack" />
+        )}
+    />
+      {/* <FormControl
         label="Stack"
         value={stack}
         variant="outlined"
@@ -83,8 +123,7 @@ export default function StackForm(props) {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
-
+      </FormControl> */}
     </div>
   );
 }

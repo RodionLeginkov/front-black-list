@@ -1,7 +1,7 @@
 import {
   ADD_PROJECT,FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
-  ADD_PROJECT_BEGIN,
+  ADD_PROJECT_BEGIN,EDIT_PROJECT_DEVELOPERS,
   DELETE_PROJECT_ERROR,
   DELETE_PROJECT, FIND_PROJECT,
   ADD_RPOJECT_ERROR, LOAD_RPOJECT,
@@ -81,9 +81,20 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
+      // const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id)
+      console.log('CURRENT', state.currentProject)
+      console.log('PAY', action.payload)
       return {
         ...state,
         currentProject: action.payload,
+      };
+    case EDIT_PROJECT_DEVELOPERS:
+      const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id)
+      return {
+        ...state,
+        projects: [...allProj, action.payload],
+        filteredProjects: [...allProj, action.payload],
+        // currentProject: action.payload,
       };
     case EDIT_PROJECT_ERROR:
       return {

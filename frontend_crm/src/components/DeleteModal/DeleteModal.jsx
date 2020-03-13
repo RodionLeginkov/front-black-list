@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ProjectModal(props) {
+export default function DeleteModal(props) {
     const {
         deleteModalIsOpen, setdeleteModalIsOpen, id, name,
     } = props;

@@ -11,13 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
-  filteredUserStatus, filteredUserName,
+  filteredUserStatus, filteredUserName, filteredUserEmail, filteredUserPhone,
 } from '../../Redux/Actions/UsersActions/UserActions';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
-    marginTop: 80,
     marginRight: 20,
+    marginBottom: 20,
   },
   heading: {
     fontSize: 20,
@@ -49,12 +49,18 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     fontSize: 12,
   },
+  textFields: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
   searchField: {
     width: '100%',
+    marginRight: 20,
   },
 }));
 
-export default function DetailedExpansionPanel() {
+const FilterUserPanel = () => {
   const classes = useStyles();
   const [selectedFilters, setSelectedFilters] = useState({
     junior: false,
@@ -62,19 +68,18 @@ export default function DetailedExpansionPanel() {
     senior: false,
   });
   const [searchName, setSearchName] = useState('');
+  const [searchEmail, setSearchEmail] = useState('');
+  const [searchPhone, setSearchPhone] = useState('');
 
   const dispatch = useDispatch();
 
   const handleChange = useCallback((name) => (event) => {
     setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
     const filtersObject = selectedFilters;
-    if (event.target.checked)
-      filtersObject[name] = name;
-    else
-      filtersObject[name] = event.target.checked;
+    if (event.target.checked) filtersObject[name] = name;
+    else filtersObject[name] = event.target.checked;
     const filters = Object.keys(filtersObject).map((filter) => {
-      if (filtersObject[filter])
-        return filter;
+      if (filtersObject[filter]) return filter;
     });
     dispatch(filteredUserStatus(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
@@ -84,6 +89,15 @@ export default function DetailedExpansionPanel() {
     dispatch(filteredUserName(event.target.value));
   };
 
+  const onChangeSearchEmail = (event) => {
+    setSearchEmail(event.target.value);
+    dispatch(filteredUserEmail(event.target.value));
+  };
+
+  const onChangeSearchPhone = (event) => {
+    setSearchPhone(event.target.value);
+    dispatch(filteredUserPhone(event.target.value));
+  };
 
   return (
     <div className={classes.root}>
@@ -99,51 +113,74 @@ export default function DetailedExpansionPanel() {
         </ExpansionPanelSummary>
         <div className={classes.filtersBlock}>
           <ExpansionPanelDetails className={classes.details}>
-            <FormGroup className={classes.formGroup}>
-              <TextField
-                className={classes.searchField}
-                label="Name"
-                variant="outlined"
-                value={searchName}
-                onChange={onChangeSearchName}
-                size='small'
-              />
-            </FormGroup>
+            <div className={classes.textFields}>
+              <FormGroup className={classes.formGroup}>
+                <TextField
+                  className={classes.searchField}
+                  label="Name"
+                  variant="outlined"
+                  value={searchName}
+                  onChange={onChangeSearchName}
+                  size='small'
+                />
+              </FormGroup>
+              <FormGroup className={classes.formGroup}>
+                <TextField
+                  className={classes.searchField}
+                  label="Email"
+                  variant="outlined"
+                  value={searchEmail}
+                  onChange={onChangeSearchEmail}
+                  size='small'
+                />
+              </FormGroup>
+              <FormGroup className={classes.formGroup}>
+                <TextField
+                  className={classes.searchField}
+                  label="Phone number"
+                  variant="outlined"
+                  value={searchPhone}
+                  onChange={onChangeSearchPhone}
+                  size='small'
+                />
+              </FormGroup>
+            </div>
+
           </ExpansionPanelDetails>
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Job position</div>
             <FormGroup className={classes.formGroup}>
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.junior}
                     onChange={handleChange('junior')}
                     value='junior'
                     color="primary"
                   />
-                }
+                )}
                 label="Junior"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.middle}
                     onChange={handleChange('middle')}
                     value='middle'
                     color="primary"
                   />
-                }
+                )}
                 label="Middle"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.senior}
                     onChange={handleChange('senior')}
                     value='senior'
                     color="primary"
                   />
-                }
+                )}
                 label="Senior"
               />
             </FormGroup>
@@ -152,4 +189,6 @@ export default function DetailedExpansionPanel() {
       </ExpansionPanel>
     </div>
   );
-}
+};
+
+export default FilterUserPanel;

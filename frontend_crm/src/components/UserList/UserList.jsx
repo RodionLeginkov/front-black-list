@@ -9,9 +9,10 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
+
 import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
-
+  
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -30,17 +31,20 @@ export default function CustomList(props) {
   const { users } = props;
 
 
+
   function handleClick(userId) {
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }
 
+
   const devList = users.map((user) =>
+
     <div key={user._id}>
-      <ListItem  alignItems="flex-start">
-        <ListItemAvatar >
+      <ListItem alignItems="flex-start">
+        <ListItemAvatar>
           <Tooltip title={user.login}>
-            <Avatar onClick={() => handleClick(user._id)}  alt={user.login.toUpperCase()} src={`${user.userImage}`} />
+            <Avatar onClick={() => handleClick(user._id)} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
           </Tooltip>
         </ListItemAvatar>
         <ListItemText
@@ -54,15 +58,15 @@ export default function CustomList(props) {
                 color="textPrimary"
               >
                 {user.status}
-                </Typography>
-              {" — developer`s info"}
+              </Typography>
+              {' — developer`s info'}
             </>
           )}
         />
-      </ListItem> 
+      </ListItem>
       <Divider variant="inset" component="li" />
     </div>
-  );
+  ));
 
   if (users.length > 0) {
     return (
@@ -74,19 +78,19 @@ export default function CustomList(props) {
       </div>
     );
   }
-  else {
-    return (
-      <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
-        <h2>Developers:</h2>
-        <Typography
-          component="span"
-          variant="body2"
-          style={{ margin: '0px 10px', fontSize: '1rem' }}
-          className={classes.inline}
-          color="textPrimary"
-        >
-          There is no developers yet
-                </Typography>
-      </div>)
-  }
+
+  return (
+    <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+      <h2>Developers:</h2>
+      <Typography
+        component="span"
+        variant="body2"
+        style={{ margin: '0px 10px', fontSize: '1rem' }}
+        className={classes.inline}
+        color="textPrimary"
+      >
+        There is no developers yet
+      </Typography>
+    </div>
+  );
 }

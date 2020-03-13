@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -6,139 +8,191 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import CardMedia from '@material-ui/core/CardMedia';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Loading from '../../components/Loading/index.jsx';
-import { getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
+import StackIcon from '../../components/StackIcon/StackIcon.jsx';
+import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
-    marginLeft: '0 100px',
+    margin: '100px 10px 0 85px',
   },
-  paper: {
+  footerIcons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  root: {
     margin: '0 auto',
-    width: '900px',
-    marginTop: '100px',
-    display: 'flex',
-    padding: '0 20px 0 0',
+    maxWidth: '900px',
+    marginTop: '30px',
   },
-  leftCol: {
+  content: {
+    margin: '0px 20px',
     display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    minWidth: '150px',
-    borderRight: '1px solid grey',
-    padding: '16px',
   },
-  row: {
-    display: 'flex',
-    justifyContent: 'row',
+  header: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  name: {
-    fontSize: '28px',
-    margin: '10px 0',
+  userImage: {
+    maxWidth: 240,
   },
   col: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
   },
-  header: {
-    fontSize: '28px',
-    padding: '16px',
-    fontWeight: '800',
-    width: '100%',
-  },
-  body: {
-    fontSize: '16px',
-    padding: '16px',
-    fontWeight: '400',
-    width: '100%',
-  },
-  item: {
+  row: {
     display: 'flex',
     flexDirection: 'row',
-    marginBottom: '8px',
   },
-  label: {
-    marginRight: '8px',
+  body: {
+    padding: '10px 10px 10px 20px',
+  },
+  fieldTitle: {
+    display: 'block;',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   field: {
-    color: 'grey',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  button: {
-    fontSize: '13 px',
-    height: '40px',
-    padding: '0 10px',
+  fieldValue: {
+    fontSize: 16,
+    margin: '10px',
+    display: 'flex',
+  },
+  stackAndDuration: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  description: {
+    margin: '4px 13px',
+    paddingBottom: '10px',
+  },
+  duration: {
+    margitTop: '3px  !important',
+  },
+  breadcrumbs: {
+    margin: '85px 20px',
+    color: '#777777',
   },
 }));
 
 
-function UserInfo({ match }) {
+function UserInfo({ match: { params: { userId } } }) {
   const history = useHistory();
   const classes = useStyles();
-  function handleClickOnBack() {
-    history.push('/users');
-  }
-
-  const { userId } = match.params;
-
   const dispatch = useDispatch();
+
+  const handleClickOnBack = () => {
+    history.push('/users');
+  };
+
+  const handleClickOnDelete = () => {
+    dispatch(deleteUser(userId));
+    history.push('/users');
+  };
+
   const user = useSelector((state) => state.users.currentUser);
 
   useEffect(() => {
-    if (!user)
-      dispatch(getUser(userId));
+    if (!user) dispatch(getUser(userId));
   }, [dispatch, userId, user]);
 
-  if (!user) return (<Loading />)
+  if (!user) return (<Loading />);
 
-  const imgUrl = "https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg";
+  const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+
+  const stackList = user.stack.map((element) => (
+    <StackIcon key={Math.random()} tech={element} size='medium' /> // /////////////////////////////
+  ));
 
   return (
     <div className={classes.container}>
-      <Paper className={classes.paper}>
-        <div className={classes.leftCol}>
-          <CardMedia
-            component="img"
-            alt="Contemplative Reptile"
-            height="240"
-            image={imgUrl}
-            title="Contemplative Reptile"
-          />
-          <div className={classes.row}>
-            <div className={classes.name}>{user.login}</div>
+      <h5 className={classes.breadcrumbs}>
+        Developers/
+        {user.name || user.login}
+      </h5>
+      <Paper className={classes.root}>
+        <div className={clsx(classes.content, classes.header)}>
+          <h1>{user.name || user.login}</h1>
+          <div style={{ marginRight: '10px' }}>
+            <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
-          <Button
-            onClick={handleClickOnBack}
-            variant="contained"
-            size="large"
-          >
-            Go back
+        </div>
+        <Divider />
+        <div className={classes.row}>
+          <div className={classes.col}>
+            <div className={classes.userImage}>
+              <CardMedia
+                component="img"
+                alt="User avatar"
+                height="240"
+                image={imgUrl}
+                title="User avatar"
+              />
+            </div>
+            <span className={classes.fieldTitle}>
+              {user.name}
+              {' '}
+              {user.surname}
+            </span>
+          </div>
+          <Divider orientation="vertical" />
+          <div className={classes.col}>
+            <div className={classes.body}>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Email: </span>
+                <div className={classes.fieldValue}>
+                  {user.email}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Pfone: </span>
+                <div className={classes.fieldValue}>
+                  {user.phoneNumber}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Stack: </span>
+                <div className={classes.fieldValue}>
+                  {stackList}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <Divider />
+        <div className={classes.footerIcons}>
+          <Button onClick={handleClickOnBack}>
+            <ArrowBackIosIcon />
+          </Button>
+          <Button>
+            <EditSharpIcon />
+          </Button>
+          <Button onClick={handleClickOnDelete} className={classes.deleteButton}>
+            <DeleteOutlineIcon />
           </Button>
         </div>
-        <Divider orientation="vertical" />
-        <div className={classes.col}>
-          <div className={classes.header}>Information</div>
-          <div className={classes.body}>
-            <div className={classes.item}>
-              <div className={classes.label}>Email:</div>
-              <span className={classes.field}>{user.email}</span>
-            </div>
-            <div className={classes.item}>
-              <div className={classes.label}>Phone number:</div>
-              <span className={classes.field}>{user.phoneNumber}</span>
-            </div>
-            <div className={classes.item}>
-              <div className={classes.label}>Skype:</div>
-              <span className={classes.field}>{user.skype}</span>
-            </div>
-            <div className={classes.item}>
-              <div className={classes.label}>github:</div>
-              <span className={classes.field}>{user.github}</span>
-            </div>
-          </div>
-        </div>
       </Paper>
-    </div >
+    </div>
   );
 }
+
+UserInfo.propTypes = {
+  match: PropTypes.objectOf({
+    params: PropTypes.objectOf({
+      userId: PropTypes.string,
+    }),
+  }),
+};
+UserInfo.defaultProps = {
+  match: {},
+};
+
 export default UserInfo;

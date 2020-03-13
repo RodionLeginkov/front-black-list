@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const count = 0;
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -36,19 +35,84 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+export default function ResetPassword(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [form, setState] = useState({
-    email: '',
+    login: '',
     password: '',
+    confirmPassword: '',
+    update: false,
+    isLoading: true,
+    error: false,
+    resetPasswordToken: '',
   });
 
-  const onChangheEmail = (e) => {
-    setState({
-      ...form,
-      email: e.target.value,
-    });
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  const tokenId = props.match.params.token;
+  // console.log(tokenId);
+  /* useEffect(() => {
+    async function fetchMyAPI() {
+      console.log(tokenId);
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API}users/reset`, { tokenId });
+      console.log('deth');
+      if (response.data.message = 'password reset link a-ok') {
+        setState({
+          ...form,
+          login: response.data.login,
+          updateL: false,
+          isLoading: false,
+          error: false,
+        });
+      } else {
+        setState({
+          ...form,
+          update: false,
+          isLoading: false,
+          error: true,
+        });
+      }
+    }
+    fetchMyAPI();
+  }); */
+
+
+  const updatePassword = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
+        login: form.login,
+        password: form.password,
+        resetPasswordToken: tokenId,
+      });
+
+      if (response.data.message === 'password updated') {
+        setState({
+          ...form,
+          updated: true,
+          error: false,
+
+        });
+        window.location = '/signin';
+      } else {
+        setState({
+          ...form,
+          updated: false,
+          error: true,
+        });
+      }
+    } catch (err) {
+      alert('Somthing is going wrong');
+    }
   };
 
   const onChanghePassword = (e) => {
@@ -58,56 +122,18 @@ export default function SignUp() {
     });
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-
-    const login = {
-      email: form.email,
-      password: form.password,
-    };
-    try {
-      await axios.post(`${process.env.REACT_APP_BASE_API}users/signup`, login);
-      window.location = '/signin';
-    } catch (err) {
-      alert('Somthing is going wrong');
-    }
-    //
-  };
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper} onSubmit={onSubmit}>
+      <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Update your password
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={form.email}
-            onChange={onChangheEmail}
-          />
+        <form className={classes.form} onSubmit={updatePassword}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -121,11 +147,9 @@ export default function SignUp() {
             value={form.password}
             onChange={onChanghePassword}
             onClick={handleClick}
-            // onMouseEnter={handleClick}
-            // onMouseOut={handleClick}
           />
           <Popover
-            id={id}
+            id="password"
             open={open}
             anchorEl={anchorEl}
             onClose={handleClose}
@@ -147,7 +171,7 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Confirm
           </Button>
           <Grid container>
             <Grid>

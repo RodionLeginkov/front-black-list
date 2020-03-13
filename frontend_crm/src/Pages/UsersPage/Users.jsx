@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import UsersList from './UsersList.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
 const useStyles = makeStyles({
@@ -34,7 +35,7 @@ function Users() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.filteredUsers);
+  const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
 
   useEffect(() => {

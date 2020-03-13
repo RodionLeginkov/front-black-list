@@ -9,7 +9,7 @@ function HomeUsersList(props) {
   return (
     <>
       {users.map((user) => (
-        <Grid item container justify="flex-start" key={Math.random()} xs={12} sm={6} md={4} lg={3}>
+        <Grid item container justify="flex-start" key={Math.random()} xs={12} sm={6} md={4} lg={3} xl={2}>
           <Card
             imgUrl="https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg"
             userId={user._id}

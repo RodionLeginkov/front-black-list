@@ -1,7 +1,7 @@
-import { loadAllUsers, loadUser } from './UsersApi';
+import { loadAllUsers, loadUser, deletedUser } from './UsersApi';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
-  FILTER_USER_STATUS, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
+  DELETE_USER_ERROR, FILTER_USER_STATUS, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
   FILTER_USER_NAME,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
@@ -29,15 +29,20 @@ export const getUser = (userId) => async (dispatch) => {
 
 export const findUser = (id) => ({ type: FIND_USER, payload: id });
 
-export const deleteUser = (userId) => {
-  return { type: DELETE_USER, payload: userId };
-}
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    const loginToken = JSON.parse(localStorage.getItem('tokens'));
+    await deletedUser(loginToken, id);
+    dispatch({ type: DELETE_USER, payload: id });
+  } catch (error) {
+    dispatch({ type: DELETE_USER_ERROR, payload: error });
+  }
+};
+
 
 export const filteredUserStatus = (selectedFilters) => {
   const filters = selectedFilters.filter((f) => f !== undefined);
   return { type: FILTER_USER_STATUS, payload: filters };
-}
+};
 
-export const filteredUserName = (name) => {
-  return { type: FILTER_USER_NAME, payload: name };
-}
+export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });

@@ -10,6 +10,7 @@ import {
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
+import { filteredProjects } from '../../Actions/ProjectsActions/ProjectActions';
 
 const initialState = {
   filteredProjects: [],
@@ -112,11 +113,10 @@ const projectReducer = (state = initialState, action) => {
           filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
         }
       case FILTER_PROJECT:
-        console.log(state.projects) 
-      console.log(action.payload)
         return { 
             ...state,
             filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status) 
+            || action.payload.includes(p.duration)
             || action.payload.some(r => p.stack.includes(r))) : state.projects,
         }
     default:

@@ -1,6 +1,6 @@
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
-  FILTER_USER_STATUS, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
+  DELETE_USER_ERROR, FILTER_USER_STATUS, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
   loadingUsers: false,
   loadingCurrentUser: false,
   currentUser: null,
+  deleteUserError: false,
   filters: {
     status: ['junior', 'middle', 'senior'],
     name: '',
@@ -20,9 +21,14 @@ const userReducer = (state = initialState, action) => {
     case DELETE_USER:
       return {
         ...state,
-        users: state.users.filter(user => user._id !== action.payload),
-        filteredUsers: state.users.filter(user => user._id !== action.payload),
-      }
+        users: state.users.filter((user) => user._id !== action.payload),
+        filteredUsers: state.users.filter((user) => user._id !== action.payload),
+      };
+    case DELETE_USER_ERROR:
+      return {
+        ...state,
+        deleteUserError: true,
+      };
     case LOAD_USER:
       return {
         ...state,
@@ -67,7 +73,7 @@ const userReducer = (state = initialState, action) => {
         filteredUsers: action.payload.length
           ? state.users.filter((user) => user.status && action.payload.includes(user.status)
             && user.login.includes(state.filters.name))
-          : state.users.filter((user) => user.login && user.login.includes(state.filters.name))
+          : state.users.filter((user) => user.login && user.login.includes(state.filters.name)),
       };
     case FILTER_USER_NAME:
       return {
@@ -79,7 +85,7 @@ const userReducer = (state = initialState, action) => {
         filteredUsers: action.payload
           ? state.users.filter((user) => user.status && state.filters.status.includes(user.status)
             && user.login.toLowerCase().includes(action.payload.toLowerCase()))
-          : state.users.filter((user) => state.filters.status.includes(user.status) || true)
+          : state.users.filter((user) => state.filters.status.includes(user.status) || true),
       };
     default:
       return state;

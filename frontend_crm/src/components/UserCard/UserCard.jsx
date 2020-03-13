@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CustomBage from '../CustomBadge/CustomBadge';
+import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
@@ -37,12 +38,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, userPosition }) {
+const UserCard = ({
+  imgUrl, userName, userEmail, userId, userPosition,
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
-  // const { imgUrl } = props;
 
   function handleClick() {
     dispatch(findUser(userId));
@@ -54,10 +55,10 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
       <CardActionArea>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt={userName}
           height="240"
           image={imgUrl}
-          title="Contemplative Reptile"
+          title={userName}
         />
         <CardContent>
           <div className={classes.row}>
@@ -67,7 +68,7 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
             <div className={classes.roleBadge}>
               <CustomBage
                 text={userPosition || 'udefined'}
-                size={'medium'}
+                size="medium"
                 position={userPosition}
                 className={classes.bage}
               />
@@ -75,9 +76,22 @@ export default function ImgMediaCard({ imgUrl, userName, userEmail, userId, user
           </div>
           <div className={classes.email}>
             {userEmail}
-          </div>   
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>
   );
-}
+};
+
+UserCard.propTypes = {
+  imgUrl: PropTypes.string,
+  userName: PropTypes.string,
+  userEmail: PropTypes.string,
+  userId: PropTypes.string,
+  userPosition: PropTypes.string,
+};
+UserCard.defaultProps = {
+  imgUrl: 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg',
+};
+
+export default UserCard;

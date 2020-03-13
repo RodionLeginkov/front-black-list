@@ -5,26 +5,27 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import {
-  filteredProjectName, filteredProjectStatus,
+
+  filteredProjectName, filteredProjects
+
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import StatusFilter from './StatusFilter.jsx';
+import StackFilter from './StackFilter.jsx';
+import DurationFilter from './DurationFilter.jsx'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // // maxWidth: '1370px',
+
     marginBottom: 30,
-    // marginRight: 20,
+
     alignItems: 'center',
     maxWidth: '1370px',
     justifyContent: 'space-between',
-    // display: 'flex',
     margin: '0 auto',
-    // marginTop: '70px',
   },
   heading: {
     fontSize: 20,
@@ -69,6 +70,15 @@ export default function DetailedExpansionPanel() {
     active: false,
     completed: false,
     pending: false,
+    Express: false,
+    C: false,
+    React: false,
+    MongoDb: false,
+    Node: false,
+    '1-3 months': false,
+    '3-6 months':false,
+    '6-12 months': false,
+    Unexpected: false,
   });
   const [searchName, setSearchName] = useState('');
 
@@ -77,10 +87,16 @@ export default function DetailedExpansionPanel() {
   const handleChange = useCallback((name) => (event) => {
     setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
     const filtersObject = selectedFilters;
-    if (event.target.checked) filtersObject[name] = name;
-    else filtersObject[name] = event.target.checked;
-    const filters = Object.keys(filtersObject).filter((filter) => filtersObject[filter]);
-    dispatch(filteredProjectStatus(filters));
+
+    if (event.target.checked)
+      filtersObject[name] = name;
+    else
+      filtersObject[name] = event.target.checked;
+    const filters = Object.keys(filtersObject).filter((filter) => {
+      return filtersObject[filter];
+    });
+    dispatch(filteredProjects(filters));
+
   }, [selectedFilters, setSelectedFilters, dispatch]);
 
   const onChangeSearchProjectName = (event) => {
@@ -91,7 +107,7 @@ export default function DetailedExpansionPanel() {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel defaultExpanded>
+      <ExpansionPanel >
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
@@ -116,63 +132,18 @@ export default function DetailedExpansionPanel() {
           </ExpansionPanelDetails>
           <ExpansionPanelDetails className={classes.details}>
             <div className={classes.itemTitle}>Project status</div>
-            <FormGroup className={classes.formGroup}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.completed}
-                    onChange={handleChange('completed')}
-                    value='completed'
-                    color="primary"
-                  />
-                )}
-                label="Completed"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.stopped}
-                    onChange={handleChange('stopped')}
-                    value='stopped'
-                    color="primary"
-                  />
-                )}
-                label="Stopped"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.active}
-                    onChange={handleChange('active')}
-                    value='active'
-                    color="primary"
-                  />
-                )}
-                label="Active"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.pending}
-                    onChange={handleChange('pending')}
-                    value='pending'
-                    color="primary"
-                  />
-                )}
-                label="Pending"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.onGoing}
-                    onChange={handleChange('onGoing')}
-                    value='onGoing'
-                    color="primary"
-                  />
-                )}
-                label="On going"
-              />
-            </FormGroup>
+
+            <StatusFilter handleChange={handleChange} selectedFilters={selectedFilters} />
+          </ExpansionPanelDetails>
+
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.itemTitle}>Stack</div>
+            <StackFilter handleChange={handleChange} selectedFilters={selectedFilters} />
+          </ExpansionPanelDetails>
+
+          <ExpansionPanelDetails className={classes.details}>
+            <div className={classes.itemTitle}>Duration</div>
+            <DurationFilter handleChange={handleChange} selectedFilters={selectedFilters} />
           </ExpansionPanelDetails>
         </div>
       </ExpansionPanel>

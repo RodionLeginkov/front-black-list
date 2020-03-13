@@ -14,7 +14,7 @@ import {
   filteredUserStatus, filteredUserName,
 } from '../../Redux/Actions/UsersActions/UserActions';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     marginRight: 20,
     marginBottom: 20,
@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DetailedExpansionPanel() {
+const FilterUserPanel = () => {
   const classes = useStyles();
   const [selectedFilters, setSelectedFilters] = useState({
     junior: false,
@@ -68,13 +68,10 @@ export default function DetailedExpansionPanel() {
   const handleChange = useCallback((name) => (event) => {
     setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
     const filtersObject = selectedFilters;
-    if (event.target.checked)
-      filtersObject[name] = name;
-    else
-      filtersObject[name] = event.target.checked;
+    if (event.target.checked) filtersObject[name] = name;
+    else filtersObject[name] = event.target.checked;
     const filters = Object.keys(filtersObject).map((filter) => {
-      if (filtersObject[filter])
-        return filter;
+      if (filtersObject[filter]) return filter;
     });
     dispatch(filteredUserStatus(filters));
   }, [selectedFilters, setSelectedFilters, dispatch]);
@@ -113,36 +110,36 @@ export default function DetailedExpansionPanel() {
             <div className={classes.itemTitle}>Job position</div>
             <FormGroup className={classes.formGroup}>
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.junior}
                     onChange={handleChange('junior')}
                     value='junior'
                     color="primary"
                   />
-                }
+                )}
                 label="Junior"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.middle}
                     onChange={handleChange('middle')}
                     value='middle'
                     color="primary"
                   />
-                }
+                )}
                 label="Middle"
               />
               <FormControlLabel
-                control={
+                control={(
                   <Checkbox
                     checked={selectedFilters.senior}
                     onChange={handleChange('senior')}
                     value='senior'
                     color="primary"
                   />
-                }
+                )}
                 label="Senior"
               />
             </FormGroup>
@@ -151,4 +148,6 @@ export default function DetailedExpansionPanel() {
       </ExpansionPanel>
     </div>
   );
-}
+};
+
+export default FilterUserPanel;

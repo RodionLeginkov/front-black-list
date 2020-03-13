@@ -1,11 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
-import { deepOrange } from '@material-ui/core/colors';
+import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
-import { useSelector } from 'react-redux'
 import Tooltip from '@material-ui/core/Tooltip';
-
+import {findUser} from '../../Redux/Actions/UsersActions/UserActions'
 const useStyles = makeStyles(theme => ({
   avatarGroup: { 
     padding: '5px',
@@ -13,23 +13,28 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CustomAvatar(props) {
-  
   const classes = useStyles();
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { users } = props;
-  
   const  allUsers = useSelector((state) => state.users.users)
 
-  const neededUsers = allUsers.filter((elem) => users.includes(elem.login))
+  const neededUsers = allUsers.filter((user) => users.includes(user.login))
 
-  const devList = neededUsers.map((elem) => 
-    <Tooltip title={elem.login}>  
-      <Avatar key={Math.random()} alt={elem.login} src={`${elem.userImage}`}></Avatar> 
+  function handleClick(userId) {
+    dispatch(findUser(userId));
+    history.push(`/users/${userId}`);
+  }
+
+  const devList = neededUsers.map((user) => 
+    <Tooltip title={user.login} key={user._id}>  
+      <Avatar onClick={() => handleClick(user._id)} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
     </Tooltip>
   );
 
   return ( 
-    <>
-    <AvatarGroup className={classes.avatarGroup}>
+    <>  
+    <AvatarGroup key={Math.random()} className={classes.avatarGroup}>
       {devList}
       </AvatarGroup>
     </>)

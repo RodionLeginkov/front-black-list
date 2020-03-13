@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, {useState} from 'react';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,11 +11,10 @@ import { useHistory } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
-import { findProject, deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
-import AvatarGroup from '@material-ui/lab/AvatarGroup';
-
+import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: 200,
     maxWidth: 400,
     width: '100%',
-    display:'flex',
+    display: 'flex',
     flexFlow: 'column ',
     justifyContent: 'space-between',
-    // alignItems: 'flex-end',
   },
   media: {
     height: 0,
@@ -81,67 +79,68 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     maxheight: 50,
   },
+  button: {
+    color: '#777777',
+  },
 }));
 
 
 
 export default function RecipeReviewCard(props) {
   const { card } = props;
-
+  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  function handleDelete() {
-    dispatch(deleteProject(card._id));
-    // history.push('/projects');
-  }
-  
   function handleClick() {
     dispatch(findProject(card._id));
     history.push(`/projects/${card._id}`);
   }
   const classes = useStyles();
-  
+
   const stackList = card.stack.map((elem) => (
-      <StackIcon key={Math.random()} tech={elem} size='small' />
+    <StackIcon key={Math.random()} tech={elem} size='small' />
   ));
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea onClick={handleClick}>
-        <div className={classes.cardHeader}>
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {card.name[0].toUpperCase()}
-            {card.name[1].toLowerCase()}
-          </Avatar>
-          {card.name}
-          <CustomBadge text={card.status} icon={<FiberManualRecordSharpIcon />} status={card.status} />
-        </div>
-        <CardContent>
-          <div className={classes.projectInfo}>
-            <div className={classes.priceAndDuration}>
-              <CustomBadge text={`${card.price}$/hour`} theme="price" />
-              <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px'}}/>
-            </div>
-            <div>
-              <div style={{ margin: '10px', display: 'flex' }}>
-                {stackList}
+    <>
+      <Card className={classes.root}>
+        <CardActionArea onClick={handleClick}>
+          <div className={classes.cardHeader}>
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {card.name[0].toUpperCase()}
+              {card.name[1].toLowerCase()}
+            </Avatar>
+            {card.name}
+            <CustomBadge text={card.status} icon={<FiberManualRecordSharpIcon />} status={card.status} />
+          </div>
+          <CardContent>
+            <div className={classes.projectInfo}>
+              <div className={classes.priceAndDuration}>
+                <CustomBadge text={`${card.price}$/hour`} theme="price" />
+                <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px' }} />
+              </div>
+              <div>
+                <div style={{ margin: '10px', display: 'flex' }}>
+                  {stackList}
+                </div>
               </div>
             </div>
-          </div>
-          <Typography variant="body2" color="textSecondary" component="p" className={classes.lineClamp5}>
-            {card.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+            <Typography variant="body2" color="textSecondary" component="p" className={classes.lineClamp5}>
+              {card.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
         <div className={classes.cardFooter}>
-      <Button onClick={handleDelete}>
-        <DeleteOutlineIcon />
-      </Button>
-      { card.developers.length > 0 ? 
-        <CustomAvatar  users={card.developers} />
-       : ''}
-      </div>
-    </Card>
+          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
+            <DeleteOutlineIcon />
+          </Button>
+          {card.developers.length > 0 ?
+            <CustomAvatar users={card.developers} />
+            : ''}
+        </div>
+      </Card>
+      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card._id} name={card.name} />
+    </>
   );
 }

@@ -12,12 +12,15 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
-import CustomList from '../../components/CustomList/CustomList.jsx';
+import UserList from '../../components/UserList/UserList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { deleteProject, getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -56,10 +59,15 @@ const useStyles = makeStyles(() => ({
   breadcrumbs: {
     margin: '85px 20px',
     color: '#777777',
+    cursor: 'pointer',
+  },
+  button: {
+    color: '#777777',
   },
 }));
 
 function CurrentProject(props) {
+  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,10 +86,6 @@ function CurrentProject(props) {
     }
   }, [dispatch, projectId, project]);
 
-  function handleDelete() {
-    dispatch(deleteProject(project._id));
-    history.push('/projects');
-  }
   let stackList = [];
   if (!project) { return (<Loading />); }
 
@@ -92,10 +96,12 @@ function CurrentProject(props) {
   return (
     <div style={{ marginLeft: '85px' }}>
 
-      <h5 className={classes.breadcrumbs}>
-        Projects/
-        {project.name}
-      </h5>
+      <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Link color="inherit" onClick={() => history.push('/projects')}   >
+          Projects
+        </Link>
+        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project._id}`)} >{project.name}</Typography>
+      </Breadcrumbs>
       <Paper className={classes.root}>
         <div
           className={clsx(classes.content, classes.header)}
@@ -120,7 +126,8 @@ function CurrentProject(props) {
             </Typography>
           </div>
         </div>
-        <CustomList />
+
+            <UserList users={project.developers} />
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
@@ -130,18 +137,18 @@ function CurrentProject(props) {
         </div>
         <Divider />
         <div className={classes.footerIcons}>
-          <Button onClick={handleClick}>
+          <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
           </Button>
-          <Button onClick={() => setIsOpen(true)}>
+          <Button className={classes.button} onClick={() => setIsOpen(true)}>
             <EditSharpIcon />
           </Button>
-          <Button onClick={handleDelete} className={classes.deleteButton}>
+          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
         </div>
       </Paper>
-
+      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{ ...project }} isEdit />
     </div>
   );

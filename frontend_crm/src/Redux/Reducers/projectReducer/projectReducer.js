@@ -1,5 +1,5 @@
 import {
-  ADD_PROJECT,FILTER_PROJECT_STATUS,
+  ADD_PROJECT,FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
   ADD_PROJECT_BEGIN,
   DELETE_PROJECT_ERROR,
@@ -10,6 +10,7 @@ import {
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
+import { filteredProjects } from '../../Actions/ProjectsActions/ProjectActions';
 
 const initialState = {
   filteredProjects: [],
@@ -111,10 +112,12 @@ const projectReducer = (state = initialState, action) => {
           ...state,
           filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
         }
-      case FILTER_PROJECT_STATUS: 
+      case FILTER_PROJECT:
         return { 
             ...state,
-            filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status)) : state.projects,
+            filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status) 
+            || action.payload.includes(p.duration)
+            || action.payload.some(r => p.stack.includes(r))) : state.projects,
         }
     default:
       return state;

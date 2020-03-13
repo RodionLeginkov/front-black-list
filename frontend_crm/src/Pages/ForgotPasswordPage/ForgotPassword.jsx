@@ -75,6 +75,7 @@ export default function Forgot() {
             showNullError: false,
           });
           alert('check your email');
+          window.location = '/signin';
         }
       }
     } catch (err) {

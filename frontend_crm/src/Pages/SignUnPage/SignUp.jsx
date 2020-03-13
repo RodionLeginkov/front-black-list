@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+const count = 0;
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -29,10 +31,14 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  typography: {
+    padding: theme.spacing(2),
+  },
 }));
 
 export default function SignUp() {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [form, setState] = useState({
     email: '',
     password: '',
@@ -52,6 +58,14 @@ export default function SignUp() {
     });
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,7 +82,8 @@ export default function SignUp() {
     }
     //
   };
-
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -105,7 +120,26 @@ export default function SignUp() {
             autoComplete="current-password"
             value={form.password}
             onChange={onChanghePassword}
+            onClick={handleClick}
+            // onMouseEnter={handleClick}
+            // onMouseOut={handleClick}
           />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'center',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'center',
+              horizontal: 'left',
+            }}
+          >
+            <Typography className={classes.typography}>Password must be more than 6 characters.</Typography>
+          </Popover>
           <Button
             type="submit"
             fullWidth

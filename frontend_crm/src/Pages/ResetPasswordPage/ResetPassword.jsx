@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -29,11 +30,14 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  typography: {
+    padding: theme.spacing(2),
+  },
 }));
 
 export default function ResetPassword(props) {
   const classes = useStyles();
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [form, setState] = useState({
     login: '',
     password: '',
@@ -43,6 +47,17 @@ export default function ResetPassword(props) {
     error: false,
     resetPasswordToken: '',
   });
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   const tokenId = props.match.params.token;
   // console.log(tokenId);
   /* useEffect(() => {
@@ -107,7 +122,7 @@ export default function ResetPassword(props) {
     });
   };
 
-
+  const open = Boolean(anchorEl);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -131,7 +146,24 @@ export default function ResetPassword(props) {
             autoComplete="current-password"
             value={form.password}
             onChange={onChanghePassword}
+            onClick={handleClick}
           />
+          <Popover
+            id="password"
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'center',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'center',
+              horizontal: 'left',
+            }}
+          >
+            <Typography className={classes.typography}>Password must be more than 6 characters.</Typography>
+          </Popover>
           <Button
             type="submit"
             fullWidth

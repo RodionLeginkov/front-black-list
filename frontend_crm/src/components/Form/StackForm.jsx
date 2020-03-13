@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   inputForm: {
-    maxWidth: 700,
     width: '100%',
     margin: '5px 0',
   },
@@ -87,12 +86,7 @@ export default function StackForm(props) {
       defaultValue={stack}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-          <Checkbox
-            icon={icon}
-            checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
-            checked={selected}
-          />
+        
           {option.tech}
         </React.Fragment>
       )}

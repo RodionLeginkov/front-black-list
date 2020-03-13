@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    margin: '5px 0',
+    margin: '10px 0px 5px',
   },
 }));
 
@@ -81,12 +81,7 @@ console.log(filteredUsers, 'developers',developers)
       defaultValue={developers}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-          <Checkbox
-            icon={icon}
-            checkedIcon={checkedIcon}
-            style={{ marginRight: 8 }}
-            checked={selected}
-          />
+    
           {option.login}
         </React.Fragment>
       )}

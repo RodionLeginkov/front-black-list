@@ -94,8 +94,7 @@ function CurrentProject(props) {
   stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
   ));
-  
-  // console.log('projectOnPage', project)
+
   return (
     <div style={{ marginLeft: '85px' }}>
 

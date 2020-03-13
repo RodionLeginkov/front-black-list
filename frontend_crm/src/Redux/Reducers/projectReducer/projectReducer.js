@@ -10,7 +10,6 @@ import {
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
-import { filteredProjects } from '../../Actions/ProjectsActions/ProjectActions';
 
 const initialState = {
   filteredProjects: [],
@@ -81,9 +80,6 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
-      // const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id)
-      console.log('CURRENT', state.currentProject)
-      console.log('PAY', action.payload)
       return {
         ...state,
         currentProject: action.payload,

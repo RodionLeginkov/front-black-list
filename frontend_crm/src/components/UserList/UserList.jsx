@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
 import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';

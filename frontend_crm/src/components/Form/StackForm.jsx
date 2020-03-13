@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -34,17 +26,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 const names = [
 
   { tech: 'React' },
@@ -52,9 +33,6 @@ const names = [
   { tech: 'Express' },
   { tech: 'MongoDb' },
 ];
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 export default function StackForm(props) {
   const classes = useStyles();
@@ -83,7 +61,7 @@ export default function StackForm(props) {
       disableCloseOnSelect
       getOptionLabel={option => option.tech}
       onChange={handleChange}
-      defaultValue={stack}
+      value={stack}
       renderOption={(option, { selected }) => (
         <React.Fragment>
         
@@ -95,29 +73,6 @@ export default function StackForm(props) {
           <TextField {...params} variant="outlined" label="Stack" />
         )}
     />
-      {/* <FormControl
-        label="Stack"
-        value={stack}
-        variant="outlined"
-        className={clsx(classes.formControl, classes.inputForm)}
-      >
-        <InputLabel id="demo-mutiple-checkbox-label">Stack</InputLabel>
-        <Select
-        labelWidth={42}
-          multiple
-          value={stack}
-          onChange={handleChange}
-          renderValue={(selected) => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {names.map((name) => (
-            <MenuItem key={name.tech} value={name.tech}>
-              <Checkbox checked={stack.indexOf(name.tech) > -1} />
-              <ListItemText primary={name.tech} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl> */}
     </div>
   );
 }

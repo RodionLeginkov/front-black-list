@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
@@ -23,7 +23,7 @@ export default function CustomAvatar(props) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { users, addUserModalOpen, setAddUserModalOpen } = props;
+  const { users, setAddUserModalOpen } = props;
   
   function handleClick(userId) {
     dispatch(findUser(userId));

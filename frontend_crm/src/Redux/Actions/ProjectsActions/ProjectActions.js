@@ -66,10 +66,8 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
-    // console.log('PROJECT', project)
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
     const { data } = await patchProject(project, loginToken);
-    // console.log('DATA', data)
     dispatch({ type: EDIT_PROJECT, payload: data[0] });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
@@ -78,10 +76,8 @@ export const updateProject = (project) => async (dispatch) => {
 
 export const updateProjectDevelopers = (project) => async (dispatch) => {
   try {
-    // console.log('project', project)
     const loginToken = JSON.parse(localStorage.getItem('tokens'));
     const { data } = await patchProject(project, loginToken);
-    // console.log('data', data)
     dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data[0] });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_DEVELOPERS_ERROR, payload: error });

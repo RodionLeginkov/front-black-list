@@ -5,9 +5,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { deleteProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm';
 import { updateProjectDevelopers } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
@@ -49,7 +47,6 @@ export default function AddUserModal(props) {
         addUserModalOpen, setAddUserModalOpen, curProject, isEdit,
     } = props;
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
 
     const handleClose = () => {
@@ -72,7 +69,6 @@ export default function AddUserModal(props) {
         setProject(initialValue);
         setAddUserModalOpen(false);
       };
-    console.log('dev', project)
     const developersChange = (developers) => setProject({ ...project, developers });
 
     return (

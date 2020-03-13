@@ -100,8 +100,6 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
 
-  const addUser = () => setAddUserModalOpen(true);
-
   const stackList = card.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='small' />
   ));

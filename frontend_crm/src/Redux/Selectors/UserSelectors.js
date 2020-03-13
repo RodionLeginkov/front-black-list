@@ -18,7 +18,7 @@ const getUsersByRole = createSelector(
   getUsers,
   getRoleFilters,
   (users, roleFilters) => users.filter((user) => (
-    user.status && roleFilters.includes(user.status))),
+    user.role && roleFilters.includes(user.role))),
 );
 
 const getUsersByEmail = createSelector(

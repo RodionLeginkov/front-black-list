@@ -39,9 +39,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false);
   const [form, setState] = useState({
     email: '',
     password: '',
+
   });
 
   const onChangheEmail = (e) => {
@@ -52,6 +54,7 @@ export default function SignUp() {
   };
 
   const onChanghePassword = (e) => {
+    setOpen(false);
     setState({
       ...form,
       password: e.target.value,
@@ -63,26 +66,27 @@ export default function SignUp() {
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpen(false);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-
-    const login = {
-      email: form.email,
-      password: form.password,
-    };
-    try {
-      await axios.post(`${process.env.REACT_APP_BASE_API}users/signup`, login);
-      window.location = '/signin';
-    } catch (err) {
-      alert('Somthing is going wrong');
+    if (form.password.length > 6) {
+      const login = {
+        email: form.email,
+        password: form.password,
+      };
+      try {
+        await axios.post(`${process.env.REACT_APP_BASE_API}users/signup`, login);
+        window.location = '/signin';
+      } catch (err) {
+        alert('Something is going wrong');
+      }
+    } else {
+      setOpen(true);
     }
     //
   };
-  const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   return (
     <Container component="main" maxWidth="xs">
@@ -121,8 +125,6 @@ export default function SignUp() {
             value={form.password}
             onChange={onChanghePassword}
             onClick={handleClick}
-            // onMouseEnter={handleClick}
-            // onMouseOut={handleClick}
           />
           <Popover
             id={id}

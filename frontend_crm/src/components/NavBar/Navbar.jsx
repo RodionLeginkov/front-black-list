@@ -18,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
+import { useHistory } from 'react-router-dom';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
@@ -101,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MiniDrawer() {
   const classes = useStyles();
+  const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -134,7 +136,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography style={{ cursor: 'pointer', }} onClick={() => history.push('/')} variant="h6" noWrap>
             Exceed
           </Typography>
           <div className={classes.iconGroup}>

@@ -51,7 +51,6 @@ const projectReducer = (state = initialState, action) => {
         loadingProjects: true,
       };
     case LOAD_RPOJECT_SUCCESS:
-      console.log('allPRoj', action.payload)
       return {
         ...state,
         projects: action.payload,

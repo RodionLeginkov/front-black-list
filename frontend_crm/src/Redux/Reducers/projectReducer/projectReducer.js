@@ -51,6 +51,7 @@ const projectReducer = (state = initialState, action) => {
         loadingProjects: true,
       };
     case LOAD_RPOJECT_SUCCESS:
+      console.log('allPRoj', action.payload)
       return {
         ...state,
         projects: action.payload,
@@ -85,11 +86,14 @@ const projectReducer = (state = initialState, action) => {
         currentProject: action.payload,
       };
     case EDIT_PROJECT_DEVELOPERS:
-      const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id)
+      const allProj = state.filteredProjects;
+      const changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      delete allProj[changedProjectIndex];
+      allProj[changedProjectIndex] = action.payload 
       return {
         ...state,
-        projects: [...allProj, action.payload],
-        filteredProjects: [...allProj, action.payload],
+        projects: [...allProj],
+        filteredProjects: [...allProj],
         // currentProject: action.payload,
       };
     case EDIT_PROJECT_ERROR:

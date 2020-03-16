@@ -13,6 +13,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { useDispatch } from 'react-redux';
 import StackForm from '../../components/Form/StackForm';
 import DevelopersChooseForm from '../../components/DevelopersChooseForm';
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +68,8 @@ export default function ProjectModal(props) {
   const classes = useStyles();
 
   const initialValue = isEdit ? curProject : {
-    name: '', status: '', price: '', stack: [], description: '', _id: '', duration: '', developers: [],
+    name: '', status: '', paymentAmount: '', stack: [], description: '', _id: '', duration: '',
+    paymentType: '', developers: [],
   };
 
 
@@ -80,11 +83,12 @@ export default function ProjectModal(props) {
     setIsOpen(false);
   };
   const handleChange = (e) => {
+    console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
   };
   const stackChange = (stack) => setProject({ ...project, stack });
   const developersChange = (developers) => setProject({ ...project, developers });
-  
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
@@ -141,7 +145,7 @@ export default function ProjectModal(props) {
                     Status
                   </InputLabel>
                   <Select
-                  labelWidth={47}
+                    labelWidth={47}
                     name='status'
                     value={project.status}
                     onChange={handleChange}
@@ -175,7 +179,7 @@ export default function ProjectModal(props) {
                     <MenuItem value='Unexpected'>Unexpected</MenuItem>
                   </Select>
                 </FormControl>
-                <TextField
+                {/* <TextField
                   value={project.price || ''}
                   type="number"
                   style={{ marginLeft: 5 }}
@@ -185,7 +189,40 @@ export default function ProjectModal(props) {
                   className={classes.inputForm}
                   name='price'
                   onChange={handleChange}
-                />
+                /> */}
+                <FormControl
+                  style={{ marginLeft: 5 }}
+                  className={clsx(classes.formControl, classes.inputForm)}
+                  variant="outlined"
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">Payment</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-weight"
+                    value={project.paymentAmount}
+                    onChange={handleChange}
+                    name='paymentAmount'
+                    endAdornment={
+                      <InputAdornment position="end">
+                        {" "}
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          onChange={handleChange}
+                          name='paymentType'
+                        >
+                          <MenuItem value={'hourly'}>hourly</MenuItem>
+                          <MenuItem value={'flat rate'}>flat rate</MenuItem>
+                          <MenuItem value={'fixed'}>fixed</MenuItem>
+                        </Select>
+                      </InputAdornment>
+                    }
+                    aria-describedby="outlined-weight-helper-text"
+                    inputProps={{
+                      "aria-label": "weight"
+                    }}
+                    labelWidth={65}
+                  />
+                </FormControl>
               </div>
               <StackForm
                 name='stack'
@@ -193,7 +230,7 @@ export default function ProjectModal(props) {
                 stackValue={project.stack}
                 isEdit
               />
-              <DevelopersChooseForm 
+              <DevelopersChooseForm
                 name='developers'
                 developersChange={developersChange}
                 developersValue={project.developers}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
@@ -11,8 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { signUp } from '../../Redux/Actions/AuthActions/AuthActions.js';
 
-const count = 0;
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [form, setState] = useState({
     email: '',
@@ -76,12 +78,7 @@ export default function SignUp() {
         email: form.email,
         password: form.password,
       };
-      try {
-        await axios.post(`${process.env.REACT_APP_BASE_API}users/signup`, login);
-        window.location = '/signin';
-      } catch (err) {
-        alert('Something is going wrong');
-      }
+      dispatch(signUp(login));
     } else {
       setOpen(true);
     }

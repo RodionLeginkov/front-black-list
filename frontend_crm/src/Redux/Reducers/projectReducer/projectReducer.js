@@ -1,12 +1,12 @@
 import {
-  ADD_PROJECT,FILTER_PROJECT,
+  ADD_PROJECT, FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
-  ADD_PROJECT_BEGIN,EDIT_PROJECT_DEVELOPERS,
+  ADD_PROJECT_BEGIN, EDIT_PROJECT_DEVELOPERS,
   DELETE_PROJECT_ERROR,
   DELETE_PROJECT, FIND_PROJECT,
   ADD_RPOJECT_ERROR, LOAD_RPOJECT,
   LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
-  CURRENT_PROJECT,LOAD_CURRENT_PROJECT_SUCCESS,
+  CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
@@ -85,7 +85,7 @@ const projectReducer = (state = initialState, action) => {
         currentProject: action.payload,
       };
     case EDIT_PROJECT_DEVELOPERS:
-      const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id)
+      const allProj = state.filteredProjects.filter((p) => p._id !== action.payload._id);
       return {
         ...state,
         projects: [...allProj, action.payload],
@@ -103,29 +103,29 @@ const projectReducer = (state = initialState, action) => {
         loadingCurrentProjects: true,
       };
     case CURRENT_PROJECT:
-    return {
+      return {
         ...state,
         currentProject: action.payload,
         loadingCurrentUser: false,
       };
-      case LOAD_CURRENT_PROJECT_SUCCESS: 
-      return{
+    case LOAD_CURRENT_PROJECT_SUCCESS:
+      return {
         ...state,
         currentProject: action.payload,
         loadingCurrentUser: false,
-      }
-      case FILTER_PROJECT_NAME:
-        return {
-          ...state,
-          filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
-        }
-      case FILTER_PROJECT:
-        return { 
-            ...state,
-            filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status) 
+      };
+    case FILTER_PROJECT_NAME:
+      return {
+        ...state,
+        filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase())),
+      };
+    case FILTER_PROJECT:
+      return {
+        ...state,
+        filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status)
             || action.payload.includes(p.duration)
-            || action.payload.some(r => p.stack.includes(r))) : state.projects,
-        }
+            || action.payload.some((r) => p.stack.includes(r))) : state.projects,
+      };
     default:
       return state;
   }

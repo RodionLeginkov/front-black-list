@@ -1,14 +1,15 @@
-
-import React, { useContext } from 'react';
+import React from 'react';
+// import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../../context/auth';
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const { isAuthenticated } = useContext(AuthContext);
+  const isAuthenticated = localStorage.getItem('token');
+  console.log(isAuthenticated);
   return (
     <Route
       {...rest}
-      render={(props) => ((isAuthenticated !== 0) ? (
+      render={(props) => ((isAuthenticated !== null) ? (
         <Component {...props} />
       ) : (
         <Redirect to="/signin" />

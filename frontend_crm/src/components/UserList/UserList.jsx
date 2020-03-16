@@ -64,7 +64,7 @@ export default function CustomList(props) {
       </ListItem>
       <Divider variant="inset" component="li" />
     </div>
-  ));
+  );
 
   if (users.length > 0) {
     return (

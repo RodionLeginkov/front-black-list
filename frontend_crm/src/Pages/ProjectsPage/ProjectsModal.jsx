@@ -194,17 +194,21 @@ export default function ProjectModal(props) {
                   style={{ marginLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
+                  
                 >
                   <InputLabel htmlFor="outlined-adornment-password">Payment</InputLabel>
                   <OutlinedInput
+                  style={{paddingRight: 9 }} 
                     id="outlined-adornment-weight"
                     value={project.paymentAmount}
                     onChange={handleChange}
                     name='paymentAmount'
                     endAdornment={
-                      <InputAdornment position="end">
+                      <InputAdornment position="end" disableUnderline={true}>
                         {" "}
                         <Select
+                        disableUnderline={true}
+                          style={{minWidth: 0}}
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           onChange={handleChange}

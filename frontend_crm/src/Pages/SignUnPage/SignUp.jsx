@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import Popover from '@material-ui/core/Popover';
 import Grid from '@material-ui/core/Grid';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory();
+  const userAuth = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -47,6 +49,7 @@ export default function SignUp() {
     password: '',
 
   });
+
 
   const onChangheEmail = (e) => {
     setState({
@@ -84,6 +87,9 @@ export default function SignUp() {
     }
     //
   };
+  if (userAuth && userAuth.user) {
+    history.push('/signin');
+  }
   const id = open ? 'simple-popover' : undefined;
   return (
     <Container component="main" maxWidth="xs">

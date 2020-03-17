@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -43,15 +43,7 @@ export default function SignUp() {
     email: '',
     password: '',
   });
-  // useEffect(() => {
-  //   dispatch(getProjects());
-  //   dispatch(getUsers());
-  // }, [dispatch]);
-  if (userAuth && userAuth.user) {
-    localStorage.setItem('token', userAuth.user.token);
-    localStorage.setItem('status', userAuth.user.status);
-    history.push('/');
-  }
+
   const onChangheEmail = (e) => {
     setState({
       ...form,
@@ -66,20 +58,32 @@ export default function SignUp() {
     });
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
 
+  const onSubmit = (e) => {
+    e.preventDefault();
     const login = {
       email: form.email,
       password: form.password,
     };
-      // const result = await axios.post(`${process.env.REACT_APP_BASE_API}users/login`, login);
-      // localStorage.setItem('tokens', JSON.stringify(result.data));
-      // toggleAuth(result.data);
     dispatch(signIn(login));
-    // window.location = '/';
-    // if (localStorage.getItem('token') !== null) history.push('/');
   };
+  if (userAuth && userAuth.loggedIn) {
+    window.location = '/';
+    // history.push('/projects');
+  }
+  // if (userAuth && userAuth.user) {
+  //   // console.log(localStorage.getItem('token'));
+  //   if (localStorage.getItem('token') != null) history.push('/');
+  // }
+
+  // console.log(userAuth);
+  // if (userAuth && userAuth.user) {
+  // console.log(userAuth.user.token);
+  // if (localStorage.getItem('token') != null) return (<Redirect to="/" />);
+  // if (userAuth.user.token != null) return (<Redirect to="/" />);
+  // }
+
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

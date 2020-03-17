@@ -2,6 +2,7 @@ import { act } from 'react-dom/test-utils';
 import {
   SIGNUP_LOADING, SIGNUP_SUCCESS, SIGNUP_ERROR,
   SIGNIN_LOADING, SIGNIN_SUCCESS, SIGNIN_ERROR,
+  SIGNIN_LOGGEDIN,
 } from '../../ActionTypes/authTypes/authTypes';
 
 const intitialState = {
@@ -9,6 +10,7 @@ const intitialState = {
   user: null,
   loading: false,
   error: null,
+  loggedIn: false,
 };
 
 const authReducer = (state = intitialState, action) => {
@@ -23,17 +25,25 @@ const authReducer = (state = intitialState, action) => {
         ...state,
         user: action.payload,
         loading: false,
+        loggedIn: true,
+      };
+    case SIGNIN_LOGGEDIN:
+      return {
+        ...state,
+        loggedIn: false,
       };
     case SIGNIN_ERROR:
       return {
         ...state,
         error: true,
         loading: false,
+        loggedIn: false,
       };
     case SIGNUP_LOADING:
       return {
         ...state,
         loading: true,
+        loggedIn: false,
       };
     case SIGNUP_SUCCESS:
       return {
@@ -45,6 +55,7 @@ const authReducer = (state = intitialState, action) => {
       return {
         ...state,
         error: true,
+        loggedIn: false,
       };
     default:
       return state;

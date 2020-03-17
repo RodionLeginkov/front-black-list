@@ -5,7 +5,9 @@ import { Route, Redirect } from 'react-router-dom';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const isAuthenticated = localStorage.getItem('token');
-  console.log(isAuthenticated);
+  // console.log(isAuthenticated);
+  // console.log(typeof (isAuthenticated));
+  // console.log(isAuthenticated !== null);
   return (
     <Route
       {...rest}

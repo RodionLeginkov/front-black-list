@@ -7,11 +7,11 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    // border:'1px solid'
-  },
+  // formControl: {
+  //   margin: theme.spacing(1),
+  //   // minWidth: 120,
+  //   // border:'1px solid'
+  // },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -22,10 +22,9 @@ const useStyles = makeStyles((theme) => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
-  inputForm: {
-    width: '100%',
-    margin: '10px 0px 5px',
-  },
+  // inputForm: {
+  //   paddingRight: '10px'
+  // },
 }));
 
 export default function DevelopersChooseForm(props) {
@@ -40,7 +39,6 @@ export default function DevelopersChooseForm(props) {
 
   const  users = useSelector((state) => state.users.users)
   let filteredUsers = users;
-
   for (const index in developers){
     filteredUsers = filteredUsers.filter((user) => {
       return(

@@ -33,6 +33,7 @@ const projectReducer = (state = initialState, action) => {
         addingProject: true,
       };
     case ADD_PROJECT:
+      console.log('ACTION', action.payload)
       return {
         ...state,
         projects: [...state.projects, action.payload],

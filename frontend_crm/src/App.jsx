@@ -13,6 +13,7 @@ import SingleProjectPage from './Pages/SingleProjectPage/SingleProjectPage.jsx';
 import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
 import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
+import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx'
 
 
 const theme = createMuiTheme({
@@ -33,11 +34,12 @@ function App() {
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/users" component={Users} />
               <PrivateRoute exact path="/projects" component={Projects} />
+              <Route path="/projects/addproject" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
               <Route exact path="/users/:userId" component={SingleUserPage} />
-              <Route exact path="/signin" component={Signin} />
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/Forgot" component={Forgot} />
+              <Route  path="/signin" component={Signin} />
+              <Route  path="/signup" component={SignUp} />
+              <Route path="/Forgot" component={Forgot} />
               <Route exact path="/Reset/:token" component={ResetPassword} />
             </Switch>
           </div>

@@ -20,34 +20,29 @@ const useStyles = makeStyles((theme) => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
-  inputForm: {
-    width: '100%',
-    margin: '10px 0',
-  },
 }));
 
 const names = [
 
-  { tech: 'React' },
-  { tech: 'Node' },
-  { tech: 'Express' },
-  { tech: 'MongoDb' },
+  { type: 'Bank wire' },
+  { type: 'PayPal' },
+  { type: 'Payoneer' },
 ];
 
-export default function StackForm(props) {
+export default function WithdrawalOfFundsForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props; 
-  const [stack, setStack] = useState(isEdit ? stackValue : []);
+  const { withdrawalOfFundsChange, withdrawalOfFundsValue, isEdit } = props; 
+  const [withdrawalOfFunds, setWithdrawalOfFunds] = useState(isEdit ? withdrawalOfFundsValue : []);
   const handleChange = (event, values) => {
-    setStack(values);
-    stackChange(values);
+    setWithdrawalOfFunds(values);
+    withdrawalOfFundsChange(values);
   };
-  let filteredTechs = names
+  let filteredTypes = names
 
-  for (const index in stack){
-    filteredTechs = filteredTechs.filter((t) => {
+  for (const index in withdrawalOfFunds){
+    filteredTypes = filteredTypes.filter((t) => {
       return(
-      t.tech !== stack[index].tech)})
+      t.type !== withdrawalOfFunds[index].type)})
   }
 
   return (
@@ -57,20 +52,20 @@ export default function StackForm(props) {
       multiple
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
-      options={filteredTechs}
+      options={filteredTypes}
       disableCloseOnSelect
-      getOptionLabel={option => option.tech}
+      getOptionLabel={option => option.type}
       onChange={handleChange}
-      value={stack}
+      value={withdrawalOfFunds}
       renderOption={(option, { selected }) => (
         <React.Fragment>
         
-          {option.tech}
+          {option.type}
         </React.Fragment>
       )}
       style={{ width: '100%' }}
       renderInput={params => (
-          <TextField {...params} variant="outlined" label="Stack" />
+          <TextField {...params} variant="outlined" label="withdrawalOfFunds" />
         )}
     />
     </div>

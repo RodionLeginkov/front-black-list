@@ -21,7 +21,7 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-
+import AddProjectPage from '../ProjectsPage/AddProjectPage.jsx';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -142,7 +142,8 @@ function CurrentProject(props) {
           <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
           </Button>
-          <Button className={classes.button} onClick={() => setIsOpen(true)}>
+          <Button className={classes.button} 
+        onClick={() => history.push('/projects/addproject')}>
             <EditSharpIcon />
           </Button>
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
@@ -151,8 +152,8 @@ function CurrentProject(props) {
         </div>
       </Paper>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
-      <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit />
-     
+      {/* <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit /> */}
+      {/* <AddProjectPage curProject={{...project}} isEdit /> */}
     </div>
   );
 }

@@ -99,7 +99,7 @@ export default function RecipeReviewCard(props) {
     history.push(`/projects/${card._id}`);
   }
   const classes = useStyles();
-
+  
   const stackList = card.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='small' />
   ));

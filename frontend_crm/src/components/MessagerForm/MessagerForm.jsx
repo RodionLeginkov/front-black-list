@@ -22,32 +22,30 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    margin: '10px 0',
+    margin: '5px 0px 10px',
   },
 }));
 
-const names = [
-
-  { tech: 'React' },
-  { tech: 'Node' },
-  { tech: 'Express' },
-  { tech: 'MongoDb' },
+const messegers = [
+  { tech: 'Slack' },
+  { tech: 'Skype' },
+  { tech: 'Whatsapp' },
 ];
 
-export default function StackForm(props) {
+export default function MessagerForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props; 
-  const [stack, setStack] = useState(isEdit ? stackValue : []);
+  const { messagerChange, messagerValue, isEdit } = props; 
+  const [messager, setMessager] = useState(isEdit ? messagerValue : []);
   const handleChange = (event, values) => {
-    setStack(values);
-    stackChange(values);
+    setMessager(values);
+    messagerChange(values);
   };
-  let filteredTechs = names
+  let filteredMessagers = messegers
 
-  for (const index in stack){
-    filteredTechs = filteredTechs.filter((t) => {
+  for (const index in messager){
+    filteredMessagers = filteredMessagers.filter((t) => {
       return(
-      t.tech !== stack[index].tech)})
+      t.tech !== messager[index].tech)})
   }
 
   return (
@@ -57,11 +55,11 @@ export default function StackForm(props) {
       multiple
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
-      options={filteredTechs}
+      options={filteredMessagers}
       disableCloseOnSelect
       getOptionLabel={option => option.tech}
       onChange={handleChange}
-      value={stack}
+      value={messager}
       renderOption={(option, { selected }) => (
         <React.Fragment>
         
@@ -70,7 +68,7 @@ export default function StackForm(props) {
       )}
       style={{ width: '100%' }}
       renderInput={params => (
-          <TextField {...params} variant="outlined" label="Stack" />
+          <TextField {...params} variant="outlined" label="Messagers" />
         )}
     />
     </div>

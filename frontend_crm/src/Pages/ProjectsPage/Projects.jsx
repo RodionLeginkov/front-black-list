@@ -39,12 +39,30 @@ const useStyles = makeStyles({
   },
 });
 
+
+// {isadmin
+//   ? (
+//     <Button
+//       variant="contained"
+//       color="primary"
+//       size="large"
+//       className={classes.button}
+//       onClick={() => setIsOpen(true)}
+//     >
+//       Add project
+//     </Button>
+//   ) : ''}
+
+
 export default function StickyHeadTable() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects.filteredProjects);
   const loading = useSelector((state) => state.projects.loadingProjects);
+  // console.log(localStorage.getItem('user'));
+  const isadmin = JSON.parse(localStorage.getItem('user'));
+  console.log(isadmin.isAdmin);
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getUsers());
@@ -58,15 +76,19 @@ export default function StickyHeadTable() {
     <div style={{ marginLeft: '85px' }}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-          onClick={() => setIsOpen(true)}
-        >
-          Add project
-        </Button>
+        {' '}
+        {!isadmin.isAdmin
+          ? (
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              onClick={() => setIsOpen(true)}
+            >
+              Add project
+            </Button>
+          ) : ''}
       </div>
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>

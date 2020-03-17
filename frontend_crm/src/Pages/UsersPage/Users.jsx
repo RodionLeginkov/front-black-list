@@ -38,8 +38,8 @@ function Users() {
   const users = useSelector((state) => state.users.filteredUsers);
   const loading = useSelector((state) => state.users.loadingUsers);
 
-  console.log(loading)
-  
+  // console.log(loading)
+
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);

@@ -10,7 +10,7 @@ export const signUp = (user) => async (dispatch) => {
     const { data } = await signUpNewUser(user);
     dispatch({ type: SIGNUP_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: SIGNIN_ERROR, payload: error });
+    dispatch({ type: SIGNUP_ERROR, payload: error });
   }
 };
 
@@ -26,6 +26,6 @@ export const signIn = (user) => async (dispatch) => {
     localStorage.setItem('user', JSON.stringify(data));
     dispatch({ type: SIGNIN_LOGGEDIN });
   } catch (error) {
-    dispatch({ type: SIGNUP_ERROR, payload: error });
+    dispatch({ type: SIGNIN_ERROR, payload: error });
   }
 };

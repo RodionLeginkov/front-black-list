@@ -19,6 +19,7 @@ const authReducer = (state = intitialState, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
       };
     case SIGNIN_SUCCESS:
       return {
@@ -26,11 +27,13 @@ const authReducer = (state = intitialState, action) => {
         user: action.payload,
         loading: false,
         loggedIn: true,
+        error: null,
       };
     case SIGNIN_LOGGEDIN:
       return {
         ...state,
         loggedIn: false,
+        error: null,
       };
     case SIGNIN_ERROR:
       return {

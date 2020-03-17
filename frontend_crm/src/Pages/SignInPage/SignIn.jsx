@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
 import { useHistory, Link, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  typography: {
+    padding: theme.spacing(2),
+  },
 }));
 
 export default function SignUp() {
@@ -39,10 +43,12 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const userAuth = useSelector((state) => state.auth);
+  const [open, setOpen] = useState(false);
   const [form, setState] = useState({
     email: '',
     password: '',
   });
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const onChangheEmail = (e) => {
     setState({
@@ -52,10 +58,17 @@ export default function SignUp() {
   };
 
   const onChanghePassword = (e) => {
+    setOpen(false);
     setState({
       ...form,
       password: e.target.value,
     });
+  };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
 
@@ -66,11 +79,17 @@ export default function SignUp() {
       password: form.password,
     };
     dispatch(signIn(login));
+    // if (userAuth && userAuth.error)setOpen(true);
   };
+
+  // console.log(userAuth.error);
   if (userAuth && userAuth.loggedIn) {
     window.location = '/';
     // history.push('/projects');
   }
+
+  // console.log(userAuth.error);
+  // if (userAuth.error) alert('error');
   // if (userAuth && userAuth.user) {
   //   // console.log(localStorage.getItem('token'));
   //   if (localStorage.getItem('token') != null) history.push('/');
@@ -83,7 +102,7 @@ export default function SignUp() {
   // if (userAuth.user.token != null) return (<Redirect to="/" />);
   // }
 
-
+  const id = open ? 'simple-popover' : undefined;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -120,7 +139,24 @@ export default function SignUp() {
             autoComplete="current-password"
             value={form.password}
             onChange={onChanghePassword}
+            onClick={handleClick}
           />
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'center',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'center',
+              horizontal: 'left',
+            }}
+          >
+            <Typography className={classes.typography}>Password or email is wrong</Typography>
+          </Popover>
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

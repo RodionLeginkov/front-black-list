@@ -63,10 +63,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#1240AB',
   },
   middle: {
-    backgroundColor: '#6F0AAA	',
+    backgroundColor: '#6F0AAA',
   },
   senior: {
-    backgroundColor: '#00C90D	',
+    backgroundColor: '#00C90D',
+  },
+  role: {
+    backgroundColor: '#964994',
   },
   duration: {
     marginTop: 3,
@@ -99,6 +102,7 @@ export default function CustomBadge(props) {
     [classes.junior]: position === 'junior',
     [classes.middle]: position === 'middle',
     [classes.senior]: position === 'senior',
+    [classes.role]: !!position === true,
   }, className);
 
 

@@ -118,10 +118,10 @@ function UserInfo({ match: { params: { userId } } }) {
   return (
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Link color="inherit" onClick={() => history.push('/users')}   >
-        Developers
+        <Link color="inherit" onClick={() => history.push('/users')}>
+          Developers
         </Link>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)} >{user.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>

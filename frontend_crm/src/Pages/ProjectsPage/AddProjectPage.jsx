@@ -99,7 +99,7 @@ export default function AddProjectPage(props) {
   const allProjects = useSelector((state) => state.projects.projects)
   let curProject = null;
   if (projectId) (curProject = allProjects.find((p) => p._id === projectId))
-  console.log('curProject',curProject)
+  console.log('curProject', curProject)
 
   const initialValue = projectId ? curProject : {
     _id: '', status: '', stack: [],
@@ -110,15 +110,13 @@ export default function AddProjectPage(props) {
     projectImage: '', developers: [],
   };
 
-
   const [project, setProject] = useState(initialValue);
+  console.log('DEVELOPERS',project)
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleClose = () => {
-    setProject(initialValue);
-  };
+
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
@@ -163,9 +161,9 @@ export default function AddProjectPage(props) {
           <Link color="inherit" onClick={() => history.push('/projects')}   >
             Projects
         </Link>
-        <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}   >
+          <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}   >
             {project.name}
-        </Link>
+          </Link>
           <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)} >Edit project</Typography>
         </Breadcrumbs>}
       <div className={classes.position} style={{ marginLeft: '85px' }}>
@@ -190,7 +188,7 @@ export default function AddProjectPage(props) {
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
-                  style={{ marginRight: 10 }}
+                  style={{ marginRight: 5 }}
                 >
                   <InputLabel >
                     Status
@@ -210,7 +208,7 @@ export default function AddProjectPage(props) {
                   </Select>
                 </FormControl>
                 <FormControl
-                  // style={{ marginLeft: 10 }}
+                  style={{ marginLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
 
@@ -291,28 +289,32 @@ export default function AddProjectPage(props) {
                 projectId
               /> */}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
-                <TextField
-                  style={{ width: '49%' }}
-                  value={project.type}
-                  variant="outlined"
-                  id="standard-multiline-flexible"
-                  label="Type"
-                  multiline
-                  rowsMax="5"
-                  name='type'
-                  onChange={handleChange}
-                />
-                <TextField
-                  style={{ width: '49%' }}
-                  value={project.source}
-                  variant="outlined"
-                  id="standard-multiline-flexible"
-                  label="Source"
-                  multiline
-                  rowsMax="5"
-                  name='source'
-                  onChange={handleChange}
-                />
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ width: '100%', paddingRight: 5  }}
+                    value={project.type}
+                    variant="outlined"
+                    id="standard-multiline-flexible"
+                    label="Type"
+                    multiline
+                    rowsMax="5"
+                    name='type'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ width: '100%', paddingLeft: 5  }}
+                    value={project.source}
+                    variant="outlined"
+                    id="standard-multiline-flexible"
+                    label="Source"
+                    multiline
+                    rowsMax="5"
+                    name='source'
+                    onChange={handleChange}
+                  />
+                </Grid>
               </Grid>
               <TextField
                 style={{ width: '100%' }}
@@ -400,7 +402,7 @@ export default function AddProjectPage(props) {
                     name='developers'
                     developersChange={developersChange}
                     developersValue={project.developers}
-                    projectId />
+                    isEdit/>
                 </Grid>
                 {/* <Grid item xs={6}>
                   <TextField

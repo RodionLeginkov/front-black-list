@@ -1,12 +1,12 @@
 import {
-  ADD_PROJECT,FILTER_PROJECT,
+  ADD_PROJECT, FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
-  ADD_PROJECT_BEGIN,EDIT_PROJECT_DEVELOPERS,
+  ADD_PROJECT_BEGIN, EDIT_PROJECT_DEVELOPERS,
   DELETE_PROJECT_ERROR,
   DELETE_PROJECT, FIND_PROJECT,
   ADD_RPOJECT_ERROR, LOAD_RPOJECT,
   LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
-  CURRENT_PROJECT,LOAD_CURRENT_PROJECT_SUCCESS,
+  CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
@@ -34,7 +34,7 @@ const projectReducer = (state = initialState, action) => {
         addingProject: true,
       };
     case ADD_PROJECT:
-      console.log('ACTION', action.payload)
+
       return {
         ...state,
         projects: [...state.projects, action.payload],
@@ -82,15 +82,21 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
-      return {
-        ...state,
-        cur: action.payload,
-      };
-    case EDIT_PROJECT_DEVELOPERS:
       const allProj = state.filteredProjects;
       const changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
       delete allProj[changedProjectIndex];
-      allProj[changedProjectIndex] = action.payload 
+      allProj[changedProjectIndex] = action.payload
+      return {
+        ...state,
+        projects: [...allProj],
+        filteredProjects: [...allProj],
+        currentProject: action.payload,
+      };
+    case EDIT_PROJECT_DEVELOPERS:
+       allProj = state.filteredProjects;
+       changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      delete allProj[changedProjectIndex];
+      allProj[changedProjectIndex] = action.payload
       return {
         ...state,
         projects: [...allProj],
@@ -108,29 +114,29 @@ const projectReducer = (state = initialState, action) => {
         loadingCurrentProjects: true,
       };
     case CURRENT_PROJECT:
-    return {
+      return {
         ...state,
         currentProject: action.payload,
         loadingCurrentUser: false,
       };
-      case LOAD_CURRENT_PROJECT_SUCCESS: 
-      return{
+    case LOAD_CURRENT_PROJECT_SUCCESS:
+      return {
         ...state,
         currentProject: action.payload,
         loadingCurrentUser: false,
       }
-      case FILTER_PROJECT_NAME:
-        return {
-          ...state,
-          filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
-        }
-      case FILTER_PROJECT:
-        return { 
-            ...state,
-            filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status) 
-            || action.payload.includes(p.duration)
-            || action.payload.some(r => p.stack.includes(r))) : state.projects,
-        }
+    case FILTER_PROJECT_NAME:
+      return {
+        ...state,
+        filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
+      }
+    case FILTER_PROJECT:
+      return {
+        ...state,
+        filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status)
+          || action.payload.includes(p.duration)
+          || action.payload.some(r => p.stack.includes(r))) : state.projects,
+      }
     default:
       return state;
   }

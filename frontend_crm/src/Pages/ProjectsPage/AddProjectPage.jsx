@@ -99,7 +99,7 @@ export default function AddProjectPage(props) {
   const allProjects = useSelector((state) => state.projects.projects)
   let curProject = null;
   if (projectId) (curProject = allProjects.find((p) => p._id === projectId))
-  console.log(curProject)
+  console.log('curProject',curProject)
 
   const initialValue = projectId ? curProject : {
     _id: '', status: '', stack: [],
@@ -136,12 +136,13 @@ export default function AddProjectPage(props) {
     e.preventDefault();
     if (projectId) {
       dispatch(updateProject(project));
+      history.push(`/projects/${project._id}`);
     } else {
       console.log('DATE', typeof (project.startDate))
       dispatch(addProject(project));
       setProject(initialValue);
+      history.push('/projects');
     }
-    history.push('/projects');
   };
 
   const handleCancel = (e) => {

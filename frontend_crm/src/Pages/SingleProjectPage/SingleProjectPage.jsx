@@ -91,6 +91,8 @@ function CurrentProject(props) {
   let stackList = [];
   if (!project) { return (<Loading />); }
   
+
+  console.log('PROJECT', project)
   stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
   ));

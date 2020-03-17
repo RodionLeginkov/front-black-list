@@ -7,17 +7,15 @@ import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import CardMedia from '@material-ui/core/CardMedia';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
 import Loading from '../../components/Loading/index.jsx';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -31,6 +29,7 @@ const useStyles = makeStyles(() => ({
     margin: '0 auto',
     maxWidth: '900px',
     marginTop: '30px',
+    color: '#444',
   },
   content: {
     margin: '0px 20px',
@@ -41,15 +40,32 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
   },
   userImage: {
-    maxWidth: 240,
+    width: 160,
+    height: 160,
+    borderRadius: 120,
+    backgroundSize: 'cover !important',
+    margin: 20,
+    boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
   },
   col: {
     display: 'flex',
     flexDirection: 'column',
   },
+  leftCol: {
+    display: 'flex',
+    flexDirection: 'column',
+    borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+  },
   row: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  fieldName: {
+    display: 'block;',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
   },
   body: {
     padding: '10px 10px 10px 20px',
@@ -84,6 +100,12 @@ const useStyles = makeStyles(() => ({
     margin: '85px 20px',
     color: '#777777',
   },
+  link: {
+    '&:hover': {
+      textDecoration: 'underline',
+      cursor: 'pointer',
+    },
+  },
 }));
 
 
@@ -112,15 +134,15 @@ function UserInfo({ match: { params: { userId } } }) {
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
   const stackList = user.stack.map((element) => (
-    <StackIcon key={Math.random()} tech={element} size='medium' /> // /////////////////////////////
+    <StackIcon key={Math.random()} tech={element} size='medium' />
   ));
 
   return (
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Link color="inherit" onClick={() => history.push('/users')}>
+        <Typography className={classes.link} onClick={() => history.push('/users')}>
           Developers
-        </Link>
+        </Typography>
         <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
@@ -132,23 +154,14 @@ function UserInfo({ match: { params: { userId } } }) {
         </div>
         <Divider />
         <div className={classes.row}>
-          <div className={classes.col}>
-            <div className={classes.userImage}>
-              <CardMedia
-                component="img"
-                alt="User avatar"
-                height="240"
-                image={imgUrl}
-                title="User avatar"
-              />
-            </div>
-            <span className={classes.fieldTitle}>
+          <div className={classes.leftCol}>
+            <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
+            <span className={classes.fieldName}>
               {user.name}
               {' '}
               {user.surname}
             </span>
           </div>
-          <Divider orientation="vertical" />
           <div className={classes.col}>
             <div className={classes.body}>
               <div className={classes.field}>
@@ -167,6 +180,12 @@ function UserInfo({ match: { params: { userId } } }) {
                 <span className={classes.fieldTitle}>Stack: </span>
                 <div className={classes.fieldValue}>
                   {stackList}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>English level: </span>
+                <div className={classes.fieldValue}>
+                  {user.englishLevel}
                 </div>
               </div>
             </div>

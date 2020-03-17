@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
   },
   role: {
     backgroundColor: '#964994',
+    transition: 'all 0.25s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
+      cursor: 'default',
+    },
   },
   duration: {
     marginTop: 3,

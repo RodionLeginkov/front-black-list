@@ -15,7 +15,7 @@ const initialState = {
   filters: {
     name: '',
     skill: [],
-    role: ['junior', 'middle', 'senior'],
+    role: ['all'],
     englishLevel: [],
     email: '',
     phone: '',

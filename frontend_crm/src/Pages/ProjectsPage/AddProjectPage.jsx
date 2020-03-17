@@ -6,7 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddProjectForm from './AddProjectForm';
 import { TextField } from '@material-ui/core';
@@ -95,12 +95,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function AddProjectPage(props) {
-  const {
-    curProject,
-    isEdit,
-  } = props;
+  const projectId = props.match.params.projectId
+  const allProjects = useSelector((state) => state.projects.projects)
+  let curProject = null;
+  if (projectId) (curProject = allProjects.find((p) => p._id === projectId))
+  console.log(curProject)
 
-  const initialValue = isEdit ? curProject : {
+  const initialValue = projectId ? curProject : {
     _id: '', status: '', stack: [],
     duration: '', group: [], name: '', comunication: [], messager: [],
     startDate: null, endDatе: null, type: '', source: '',
@@ -121,7 +122,6 @@ export default function AddProjectPage(props) {
   const handleChange = (e) => {
     console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
-
   };
 
   const stackChange = (stack) => setProject({ ...project, stack });
@@ -134,7 +134,7 @@ export default function AddProjectPage(props) {
   const onSubmit = (e) => {
     console.log('project', project)
     e.preventDefault();
-    if (isEdit) {
+    if (projectId) {
       dispatch(updateProject(project));
     } else {
       console.log('DATE', typeof (project.startDate))
@@ -151,13 +151,22 @@ export default function AddProjectPage(props) {
 
   return (
     <>
-      {!isEdit ?
+      {!projectId ?
         <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
           <Link color="inherit" onClick={() => history.push('/projects')}   >
             Projects
         </Link>
           <Typography color="textPrimary" onClick={() => history.push(`/projects/addproject`)} >Add new project</Typography>
-        </Breadcrumbs> : ('')}
+        </Breadcrumbs> :
+        <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Link color="inherit" onClick={() => history.push('/projects')}   >
+            Projects
+        </Link>
+        <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}   >
+            {project.name}
+        </Link>
+          <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)} >Edit project</Typography>
+        </Breadcrumbs>}
       <div className={classes.position} style={{ marginLeft: '85px' }}>
         <Paper className={classes.root}>
           <div
@@ -272,13 +281,13 @@ export default function AddProjectPage(props) {
                 name='messager'
                 messagerChange={messagerChange}
                 messagerValue={project.messager}
-                isEdit
+                projectId
               />
               {/* <StackForm
                 name='stack'
                 stackChange={stackChange}
                 stackValue={project.stack}
-                isEdit
+                projectId
               /> */}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
                 <TextField
@@ -333,7 +342,7 @@ export default function AddProjectPage(props) {
                     name='withdrawalOfFunds'
                     withdrawalOfFundsChange={withdrawalOfFundsChange}
                     withdrawalOfFundsValue={project.withdrawalOfFunds}
-                    isEdit
+                    projectId
                   /> */}
                   <FormControl
                     placeholder='Withdrawal of funds'
@@ -390,7 +399,7 @@ export default function AddProjectPage(props) {
                     name='developers'
                     developersChange={developersChange}
                     developersValue={project.developers}
-                    isEdit />
+                    projectId />
                 </Grid>
                 {/* <Grid item xs={6}>
                   <TextField

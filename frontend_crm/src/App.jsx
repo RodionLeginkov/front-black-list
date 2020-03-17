@@ -35,6 +35,7 @@ function App() {
               <PrivateRoute exact path="/users" component={Users} />
               <PrivateRoute exact path="/projects" component={Projects} />
               <Route path="/projects/addproject" component={AddProjectPage} />
+              <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
               <Route exact path="/users/:userId" component={SingleUserPage} />
               <Route  path="/signin" component={Signin} />

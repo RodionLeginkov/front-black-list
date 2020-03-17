@@ -143,7 +143,7 @@ function CurrentProject(props) {
             <ArrowBackIosIcon />
           </Button>
           <Button className={classes.button} 
-        onClick={() => history.push('/projects/addproject')}>
+        onClick={() => history.push(`/projects/editproject/${project._id}`)}>
             <EditSharpIcon />
           </Button>
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>

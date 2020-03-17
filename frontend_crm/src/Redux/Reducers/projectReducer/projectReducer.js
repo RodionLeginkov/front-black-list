@@ -19,6 +19,7 @@ const initialState = {
   loadingProjects: false,
   loadingProjectsError: null,
   loadingCurrentProjects: false,
+  editedProject: null,
   currentProject: null,
   deleteProjecError: false,
   patchProjecError: false,
@@ -83,7 +84,7 @@ const projectReducer = (state = initialState, action) => {
     case EDIT_PROJECT:
       return {
         ...state,
-        currentProject: action.payload,
+        cur: action.payload,
       };
     case EDIT_PROJECT_DEVELOPERS:
       const allProj = state.filteredProjects;
@@ -99,7 +100,7 @@ const projectReducer = (state = initialState, action) => {
     case EDIT_PROJECT_ERROR:
       return {
         ...state,
-        editProjectError: action.payload,
+        currentProject: action.payload,
       };
     case LOAD_CURRENT_PROJECT:
       return {

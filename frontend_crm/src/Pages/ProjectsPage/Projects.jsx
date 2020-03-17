@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 import Loading from '../../components/Loading';
 
@@ -51,7 +51,7 @@ export default function StickyHeadTable() {
   }, [dispatch]);
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (

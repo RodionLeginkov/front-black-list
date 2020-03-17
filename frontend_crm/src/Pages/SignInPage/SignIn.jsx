@@ -1,19 +1,18 @@
-import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { AuthContext } from '../../context/auth';
-
+import { signIn } from '../../Redux/Actions/AuthActions/AuthActions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,8 +35,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const { toggleAuth } = useContext(AuthContext);
+  const history = useHistory();
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const userAuth = useSelector((state) => state.auth);
   const [form, setState] = useState({
     email: '',
     password: '',
@@ -57,25 +58,31 @@ export default function SignUp() {
     });
   };
 
-  const onSubmit = async (e) => {
+
+  const onSubmit = (e) => {
     e.preventDefault();
-
-
     const login = {
       email: form.email,
       password: form.password,
     };
-    try {
-      const result = await axios.post(`${process.env.REACT_APP_BASE_API}users/login`, login);
-      localStorage.setItem('tokens', JSON.stringify(result.data));
-      toggleAuth(result.data);
-
-      window.location = '/';
-    } catch (err) {
-      alert('Wrong loggin or password');
-    }
-    //
+    dispatch(signIn(login));
   };
+  if (userAuth && userAuth.loggedIn) {
+    window.location = '/';
+    // history.push('/projects');
+  }
+  // if (userAuth && userAuth.user) {
+  //   // console.log(localStorage.getItem('token'));
+  //   if (localStorage.getItem('token') != null) history.push('/');
+  // }
+
+  // console.log(userAuth);
+  // if (userAuth && userAuth.user) {
+  // console.log(userAuth.user.token);
+  // if (localStorage.getItem('token') != null) return (<Redirect to="/" />);
+  // if (userAuth.user.token != null) return (<Redirect to="/" />);
+  // }
+
 
   return (
     <Container component="main" maxWidth="xs">

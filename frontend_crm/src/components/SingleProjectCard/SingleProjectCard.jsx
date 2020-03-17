@@ -119,7 +119,7 @@ export default function RecipeReviewCard(props) {
           <CardContent>
             <div className={classes.projectInfo}>
               <div className={classes.priceAndDuration}>
-                <CustomBadge text={`${card.price}$/hour`} theme="price" />
+                <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" />
                 <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px' }} />
               </div>
               <div>

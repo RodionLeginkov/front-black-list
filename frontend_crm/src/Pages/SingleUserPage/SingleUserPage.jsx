@@ -15,6 +15,9 @@ import Loading from '../../components/Loading/index.jsx';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -114,10 +117,12 @@ function UserInfo({ match: { params: { userId } } }) {
 
   return (
     <div className={classes.container}>
-      <h5 className={classes.breadcrumbs}>
-        Developers/
-        {user.name || user.login}
-      </h5>
+      <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Link color="inherit" onClick={() => history.push('/users')}   >
+        Developers
+        </Link>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)} >{user.name}</Typography>
+      </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
           <h1>{user.name || user.login}</h1>

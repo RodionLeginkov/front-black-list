@@ -8,11 +8,11 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
+import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
 
 import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
-import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
-
+  
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -31,13 +31,15 @@ export default function CustomList(props) {
   const { users } = props;
 
 
+
   function handleClick(userId) {
     dispatch(findUser(userId));
     history.push(`/users/${userId}`);
   }
 
 
-  const devList = users.map((user) => (
+  const devList = users.map((user) =>
+
     <div key={user._id}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
@@ -64,8 +66,7 @@ export default function CustomList(props) {
       </ListItem>
       <Divider variant="inset" component="li" />
     </div>
-  ));
-
+  );
   if (users.length > 0) {
     return (
       <div style={{ marginLeft: '20px', display: 'flex' }}>
@@ -76,7 +77,6 @@ export default function CustomList(props) {
       </div>
     );
   }
-
   return (
     <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
       <h2>Developers:</h2>

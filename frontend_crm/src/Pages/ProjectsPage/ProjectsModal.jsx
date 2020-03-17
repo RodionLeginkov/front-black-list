@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
-import InputLabel from '@material-ui/core/InputLabel';
 import { useDispatch } from 'react-redux';
-import StackForm from '../../components/Form/StackForm';
-import DevelopersChooseForm from '../../components/DevelopersChooseForm';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import AddProjectForm from './AddProjectForm';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -61,17 +54,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProjectModal(props) {
   const {
-    isOpen, setIsOpen, curProject, isEdit,
+    isOpen, 
+    setIsOpen, 
+    curProject, 
+    isEdit,
   } = props;
-  const classes = useStyles();
 
   const initialValue = isEdit ? curProject : {
-    name: '', status: '', price: '', stack: [], description: '', _id: '', duration: '', developers: [],
+    name: '', status: '', paymentAmount: '', stack: [], description: '', _id: '', duration: '',
+    paymentType: '', developers: [],
   };
-
-
+  
   const [project, setProject] = useState(initialValue);
-
+  const classes = useStyles();
   const dispatch = useDispatch();
 
 
@@ -80,11 +75,12 @@ export default function ProjectModal(props) {
     setIsOpen(false);
   };
   const handleChange = (e) => {
+    console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
   };
   const stackChange = (stack) => setProject({ ...project, stack });
   const developersChange = (developers) => setProject({ ...project, developers });
-  
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (isEdit) {
@@ -119,116 +115,7 @@ export default function ProjectModal(props) {
       >
         <Fade in={isOpen}>
           <div className={clsx(classes.paper, classes.modalWidth)}>
-            <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
-              <h2>Add new project</h2>
-              <TextField
-                value={project.name}
-                label="Project Name"
-                variant="outlined"
-                inputProps={{ 'aria-label': 'description' }}
-                className={classes.inputForm}
-                name='name'
-                onChange={handleChange}
-              />
-              <div className={classes.smallForm}>
-                <FormControl
-                  placeholder='Status'
-                  variant="outlined"
-                  className={clsx(classes.formControl, classes.inputForm)}
-                  style={{ marginRight: 5 }}
-                >
-                  <InputLabel >
-                    Status
-                  </InputLabel>
-                  <Select
-                  labelWidth={47}
-                    name='status'
-                    value={project.status}
-                    onChange={handleChange}
-                    className={classes.selectEmpty}
-                  >
-                    <MenuItem value="active">Active</MenuItem>
-                    <MenuItem value="completed">Completed</MenuItem>
-                    <MenuItem value="pending">Pending</MenuItem>
-                    <MenuItem value="onGoing">On going</MenuItem>
-                    <MenuItem value="stopped">Stopped</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl
-                  placeholder='Duration'
-                  variant="outlined"
-                  className={clsx(classes.formControl, classes.inputForm)}
-                >
-                  <InputLabel >
-                    Duration
-                  </InputLabel>
-                  <Select
-                    name='duration'
-                    className={classes.selectEmpty}
-                    value={project.duration}
-                    onChange={handleChange}
-                    labelWidth={62}
-                  >
-                    <MenuItem value='1-3 months'>1-3 months</MenuItem>
-                    <MenuItem value='3-6 months'>3-6 months</MenuItem>
-                    <MenuItem value='6-12 months'>6-12 months</MenuItem>
-                    <MenuItem value='Unexpected'>Unexpected</MenuItem>
-                  </Select>
-                </FormControl>
-                <TextField
-                  value={project.price || ''}
-                  type="number"
-                  style={{ marginLeft: 5 }}
-                  variant="outlined"
-                  label="Price"
-                  inputProps={{ 'aria-label': 'description' }}
-                  className={classes.inputForm}
-                  name='price'
-                  onChange={handleChange}
-                />
-              </div>
-              <StackForm
-                name='stack'
-                stackChange={stackChange}
-                stackValue={project.stack}
-                isEdit
-              />
-              <DevelopersChooseForm 
-                name='developers'
-                developersChange={developersChange}
-                developersValue={project.developers}
-                isEdit />
-              <TextField
-                value={project.description}
-                variant="outlined"
-                id="standard-multiline-flexible"
-                label="Description"
-                multiline
-                rowsMax="5"
-                className={classes.descriptionForm}
-                name='description'
-                onChange={handleChange}
-              />
-              <div className={classes.buttons}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className={classes.submitButton}
-                >
-                  Submit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className={classes.submitButton}
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
+            <AddProjectForm project={project} projectChange={handleChange} stackChange={stackChange} developersChange={developersChange} submit={onSubmit}/>
           </div>
         </Fade>
       </Modal>

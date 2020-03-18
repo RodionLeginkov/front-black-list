@@ -15,6 +15,13 @@ const useStyles = makeStyles({
     width: '100%',
     marginRight: 20,
     marginBottom: 20,
+    background: '#fff',
+    borderRadius: 2,
+    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+    transition: 'all 0.25s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+    },
   },
   row: {
     display: 'flex',
@@ -67,7 +74,7 @@ const UserCard = ({
             </div>
             <div className={classes.roleBadge}>
               <CustomBage
-                text={userPosition || 'udefined'}
+                text={userPosition}
                 size="medium"
                 position={userPosition}
                 className={classes.bage}

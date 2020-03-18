@@ -35,10 +35,9 @@ function Users() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.filteredUsers);
+  const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
 
-  
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);

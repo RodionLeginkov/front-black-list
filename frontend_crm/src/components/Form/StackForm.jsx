@@ -66,13 +66,12 @@ export default function StackForm(props) {
         value={stackValue}
         renderOption={(option, { selected }) => (
           <React.Fragment>
-
             {option.tech}
           </React.Fragment>
         )}
         style={{ width: '100%' }}
         renderInput={params => (
-          <TextField {...params} variant="outlined" label="Stack" />
+          <TextField error {...params} variant="outlined" label="Stack" />
         )}
       />
     </div>

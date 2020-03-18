@@ -29,6 +29,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { object } from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -106,9 +107,10 @@ function AddProjectPage(props) {
     load: '', description: '', resources: [], history: '',
     projectImage: '', developers: [],
   };
-
+  const reqFields = ['comunication', 'name', 'messager', 'startDate', 'type', 'source', 'withdrawalOfFunds', 'owner',
+    'paymentType', 'paymentAmount', 'load', 'description', 'resources', 'developers', 'status', 'duration']
   const [project, setProject] = useState(initialValue);
-
+  const [isError, setIsError] = useState(false)
   useEffect(() => {
     setProject(initialValue);
   }, [loading])
@@ -144,15 +146,20 @@ function AddProjectPage(props) {
   const startDateChange = (startDate) => setProject({ ...project, startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
 
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (projectId) {
-      dispatch(updateProject(project));
-      history.push(`/projects/${project._id}`);
-    } else {
-      dispatch(addProject(project));
-      history.push('/projects');
-    }
+    // const isEmpty = reqFields.find((field) => !project.field)
+    // if (!isEmpty) {
+      if (projectId) {
+        dispatch(updateProject(project));
+        history.push(`/projects/${project._id}`);
+      } else {
+        dispatch(addProject(project));
+        history.push('/projects');
+      }
+    // }
+    // else setIsError(true)
   };
 
   return (
@@ -181,7 +188,9 @@ function AddProjectPage(props) {
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <h2>Add new project</h2>
               <TextField
-                required
+                style={{ marginBottom: 10 }}
+                error={!project.name && isError}
+                // helperText={(!project.name && isError) ? "Empty field." : ''}
                 value={project.name || ''}
                 label="Project Name"
                 variant="outlined"
@@ -192,11 +201,12 @@ function AddProjectPage(props) {
               />
               <div className={classes.smallForm}>
                 <FormControl
-                  required
+                  error={!project.status && isError}
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
                   style={{ marginRight: 5 }}
+                  // helperText={(!project.status && isError) ? "Empty field." : ''}
                 >
                   <InputLabel >
                     Status
@@ -216,10 +226,10 @@ function AddProjectPage(props) {
                   </Select>
                 </FormControl>
                 <FormControl
+                  error={!project.paymentAmount && !project.paymentType && isError}
                   style={{ marginLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
-                  required
                 >
                   <InputLabel htmlFor="outlined-adornment-password">Payment</InputLabel>
                   <OutlinedInput
@@ -231,7 +241,7 @@ function AddProjectPage(props) {
                       <InputAdornment position="end">
                         {" "}
                         <Select
-                          required
+                          
                           disableUnderline={true}
                           style={{ minWidth: 0 }}
                           onChange={handleChange}
@@ -271,7 +281,7 @@ function AddProjectPage(props) {
                     placeholder='Duration'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-                    required
+                    error={!project.duration && isError}
                   >
                     <InputLabel >
                       Duration
@@ -296,7 +306,7 @@ function AddProjectPage(props) {
                     placeholder='Format of comunication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-                    required
+                    error={!project.comunication && isError}
                   >
                     <InputLabel >
                       Format of comunication
@@ -316,15 +326,15 @@ function AddProjectPage(props) {
                 </Grid>
               </Grid>
               <MessagerForm
-
                 name='messager'
                 messagerChange={messagerChange}
                 messagerValue={project.messager}
                 projectId
+                isError
               />
               {projectId ? <StackForm
                 name='stack'
-                required
+                
                 stackChange={stackChange}
                 stackValue={project.stack}
                 isEdit
@@ -338,7 +348,7 @@ function AddProjectPage(props) {
                     variant="outlined"
                     id="standard-multiline-flexible"
                     label="Type"
-                    required
+                    
                     multiline
                     rowsMax="5"
                     name='type'
@@ -349,7 +359,7 @@ function AddProjectPage(props) {
                   <TextField
                     style={{ width: '100%', paddingLeft: 5 }}
                     value={project.source}
-                    required
+                    
                     variant="outlined"
                     id="standard-multiline-flexible"
                     label="Source"
@@ -365,7 +375,7 @@ function AddProjectPage(props) {
                 value={project.resources}
                 variant="outlined"
                 id="standard-multiline-flexible"
-                required
+                
                 label="Resources"
                 multiline
                 rowsMax="5"
@@ -376,7 +386,7 @@ function AddProjectPage(props) {
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
                 <Grid item xs={4}>
                   <FormControl
-                    required
+                    
                     placeholder='Withdrawal of funds'
                     variant="outlined"
                     // className={clsx( classes.inputForm)}
@@ -400,7 +410,7 @@ function AddProjectPage(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
-                    required
+                    
                     style={{ width: '100%', paddingRight: '10px' }}
                     value={project.owner}
                     variant="outlined"
@@ -415,7 +425,7 @@ function AddProjectPage(props) {
                 <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%' }}
-                    required
+                    
                     value={project.load}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -431,7 +441,7 @@ function AddProjectPage(props) {
                 <Grid item xs={12}>
                   <DevelopersChooseForm
                     name='developers'
-                    required
+                    
                     developersChange={developersChange}
                     developersValue={project.developers}
                     isEdit />
@@ -451,7 +461,7 @@ function AddProjectPage(props) {
                 </Grid> */}
               </Grid>
               <TextField
-                required
+                
                 value={project.description}
                 variant="outlined"
                 id="standard-multiline-flexible"
@@ -475,7 +485,7 @@ function AddProjectPage(props) {
                         format="MM/dd/yyyy"
                         margin="normal"
                         label="Start date"
-                        required
+                        
                         value={project.startDate}
                         onChange={startDateChange}
                         KeyboardButtonProps={{
@@ -492,7 +502,7 @@ function AddProjectPage(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        required
+                        
                         label="End date"
                         value={project.endDate}
                         onChange={endDateChange}

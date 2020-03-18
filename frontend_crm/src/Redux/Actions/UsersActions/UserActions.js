@@ -41,8 +41,8 @@ export const deleteUser = (id) => async (dispatch) => {
 
 
 export const filteredUserStatus = (selectedFilters) => {
-  const filters = selectedFilters.filter((f) => f !== undefined);
-  return { type: FILTER_USER_ROLE, payload: filters };
+  if (!selectedFilters.length) return { type: FILTER_USER_ROLE, payload: ['all'] };
+  return { type: FILTER_USER_ROLE, payload: selectedFilters };
 };
 
 export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });

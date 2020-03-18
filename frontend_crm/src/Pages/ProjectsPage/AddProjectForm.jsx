@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-between',
       alignItems: 'flex-end',
     },
-    modalWidth: {
-      width: '700px',
-    },
+    // modalWidth: {
+    //   width: '700px',
+    // },
   }));
 
 
@@ -74,14 +74,14 @@ export default function AddProjectForm(props) {
         <form className={classes.root} noValidate autoComplete="off" onSubmit={submit}>
         <h2>Add new project</h2>
         <TextField
-         ref={priceRef}
+          ref={priceRef}
           value={project.name}
           label="Project Name"
           variant="outlined"
           inputProps={{ 'aria-label': 'description' }}
           className={classes.inputForm}
           name='name'
-          onChange={projectChange}
+          onChange={projectChange}width
         />
         <div className={classes.smallForm}>
           <FormControl

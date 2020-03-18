@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
-
 const useStyles = makeStyles((theme) => ({
-  // formControl: {
-  //   margin: theme.spacing(1),
-  //   // minWidth: 120,
-  //   // border:'1px solid'
-  // },
+  formControl: {
+    margin: theme.spacing(1),
+    // minWidth: 120,
+    // border:'1px solid'
+  },
   chips: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -22,46 +20,55 @@ const useStyles = makeStyles((theme) => ({
   noLabel: {
     marginTop: theme.spacing(3),
   },
-  // inputForm: {
-  //   paddingRight: '10px'
-  // },
+  inputForm: {
+    width: '100%',
+    margin: '5px 0px 10px',
+  },
 }));
 
-export default function DevelopersChooseForm(props) {
+const messegers = [
+  { tech: 'Slack' },
+  { tech: 'Skype' },
+  { tech: 'Whatsapp' },
+];
+
+export default function MessagerForm(props) {
   const classes = useStyles();
-  const { developersChange, developersValue } = props;
+  const { messagerChange, messagerValue, isEdit } = props; 
 
   const handleChange = (event, values) => {
-    developersChange(values);
+    messagerChange(values);
   };
+  let filteredMessagers = messegers
 
-  const  users = useSelector((state) => state.users.users)
-  let filteredUsers = users;
-  for (const index in developersValue){
-    filteredUsers = filteredUsers.filter((user) => {
+  for (const index in messagerValue){
+    filteredMessagers = filteredMessagers.filter((t) => {
       return(
-      user.login !== developersValue[index].login)})
+      t.tech !== messagerValue[index].tech)})
   }
+
   return (
     <div>
-    <Autocomplete
+
+      <Autocomplete
       multiple
+      required
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
-      options={filteredUsers}
+      options={filteredMessagers}
       disableCloseOnSelect
-      getOptionLabel={option => option.login}
+      getOptionLabel={option => option.tech}
       onChange={handleChange}
-      value={developersValue}
+      value={messagerValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-    
-          {option.login}
+        
+          {option.tech}
         </React.Fragment>
       )}
       style={{ width: '100%' }}
       renderInput={params => (
-          <TextField {...params} variant="outlined" label="Developers" />
+          <TextField {...params} variant="outlined" label="Messagers" />
         )}
     />
     </div>

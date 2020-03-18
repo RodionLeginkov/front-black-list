@@ -75,7 +75,6 @@ export default function ProjectModal(props) {
     setIsOpen(false);
   };
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
   };
   const stackChange = (stack) => setProject({ ...project, stack });
@@ -92,11 +91,11 @@ export default function ProjectModal(props) {
     setIsOpen(false);
   };
 
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setProject(initialValue);
-    setIsOpen(false);
-  };
+  // const handleCancel = (e) => {
+  //   e.preventDefault();
+  //   setProject(initialValue);
+  //   setIsOpen(false);
+  // };
 
   return (
     <div className={classes.position}>

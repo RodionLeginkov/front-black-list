@@ -19,6 +19,7 @@ const initialState = {
   loadingProjects: false,
   loadingProjectsError: null,
   loadingCurrentProjects: false,
+  editedProject: null,
   currentProject: null,
   deleteProjecError: false,
   patchProjecError: false,
@@ -33,6 +34,7 @@ const projectReducer = (state = initialState, action) => {
         addingProject: true,
       };
     case ADD_PROJECT:
+
       return {
         ...state,
         projects: [...state.projects, action.payload],
@@ -80,16 +82,23 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
+      let allProj = state.filteredProjects;
+      let changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      delete allProj[changedProjectIndex];
+      allProj[changedProjectIndex] = action.payload
       return {
         ...state,
+        projects: [...allProj],
+        filteredProjects: [...allProj],
         currentProject: action.payload,
       };
     case EDIT_PROJECT_DEVELOPERS:
 
-      const allProj = state.filteredProjects;
-      const changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      allProj = state.filteredProjects;
+      changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+
       delete allProj[changedProjectIndex];
-      allProj[changedProjectIndex] = action.payload 
+      allProj[changedProjectIndex] = action.payload
       return {
         ...state,
         projects: [...allProj],
@@ -99,7 +108,7 @@ const projectReducer = (state = initialState, action) => {
     case EDIT_PROJECT_ERROR:
       return {
         ...state,
-        editProjectError: action.payload,
+        currentProject: action.payload,
       };
     case LOAD_CURRENT_PROJECT:
       return {
@@ -110,26 +119,28 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         currentProject: action.payload,
-        loadingCurrentUser: false,
+        loadingCurrentProjects: false,
       };
     case LOAD_CURRENT_PROJECT_SUCCESS:
       return {
         ...state,
         currentProject: action.payload,
-        loadingCurrentUser: false,
-      };
+        loadingCurrentProjects: false,
+      }
     case FILTER_PROJECT_NAME:
       return {
         ...state,
-        filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase())),
-      };
+        filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
+      }
+
     case FILTER_PROJECT:
       return {
         ...state,
         filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status)
-            || action.payload.includes(p.duration)
-            || action.payload.some((r) => p.stack.includes(r))) : state.projects,
-      };
+          || action.payload.includes(p.duration)
+          || p.stack.some(r => action.payload.includes(r.tech))) : state.projects,
+      }
+
     default:
       return state;
   }

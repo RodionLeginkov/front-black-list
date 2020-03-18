@@ -15,13 +15,11 @@ import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import UserList from '../../components/UserList/UserList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
+import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -71,8 +69,7 @@ function CurrentProject(props) {
   const classes = useStyles();
   const history = useHistory();
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
- 
-  const [isOpen, setIsOpen] = useState(false);
+
   function handleClick() {
     history.push('/projects');
   }
@@ -84,17 +81,18 @@ function CurrentProject(props) {
   useEffect(() => {
     if (!project) {
       dispatch(getUsers());
+      dispatch(getProjects());
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
 
   let stackList = [];
   if (!project) { return (<Loading />); }
-  
+
+  console.log(project.stack)
   stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
   ));
-
   return (
     <div style={{ marginLeft: '85px' }}>
 
@@ -129,7 +127,7 @@ function CurrentProject(props) {
           </div>
         </div>
 
-            <UserList users={project.developers} />
+        <UserList users={project.developers} />
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
@@ -142,7 +140,8 @@ function CurrentProject(props) {
           <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
           </Button>
-          <Button className={classes.button} onClick={() => setIsOpen(true)}>
+          <Button className={classes.button}
+            onClick={() => history.push(`/projects/editproject/${project._id}`)}>
             <EditSharpIcon />
           </Button>
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
@@ -151,8 +150,8 @@ function CurrentProject(props) {
         </div>
       </Paper>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
-      <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit />
-     
+      {/* <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit /> */}
+      {/* <AddProjectPage curProject={{...project}} isEdit /> */}
     </div>
   );
 }

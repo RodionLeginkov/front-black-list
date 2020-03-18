@@ -63,6 +63,50 @@ function StatusFilter(props) {
                     }
                     label="Node.js"
                 />
+                 <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={selectedFilters.PostgresQl}
+                            onChange={handleChange('PostgresQl')}
+                            value='PostgresQl'
+                            color="primary"
+                        />
+                    }
+                    label="PostgresQl"
+                />
+                 <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={selectedFilters.GraphQl}
+                            onChange={handleChange('GraphQl')}
+                            value='GraphQl'
+                            color="primary"
+                        />
+                    }
+                    label="GraphQl"
+                />
+                 <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={selectedFilters.AWS}
+                            onChange={handleChange('AWS')}
+                            value='AWS'
+                            color="primary"
+                        />
+                    }
+                    label="AWS"
+                />
+                 <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={selectedFilters.Angular}
+                            onChange={handleChange('Angular')}
+                            value='Angular'
+                            color="primary"
+                        />
+                    }
+                    label="Angular"
+                />
             </FormGroup>
         </>
     )

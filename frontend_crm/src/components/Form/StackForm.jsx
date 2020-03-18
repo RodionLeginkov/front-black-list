@@ -7,7 +7,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    // minWidth: 120,
     // border:'1px solid'
   },
   chips: {
@@ -22,12 +22,15 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    margin: '5px 0',
+    margin: '10px 0',
   },
 }));
 
 const names = [
-
+  { tech: 'Angular' },
+  { tech: 'AWS' },
+  { tech: 'GraphQl' },
+  { tech: 'PostgresQl' },
   { tech: 'React' },
   { tech: 'Node' },
   { tech: 'Express' },
@@ -36,43 +39,42 @@ const names = [
 
 export default function StackForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props; 
-  const [stack, setStack] = useState(isEdit ? stackValue : []);
+  const { stackChange, stackValue, isEdit } = props;
   const handleChange = (event, values) => {
-    setStack(values);
     stackChange(values);
   };
   let filteredTechs = names
 
-  for (const index in stack){
+  for (const index in stackValue) {
     filteredTechs = filteredTechs.filter((t) => {
-      return(
-      t.tech !== stack[index].tech)})
+      return (
+        t.tech !== stackValue[index].tech)
+    })
   }
 
   return (
     <div>
 
       <Autocomplete
-      multiple
-      className={clsx(classes.formControl, classes.inputForm)}
-      id="checkboxes-tags-demo"
-      options={filteredTechs}
-      disableCloseOnSelect
-      getOptionLabel={option => option.tech}
-      onChange={handleChange}
-      value={stack}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-        
-          {option.tech}
-        </React.Fragment>
-      )}
-      style={{ width: '100%' }}
-      renderInput={params => (
+        multiple
+        className={clsx(classes.formControl, classes.inputForm)}
+        id="checkboxes-tags-demo"
+        options={filteredTechs}
+        disableCloseOnSelect
+        getOptionLabel={option => option.tech}
+        onChange={handleChange}
+        value={stackValue}
+        renderOption={(option, { selected }) => (
+          <React.Fragment>
+
+            {option.tech}
+          </React.Fragment>
+        )}
+        style={{ width: '100%' }}
+        renderInput={params => (
           <TextField {...params} variant="outlined" label="Stack" />
         )}
-    />
+      />
     </div>
   );
 }

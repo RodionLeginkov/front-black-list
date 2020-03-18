@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -109,10 +109,13 @@ export default function RecipeReviewCard(props) {
       <Card className={classes.root}>
         <CardActionArea onClick={handleClick}>
           <div className={classes.cardHeader}>
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {card.name[0].toUpperCase()}
-              {card.name[1].toLowerCase()}
-            </Avatar>
+            {card.name.length > 1 ? (
+              <Avatar aria-label="recipe" className={classes.avatar}>
+                {card.name[0].toUpperCase()}
+                {card.name[1].toLowerCase()}
+              </Avatar>) : (<Avatar aria-label="recipe" className={classes.avatar}>
+                {card.name[0].toUpperCase()}
+              </Avatar>)}
             {card.name}
             <CustomBadge text={card.status} icon={<FiberManualRecordSharpIcon />} status={card.status} />
           </div>
@@ -137,12 +140,12 @@ export default function RecipeReviewCard(props) {
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
-            <CustomAvatar users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen}/>
+          <CustomAvatar users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
 
         </div>
       </Card>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card._id} name={card.name} />
-      <AddUserModal  addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
+      <AddUserModal addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
     </>
   );
 }

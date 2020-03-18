@@ -2,11 +2,15 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Express from '../../Assets/devIcons/Express.svg';
-import C from '../../Assets/devIcons/C.svg';
+import AWS from '../../Assets/devIcons/AWS.svg';
+import PostgresQl from '../../Assets/devIcons/PostgresQl.svg';
+import Angular from '../../Assets/devIcons/Angular.svg';
 import ReactDev from '../../Assets/devIcons/ReactDev.svg';
 import Node from '../../Assets/devIcons/Node.svg';
 import MongoDb from '../../Assets/devIcons/MongoDb.svg';
+import GraphQl from '../../Assets/devIcons/GraphQl.svg';
 import Tooltip from '@material-ui/core/Tooltip';
+
 
 const useStyles = makeStyles(() => ({
 
@@ -38,10 +42,13 @@ const useStyles = makeStyles(() => ({
   }
 }));
 const icons = [
+  GraphQl,
+  PostgresQl,
   Express,
-  C,
   ReactDev,
   MongoDb,
+  Angular,
+  AWS,
   Node,
 ];
 

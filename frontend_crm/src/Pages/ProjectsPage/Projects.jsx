@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 import Loading from '../../components/Loading';
 
@@ -39,34 +39,56 @@ const useStyles = makeStyles({
   },
 });
 
+
+// {isadmin
+//   ? (
+//     <Button
+//       variant="contained"
+//       color="primary"
+//       size="large"
+//       className={classes.button}
+//       onClick={() => setIsOpen(true)}
+//     >
+//       Add project
+//     </Button>
+//   ) : ''}
+
+
 export default function StickyHeadTable() {
   const classes = useStyles();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.projects.filteredProjects);
   const loading = useSelector((state) => state.projects.loadingProjects);
+  // console.log(localStorage.getItem('user'));
+  const isadmin = JSON.parse(localStorage.getItem('user'));
+  console.log(isadmin.isAdmin);
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
     <div style={{ marginLeft: '85px' }}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          className={classes.button}
-          onClick={() => setIsOpen(true)}
-        >
-          Add project
-        </Button>
+        {' '}
+        {!isadmin.isAdmin
+          ? (
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              onClick={() => setIsOpen(true)}
+            >
+              Add project
+            </Button>
+          ) : ''}
       </div>
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>

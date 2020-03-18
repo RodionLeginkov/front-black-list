@@ -34,42 +34,41 @@ const messegers = [
 
 export default function MessagerForm(props) {
   const classes = useStyles();
-  const { messagerChange, messagerValue, isError } = props; 
+  const { messagerChange, messagerValue, isError } = props;
 
   const handleChange = (event, values) => {
     messagerChange(values);
   };
-  let filteredMessagers = messegers
+  let filteredMessagers = messegers;
 
-  for (const index in messagerValue){
-    filteredMessagers = filteredMessagers.filter((t) => {
-      return(
-      t.tech !== messagerValue[index].tech)})
+  for (const index in messagerValue) {
+    filteredMessagers = filteredMessagers.filter((t) => (
+      t.tech !== messagerValue[index].tech));
   }
   return (
     <div>
 
       <Autocomplete
-      multiple
-      className={clsx(classes.formControl, classes.inputForm)}
-      id="checkboxes-tags-demo"
-      options={filteredMessagers}
-      disableCloseOnSelect
-      getOptionLabel={option => option.tech}
-      onChange={handleChange}
-      error={!messagerValue && isError} 
-      value={messagerValue}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-        
-          {option.tech}
-        </React.Fragment>
-      )}
-      style={{ width: '100%' }}
-      renderInput={params => (
-          <TextField error={messagerValue.length && isError} {...params} variant="outlined" label="Messagers" />
+        multiple
+        className={clsx(classes.formControl, classes.inputForm)}
+        id="checkboxes-tags-demo"
+        options={filteredMessagers}
+        disableCloseOnSelect
+        getOptionLabel={(option) => option.tech}
+        onChange={handleChange}
+        error={!messagerValue && isError}
+        value={messagerValue}
+        renderOption={(option, { selected }) => (
+          <>
+
+            {option.tech}
+          </>
         )}
-    />
+        style={{ width: '100%' }}
+        renderInput={(params) => (
+          <TextField {...params} variant="outlined" label="Messagers" />
+        )}
+      />
     </div>
   );
 }

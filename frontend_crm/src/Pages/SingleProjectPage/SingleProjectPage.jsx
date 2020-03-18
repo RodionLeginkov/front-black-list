@@ -86,7 +86,7 @@ function CurrentProject(props) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
-  console.log(project)  
+  // console.log(project)  
   let stackList = [];
   if (!project) { return (<Loading />); }
   stackList = project.stack.map((elem) => (

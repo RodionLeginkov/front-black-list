@@ -7,7 +7,7 @@ function ProjectsCards(props) {
   const { projects } = props;
   console.log(projects)
 
-  if (!projects) return (<Loading />)
+  // if (!projects) return (<Loading />)
 
   return (
     <>

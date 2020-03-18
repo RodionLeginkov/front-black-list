@@ -34,7 +34,7 @@ const messegers = [
 
 export default function MessagerForm(props) {
   const classes = useStyles();
-  const { messagerChange, messagerValue, isEdit } = props; 
+  const { messagerChange, messagerValue, isError } = props; 
 
   const handleChange = (event, values) => {
     messagerChange(values);
@@ -46,19 +46,18 @@ export default function MessagerForm(props) {
       return(
       t.tech !== messagerValue[index].tech)})
   }
-
   return (
     <div>
 
       <Autocomplete
       multiple
-      required
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
       options={filteredMessagers}
       disableCloseOnSelect
       getOptionLabel={option => option.tech}
       onChange={handleChange}
+      error={!messagerValue && isError} 
       value={messagerValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
@@ -68,7 +67,7 @@ export default function MessagerForm(props) {
       )}
       style={{ width: '100%' }}
       renderInput={params => (
-          <TextField {...params} variant="outlined" label="Messagers" />
+          <TextField error={messagerValue.length && isError} {...params} variant="outlined" label="Messagers" />
         )}
     />
     </div>

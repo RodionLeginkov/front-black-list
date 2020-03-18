@@ -30,13 +30,13 @@ const useStyles = makeStyles((theme) => ({
 export default function DevelopersChooseForm(props) {
   const classes = useStyles();
   const { developersChange, developersValue } = props;
-
   const handleChange = (event, values) => {
     developersChange(values);
   };
-
+  
   const  users = useSelector((state) => state.users.users)
   let filteredUsers = users;
+  console.log(users)
   for (const index in developersValue){
     filteredUsers = filteredUsers.filter((user) => {
       return(

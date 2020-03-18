@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import AddProjectForm from './AddProjectForm';
 import { TextField } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -22,15 +18,15 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import 'date-fns';
+import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import WithdrawalOfFundsForm from '../../components/WithdrawalOfFundsForm/WithdrawalOfFundsForm.jsx'
 import MessagerForm from '../../components/MessagerForm/MessagerForm.jsx';
+import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
@@ -94,58 +90,69 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
   },
 }));
-export default function AddProjectPage(props) {
-  const projectId = props.match.params.projectId
-  const allProjects = useSelector((state) => state.projects.projects)
-  let curProject = null;
-  if (projectId) (curProject = allProjects.find((p) => p._id === projectId))
-  console.log('curProject', curProject)
+function AddProjectPage(props) {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const projectId = props.match.params.projectId;
+  const curProject = useSelector((state) => state.projects.currentProject);
+  const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
-  const initialValue = projectId ? curProject : {
+  const initialValue = (projectId && curProject) ? curProject : {
     _id: '', status: '', stack: [],
-    duration: '', group: [], name: '', comunication: [], messager: [],
-    startDate: null, endDatе: null, type: '', source: '',
-    withdrawalOfFunds: '', owner: '', paymentType: '', paymentAmount: null,
+    duration: '', group: [], name: '', comunication: '', messager: [],
+    startDate: null, endDate: null, type: '', source: '',
+    withdrawalOfFunds: '', owner: '', paymentType: '', paymentAmount: '',
     load: '', description: '', resources: [], history: '',
     projectImage: '', developers: [],
   };
 
   const [project, setProject] = useState(initialValue);
-  console.log('DEVELOPERS',project)
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
+
+  useEffect(() => {
+    setProject(initialValue);
+  }, [loading])
+
+
+  useEffect(() => {
+    if (projectId && !curProject) {
+      dispatch(getProjects());
+      dispatch(getProject(projectId));
+      dispatch(getUsers());
+    }
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   if (projectId && curProject) setProject(curProject)
+  // }, [dispatch])
+
+  if (loading) {
+    return <Loading />
+    // (<h1 style={{marginTop: '200px'}}>LOADIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING!</h1>)
+  }
 
 
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value)
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
   const stackChange = (stack) => setProject({ ...project, stack });
-  const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
+  // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
   const developersChange = (developers) => setProject({ ...project, developers });
   const messagerChange = (messager) => setProject({ ...project, messager });
   const comunicationChange = (comunication) => setProject({ ...project, comunication })
-  const startDateChange = (startDate) => { console.log(typeof (startDate), startDate); setProject({ ...project, startDate }); }
+  const startDateChange = (startDate) => setProject({ ...project, startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
+
   const onSubmit = (e) => {
-    console.log('project', project)
     e.preventDefault();
     if (projectId) {
       dispatch(updateProject(project));
       history.push(`/projects/${project._id}`);
     } else {
-      console.log('DATE', typeof (project.startDate))
       dispatch(addProject(project));
-      setProject(initialValue);
       history.push('/projects');
     }
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setProject(initialValue);
   };
 
   return (
@@ -175,7 +182,7 @@ export default function AddProjectPage(props) {
               <h2>Add new project</h2>
               <TextField
                 required
-                value={project.name}
+                value={project.name || ''}
                 label="Project Name"
                 variant="outlined"
                 inputProps={{ 'aria-label': 'description' }}
@@ -220,7 +227,7 @@ export default function AddProjectPage(props) {
                     onChange={handleChange}
                     name='paymentAmount'
                     endAdornment={
-                      <InputAdornment position="end" disableUnderline={true}>
+                      <InputAdornment position="end">
                         {" "}
                         <Select
                           disableUnderline={true}
@@ -255,43 +262,73 @@ export default function AddProjectPage(props) {
                 name='comunication'
                 onChange={handleChange}
               /> */}
-              <FormControl
-                placeholder='Format of comunication'
-                variant="outlined"
-                className={clsx(classes.formControl, classes.inputForm)}
-                style={{ marginRight: 10 }}
-              >
-                <InputLabel >
-                  Format of comunication
+              <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
+                <Grid item xs={6}>
+                  <FormControl
+                    style={{ width: '100%', paddingRight: 5 }}
+                    placeholder='Duration'
+                    variant="outlined"
+                    className={clsx(classes.formControl, classes.inputForm)}
+                  >
+                    <InputLabel >
+                      Duration
             </InputLabel>
-                <Select
-                  className={classes.selectEmpty}
-                  labelWidth={170}
-                  name='comunication'
-                  value={project.comunication}
-                  onChange={handleChange}
-                >
-                  <MenuItem value="onlyWritten">Only written</MenuItem>
-                  <MenuItem value="calls">Calls</MenuItem>
-                  <MenuItem value="videoCalls">Video calls</MenuItem>
-                </Select>
-              </FormControl>
+                    <Select
+                      name='duration'
+                      className={classes.selectEmpty}
+                      value={project.duration}
+                      onChange={handleChange}
+                      labelWidth={62}
+                    >
+                      <MenuItem value='1-3 months'>1-3 months</MenuItem>
+                      <MenuItem value='3-6 months'>3-6 months</MenuItem>
+                      <MenuItem value='6-12 months'>6-12 months</MenuItem>
+                      <MenuItem value='Unexpected'>Unexpected</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl
+                    style={{ width: '100%', paddingLeft: 5 }}
+                    placeholder='Format of comunication'
+                    variant="outlined"
+                    className={clsx(classes.formControl, classes.inputForm)}
+
+                  >
+                    <InputLabel >
+                      Format of comunication
+            </InputLabel>
+                    <Select
+                      className={classes.selectEmpty}
+                      labelWidth={170}
+                      name='comunication'
+                      value={project.comunication}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="onlyWritten">Only written</MenuItem>
+                      <MenuItem value="calls">Calls</MenuItem>
+                      <MenuItem value="videoCalls">Video calls</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
               <MessagerForm
                 name='messager'
                 messagerChange={messagerChange}
                 messagerValue={project.messager}
                 projectId
               />
-              {/* <StackForm
+              {projectId ? <StackForm
                 name='stack'
                 stackChange={stackChange}
                 stackValue={project.stack}
+                isEdit
                 projectId
-              /> */}
+              /> : ' '}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
                 <Grid item xs={6}>
                   <TextField
-                    style={{ width: '100%', paddingRight: 5  }}
+                    style={{ width: '100%', paddingRight: 5 }}
                     value={project.type}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -304,7 +341,7 @@ export default function AddProjectPage(props) {
                 </Grid>
                 <Grid item xs={6}>
                   <TextField
-                    style={{ width: '100%', paddingLeft: 5  }}
+                    style={{ width: '100%', paddingLeft: 5 }}
                     value={project.source}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -330,23 +367,6 @@ export default function AddProjectPage(props) {
 
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
                 <Grid item xs={4}>
-                  {/* <TextField
-                    style={{ width: '100%', paddingRight: '10px' }}
-                    value={project.withdrawalOfFunds}
-                    variant="outlined"
-                    id="standard-multiline-flexible"
-                    label="Withdrawal of funds"
-                    multiline
-                    rowsMax="5"
-                    name='withdrawalOfFunds'
-                    onChange={handleChange}
-                  /> */}
-                  {/* <WithdrawalOfFundsForm
-                    name='withdrawalOfFunds'
-                    withdrawalOfFundsChange={withdrawalOfFundsChange}
-                    withdrawalOfFundsValue={project.withdrawalOfFunds}
-                    projectId
-                  /> */}
                   <FormControl
                     placeholder='Withdrawal of funds'
                     variant="outlined"
@@ -355,12 +375,12 @@ export default function AddProjectPage(props) {
                   >
                     <InputLabel >
                       Withdrawal of funds
-            </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.selectEmpty}
-                      labelWidth={47}
+                      labelWidth={145}
                       name='withdrawalOfFunds'
-                      value={project.withdrawalOfFunds}
+                      value={project.withdrawalOfFunds || ''}
                       onChange={handleChange}
                     >
                       <MenuItem value="bankWire">Bank wire</MenuItem>
@@ -402,7 +422,7 @@ export default function AddProjectPage(props) {
                     name='developers'
                     developersChange={developersChange}
                     developersValue={project.developers}
-                    isEdit/>
+                    isEdit />
                 </Grid>
                 {/* <Grid item xs={6}>
                   <TextField
@@ -449,9 +469,9 @@ export default function AddProjectPage(props) {
                         }}
                       />
                     </Grid>
-                    {/* <Grid item xs={6} style={{paddingLeft: '10px' }}>
+                    {projectId ? <Grid item xs={6} style={{ paddingLeft: '10px' }}>
                       <KeyboardDatePicker
-                        style={{ width: '100%',}}
+                        style={{ width: '100%', }}
                         inputVariant="outlined"
                         disableToolbar
                         // name="endDate"
@@ -465,7 +485,7 @@ export default function AddProjectPage(props) {
                           'aria-label': 'change date',
                         }}
                       />
-                    </Grid> */}
+                    </Grid> : ''}
                   </Grid>
                 </MuiPickersUtilsProvider>
               </div>
@@ -487,3 +507,4 @@ export default function AddProjectPage(props) {
   );
 }
 
+export default AddProjectPage

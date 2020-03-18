@@ -16,12 +16,10 @@ import UserList from '../../components/UserList/UserList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import ProjectModal from '../ProjectsPage/ProjectsModal.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import AddProjectPage from '../ProjectsPage/AddProjectPage.jsx';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -72,7 +70,6 @@ function CurrentProject(props) {
   const history = useHistory();
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
  
-  const [isOpen, setIsOpen] = useState(false);
   function handleClick() {
     history.push('/projects');
   }
@@ -81,21 +78,21 @@ function CurrentProject(props) {
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
+  console.log(project)
   useEffect(() => {
     if (!project) {
       dispatch(getUsers());
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
-
+  
   let stackList = [];
   if (!project) { return (<Loading />); }
   
-
+  console.log(project.stack)
   stackList = project.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
   ));
-
   return (
     <div style={{ marginLeft: '85px' }}>
 

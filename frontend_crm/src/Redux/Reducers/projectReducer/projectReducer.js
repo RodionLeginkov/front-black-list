@@ -82,8 +82,8 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
-      const allProj = state.filteredProjects;
-      const changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      let allProj = state.filteredProjects;
+      let changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
       delete allProj[changedProjectIndex];
       allProj[changedProjectIndex] = action.payload
       return {
@@ -117,13 +117,13 @@ const projectReducer = (state = initialState, action) => {
       return {
         ...state,
         currentProject: action.payload,
-        loadingCurrentUser: false,
+        loadingCurrentProjects: false,
       };
     case LOAD_CURRENT_PROJECT_SUCCESS:
       return {
         ...state,
         currentProject: action.payload,
-        loadingCurrentUser: false,
+        loadingCurrentProjects: false,
       }
     case FILTER_PROJECT_NAME:
       return {

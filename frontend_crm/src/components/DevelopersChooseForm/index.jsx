@@ -32,7 +32,6 @@ export default function DevelopersChooseForm(props) {
   const { developersChange, developersValue, isEdit } = props;
   const [developers, setDevelopers] = useState(isEdit ? developersValue : []);
 
-  console.log('dsvcdsvdfsvfdsvfdvdfsvbfdbvfdb',developersValue)
   const handleChange = (event, values) => {
     setDevelopers(values);
     developersChange(values);

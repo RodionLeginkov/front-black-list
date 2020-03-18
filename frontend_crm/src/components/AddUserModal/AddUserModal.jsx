@@ -88,7 +88,7 @@ export default function AddUserModal(props) {
                 <Fade in={addUserModalOpen}>
                     <div className={clsx(classes.paper, classes.modalWidth)}>
                         <form className={classes.root} noValidate autoComplete="off" >
-                            <h2 className={classes.header}>Delete user</h2>
+                            <h2 className={classes.header}>Add user</h2>
                             <DevelopersChooseForm
                                 name='developers'
                                 developersChange={developersChange}

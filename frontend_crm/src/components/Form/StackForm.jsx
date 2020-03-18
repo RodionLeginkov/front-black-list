@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const names = [
-
+  { tech: 'Angular' },
+  { tech: 'AWS' },
+  { tech: 'GraphQl' },
+  { tech: 'PostgresQl' },
   { tech: 'React' },
   { tech: 'Node' },
   { tech: 'Express' },
@@ -36,7 +39,7 @@ const names = [
 
 export default function StackForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props; 
+  const { stackChange, stackValue, isEdit } = props;
   const [stack, setStack] = useState(isEdit ? stackValue : []);
   const handleChange = (event, values) => {
     setStack(values);
@@ -44,35 +47,36 @@ export default function StackForm(props) {
   };
   let filteredTechs = names
 
-  for (const index in stack){
+  for (const index in stack) {
     filteredTechs = filteredTechs.filter((t) => {
-      return(
-      t.tech !== stack[index].tech)})
+      return (
+        t.tech !== stack[index].tech)
+    })
   }
 
   return (
     <div>
 
       <Autocomplete
-      multiple
-      className={clsx(classes.formControl, classes.inputForm)}
-      id="checkboxes-tags-demo"
-      options={filteredTechs}
-      disableCloseOnSelect
-      getOptionLabel={option => option.tech}
-      onChange={handleChange}
-      value={stack}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-        
-          {option.tech}
-        </React.Fragment>
-      )}
-      style={{ width: '100%' }}
-      renderInput={params => (
+        multiple
+        className={clsx(classes.formControl, classes.inputForm)}
+        id="checkboxes-tags-demo"
+        options={filteredTechs}
+        disableCloseOnSelect
+        getOptionLabel={option => option.tech}
+        onChange={handleChange}
+        value={stack}
+        renderOption={(option, { selected }) => (
+          <React.Fragment>
+
+            {option.tech}
+          </React.Fragment>
+        )}
+        style={{ width: '100%' }}
+        renderInput={params => (
           <TextField {...params} variant="outlined" label="Stack" />
         )}
-    />
+      />
     </div>
   );
 }

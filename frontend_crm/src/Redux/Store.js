@@ -6,6 +6,7 @@ const store = createStore(rootReducers, compose(
   applyMiddleware(thunk),
   // eslint-disable-next-line no-underscore-dangle
   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  // console.log("hello")
 ));
 
 export default store;

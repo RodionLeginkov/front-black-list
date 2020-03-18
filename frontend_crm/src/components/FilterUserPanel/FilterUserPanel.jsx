@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -77,6 +77,12 @@ const useStyles = makeStyles(() => ({
   chip: {
     margin: 2,
   },
+  selectedRole: {
+    fontWeight: 600,
+  },
+  notSelectedRole: {
+    fontWeight: 400,
+  },
 }));
 
 const FilterUserPanel = () => {
@@ -119,15 +125,10 @@ const FilterUserPanel = () => {
     },
   };
 
-  const themes = useTheme();
-
-  function getStyles(name, personName, theme) {
-    return {
-      fontWeight:
-        personName.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightMedium,
-    };
+  function getStyles(role, selectedRoles) {
+    return (selectedRoles.includes(role)
+      ? classes.selectedRole
+      : classes.notSelectedRole);
   }
 
   return (
@@ -202,7 +203,7 @@ const FilterUserPanel = () => {
                   <MenuItem
                     key={role}
                     value={role}
-                    style={getStyles(role, selectedFilters, themes)}
+                    className={getStyles(role, selectedFilters)}
                   >
                     {role}
                   </MenuItem>

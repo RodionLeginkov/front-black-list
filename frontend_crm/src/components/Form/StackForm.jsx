@@ -40,17 +40,15 @@ const names = [
 export default function StackForm(props) {
   const classes = useStyles();
   const { stackChange, stackValue, isEdit } = props;
-  const [stack, setStack] = useState(isEdit ? stackValue : []);
   const handleChange = (event, values) => {
-    setStack(values);
     stackChange(values);
   };
   let filteredTechs = names
 
-  for (const index in stack) {
+  for (const index in stackValue) {
     filteredTechs = filteredTechs.filter((t) => {
       return (
-        t.tech !== stack[index].tech)
+        t.tech !== stackValue[index].tech)
     })
   }
 
@@ -65,7 +63,7 @@ export default function StackForm(props) {
         disableCloseOnSelect
         getOptionLabel={option => option.tech}
         onChange={handleChange}
-        value={stack}
+        value={stackValue}
         renderOption={(option, { selected }) => (
           <React.Fragment>
 

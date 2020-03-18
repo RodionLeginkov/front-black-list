@@ -35,17 +35,16 @@ const messegers = [
 export default function MessagerForm(props) {
   const classes = useStyles();
   const { messagerChange, messagerValue, isEdit } = props; 
-  const [messager, setMessager] = useState(isEdit ? messagerValue : []);
+
   const handleChange = (event, values) => {
-    setMessager(values);
     messagerChange(values);
   };
   let filteredMessagers = messegers
 
-  for (const index in messager){
+  for (const index in messagerValue){
     filteredMessagers = filteredMessagers.filter((t) => {
       return(
-      t.tech !== messager[index].tech)})
+      t.tech !== messagerValue[index].tech)})
   }
 
   return (
@@ -53,13 +52,14 @@ export default function MessagerForm(props) {
 
       <Autocomplete
       multiple
+      required
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
       options={filteredMessagers}
       disableCloseOnSelect
       getOptionLabel={option => option.tech}
       onChange={handleChange}
-      value={messager}
+      value={messagerValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
         

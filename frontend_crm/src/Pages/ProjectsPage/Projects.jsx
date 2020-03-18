@@ -10,7 +10,7 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 import Loading from '../../components/Loading';
 import { useHistory } from 'react-router-dom';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles({
   button: {
@@ -72,8 +72,9 @@ export default function StickyHeadTable() {
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         {/* <ProjectList classes={classes} /> */}
-        <Grid container spacing={1}>
-          {loading ? <Loading /> : <ProjectCards projects={projects} />}
+        <Grid container>
+        
+          {loading ? <CircularProgress style={{margin:'0 auto'}}/> : <ProjectCards projects={projects} />}
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />

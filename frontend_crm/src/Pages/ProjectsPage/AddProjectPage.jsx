@@ -192,6 +192,7 @@ function AddProjectPage(props) {
               />
               <div className={classes.smallForm}>
                 <FormControl
+                  required
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
@@ -218,7 +219,7 @@ function AddProjectPage(props) {
                   style={{ marginLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
-
+                  required
                 >
                   <InputLabel htmlFor="outlined-adornment-password">Payment</InputLabel>
                   <OutlinedInput
@@ -230,6 +231,7 @@ function AddProjectPage(props) {
                       <InputAdornment position="end">
                         {" "}
                         <Select
+                          required
                           disableUnderline={true}
                           style={{ minWidth: 0 }}
                           onChange={handleChange}
@@ -269,6 +271,7 @@ function AddProjectPage(props) {
                     placeholder='Duration'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
+                    required
                   >
                     <InputLabel >
                       Duration
@@ -293,7 +296,7 @@ function AddProjectPage(props) {
                     placeholder='Format of comunication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-
+                    required
                   >
                     <InputLabel >
                       Format of comunication
@@ -313,6 +316,7 @@ function AddProjectPage(props) {
                 </Grid>
               </Grid>
               <MessagerForm
+
                 name='messager'
                 messagerChange={messagerChange}
                 messagerValue={project.messager}
@@ -320,6 +324,7 @@ function AddProjectPage(props) {
               />
               {projectId ? <StackForm
                 name='stack'
+                required
                 stackChange={stackChange}
                 stackValue={project.stack}
                 isEdit
@@ -333,6 +338,7 @@ function AddProjectPage(props) {
                     variant="outlined"
                     id="standard-multiline-flexible"
                     label="Type"
+                    required
                     multiline
                     rowsMax="5"
                     name='type'
@@ -343,6 +349,7 @@ function AddProjectPage(props) {
                   <TextField
                     style={{ width: '100%', paddingLeft: 5 }}
                     value={project.source}
+                    required
                     variant="outlined"
                     id="standard-multiline-flexible"
                     label="Source"
@@ -358,6 +365,7 @@ function AddProjectPage(props) {
                 value={project.resources}
                 variant="outlined"
                 id="standard-multiline-flexible"
+                required
                 label="Resources"
                 multiline
                 rowsMax="5"
@@ -368,6 +376,7 @@ function AddProjectPage(props) {
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
                 <Grid item xs={4}>
                   <FormControl
+                    required
                     placeholder='Withdrawal of funds'
                     variant="outlined"
                     // className={clsx( classes.inputForm)}
@@ -391,6 +400,7 @@ function AddProjectPage(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
+                    required
                     style={{ width: '100%', paddingRight: '10px' }}
                     value={project.owner}
                     variant="outlined"
@@ -405,6 +415,7 @@ function AddProjectPage(props) {
                 <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%' }}
+                    required
                     value={project.load}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -420,6 +431,7 @@ function AddProjectPage(props) {
                 <Grid item xs={12}>
                   <DevelopersChooseForm
                     name='developers'
+                    required
                     developersChange={developersChange}
                     developersValue={project.developers}
                     isEdit />
@@ -439,6 +451,7 @@ function AddProjectPage(props) {
                 </Grid> */}
               </Grid>
               <TextField
+                required
                 value={project.description}
                 variant="outlined"
                 id="standard-multiline-flexible"
@@ -462,6 +475,7 @@ function AddProjectPage(props) {
                         format="MM/dd/yyyy"
                         margin="normal"
                         label="Start date"
+                        required
                         value={project.startDate}
                         onChange={startDateChange}
                         KeyboardButtonProps={{
@@ -478,6 +492,7 @@ function AddProjectPage(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
+                        required
                         label="End date"
                         value={project.endDate}
                         onChange={endDateChange}

@@ -29,20 +29,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DevelopersChooseForm(props) {
   const classes = useStyles();
-  const { developersChange, developersValue, isEdit } = props;
-  const [developers, setDevelopers] = useState(isEdit ? developersValue : []);
+  const { developersChange, developersValue } = props;
 
   const handleChange = (event, values) => {
-    setDevelopers(values);
     developersChange(values);
   };
 
   const  users = useSelector((state) => state.users.users)
   let filteredUsers = users;
-  for (const index in developers){
+  for (const index in developersValue){
     filteredUsers = filteredUsers.filter((user) => {
       return(
-      user.login !== developers[index].login)})
+      user.login !== developersValue[index].login)})
   }
   return (
     <div>
@@ -54,7 +52,7 @@ export default function DevelopersChooseForm(props) {
       disableCloseOnSelect
       getOptionLabel={option => option.login}
       onChange={handleChange}
-      value={developers}
+      value={developersValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
     

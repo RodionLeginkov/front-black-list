@@ -8,6 +8,7 @@ export const signUp = (user) => async (dispatch) => {
   try {
     dispatch({ type: SIGNUP_LOADING });
     const { data } = await signUpNewUser(user);
+    // console.log(data);
     dispatch({ type: SIGNUP_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: SIGNUP_ERROR, payload: error });
@@ -20,6 +21,7 @@ export const signIn = (user) => async (dispatch) => {
     // console.log('user', user);
     dispatch({ type: SIGNIN_LOADING });
     const { data } = await loginUser(user);
+    console.log(data);
     dispatch({ type: SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('token', data.token);
     localStorage.setItem('role', data.status);

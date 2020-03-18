@@ -47,6 +47,7 @@ export default function SignUp() {
   const [form, setState] = useState({
     email: '',
     password: '',
+    fullName: '',
 
   });
 
@@ -55,6 +56,13 @@ export default function SignUp() {
     setState({
       ...form,
       email: e.target.value,
+    });
+  };
+
+  const onChangheName = (e) => {
+    setState({
+      ...form,
+      fullName: e.target.value,
     });
   };
 
@@ -80,7 +88,9 @@ export default function SignUp() {
       const login = {
         email: form.email,
         password: form.password,
+        fullName: form.fullName,
       };
+      // console.log(login);
       dispatch(signUp(login));
     } else {
       setOpen(true);
@@ -88,7 +98,8 @@ export default function SignUp() {
     //
   };
   if (userAuth && userAuth.user) {
-    history.push('/signin');
+    window.location = '/signin';
+    // history.push('/signin');
   }
   const id = open ? 'simple-popover' : undefined;
   return (
@@ -114,6 +125,19 @@ export default function SignUp() {
             autoFocus
             value={form.email}
             onChange={onChangheEmail}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="fullName"
+            label="Name"
+            name="Name"
+            autoComplete="Name"
+            autoFocus
+            value={form.fullName}
+            onChange={onChangheName}
           />
           <TextField
             variant="outlined"

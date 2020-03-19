@@ -138,6 +138,7 @@ const UserCard = ({ user }) => {
           <CustomProjectIcon
             projectsIds={user.currentProject || []}
             addProject={changeIsShowingModal}
+            edit
           />
         </div>
       </CardActionArea>

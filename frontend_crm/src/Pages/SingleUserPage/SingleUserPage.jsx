@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Loading from '../../components/Loading/index.jsx';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
+import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 
@@ -170,9 +171,7 @@ const UserInfo = ({ match: { params: { userId } } }) => {
           <div className={classes.leftCol}>
             <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
             <span className={classes.fieldName}>
-              {user.name}
-              {' '}
-              {user.surname}
+              {user.fullName}
             </span>
           </div>
           <div className={classes.col}>
@@ -193,6 +192,15 @@ const UserInfo = ({ match: { params: { userId } } }) => {
                 <span className={classes.fieldTitle}>Stack: </span>
                 <div className={classes.fieldValue}>
                   {stackList}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Projects: </span>
+                <div className={classes.fieldValue}>
+                  <CustomProjectIcon
+                    projectsIds={user.currentProject || []}
+                    edit={false}
+                  />
                 </div>
               </div>
               <div className={classes.field}>

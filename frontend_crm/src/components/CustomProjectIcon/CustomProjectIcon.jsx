@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CustomProjectIcon = ({
-  projectsIds, addProject,
+  projectsIds, addProject, edit,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -61,9 +61,11 @@ const CustomProjectIcon = ({
   return (
     <AvatarGroup key={Math.random()} className={classes.avatarGroup} max={4}>
       {projectsList}
+      {edit && (
       <Tooltip className={classes.avatar} title="Add project">
         <Avatar onClick={addProject} style={{ backgroundColor: '#32418c' }}>+</Avatar>
       </Tooltip>
+      )}
     </AvatarGroup>
   );
 };

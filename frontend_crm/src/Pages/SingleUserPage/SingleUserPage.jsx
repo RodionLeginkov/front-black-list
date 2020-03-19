@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import Loading from '../../components/Loading/index.jsx';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
+import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -108,11 +109,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
 const UserInfo = ({ match: { params: { userId } } }) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const handleClickOpenPopUp = () => {
+    setOpenPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
+  };
 
   const handleClickOnBack = () => {
     history.goBack();
@@ -203,14 +212,19 @@ const UserInfo = ({ match: { params: { userId } } }) => {
           <Button>
             <EditSharpIcon onClick={handleClickOnEdit} />
           </Button>
-          <Button onClick={handleClickOnDelete} className={classes.deleteButton}>
+          <Button onClick={handleClickOpenPopUp} className={classes.deleteButton}>
             <DeleteOutlineIcon />
           </Button>
         </div>
       </Paper>
+      <PopUpDeleteUser
+        handleClickOnDelete={handleClickOnDelete}
+        handleClosePopUp={handleClosePopUp}
+        openPopUp={openPopUp}
+      />
     </div>
   );
-}
+};
 
 UserInfo.propTypes = {
   match: PropTypes.object,

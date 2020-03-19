@@ -48,7 +48,6 @@ export default function AddUserModal(props) {
     } = props;
     const classes = useStyles();
     const dispatch = useDispatch();
-
     const handleClose = () => {
         setAddUserModalOpen(false);
     };
@@ -70,7 +69,7 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
       };
     const developersChange = (developers) => setProject({ ...project, developers });
-
+    
     return (
         <div className={classes.position}>
             <Modal

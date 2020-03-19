@@ -43,12 +43,12 @@ export default function CustomList(props) {
     <div key={user._id}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Tooltip title={user.login}>
-            <Avatar onClick={() => handleClick(user._id)} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
+          <Tooltip title={user.fullName}>
+            <Avatar onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
           </Tooltip>
         </ListItemAvatar>
         <ListItemText
-          primary={user.login}
+          primary={user.fullName}
           secondary={(
             <>
               <Typography

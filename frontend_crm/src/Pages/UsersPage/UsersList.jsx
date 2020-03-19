@@ -10,7 +10,7 @@ const UsersList = ({ users }) => (
         <UserCard
           imgUrl={user.userImage}
           userId={user._id}
-          userName={user.login}
+          userName={user.fullName}
           userEmail={user.email}
           userPosition={user.status}
         />

@@ -203,7 +203,7 @@ function AddProjectPage(props) {
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
-                  style={{ marginRight: 5 }}
+                  style={{ paddingRight: 5 }}
                 // error={!project.status && isError}
                 // helperText={(!project.status && isError) ? "Empty field." : ''}
                 >
@@ -226,7 +226,7 @@ function AddProjectPage(props) {
                 </FormControl>
                 <FormControl
                   error={(!project.paymentAmount || !project.paymentType) && isError}
-                  style={{ marginLeft: 5 }}
+                  style={{ paddingLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
                 >
@@ -357,20 +357,32 @@ function AddProjectPage(props) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    style={{ width: '100%', paddingLeft: 5 }}
-                    value={project.source}
-                    error={!project.source && isError}
-                    // helperText={(!project.status && isError) ? "Empty field." : ''}
-                    variant="outlined"
-                    id="standard-multiline-flexible"
-                    label="Source"
-                    multiline
-                    rowsMax="5"
+      
+                <FormControl
+                  placeholder='Source'
+                  variant="outlined"
+                  className={clsx(classes.formControl)}
+                  style={{ paddingLeft: 5 , width: '100%'}}
+                  error={!project.source && isError}
+                // helperText={(!project.status && isError) ? "Empty field." : ''}
+                >
+                  <InputLabel >
+                    Source
+            </InputLabel>
+                  <Select
+                    className={classes.selectEmpty}
+                    labelWidth={47}
                     name='source'
+                    value={project.source}
                     onChange={handleChange}
-                  />
-                </Grid>
+                  >
+                    <MenuItem value="upwork">Upwork</MenuItem>
+                    <MenuItem value="angelList">AngelList</MenuItem>
+                    <MenuItem value="linkedIn">LinkedIn</MenuItem>
+                    {/* <MenuItem value="extraLeads">extra-leads</MenuItem> */}
+                  </Select>
+                </FormControl>
+                </Grid> 
               </Grid>
               <TextField
                 style={{ width: '100%' }}

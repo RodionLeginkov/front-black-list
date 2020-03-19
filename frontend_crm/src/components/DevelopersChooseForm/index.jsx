@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
@@ -29,14 +29,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DevelopersChooseForm(props) {
   const classes = useStyles();
-  const { developersChange, developersValue } = props;
+  const { developersChange, developersValue, isError } = props;
   const handleChange = (event, values) => {
     developersChange(values);
   };
-  
-  const  users = useSelector((state) => state.users.users)
+
+  const users = useSelector((state) => state.users.users);
   let filteredUsers = users;
-  console.log(users)
   for (const index in developersValue){
     filteredUsers = filteredUsers.filter((user) => {
       return(
@@ -61,9 +60,10 @@ export default function DevelopersChooseForm(props) {
       )}
       style={{ width: '100%' }}
       renderInput={params => (
-          <TextField {...params} variant="outlined" label="Developers" />
+          <TextField error={developersValue.length === 0 && isError} {...params} variant="outlined" label="Developers" />
+
         )}
-    />
+      />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -39,7 +39,7 @@ const names = [
 
 export default function StackForm(props) {
   const classes = useStyles();
-  const { stackChange, stackValue, isEdit } = props;
+  const { stackChange, stackValue } = props;
   const handleChange = (event, values) => {
     stackChange(values);
   };
@@ -68,6 +68,7 @@ export default function StackForm(props) {
           </>
         )}
         style={{ width: '100%' }}
+
         renderInput={(params) => (
           <TextField {...params} variant="outlined" label="Stack" />
         )}

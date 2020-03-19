@@ -85,7 +85,7 @@ export default function SignUp() {
   // console.log(userAuth.error);
   if (userAuth && userAuth.loggedIn) {
     window.location = '/';
-    // history.push('/projects');
+    // history.push('/');
   }
 
   // console.log(userAuth.error);

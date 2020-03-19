@@ -11,6 +11,7 @@ const intitialState = {
   loading: false,
   error: null,
   loggedIn: false,
+  token: null,
 };
 
 const authReducer = (state = intitialState, action) => {
@@ -20,11 +21,13 @@ const authReducer = (state = intitialState, action) => {
         ...state,
         loading: true,
         error: null,
+        token: null,
       };
     case SIGNIN_SUCCESS:
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,
+        token: action.payload.token,
         loading: false,
         loggedIn: true,
         error: null,
@@ -34,6 +37,7 @@ const authReducer = (state = intitialState, action) => {
         ...state,
         loggedIn: false,
         error: null,
+        token: null,
       };
     case SIGNIN_ERROR:
       return {
@@ -41,6 +45,7 @@ const authReducer = (state = intitialState, action) => {
         error: true,
         loading: false,
         loggedIn: false,
+        token: null,
       };
     case SIGNUP_LOADING:
       return {

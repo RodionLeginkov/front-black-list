@@ -5,7 +5,7 @@ import Loading from '../../components/Loading/index.jsx';
 
 function ProjectsCards(props) {
   const { projects } = props;
-  console.log(projects)
+  // console.log(projects)
 
   // if (!projects) return (<Loading />)
 

@@ -33,37 +33,36 @@ export default function DevelopersChooseForm(props) {
   const handleChange = (event, values) => {
     developersChange(values);
   };
-  
-  const  users = useSelector((state) => state.users.users)
+
+  const users = useSelector((state) => state.users.users);
   let filteredUsers = users;
-  console.log(users)
-  for (const index in developersValue){
-    filteredUsers = filteredUsers.filter((user) => {
-      return(
-      user.login !== developersValue[index].login)})
+  // console.log(users)
+  for (const index in developersValue) {
+    filteredUsers = filteredUsers.filter((user) => (
+      user.login !== developersValue[index].login));
   }
   return (
     <div>
-    <Autocomplete
-      multiple
-      className={clsx(classes.formControl, classes.inputForm)}
-      id="checkboxes-tags-demo"
-      options={filteredUsers}
-      disableCloseOnSelect
-      getOptionLabel={option => option.login}
-      onChange={handleChange}
-      value={developersValue}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-    
-          {option.login}
-        </React.Fragment>
-      )}
-      style={{ width: '100%' }}
-      renderInput={params => (
+      <Autocomplete
+        multiple
+        className={clsx(classes.formControl, classes.inputForm)}
+        id="checkboxes-tags-demo"
+        options={filteredUsers}
+        disableCloseOnSelect
+        getOptionLabel={(option) => option.login}
+        onChange={handleChange}
+        value={developersValue}
+        renderOption={(option, { selected }) => (
+          <>
+
+            {option.login}
+          </>
+        )}
+        style={{ width: '100%' }}
+        renderInput={(params) => (
           <TextField {...params} variant="outlined" label="Developers" />
         )}
-    />
+      />
     </div>
   );
 }

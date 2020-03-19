@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-async function getData(url, token) {
-  const response = await axios.get(url, { headers: { tokens: token } });
+async function getData(url, tokens) {
+  const response = await axios.get(url, { headers: { tokens } });
   return response;
 }
 
-async function deleteData(url, token) {
-  const response = await axios.delete(url, { headers: { tokens: token } });
+async function deleteData(url, tokens) {
+  const response = await axios.delete(url, { headers: { tokens } });
   return response;
 }
 
-async function patchData(url, data, token) {
-  const response = await axios.patch(url, data, { headers: { tokens: token } });
+async function patchData(url, data, tokens) {
+  const response = await axios.patch(url, data, { headers: { tokens } });
   return response;
 }
 

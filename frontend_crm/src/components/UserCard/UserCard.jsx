@@ -129,13 +129,16 @@ const UserCard = ({ user }) => {
           </div>
           <div className={classes.row}>
             <div className={classes.name}>
-              {user.login}
+              {user.fullName}
             </div>
           </div>
         </CardContent>
         <div className={classes.footer}>
           <div className={classes.stack}>{stackList}</div>
-          <CustomProjectIcon projectsIds={user.currentProject || []} addProject={changeIsShowingModal} />
+          <CustomProjectIcon
+            projectsIds={user.currentProject || []}
+            addProject={changeIsShowingModal}
+          />
         </div>
       </CardActionArea>
       <AddProjectModal

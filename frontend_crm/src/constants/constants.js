@@ -24,3 +24,12 @@ export const userRoles = [
   'HR',
   'Head of HR',
 ];
+
+export const englishLevels = [
+  'No knowledge of English',
+  'Elementary',
+  'Low intermediate',
+  'High intermediate',
+  'Advanced',
+  'Proficient',
+];

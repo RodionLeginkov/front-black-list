@@ -58,7 +58,9 @@ const userReducer = produce((draft, action) => {
       return draft;
 
     case EDIT_USER:
-      draft.users[draft.users.findIndex((user) => user._id === action.payload._id)] = action.payload;
+      draft.users[draft.users.findIndex((user) =>
+        user._id === action.payload._id)] = action.payload;
+      draft.currentUser = action.payload;
       return draft;
 
     case FIND_USER:

@@ -109,7 +109,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-function UserInfo({ match: { params: { userId } } }) {
+const UserInfo = ({ match: { params: { userId } } }) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -121,6 +121,10 @@ function UserInfo({ match: { params: { userId } } }) {
   const handleClickOnDelete = () => {
     dispatch(deleteUser(userId));
     history.push('/users');
+  };
+
+  const handleClickOnEdit = () => {
+    history.push(`/users/edituser/${userId}`);
   };
 
   const user = useSelector((state) => state.users.currentUser);
@@ -143,11 +147,11 @@ function UserInfo({ match: { params: { userId } } }) {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Developers
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.name || user.login}</h1>
+          <h1>{user.fullName || user.login}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
@@ -197,7 +201,7 @@ function UserInfo({ match: { params: { userId } } }) {
             <ArrowBackIosIcon />
           </Button>
           <Button>
-            <EditSharpIcon />
+            <EditSharpIcon onClick={handleClickOnEdit} />
           </Button>
           <Button onClick={handleClickOnDelete} className={classes.deleteButton}>
             <DeleteOutlineIcon />
@@ -209,11 +213,7 @@ function UserInfo({ match: { params: { userId } } }) {
 }
 
 UserInfo.propTypes = {
-  match: PropTypes.objectOf({
-    params: PropTypes.objectOf({
-      userId: PropTypes.string,
-    }),
-  }),
+  match: PropTypes.object,
 };
 UserInfo.defaultProps = {
   match: {},

@@ -111,7 +111,6 @@ const AddProjectModal = ({
                     {...params}
                     variant="outlined"
                     label="Projects"
-                    placeholder="Favorites"
                   />
                 )}
               />

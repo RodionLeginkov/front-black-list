@@ -115,7 +115,7 @@ function UserInfo({ match: { params: { userId } } }) {
   const dispatch = useDispatch();
 
   const handleClickOnBack = () => {
-    history.push('/users');
+    history.goBack();
   };
 
   const handleClickOnDelete = () => {

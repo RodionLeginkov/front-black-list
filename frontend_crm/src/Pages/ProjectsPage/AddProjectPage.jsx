@@ -25,6 +25,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import MessagerForm from '../../components/MessagerForm/MessagerForm.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
+import IconButton from '@material-ui/core/IconButton';
+import AddResourcesForm from '../../components/AddResourcesForm/AddResourcesForm.jsx'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -99,7 +102,9 @@ function AddProjectPage(props) {
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
   const initialValue = (projectId && curProject) ? curProject : {
-    _id: '', status: '', stack: [],
+    _id: '',
+     status: '',
+      stack: [],
     duration: '', group: [], name: '', comunication: '', messager: [],
     startDate: null, endDate: null, type: '', source: '',
     withdrawalOfFunds: '', owner: '', paymentType: '', paymentAmount: '',
@@ -143,8 +148,10 @@ function AddProjectPage(props) {
   const developersChange = (developers) => setProject({ ...project, developers });
   const messagerChange = (messager) => setProject({ ...project, messager });
   // const comunicationChange = (comunication) => setProject({ ...project, comunication })
-  const startDateChange = (startDate) => setProject({ ...project, startDate });
+  const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
+  const resChange = (newRes) => setProject({...project, resources: [...project.resources, newRes] })
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -187,6 +194,7 @@ function AddProjectPage(props) {
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <h2>Add new project</h2>
               <TextField
+                required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}
                 // helperText={(!project.name && isError) ? "Empty field." : ''}
@@ -225,6 +233,7 @@ function AddProjectPage(props) {
                   </Select>
                 </FormControl>
                 <FormControl
+                  required
                   error={(!project.paymentAmount || !project.paymentType) && isError}
                   style={{ paddingLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
@@ -307,6 +316,7 @@ function AddProjectPage(props) {
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
                     error={!project.comunication && isError}
+                    required
                   >
                     <InputLabel >
                       Format of comunication
@@ -349,6 +359,7 @@ function AddProjectPage(props) {
                     id="standard-multiline-flexible"
                     label="Type"
                     error={!project.type && isError}
+                    required
                     // helperText={(!project.status && isError) ? "Empty field." : ''}
                     multiline
                     rowsMax="5"
@@ -357,46 +368,35 @@ function AddProjectPage(props) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-      
-                <FormControl
-                  placeholder='Source'
-                  variant="outlined"
-                  className={clsx(classes.formControl)}
-                  style={{ paddingLeft: 5 , width: '100%'}}
-                  error={!project.source && isError}
-                // helperText={(!project.status && isError) ? "Empty field." : ''}
-                >
-                  <InputLabel >
-                    Source
-            </InputLabel>
-                  <Select
-                    className={classes.selectEmpty}
-                    labelWidth={47}
-                    name='source'
-                    value={project.source}
-                    onChange={handleChange}
+
+                  <FormControl
+                    placeholder='Source'
+                    variant="outlined"
+                    required
+                    className={clsx(classes.formControl)}
+                    style={{ paddingLeft: 5, width: '100%' }}
+                    required
+                    error={!project.source && isError}
+                  // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
-                    <MenuItem value="upwork">Upwork</MenuItem>
-                    <MenuItem value="angelList">AngelList</MenuItem>
-                    <MenuItem value="linkedIn">LinkedIn</MenuItem>
-                    {/* <MenuItem value="extraLeads">extra-leads</MenuItem> */}
-                  </Select>
-                </FormControl>
-                </Grid> 
+                    <InputLabel >
+                      Source
+            </InputLabel>
+                    <Select
+                      className={classes.selectEmpty}
+                      labelWidth={47}
+                      name='source'
+                      value={project.source}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="upwork">Upwork</MenuItem>
+                      <MenuItem value="angelList">AngelList</MenuItem>
+                      <MenuItem value="linkedIn">LinkedIn</MenuItem>
+                      {/* <MenuItem value="extraLeads">extra-leads</MenuItem> */}
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
-              <TextField
-                style={{ width: '100%' }}
-                value={project.resources}
-                variant="outlined"
-                id="standard-multiline-flexible"
-                error={project.resources.length === 0 && isError}
-                // helperText={(!project.status && isError) ? "Empty field." : ''}
-                label="Resources"
-                multiline
-                rowsMax="5"
-                name='resources'
-                onChange={handleChange}
-              />
 
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
                 <Grid item xs={4}>
@@ -406,6 +406,7 @@ function AddProjectPage(props) {
                     // className={clsx( classes.inputForm)}
                     style={{ width: '100%', paddingRight: '10px' }}
                     error={!project.withdrawalOfFunds && isError}
+                    required
                   // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel >
@@ -442,6 +443,7 @@ function AddProjectPage(props) {
                 <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%' }}
+                    required
                     error={!project.load && isError}
                     // helperText={(!project.status && isError) ? "Empty field." : ''}
                     value={project.load}
@@ -502,6 +504,7 @@ function AddProjectPage(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
+                        required
                         label="Start date"
                         error={!project.startDate && isError}
                         value={project.startDate}
@@ -530,22 +533,23 @@ function AddProjectPage(props) {
                       />
                     </Grid> : ''}
                   </Grid>
+                 <AddResourcesForm project={project} resChange={resChange} isError={isError}/>
                 </MuiPickersUtilsProvider>
               </div>
-              <div className={classes.button}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className={classes.submitButton}
-                >
-                  Submit
+            <div className={classes.button}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                className={classes.submitButton}
+              >
+                Submit
                 </Button>
-              </div>
+            </div>
             </form>
           </div>
         </Paper>
-      </div>
+    </div>
     </>
   );
 }

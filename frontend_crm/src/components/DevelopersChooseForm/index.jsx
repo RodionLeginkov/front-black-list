@@ -39,7 +39,7 @@ export default function DevelopersChooseForm(props) {
   for (const index in developersValue){
     filteredUsers = filteredUsers.filter((user) => {
       return(
-      user.login !== developersValue[index].login)})
+      user.fullName !== developersValue[index].fullName)})
   }
   return (
     <div>
@@ -49,13 +49,13 @@ export default function DevelopersChooseForm(props) {
       id="checkboxes-tags-demo"
       options={filteredUsers}
       disableCloseOnSelect
-      getOptionLabel={option => option.login}
+      getOptionLabel={option => option.fullName}
       onChange={handleChange}
       value={developersValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
     
-          {option.login}
+          {option.fullName}
         </React.Fragment>
       )}
       style={{ width: '100%' }}

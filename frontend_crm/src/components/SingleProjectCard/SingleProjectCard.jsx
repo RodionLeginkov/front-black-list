@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,6 +15,7 @@ import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomAvatar from '../CustomAvatar/CustomAvatar.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddUserModal from '../AddUserModal/AddUserModal';
 
 const useStyles = makeStyles((theme) => ({

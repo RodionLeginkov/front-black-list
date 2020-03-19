@@ -6,8 +6,10 @@ import UserCard from '../../components/UserCard/UserCard.jsx';
 const UsersList = ({ users }) => (
   <>
     {users.map((user) => (
+
       <Grid item container justify="flex-start" key={Math.random()} xs={12} sm={6} md={4} lg={3} xl={2}>
         <UserCard user={user} />
+
       </Grid>
     ))}
   </>

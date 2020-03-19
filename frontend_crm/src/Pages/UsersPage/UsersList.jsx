@@ -7,13 +7,7 @@ const UsersList = ({ users }) => (
   <>
     {users.map((user) => (
       <Grid item container justify="flex-start" key={Math.random()} xs={12} sm={6} md={4} lg={3} xl={2}>
-        <UserCard
-          imgUrl={user.userImage}
-          userId={user._id}
-          userName={user.login}
-          userEmail={user.email}
-          userPosition={user.status}
-        />
+        <UserCard user={user} />
       </Grid>
     ))}
   </>

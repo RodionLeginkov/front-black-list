@@ -10,7 +10,8 @@ import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
 const useStyles = makeStyles({
   container: {
-    marginLeft: '100px',
+    paddingLeft: '100px',
+    background: '#fff',
   },
   usersWrapper: {
     width: '100%',

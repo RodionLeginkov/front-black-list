@@ -2,7 +2,7 @@ import produce from 'immer';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
-  FILTER_USER_EMAIL,
+  FILTER_USER_EMAIL, EDIT_USER,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -54,6 +54,10 @@ const userReducer = produce((draft, action) => {
     case CURRENT_USER:
       draft.users = action.payload;
       draft.loadingCurrentUser = false;
+      return draft;
+
+    case EDIT_USER:
+      draft.users[draft.users.findIndex((user) => user._id === action.payload._id)] = action.payload;
       return draft;
 
     case FIND_USER:

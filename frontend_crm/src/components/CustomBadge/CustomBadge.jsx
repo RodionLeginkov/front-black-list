@@ -7,7 +7,7 @@ import brown from '@material-ui/core/colors/brown';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   badge: {
     padding: '2px 4px',
     // display: 'flex',
@@ -63,10 +63,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#1240AB',
   },
   middle: {
-    backgroundColor: '#6F0AAA	',
+    backgroundColor: '#6F0AAA',
   },
   senior: {
-    backgroundColor: '#00C90D	',
+    backgroundColor: '#00C90D',
+  },
+  role: {
+    backgroundColor: '#964994',
+    whiteSpace: 'nowrap',
+    transition: 'all 0.25s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
+      cursor: 'default',
+    },
   },
   duration: {
     marginTop: 3,
@@ -99,6 +108,7 @@ export default function CustomBadge(props) {
     [classes.junior]: position === 'junior',
     [classes.middle]: position === 'middle',
     [classes.senior]: position === 'senior',
+    [classes.role]: !!position === true,
   }, className);
 
 

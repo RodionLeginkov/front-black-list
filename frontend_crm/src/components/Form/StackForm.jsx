@@ -43,13 +43,11 @@ export default function StackForm(props) {
   const handleChange = (event, values) => {
     stackChange(values);
   };
-  let filteredTechs = names
+  let filteredTechs = names;
 
   for (const index in stackValue) {
-    filteredTechs = filteredTechs.filter((t) => {
-      return (
-        t.tech !== stackValue[index].tech)
-    })
+    filteredTechs = filteredTechs.filter((t) => (
+      t.tech !== stackValue[index].tech));
   }
 
   return (
@@ -61,16 +59,17 @@ export default function StackForm(props) {
         id="checkboxes-tags-demo"
         options={filteredTechs}
         disableCloseOnSelect
-        getOptionLabel={option => option.tech}
+        getOptionLabel={(option) => option.tech}
         onChange={handleChange}
         value={stackValue}
         renderOption={(option, { selected }) => (
-          <React.Fragment>
+          <>
             {option.tech}
-          </React.Fragment>
+          </>
         )}
         style={{ width: '100%' }}
-        renderInput={params => (
+
+        renderInput={(params) => (
           <TextField {...params} variant="outlined" label="Stack" />
         )}
       />

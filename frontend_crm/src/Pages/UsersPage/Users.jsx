@@ -10,7 +10,8 @@ import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
 const useStyles = makeStyles({
   container: {
-    marginLeft: '100px',
+    paddingLeft: '100px',
+    background: '#fff',
   },
   usersWrapper: {
     width: '100%',
@@ -35,10 +36,9 @@ function Users() {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.filteredUsers);
+  const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
 
-  
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);

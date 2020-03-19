@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar';
 import Users from './Pages/UsersPage/Users';
@@ -23,6 +24,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  // localStorage.setItem('token', '');
   return (
 
     <ThemeProvider theme={theme}>

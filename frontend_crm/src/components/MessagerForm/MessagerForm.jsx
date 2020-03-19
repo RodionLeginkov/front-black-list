@@ -39,12 +39,14 @@ export default function MessagerForm(props) {
   const handleChange = (event, values) => {
     messagerChange(values);
   };
+
   let filteredMessagers = messegers
   for (const index in messagerValue) {
     filteredMessagers = filteredMessagers.filter((t) => {
       return (
         t.tech !== messagerValue[index].tech)
     })
+
   }
   return (
     <div>

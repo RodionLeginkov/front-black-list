@@ -87,9 +87,13 @@ function CurrentProject(props) {
   }, [dispatch, projectId, project]);
   let stackList = [];
   if (!project) { return (<Loading />); }
-  stackList = project.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
-  ));
+  
+  if (project) {
+    console.log("SAFDASFSDAFSAF",project)
+    stackList = project.stack.map((elem) => (
+      <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
+    ));
+  }
   return (
     <div style={{ marginLeft: '85px' }}>
 

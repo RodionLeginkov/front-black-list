@@ -99,6 +99,7 @@ function AddResourcesForm(props) {
             // helperText={(!project.status && isError) ? "Empty field." : ''}
             label={`Resource №${project.resources.indexOf(elem) + 1}`}
             multiline
+            key={elem}
             rowsMax="5"
             name='resources'
         // onChange={handleChange}

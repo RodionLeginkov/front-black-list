@@ -67,6 +67,7 @@ export const deleteProject = (id) => async (dispatch) => {
 export const updateProject = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
+    // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });
     dispatch({ type: EDIT_PROJECT, payload: data[0] });
   } catch (error) {

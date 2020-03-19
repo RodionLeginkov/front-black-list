@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -34,42 +34,42 @@ const messegers = [
 
 export default function MessagerForm(props) {
   const classes = useStyles();
-  const { messagerChange, messagerValue, isError } = props; 
+  const { messagerChange, messagerValue, isError } = props;
 
   const handleChange = (event, values) => {
     messagerChange(values);
   };
   let filteredMessagers = messegers
-
-  for (const index in messagerValue){
+  for (const index in messagerValue) {
     filteredMessagers = filteredMessagers.filter((t) => {
-      return(
-      t.tech !== messagerValue[index].tech)})
+      return (
+        t.tech !== messagerValue[index].tech)
+    })
   }
   return (
     <div>
 
       <Autocomplete
-      multiple
-      className={clsx(classes.formControl, classes.inputForm)}
-      id="checkboxes-tags-demo"
-      options={filteredMessagers}
-      disableCloseOnSelect
-      getOptionLabel={option => option.tech}
-      onChange={handleChange}
-      error={!messagerValue && isError} 
-      value={messagerValue}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-        
-          {option.tech}
-        </React.Fragment>
-      )}
-      style={{ width: '100%' }}
-      renderInput={params => (
-          <TextField error={messagerValue.length && isError} {...params} variant="outlined" label="Messagers" />
+        multiple
+        className={clsx(classes.formControl, classes.inputForm)}
+        id="checkboxes-tags-demo"
+        options={filteredMessagers}
+        disableCloseOnSelect
+        getOptionLabel={option => option.tech}
+        onChange={handleChange}
+        value={messagerValue}
+        renderOption={(option, { selected }) => (
+          <React.Fragment>
+
+            {option.tech}
+          </React.Fragment>
         )}
-    />
+        style={{ width: '100%' }}
+        renderInput={params => (
+          <TextField error={messagerValue.length === 0 && isError} {...params} variant="outlined" label="Messagers" />
+        )}
+      />
     </div>
   );
 }
+ // helperText={(!project.status && isError) ? "Empty field." : ''}

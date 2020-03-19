@@ -8,7 +8,6 @@ import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
-import Loading from '../../components/Loading';
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 

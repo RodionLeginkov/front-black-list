@@ -7,7 +7,7 @@ const getStackFilters = (state) => state.users.filters.stack;
 const getUserName = (state) => state.users.filters.name;
 const getUserEmail = (state) => state.users.filters.email;
 const getUserPhone = (state) => state.users.filters.phone;
-
+const getUserEnglishLevel = (state) => state.users.filters.englishLevel;
 
 const getUsersByName = createSelector(
   getUsers,
@@ -53,6 +53,16 @@ const getUsersByPhone = createSelector(
   },
 );
 
+const getUsersByEnglishLevel = createSelector(
+  getUsers,
+  getUserEnglishLevel,
+  (users, userLevel) => {
+    if (userLevel.includes('all')) return users;
+    return users.filter((user) => (
+      user.englishLevel && userLevel.includes(user.englishLevel)));
+  },
+);
+
 const getFilteredUsers = createSelector(
   getUsers,
   getUsersByName,
@@ -60,12 +70,15 @@ const getFilteredUsers = createSelector(
   getUsersByStack,
   getUsersByEmail,
   getUsersByPhone,
-  (users, usersByName, userByRole, userByStack, userByEmail, userByPhone) => users.filter((user) => (
+  getUsersByEnglishLevel,
+  (users, usersByName, userByRole, userByStack,
+    userByEmail, userByPhone, UsersByEnglishLevel) => users.filter((user) => (
     userByRole.includes(user)
     && userByStack.includes(user)
     && usersByName.includes(user)
     && userByEmail.includes(user)
     && userByPhone.includes(user)
+    && UsersByEnglishLevel.includes(user)
   )),
 );
 

@@ -3,6 +3,7 @@ import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
   FILTER_USER_EMAIL, EDIT_USER, FILTER_USER_STACK, FILTER_USER_PHONE,
+  FILTER_USER_ENGLISH_LEVEL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
     skill: [],
     role: ['all'],
     stack: ['all'],
-    englishLevel: [],
+    englishLevel: ['all'],
     email: '',
     phone: '',
   },
@@ -81,6 +82,10 @@ const userReducer = produce((draft, action) => {
 
     case FILTER_USER_PHONE:
       draft.filters.phone = action.payload;
+      return draft;
+
+    case FILTER_USER_ENGLISH_LEVEL:
+      draft.filters.englishLevel = action.payload;
       return draft;
 
     case FILTER_USER_EMAIL:

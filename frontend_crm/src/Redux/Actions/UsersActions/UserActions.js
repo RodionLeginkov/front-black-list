@@ -5,7 +5,7 @@ import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
   FILTER_USER_NAME, FILTER_USER_EMAIL, EDIT_USER, EDIT_USER_ERROR,
-  FILTER_USER_STACK, FILTER_USER_PHONE,
+  FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = () => async (dispatch) => {
@@ -67,3 +67,6 @@ export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: na
 export const filteredUserEmail = (email) => ({ type: FILTER_USER_EMAIL, payload: email });
 
 export const filteredUserPhone = (phone) => ({ type: FILTER_USER_PHONE, payload: phone });
+
+export const filteredUserEnglishLevel = (level) => (
+  ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level }));

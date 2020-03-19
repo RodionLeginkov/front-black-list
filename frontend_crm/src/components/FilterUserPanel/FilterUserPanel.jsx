@@ -10,9 +10,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import {
   filteredUserRole, filteredUserName, filteredUserEmail, filteredUserPhone,
-  filteredUserStack,
+  filteredUserStack, filteredUserEnglishLevel,
 } from '../../Redux/Actions/UsersActions/UserActions';
-import { userRoles, stackList } from '../../constants/constants';
+import { userRoles, stackList, englishLevels } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -60,6 +60,10 @@ const FilterUserPanel = () => {
     dispatch(filteredUserStack(values));
   });
 
+  const handleChangeEnglishLevel = ((event, values) => {
+    dispatch(filteredUserEnglishLevel(values));
+  });
+
   const onChangeSearchName = (event) => {
     setSearchName(event.target.value);
     dispatch(filteredUserName(event.target.value));
@@ -86,7 +90,6 @@ const FilterUserPanel = () => {
           <Typography className={classes.heading}>Filters</Typography>
         </ExpansionPanelSummary>
         <Grid spacing={2} container justify="space-between" className={classes.filtersBlock}>
-          {/* <Grid container item direction="row" justify="center" spacing={2} xs={12} md={8} lg={6}> */}
           <Grid item xs={12} sm={4}>
             <TextField
               label="Name"
@@ -117,7 +120,6 @@ const FilterUserPanel = () => {
               className={classes.searchField}
             />
           </Grid>
-          {/* </Grid> */}
           <Grid item xs={12} lg={6}>
             <Autocomplete
               multiple
@@ -147,6 +149,23 @@ const FilterUserPanel = () => {
                   {...params}
                   variant="outlined"
                   label="Stack"
+                />
+              )}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Autocomplete
+              multiple
+              options={englishLevels}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeEnglishLevel}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="English Level"
                 />
               )}
               size="small"

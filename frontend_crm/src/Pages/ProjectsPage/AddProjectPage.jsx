@@ -103,13 +103,27 @@ function AddProjectPage(props) {
 
   const initialValue = (projectId && curProject) ? curProject : {
     _id: '',
-     status: '',
-      stack: [],
-    duration: '', group: [], name: '', comunication: '', messager: [],
-    startDate: null, endDate: null, type: '', source: '',
-    withdrawalOfFunds: '', owner: '', paymentType: '', paymentAmount: '',
-    load: '', description: '', resources: [], history: '',
-    projectImage: '', developers: [],
+    status: '',
+    stack: [],
+    duration: '',
+    group: [],
+    name: '',
+    comunication: '',
+    messager: [],
+    startDate: null,
+    endDate: null,
+    type: '',
+    source: '',
+    withdrawalOfFunds: '',
+    owner: '',
+    paymentType: '',
+    paymentAmount: '',
+    load: '',
+    description: '',
+    resources: [],
+    history: '',
+    projectImage: '',
+    developers: [],
   };
   const reqFields = ['name', 'comunication', 'startDate',
     'type', 'source', 'withdrawalOfFunds',
@@ -150,7 +164,7 @@ function AddProjectPage(props) {
   // const comunicationChange = (comunication) => setProject({ ...project, comunication })
   const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
-  const resChange = (newRes) => setProject({...project, resources: [...project.resources, newRes] })
+  const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
 
 
   const onSubmit = (e) => {
@@ -533,23 +547,23 @@ function AddProjectPage(props) {
                       />
                     </Grid> : ''}
                   </Grid>
-                 <AddResourcesForm project={project} resChange={resChange} isError={isError}/>
+                  <AddResourcesForm project={project} resChange={resChange} isError={isError} />
                 </MuiPickersUtilsProvider>
               </div>
-            <div className={classes.button}>
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                className={classes.submitButton}
-              >
-                Submit
+              <div className={classes.button}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  className={classes.submitButton}
+                >
+                  Submit
                 </Button>
-            </div>
+              </div>
             </form>
           </div>
         </Paper>
-    </div>
+      </div>
     </>
   );
 }

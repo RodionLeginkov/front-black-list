@@ -6,13 +6,14 @@ const getRoleFilters = (state) => state.users.filters.role;
 const getStackFilters = (state) => state.users.filters.stack;
 const getUserName = (state) => state.users.filters.name;
 const getUserEmail = (state) => state.users.filters.email;
+const getUserPhone = (state) => state.users.filters.phone;
 
 
 const getUsersByName = createSelector(
   getUsers,
   getUserName,
   (users, userName) => users.filter((user) => (
-    user.name && user.name.toLowerCase().includes(userName.toLowerCase()))),
+    user.fullName && user.fullName.toLowerCase().includes(userName.toLowerCase()))),
 );
 
 const getUsersByRole = createSelector(
@@ -42,6 +43,15 @@ const getUsersByEmail = createSelector(
     user.email && user.email.toLowerCase().includes(userEmail.toLowerCase()))),
 );
 
+const getUsersByPhone = createSelector(
+  getUsers,
+  getUserPhone,
+  (users, userPhone) => {
+    if (!userPhone) return users;
+    return users.filter((user) => (
+      user.phoneNumber && user.phoneNumber.includes(userPhone)));
+  },
+);
 
 const getFilteredUsers = createSelector(
   getUsers,
@@ -49,11 +59,13 @@ const getFilteredUsers = createSelector(
   getUsersByRole,
   getUsersByStack,
   getUsersByEmail,
-  (users, usersByName, userByRole, userByStack, userByEmail) => users.filter((user) => (
+  getUsersByPhone,
+  (users, usersByName, userByRole, userByStack, userByEmail, userByPhone) => users.filter((user) => (
     userByRole.includes(user)
     && userByStack.includes(user)
-    // && usersByName.includes(user)
+    && usersByName.includes(user)
     && userByEmail.includes(user)
+    && userByPhone.includes(user)
   )),
 );
 

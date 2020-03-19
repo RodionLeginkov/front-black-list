@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
-import { useHistory } from 'react-router-dom';
+
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
@@ -136,7 +136,7 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography style={{ cursor: 'pointer', }} onClick={() => history.push('/')} variant="h6" noWrap>
+          <Typography style={{ cursor: 'pointer' }} onClick={() => history.push('/')} variant="h6" noWrap>
             Exceed
           </Typography>
           <div className={classes.iconGroup}>

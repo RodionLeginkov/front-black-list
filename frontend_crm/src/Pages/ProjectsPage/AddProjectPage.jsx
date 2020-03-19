@@ -29,7 +29,6 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { object } from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -107,8 +106,9 @@ function AddProjectPage(props) {
     load: '', description: '', resources: [], history: '',
     projectImage: '', developers: [],
   };
-  const reqFields = ['comunication', 'name', 'messager', 'startDate', 'type', 'source', 'withdrawalOfFunds', 'owner',
-    'paymentType', 'paymentAmount', 'load', 'description', 'resources', 'developers', 'status', 'duration']
+  const reqFields = ['name', 'comunication', 'startDate',
+    'type', 'source', 'withdrawalOfFunds',
+    'paymentType', 'paymentAmount', 'load', 'resources',]
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false)
   useEffect(() => {
@@ -142,15 +142,14 @@ function AddProjectPage(props) {
   // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
   const developersChange = (developers) => setProject({ ...project, developers });
   const messagerChange = (messager) => setProject({ ...project, messager });
-  const comunicationChange = (comunication) => setProject({ ...project, comunication })
+  // const comunicationChange = (comunication) => setProject({ ...project, comunication })
   const startDateChange = (startDate) => setProject({ ...project, startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
 
-
   const onSubmit = (e) => {
     e.preventDefault();
-    // const isEmpty = reqFields.find((field) => !project.field)
-    // if (!isEmpty) {
+    const isEmpty = reqFields.find((field) => { return (!project[field]) })
+    if (isEmpty === undefined) {
       if (projectId) {
         dispatch(updateProject(project));
         history.push(`/projects/${project._id}`);
@@ -158,8 +157,8 @@ function AddProjectPage(props) {
         dispatch(addProject(project));
         history.push('/projects');
       }
-    // }
-    // else setIsError(true)
+    }
+    else setIsError(true)
   };
 
   return (
@@ -201,12 +200,12 @@ function AddProjectPage(props) {
               />
               <div className={classes.smallForm}>
                 <FormControl
-                  error={!project.status && isError}
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
-                  style={{ marginRight: 5 }}
-                  // helperText={(!project.status && isError) ? "Empty field." : ''}
+                  style={{ paddingRight: 5 }}
+                // error={!project.status && isError}
+                // helperText={(!project.status && isError) ? "Empty field." : ''}
                 >
                   <InputLabel >
                     Status
@@ -226,22 +225,23 @@ function AddProjectPage(props) {
                   </Select>
                 </FormControl>
                 <FormControl
-                  error={!project.paymentAmount && !project.paymentType && isError}
-                  style={{ marginLeft: 5 }}
+                  error={(!project.paymentAmount || !project.paymentType) && isError}
+                  style={{ paddingLeft: 5 }}
                   className={clsx(classes.formControl, classes.inputForm)}
                   variant="outlined"
                 >
                   <InputLabel htmlFor="outlined-adornment-password">Payment</InputLabel>
                   <OutlinedInput
+                    type="number"
                     style={{ paddingRight: 9 }}
                     value={project.paymentAmount}
                     onChange={handleChange}
+                    // error={!project.comunication && isError}
                     name='paymentAmount'
                     endAdornment={
                       <InputAdornment position="end">
                         {" "}
                         <Select
-                          
                           disableUnderline={true}
                           style={{ minWidth: 0 }}
                           onChange={handleChange}
@@ -281,7 +281,7 @@ function AddProjectPage(props) {
                     placeholder='Duration'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-                    error={!project.duration && isError}
+                  // error={!project.duration && isError}
                   >
                     <InputLabel >
                       Duration
@@ -330,11 +330,11 @@ function AddProjectPage(props) {
                 messagerChange={messagerChange}
                 messagerValue={project.messager}
                 projectId
-                isError
+              // isError={isError}
               />
               {projectId ? <StackForm
                 name='stack'
-                
+
                 stackChange={stackChange}
                 stackValue={project.stack}
                 isEdit
@@ -348,7 +348,8 @@ function AddProjectPage(props) {
                     variant="outlined"
                     id="standard-multiline-flexible"
                     label="Type"
-                    
+                    error={!project.type && isError}
+                    // helperText={(!project.status && isError) ? "Empty field." : ''}
                     multiline
                     rowsMax="5"
                     name='type'
@@ -356,26 +357,40 @@ function AddProjectPage(props) {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    style={{ width: '100%', paddingLeft: 5 }}
-                    value={project.source}
-                    
-                    variant="outlined"
-                    id="standard-multiline-flexible"
-                    label="Source"
-                    multiline
-                    rowsMax="5"
+      
+                <FormControl
+                  placeholder='Source'
+                  variant="outlined"
+                  className={clsx(classes.formControl)}
+                  style={{ paddingLeft: 5 , width: '100%'}}
+                  error={!project.source && isError}
+                // helperText={(!project.status && isError) ? "Empty field." : ''}
+                >
+                  <InputLabel >
+                    Source
+            </InputLabel>
+                  <Select
+                    className={classes.selectEmpty}
+                    labelWidth={47}
                     name='source'
+                    value={project.source}
                     onChange={handleChange}
-                  />
-                </Grid>
+                  >
+                    <MenuItem value="upwork">Upwork</MenuItem>
+                    <MenuItem value="angelList">AngelList</MenuItem>
+                    <MenuItem value="linkedIn">LinkedIn</MenuItem>
+                    {/* <MenuItem value="extraLeads">extra-leads</MenuItem> */}
+                  </Select>
+                </FormControl>
+                </Grid> 
               </Grid>
               <TextField
                 style={{ width: '100%' }}
                 value={project.resources}
                 variant="outlined"
                 id="standard-multiline-flexible"
-                
+                error={project.resources.length === 0 && isError}
+                // helperText={(!project.status && isError) ? "Empty field." : ''}
                 label="Resources"
                 multiline
                 rowsMax="5"
@@ -386,11 +401,12 @@ function AddProjectPage(props) {
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
                 <Grid item xs={4}>
                   <FormControl
-                    
                     placeholder='Withdrawal of funds'
                     variant="outlined"
                     // className={clsx( classes.inputForm)}
                     style={{ width: '100%', paddingRight: '10px' }}
+                    error={!project.withdrawalOfFunds && isError}
+                  // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel >
                       Withdrawal of funds
@@ -410,7 +426,8 @@ function AddProjectPage(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
-                    
+                    // error={!project.owner && isError}
+                    // helperText={(!project.status && isError) ? "Empty field." : ''}
                     style={{ width: '100%', paddingRight: '10px' }}
                     value={project.owner}
                     variant="outlined"
@@ -425,7 +442,8 @@ function AddProjectPage(props) {
                 <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%' }}
-                    
+                    error={!project.load && isError}
+                    // helperText={(!project.status && isError) ? "Empty field." : ''}
                     value={project.load}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -441,10 +459,10 @@ function AddProjectPage(props) {
                 <Grid item xs={12}>
                   <DevelopersChooseForm
                     name='developers'
-                    
                     developersChange={developersChange}
                     developersValue={project.developers}
-                    isEdit />
+                  // isError={isError}
+                  />
                 </Grid>
                 {/* <Grid item xs={6}>
                   <TextField
@@ -461,7 +479,7 @@ function AddProjectPage(props) {
                 </Grid> */}
               </Grid>
               <TextField
-                
+
                 value={project.description}
                 variant="outlined"
                 id="standard-multiline-flexible"
@@ -485,7 +503,7 @@ function AddProjectPage(props) {
                         format="MM/dd/yyyy"
                         margin="normal"
                         label="Start date"
-                        
+                        error={!project.startDate && isError}
                         value={project.startDate}
                         onChange={startDateChange}
                         KeyboardButtonProps={{
@@ -502,7 +520,7 @@ function AddProjectPage(props) {
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
-                        
+
                         label="End date"
                         value={project.endDate}
                         onChange={endDateChange}

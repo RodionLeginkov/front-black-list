@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -39,11 +39,14 @@ export default function MessagerForm(props) {
   const handleChange = (event, values) => {
     messagerChange(values);
   };
-  let filteredMessagers = messegers;
 
+  let filteredMessagers = messegers
   for (const index in messagerValue) {
-    filteredMessagers = filteredMessagers.filter((t) => (
-      t.tech !== messagerValue[index].tech));
+    filteredMessagers = filteredMessagers.filter((t) => {
+      return (
+        t.tech !== messagerValue[index].tech)
+    })
+
   }
   return (
     <div>
@@ -54,21 +57,21 @@ export default function MessagerForm(props) {
         id="checkboxes-tags-demo"
         options={filteredMessagers}
         disableCloseOnSelect
-        getOptionLabel={(option) => option.tech}
+        getOptionLabel={option => option.tech}
         onChange={handleChange}
-        error={!messagerValue && isError}
         value={messagerValue}
         renderOption={(option, { selected }) => (
-          <>
+          <React.Fragment>
 
             {option.tech}
-          </>
+          </React.Fragment>
         )}
         style={{ width: '100%' }}
-        renderInput={(params) => (
-          <TextField {...params} variant="outlined" label="Messagers" />
+        renderInput={params => (
+          <TextField error={messagerValue.length === 0 && isError} {...params} variant="outlined" label="Messagers" />
         )}
       />
     </div>
   );
 }
+ // helperText={(!project.status && isError) ? "Empty field." : ''}

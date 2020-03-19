@@ -123,7 +123,7 @@ export default function RecipeReviewCard(props) {
             <div className={classes.projectInfo}>
               <div className={classes.priceAndDuration}>
                 <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" />
-                <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px' }} />
+                { card.duration ? <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px' }} /> : ''}
               </div>
               <div>
                 <div style={{ margin: '10px', display: 'flex' }}>

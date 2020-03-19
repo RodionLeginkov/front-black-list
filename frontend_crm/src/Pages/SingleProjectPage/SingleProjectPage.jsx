@@ -77,7 +77,6 @@ function CurrentProject(props) {
   const { projectId } = props.match.params;
 
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.projects.loadingCurrentProjects);
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
     if (!project) {
@@ -86,7 +85,6 @@ function CurrentProject(props) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
-  // console.log(project)  
   let stackList = [];
   if (!project) { return (<Loading />); }
   stackList = project.stack.map((elem) => (

@@ -8,14 +8,12 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import {
-  filteredUserStatus, filteredUserName, filteredUserEmail, filteredUserPhone,
+  filteredUserRole, filteredUserName, filteredUserEmail, filteredUserPhone,
+  filteredUserStack,
 } from '../../Redux/Actions/UsersActions/UserActions';
-import { userRoles } from '../../constants/constants';
+import { userRoles, stackList } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -54,49 +52,37 @@ const useStyles = makeStyles(() => ({
   },
   textFields: {
     display: 'flex',
-    flexDirection: 'row',
+    flexWrap: 'wrap',
     width: '100%',
   },
   searchField: {
     width: '100%',
     marginRight: 20,
+    marginBottom: 10,
   },
-  select: {
-    minWidth: 229,
+  filter: {
+    width: '100%',
+    maxWidth: 727,
     minHeight: 40,
-    border: '1px solid rgba(0, 0, 0, 0.2)',
-    borderRadius: 4,
-    '&:before': {
-      borderBottom: '0',
-    },
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    margin: 2,
-  },
-  selectedRole: {
-    fontWeight: 600,
-  },
-  notSelectedRole: {
-    fontWeight: 400,
+    marginRight: 20,
+    marginBottom: 10,
   },
 }));
 
 const FilterUserPanel = () => {
   const classes = useStyles();
-  const [selectedFilters, setSelectedFilters] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [searchEmail, setSearchEmail] = useState('');
   const [searchPhone, setSearchPhone] = useState('');
 
   const dispatch = useDispatch();
 
-  const handleChange = ((event) => {
-    setSelectedFilters(event.target.value);
-    dispatch(filteredUserStatus(event.target.value));
+  const handleChangeRole = ((event, values) => {
+    dispatch(filteredUserRole(values));
+  });
+
+  const handleChangeStack = ((event, values) => {
+    dispatch(filteredUserStack(values));
   });
 
   const onChangeSearchName = (event) => {
@@ -113,23 +99,6 @@ const FilterUserPanel = () => {
     setSearchPhone(event.target.value);
     dispatch(filteredUserPhone(event.target.value));
   };
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
-  function getStyles(role, selectedRoles) {
-    return (selectedRoles.includes(role)
-      ? classes.selectedRole
-      : classes.notSelectedRole);
-  }
 
   return (
     <div className={classes.root}>
@@ -180,35 +149,41 @@ const FilterUserPanel = () => {
 
           </ExpansionPanelDetails>
           <ExpansionPanelDetails className={classes.details}>
-            <div className={classes.itemTitle}>Job position</div>
             <FormGroup className={classes.formGroup}>
-              <Select
-                className={classes.select}
+              <Autocomplete
                 multiple
-                value={selectedFilters}
-                onChange={handleChange}
-                variant="outlined"
-                size='small'
-                input={<Input id="select-multiple-chip" />}
-                renderValue={(selected) => (
-                  <div className={classes.chips}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={value} className={classes.chip} />
-                    ))}
-                  </div>
+                options={userRoles}
+                getOptionLabel={(option) => option}
+                filterSelectedOptions
+                onChange={handleChangeRole}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Job position"
+                  />
                 )}
-                MenuProps={MenuProps}
-              >
-                {userRoles.map((role) => (
-                  <MenuItem
-                    key={role}
-                    value={role}
-                    className={getStyles(role, selectedFilters)}
-                  >
-                    {role}
-                  </MenuItem>
-                ))}
-              </Select>
+                className={classes.filter}
+                size="small"
+              />
+            </FormGroup>
+            <FormGroup className={classes.formGroup}>
+              <Autocomplete
+                multiple
+                options={stackList}
+                getOptionLabel={(option) => option}
+                filterSelectedOptions
+                onChange={handleChangeStack}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Stack"
+                  />
+                )}
+                className={classes.filter}
+                size="small"
+              />
             </FormGroup>
           </ExpansionPanelDetails>
         </div>

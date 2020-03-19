@@ -106,6 +106,8 @@ const UserCard = ({ user }) => {
     <StackIcon key={Math.random()} tech={element} size='small' />
   ));
 
+  const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -120,7 +122,10 @@ const UserCard = ({ user }) => {
             />
           </div>
           <div className={classes.row}>
-            <div className={classes.avatar} style={{ background: `url(${user.userImage}) no-repeat` }} />
+            <div
+              className={classes.avatar}
+              style={{ background: `url(${user.userImage || defaultIcon}) no-repeat` }}
+            />
           </div>
           <div className={classes.row}>
             <div className={classes.name}>

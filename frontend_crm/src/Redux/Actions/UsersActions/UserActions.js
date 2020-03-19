@@ -5,6 +5,7 @@ import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
   FILTER_USER_NAME, FILTER_USER_EMAIL, EDIT_USER, EDIT_USER_ERROR,
+  FILTER_USER_STACK,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = () => async (dispatch) => {
@@ -51,9 +52,14 @@ export const updateUser = (userData) => async (dispatch) => {
   }
 };
 
-export const filteredUserStatus = (selectedFilters) => {
+export const filteredUserRole = (selectedFilters) => {
   if (!selectedFilters.length) return { type: FILTER_USER_ROLE, payload: ['all'] };
   return { type: FILTER_USER_ROLE, payload: selectedFilters };
+};
+
+export const filteredUserStack = (selectedFilters) => {
+  if (!selectedFilters.length) return { type: FILTER_USER_STACK, payload: ['all'] };
+  return { type: FILTER_USER_STACK, payload: selectedFilters };
 };
 
 export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });

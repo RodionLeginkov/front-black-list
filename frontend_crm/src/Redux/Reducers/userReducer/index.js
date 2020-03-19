@@ -2,7 +2,7 @@ import produce from 'immer';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
-  FILTER_USER_EMAIL, EDIT_USER,
+  FILTER_USER_EMAIL, EDIT_USER, FILTER_USER_STACK,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -16,6 +16,7 @@ const initialState = {
     name: '',
     skill: [],
     role: ['all'],
+    stack: ['all'],
     englishLevel: [],
     email: '',
     phone: '',
@@ -66,6 +67,10 @@ const userReducer = produce((draft, action) => {
 
     case FILTER_USER_ROLE:
       draft.filters.role = action.payload;
+      return draft;
+
+    case FILTER_USER_STACK:
+      draft.filters.stack = action.payload;
       return draft;
 
     case FILTER_USER_NAME:

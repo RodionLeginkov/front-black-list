@@ -3,18 +3,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
+
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles({
   button: {
     fontSize: '13 px',
-
     minHeight: '40px',
     padding: '0 10px',
   },
@@ -39,7 +42,6 @@ const useStyles = makeStyles({
     fontSize: '40px',
   },
 });
-
 export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
@@ -51,8 +53,6 @@ export default function StickyHeadTable() {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
-
-
   return (
     <div style={{ marginLeft: '85px' }}>
       <div className={classes.projectsHeader}>
@@ -66,14 +66,12 @@ export default function StickyHeadTable() {
         >
           Add project
         </Button>
-
       </div>
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         {/* <ProjectList classes={classes} /> */}
         <Grid container>
-        
-          {loading ? <CircularProgress style={{margin:'0 auto'}}/> : <ProjectCards projects={projects} />}
+          {loading ? <CircularProgress style={{ margin: '0 auto' }} /> : <ProjectCards projects={projects} />}
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />

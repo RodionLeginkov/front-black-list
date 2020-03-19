@@ -67,7 +67,6 @@ export default function CustomList(props) {
       <Divider variant="inset" component="li" />
     </div>
   );
-
   if (users.length > 0) {
     return (
       <div style={{ marginLeft: '20px', display: 'flex' }}>
@@ -78,7 +77,6 @@ export default function CustomList(props) {
       </div>
     );
   }
-
   return (
     <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
       <h2>Developers:</h2>

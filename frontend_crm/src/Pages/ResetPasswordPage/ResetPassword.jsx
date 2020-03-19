@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ResetPassword(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false);
   const [form, setState] = useState({
     login: '',
     password: '',
@@ -54,7 +55,7 @@ export default function ResetPassword(props) {
 
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setOpen(false);
   };
 
 
@@ -88,30 +89,34 @@ export default function ResetPassword(props) {
 
   const updatePassword = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
-        login: form.login,
-        password: form.password,
-        resetPasswordToken: tokenId,
-      });
-
-      if (response.data.message === 'password updated') {
-        setState({
-          ...form,
-          updated: true,
-          error: false,
-
+    if (form.password.length > 6) {
+      try {
+        const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePasswordViaEmail`, {
+          login: form.login,
+          password: form.password,
+          resetPasswordToken: tokenId,
         });
-        window.location = '/signin';
-      } else {
-        setState({
-          ...form,
-          updated: false,
-          error: true,
-        });
+
+        if (response.data.message === 'password updated') {
+          setState({
+            ...form,
+            updated: true,
+            error: false,
+
+          });
+          window.location = '/signin';
+        } else {
+          setState({
+            ...form,
+            updated: false,
+            error: true,
+          });
+        }
+      } catch (err) {
+        alert('Something is going wrong');
       }
-    } catch (err) {
-      alert('Somthing is going wrong');
+    } else {
+      setOpen(true);
     }
   };
 
@@ -122,7 +127,6 @@ export default function ResetPassword(props) {
     });
   };
 
-  const open = Boolean(anchorEl);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -149,7 +153,7 @@ export default function ResetPassword(props) {
             onClick={handleClick}
           />
           <Popover
-            id="password"
+            id="open"
             open={open}
             anchorEl={anchorEl}
             onClose={handleClose}

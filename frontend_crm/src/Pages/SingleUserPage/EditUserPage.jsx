@@ -30,10 +30,16 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: '0 auto',
     maxWidth: '700px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 20px 0 95px',
+    },
   },
   breadcrumbs: {
-    margin: '85px 20px 40px 0px',
+    margin: '85px 20px 0 20px',
     color: '#777777',
+    [theme.breakpoints.up('sm')]: {
+      margin: '85px 20px 40px 85px',
+    },
   },
   link: {
     cursor: 'pointer',
@@ -148,14 +154,14 @@ const EditUserPage = ({ match, isError }) => {
     <>
       {!userId
         ? (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -167,7 +173,7 @@ const EditUserPage = ({ match, isError }) => {
             </Typography>
           </Breadcrumbs>
         )}
-      <div className={classes.position} style={{ marginLeft: '85px' }}>
+      <div className={classes.position}>
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>

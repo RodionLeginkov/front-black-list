@@ -156,7 +156,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography className={classes.link} onClick={() => history.push('/users')}>
-          Developers
+          Users
         </Typography>
         <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
       </Breadcrumbs>

@@ -150,14 +150,14 @@ const EditUserPage = ({ match, isError }) => {
         ? (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
-              Developers
+              Users
             </Typography>
           </Breadcrumbs>
         )
         : (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
-              Developers
+              Users
             </Typography>
             <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
               {user.fullName}

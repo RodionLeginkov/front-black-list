@@ -49,7 +49,7 @@ function Users() {
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>
-        <h1>Developers</h1>
+        <h1>Users</h1>
       </div>
       <FilterPanel />
       <Grid

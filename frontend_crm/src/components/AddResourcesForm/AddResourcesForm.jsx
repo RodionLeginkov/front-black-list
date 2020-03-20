@@ -109,7 +109,7 @@ function AddResourcesForm(props) {
 
     return (
 
-        <Grid container style={{ alignItems: 'center' }}>
+        <Grid container style={{ alignItems: 'center', marginTop:'5px' }}>
             {resources}
             <Grid item xs={11}>
                 <TextField

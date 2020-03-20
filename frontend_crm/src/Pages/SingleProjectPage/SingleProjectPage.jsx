@@ -89,7 +89,6 @@ function CurrentProject(props) {
   if (!project) { return (<Loading />); }
   
   if (project) {
-    console.log("SAFDASFSDAFSAF",project)
     stackList = project.stack.map((elem) => (
       <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
     ));

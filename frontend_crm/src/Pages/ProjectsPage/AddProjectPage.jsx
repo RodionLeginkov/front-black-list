@@ -507,11 +507,11 @@ function AddProjectPage(props) {
                 onChange={handleChange}
               />
               <div >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{marginTop:'-6px'}}>
                   <Grid container  >
                     <Grid item xs={6}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', }}
+                        style={{ width: '100%', marginTop:'10px'}}
                         // name="startDate"
                         inputVariant="outlined"
                         disableToolbar
@@ -530,7 +530,7 @@ function AddProjectPage(props) {
                     </Grid>
                     {projectId ? <Grid item xs={6} style={{ paddingLeft: '10px' }}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', }}
+                        style={{ width: '100%', marginTop:'10px'}}
                         inputVariant="outlined"
                         disableToolbar
                         // name="endDate"

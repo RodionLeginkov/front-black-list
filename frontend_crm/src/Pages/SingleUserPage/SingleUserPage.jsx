@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +15,9 @@ import Typography from '@material-ui/core/Typography';
 import Loading from '../../components/Loading/index.jsx';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
+import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
+import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -108,19 +110,32 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
-function UserInfo({ match: { params: { userId } } }) {
+const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const handleClickOpenPopUp = () => {
+    setOpenPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
+  };
 
   const handleClickOnBack = () => {
-    history.goBack();
+    if (path === '/users/:userId') history.goBack();
+    history.push('/users');
   };
 
   const handleClickOnDelete = () => {
     dispatch(deleteUser(userId));
     history.push('/users');
+  };
+
+  const handleClickOnEdit = () => {
+    history.push(`/users/edituser/${userId}`);
   };
 
   const user = useSelector((state) => state.users.currentUser);
@@ -141,13 +156,13 @@ function UserInfo({ match: { params: { userId } } }) {
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography className={classes.link} onClick={() => history.push('/users')}>
-          Developers
+          Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.name || user.login}</h1>
+          <h1>{user.fullName || user.login}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
@@ -157,9 +172,7 @@ function UserInfo({ match: { params: { userId } } }) {
           <div className={classes.leftCol}>
             <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
             <span className={classes.fieldName}>
-              {user.name}
-              {' '}
-              {user.surname}
+              {user.fullName}
             </span>
           </div>
           <div className={classes.col}>
@@ -171,7 +184,7 @@ function UserInfo({ match: { params: { userId } } }) {
                 </div>
               </div>
               <div className={classes.field}>
-                <span className={classes.fieldTitle}>Pfone: </span>
+                <span className={classes.fieldTitle}>Phone: </span>
                 <div className={classes.fieldValue}>
                   {user.phoneNumber}
                 </div>
@@ -180,6 +193,15 @@ function UserInfo({ match: { params: { userId } } }) {
                 <span className={classes.fieldTitle}>Stack: </span>
                 <div className={classes.fieldValue}>
                   {stackList}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Projects: </span>
+                <div className={classes.fieldValue}>
+                  <CustomProjectIcon
+                    projects={user.currentProject || []}
+                    edit={false}
+                  />
                 </div>
               </div>
               <div className={classes.field}>
@@ -197,23 +219,24 @@ function UserInfo({ match: { params: { userId } } }) {
             <ArrowBackIosIcon />
           </Button>
           <Button>
-            <EditSharpIcon />
+            <EditSharpIcon onClick={handleClickOnEdit} />
           </Button>
-          <Button onClick={handleClickOnDelete} className={classes.deleteButton}>
+          <Button onClick={handleClickOpenPopUp} className={classes.deleteButton}>
             <DeleteOutlineIcon />
           </Button>
         </div>
       </Paper>
+      <PopUpDeleteUser
+        handleClickOnDelete={handleClickOnDelete}
+        handleClosePopUp={handleClosePopUp}
+        openPopUp={openPopUp}
+      />
     </div>
   );
-}
+};
 
 UserInfo.propTypes = {
-  match: PropTypes.objectOf({
-    params: PropTypes.objectOf({
-      userId: PropTypes.string,
-    }),
-  }),
+  match: PropTypes.object,
 };
 UserInfo.defaultProps = {
   match: {},

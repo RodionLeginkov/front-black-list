@@ -28,6 +28,6 @@ export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BAS
 
 export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}project/projectId/`, id);
 
-export const patchProject = (data, tokens) => patchData(`${process.env.REACT_APP_BASE_API}project/${data._id}`, data, { headers: { tokens } });
+export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data._id}`, data, { headers: { token } });
 
 export const loadProject = (id, tokens) => getData(`${process.env.REACT_APP_BASE_API}project/${id}`, tokens);

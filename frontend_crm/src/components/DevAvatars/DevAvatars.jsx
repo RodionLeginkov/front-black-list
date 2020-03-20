@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CustomAvatar(props) {
+export default function DevAvatars(props) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -31,8 +31,8 @@ export default function CustomAvatar(props) {
   }
 
   const devList = users.map((user) =>
-    <Tooltip className={classes.avatar} title={user.login} key={user._id}>
-      <Avatar  onClick={() => handleClick(user._id)} alt={user.login.toUpperCase()} src={`${user.userImage}`} />
+    <Tooltip className={classes.avatar} title={user.fullName} key={user._id}>
+      <Avatar  onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
     </Tooltip>
   );
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -9,9 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getProjects,
-} from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 
@@ -49,22 +46,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddProjectModal = ({
-  isOpen, changeIsOpen, currentProjectIds, user,
+  isOpen, changeIsOpen, currentProjectIds, user, isError,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projects.filteredProjects);
-  useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+  const projects = useSelector((state) => state.projects.projects);
+  const [selectedProjects, setSelectedProjects] = useState(currentProjectIds);
 
-  const getSelectedProjects = (projectIds) => (
-    projects.filter((p) => projectIds.includes(p._id)));
-
-  const getNotSelectedProjects = (values) => (
-    projects.filter((p) => !values.map((v) => v._id).includes(p._id)));
-
-  const [selectedProjects, setSelectedProjects] = useState(getSelectedProjects(currentProjectIds));
+  let filteredProjects = projects;
+  for (const index in selectedProjects) {
+    filteredProjects = filteredProjects.filter((project) => (
+      project.name !== selectedProjects[index].name));
+  }
 
   const handleCancel = (e) => {
     e.preventDefault();
@@ -78,7 +71,7 @@ const AddProjectModal = ({
   };
 
   const handleChangeProject = (event, values) => {
-    setSelectedProjects(values.map((project) => project._id));
+    setSelectedProjects(values);
   };
 
   return (
@@ -101,17 +94,17 @@ const AddProjectModal = ({
               <h2 className={classes.header}>Attach project</h2>
               <Autocomplete
                 multiple
-                options={getNotSelectedProjects(selectedProjects)}
+                options={filteredProjects}
                 getOptionLabel={(option) => option.name}
-                defaultValue={getSelectedProjects(currentProjectIds)}
+                value={selectedProjects}
                 filterSelectedOptions
                 onChange={handleChangeProject}
                 renderInput={(params) => (
                   <TextField
+                    error={selectedProjects.length === 0 && isError}
                     {...params}
                     variant="outlined"
                     label="Projects"
-                    placeholder="Favorites"
                   />
                 )}
               />
@@ -150,6 +143,7 @@ AddProjectModal.propTypes = {
   user: PropTypes.object,
   projectsIds: PropTypes.array,
   addProject: PropTypes.func,
+  isError: PropTypes.bool,
 };
 
 export default AddProjectModal;

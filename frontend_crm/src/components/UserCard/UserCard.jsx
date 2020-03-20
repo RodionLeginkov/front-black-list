@@ -95,7 +95,7 @@ const UserCard = ({ user }) => {
 
   const handleClickCard = () => {
     dispatch(findUser(user._id));
-    history.push(`/users/${user._id}`);
+    history.push(`/users/info/${user._id}`);
   };
 
   const changeIsShowingModal = () => {
@@ -105,6 +105,8 @@ const UserCard = ({ user }) => {
   const stackList = user.stack.map((element) => (
     <StackIcon key={Math.random()} tech={element} size='small' />
   ));
+
+  const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
   return (
     <Card className={classes.root}>
@@ -120,17 +122,24 @@ const UserCard = ({ user }) => {
             />
           </div>
           <div className={classes.row}>
-            <div className={classes.avatar} style={{ background: `url(${user.userImage}) no-repeat` }} />
+            <div
+              className={classes.avatar}
+              style={{ background: `url(${user.userImage || defaultIcon}) no-repeat` }}
+            />
           </div>
           <div className={classes.row}>
             <div className={classes.name}>
-              {user.login}
+              {user.fullName}
             </div>
           </div>
         </CardContent>
         <div className={classes.footer}>
           <div className={classes.stack}>{stackList}</div>
-          <CustomProjectIcon projectsIds={user.currentProject || []} addProject={changeIsShowingModal} />
+          <CustomProjectIcon
+            projects={user.currentProject || []}
+            addProject={changeIsShowingModal}
+            edit
+          />
         </div>
       </CardActionArea>
       <AddProjectModal

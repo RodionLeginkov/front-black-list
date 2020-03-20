@@ -12,7 +12,6 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 
 
-
 const useStyles = makeStyles({
   button: {
     fontSize: '13 px',

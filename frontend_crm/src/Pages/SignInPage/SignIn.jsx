@@ -38,12 +38,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function SignUp() {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const userAuth = useSelector((state) => state.auth);
+  // const errorMessage = useSelector((state) => state.errorMessage);
   const [open, setOpen] = useState(false);
+  const [emailError, setEmailError] = useState({
+    err: false,
+    message: '',
+  });
+  const [passwordError, setPasswordError] = useState({
+    err: false,
+    message: '',
+  });
   const [form, setState] = useState({
     email: '',
     password: '',
@@ -70,16 +80,61 @@ export default function SignUp() {
   const handleClose = () => {
     setOpen(false);
   };
-
-
+  // useEffect(() => {
+  //   // if (userAuth && userAuth.error)setOpen(true);
+  //   if (userAuth && userAuth.errorMessage) {
+  //     if (userAuth.errorMessage.includes('403')) {
+  //       setPasswordError({
+  //         ...form,
+  //         err: true,
+  //         message: 'password is wrong',
+  //       });
+  //     } else {
+  //       setPasswordError({
+  //         ...form,
+  //         err: false,
+  //         message: '',
+  //       });
+  //     }
+  //   }
+  // }, [userAuth, form, passwordError]);
+  // console.log('Hello', errorMessage);
   const onSubmit = (e) => {
     e.preventDefault();
     const login = {
       email: form.email,
       password: form.password,
     };
+    if (!form.email.includes('@')) {
+      setEmailError({
+        ...form,
+        err: true,
+        message: 'where is @ ',
+      });
+    } else {
+      setEmailError({
+        ...form,
+        err: false,
+        message: '',
+      });
+    }
     dispatch(signIn(login));
     // if (userAuth && userAuth.error)setOpen(true);
+    // if (userAuth && userAuth.errorMessage) {
+    //   if (userAuth.errorMessage.includes('403')) {
+    //     setEmailError({
+    //       ...form,
+    //       err: true,
+    //       message: 'password is wrong',
+    //     });
+    //   } else {
+    //     setEmailError({
+    //       ...form,
+    //       err: false,
+    //       message: '',
+    //     });
+    //   }
+    // }
   };
 
   // console.log(userAuth.error);
@@ -126,6 +181,9 @@ export default function SignUp() {
             autoFocus
             value={form.email}
             onChange={onChangheEmail}
+            error={emailError.err}
+            helperText={emailError.message}
+            // FormHelperText={}
           />
           <TextField
             variant="outlined"
@@ -139,7 +197,9 @@ export default function SignUp() {
             autoComplete="current-password"
             value={form.password}
             onChange={onChanghePassword}
-            onClick={handleClick}
+            error={passwordError.err}
+            helperText={passwordError.message}
+            // onClick={handleClick}
           />
           <Popover
             id={id}

@@ -48,7 +48,6 @@ export default function AddUserModal(props) {
     } = props;
     const classes = useStyles();
     const dispatch = useDispatch();
-
     const handleClose = () => {
         setAddUserModalOpen(false);
     };
@@ -60,6 +59,7 @@ export default function AddUserModal(props) {
 
     const handleCancel = (e) => {
         e.preventDefault();
+        setProject(initialValue)
         setAddUserModalOpen(false);
     };
 
@@ -78,7 +78,7 @@ export default function AddUserModal(props) {
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
                 open={addUserModalOpen}
-                onClose={handleClose}
+                onClose={handleCancel}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{

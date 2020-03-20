@@ -12,6 +12,7 @@ const intitialState = {
   error: null,
   loggedIn: false,
   token: null,
+  errorMessage: null,
 };
 
 const authReducer = (state = intitialState, action) => {
@@ -22,6 +23,7 @@ const authReducer = (state = intitialState, action) => {
         loading: true,
         error: null,
         token: null,
+        errorMessage: null,
       };
     case SIGNIN_SUCCESS:
       return {
@@ -31,6 +33,7 @@ const authReducer = (state = intitialState, action) => {
         loading: false,
         loggedIn: true,
         error: null,
+        errorMessage: null,
       };
     case SIGNIN_LOGGEDIN:
       return {
@@ -38,14 +41,17 @@ const authReducer = (state = intitialState, action) => {
         loggedIn: false,
         error: null,
         token: null,
+        errorMessage: null,
       };
     case SIGNIN_ERROR:
+      // console.log('ERROR', action.payload.message);
       return {
         ...state,
         error: true,
         loading: false,
         loggedIn: false,
         token: null,
+        errorMessage: action.payload.message,
       };
     case SIGNUP_LOADING:
       return {

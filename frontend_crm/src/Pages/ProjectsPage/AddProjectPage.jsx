@@ -34,6 +34,12 @@ import {
 } from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
+  body: {
+    margin: 0,
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 20px 0 95px',
+    },
+  },
   modal: {
     border: 'none',
     display: 'flex',
@@ -46,9 +52,12 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '700px',
   },
   breadcrumbs: {
-    margin: '85px 20px 40px 0px',
+    margin: '85px 20px 20px 20px',
     color: '#777777',
     cursor: 'pointer',
+    [theme.breakpoints.up('sm')]: {
+      margin: '85px 20px 40px 0px',
+    },
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -183,15 +192,15 @@ function AddProjectPage(props) {
   };
 
   return (
-    <>
+    <div className={classes.body}>
       {!projectId ?
-        <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
           <Link color="inherit" onClick={() => history.push('/projects')}   >
             Projects
         </Link>
           <Typography color="textPrimary" onClick={() => history.push(`/projects/addproject`)} >Add new project</Typography>
         </Breadcrumbs> :
-        <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
           <Link color="inherit" onClick={() => history.push('/projects')}   >
             Projects
         </Link>
@@ -200,7 +209,7 @@ function AddProjectPage(props) {
           </Link>
           <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)} >Edit project</Typography>
         </Breadcrumbs>}
-      <div className={classes.position} style={{ marginLeft: '85px' }}>
+      <div className={classes.position}>
         <Paper className={classes.root}>
           <div
             className={clsx(classes.content, classes.header)}
@@ -564,7 +573,7 @@ function AddProjectPage(props) {
           </div>
         </Paper>
       </div>
-    </>
+    </div>
   );
 }
 

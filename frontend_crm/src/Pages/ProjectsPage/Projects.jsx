@@ -12,7 +12,13 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: '0 20px',
+    [theme.breakpoints.up('sm')]: {
+      padding: '0 20px 0 95px',
+    },
+  },
   button: {
     fontSize: '13 px',
     minHeight: '40px',
@@ -38,7 +44,7 @@ const useStyles = makeStyles({
   h1: {
     fontSize: '40px',
   },
-});
+}));
 export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
@@ -51,7 +57,7 @@ export default function StickyHeadTable() {
     dispatch(getUsers());
   }, [dispatch]);
   return (
-    <div style={{ marginLeft: '85px' }}>
+    <div className={classes.root}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
         <Button

@@ -82,20 +82,19 @@ const projectReducer = (state = initialState, action) => {
         deleteProjecError: action.payload,
       };
     case EDIT_PROJECT:
-      let allProj = state.filteredProjects;
-      let changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
-      delete allProj[changedProjectIndex];
-      allProj[changedProjectIndex] = action.payload
+      let proj = state.filteredProjects;
+      let ProjectIndex = proj.findIndex((p) => p._id === action.payload._id);
+      delete proj[ProjectIndex];
+      proj[ProjectIndex] = action.payload
       return {
         ...state,
-        projects: [...allProj],
-        filteredProjects: [...allProj],
+        projects: [...proj],
+        filteredProjects: [...proj],
         currentProject: action.payload,
       };
     case EDIT_PROJECT_DEVELOPERS:
-
-      allProj = state.filteredProjects;
-      changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      let allProj = state.filteredProjects;
+      let  changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
 
       delete allProj[changedProjectIndex];
       allProj[changedProjectIndex] = action.payload

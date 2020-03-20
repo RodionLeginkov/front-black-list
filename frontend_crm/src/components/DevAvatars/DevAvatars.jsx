@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CustomAvatar(props) {
+export default function DevAvatars(props) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();

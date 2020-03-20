@@ -59,6 +59,7 @@ export default function AddUserModal(props) {
 
     const handleCancel = (e) => {
         e.preventDefault();
+        setProject(initialValue)
         setAddUserModalOpen(false);
     };
 
@@ -69,7 +70,7 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
       };
     const developersChange = (developers) => setProject({ ...project, developers });
-    
+
     return (
         <div className={classes.position}>
             <Modal
@@ -77,7 +78,7 @@ export default function AddUserModal(props) {
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
                 open={addUserModalOpen}
-                onClose={handleClose}
+                onClose={handleCancel}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{

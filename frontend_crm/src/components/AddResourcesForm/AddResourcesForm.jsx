@@ -99,6 +99,7 @@ function AddResourcesForm(props) {
             // helperText={(!project.status && isError) ? "Empty field." : ''}
             label={`Resource №${project.resources.indexOf(elem) + 1}`}
             multiline
+            key={elem}
             rowsMax="5"
             name='resources'
         // onChange={handleChange}
@@ -108,7 +109,7 @@ function AddResourcesForm(props) {
 
     return (
 
-        <Grid container style={{ alignItems: 'center' }}>
+        <Grid container style={{ alignItems: 'center', marginTop:'5px' }}>
             {resources}
             <Grid item xs={11}>
                 <TextField

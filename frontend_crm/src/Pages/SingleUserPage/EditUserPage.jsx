@@ -23,7 +23,6 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +34,8 @@ const useStyles = makeStyles((theme) => ({
   breadcrumbs: {
     margin: '85px 20px 40px 0px',
     color: '#777777',
+  },
+  link: {
     cursor: 'pointer',
   },
   paper: {
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUserPage = ({ match }) => {
+const EditUserPage = ({ match, isError }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,12 +105,10 @@ const EditUserPage = ({ match }) => {
     setUser(initialValue);
   }, [initialValue]);
 
-
   useEffect(() => {
     if (userId && !curUser) {
       dispatch(getUsers());
       dispatch(getUser(userId));
-      dispatch(getProjects());
     }
   }, [curUser, dispatch, userId]);
 
@@ -125,15 +124,8 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, stack: values });
   });
 
-  const getSelectedProjects = (projectIds) => (
-    projects.filter((p) => projectIds.includes(p._id)));
-
-  const getNotSelectedProjects = (values) => (
-    projects.filter((p) => !values.map((v) => v._id).includes(p._id)));
-
   const handleChangeProject = (event, values) => {
-    const projectIds = values.map((project) => project._id);
-    setUser({ ...user, currentProject: projectIds });
+    setUser({ ...user, currentProject: values });
   };
 
   const startDateChange = (dataofJoining) => setUser({ ...user, dataofJoining });
@@ -143,8 +135,14 @@ const EditUserPage = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(user));
-    history.push(`/users/${userId}`);
+    history.push(`/users/info/${userId}`);
   };
+
+  let filteredProjects = projects;
+  for (const index in user.currentProject) {
+    filteredProjects = filteredProjects.filter((project) => (
+      project.name !== user.currentProject[index].name));
+  }
 
   return (
     <>
@@ -161,10 +159,10 @@ const EditUserPage = ({ match }) => {
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Developers
             </Typography>
-            <Typography className={classes.link} onClick={() => history.push(`/users/${userId}`)}>
+            <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
               {user.fullName}
             </Typography>
-            <Typography color="textPrimary" onClick={() => history.push(`/users/${userId}`)}>
+            <Typography color="textPrimary">
               Edit
             </Typography>
           </Breadcrumbs>
@@ -281,15 +279,15 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12}>
                   <Autocomplete
-                    style={{ margin: '5px 0px 10px' }}
                     multiple
-                    options={getNotSelectedProjects(user.currentProject)}
+                    options={filteredProjects}
                     getOptionLabel={(option) => option.name}
-                    defaultValue={getSelectedProjects(user.currentProject)}
+                    value={user.currentProject}
                     filterSelectedOptions
                     onChange={handleChangeProject}
                     renderInput={(params) => (
                       <TextField
+                        error={user.currentProject.length === 0 && isError}
                         {...params}
                         variant="outlined"
                         label="Projects"
@@ -364,6 +362,7 @@ const EditUserPage = ({ match }) => {
 
 EditUserPage.propTypes = {
   match: PropTypes.object,
+  isError: PropTypes.bool,
 };
 
 export default EditUserPage;

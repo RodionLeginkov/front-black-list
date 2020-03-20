@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Tooltip from '@material-ui/core/Tooltip';
-import { getProjects, findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const useStyles = makeStyles(() => ({
   avatarGroup: {
@@ -27,27 +27,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CustomProjectIcon = ({
-  projectsIds, addProject, edit,
+  projects, addProject, edit,
 }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projects.projects);
-  useEffect(() => {
-    if (!projects.length) dispatch(getProjects());
-  });
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
     history.push(`/projects/${projectId}`);
   };
 
-  const getProject = (projectId) => (
-    projects.find((p) => p._id === projectId)
-  );
-
-  const projectsList = projectsIds.map((projectId) => {
-    const project = getProject(projectId);
+  const projectsList = projects.map((project) => {
     if (!project) return <div className={classes.skeleton} key={Math.random()} />;
     return (
       <Tooltip className={classes.avatar} title={project.name} key={project._id}>
@@ -71,8 +62,9 @@ const CustomProjectIcon = ({
 };
 
 CustomProjectIcon.propTypes = {
-  projectsIds: PropTypes.array,
+  projects: PropTypes.array,
   addProject: PropTypes.func,
+  edit: PropTypes.bool,
 };
 
 export default CustomProjectIcon;

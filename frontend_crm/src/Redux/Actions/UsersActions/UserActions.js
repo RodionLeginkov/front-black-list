@@ -68,5 +68,7 @@ export const filteredUserEmail = (email) => ({ type: FILTER_USER_EMAIL, payload:
 
 export const filteredUserPhone = (phone) => ({ type: FILTER_USER_PHONE, payload: phone });
 
-export const filteredUserEnglishLevel = (level) => (
-  ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level }));
+export const filteredUserEnglishLevel = (level) => {
+  if (!level.length) return { type: FILTER_USER_ENGLISH_LEVEL, payload: ['all'] };
+  return ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level });
+};

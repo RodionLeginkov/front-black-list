@@ -110,7 +110,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UserInfo = ({ match: { params: { userId } } }) => {
+const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -125,7 +125,8 @@ const UserInfo = ({ match: { params: { userId } } }) => {
   };
 
   const handleClickOnBack = () => {
-    history.goBack();
+    if (path === '/users/:userId') history.goBack();
+    history.push('/users');
   };
 
   const handleClickOnDelete = () => {
@@ -183,7 +184,7 @@ const UserInfo = ({ match: { params: { userId } } }) => {
                 </div>
               </div>
               <div className={classes.field}>
-                <span className={classes.fieldTitle}>Pfone: </span>
+                <span className={classes.fieldTitle}>Phone: </span>
                 <div className={classes.fieldValue}>
                   {user.phoneNumber}
                 </div>
@@ -198,7 +199,7 @@ const UserInfo = ({ match: { params: { userId } } }) => {
                 <span className={classes.fieldTitle}>Projects: </span>
                 <div className={classes.fieldValue}>
                   <CustomProjectIcon
-                    projectsIds={user.currentProject || []}
+                    projects={user.currentProject || []}
                     edit={false}
                   />
                 </div>

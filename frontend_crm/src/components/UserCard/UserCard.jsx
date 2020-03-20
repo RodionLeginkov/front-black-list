@@ -95,7 +95,7 @@ const UserCard = ({ user }) => {
 
   const handleClickCard = () => {
     dispatch(findUser(user._id));
-    history.push(`/users/${user._id}`);
+    history.push(`/users/info/${user._id}`);
   };
 
   const changeIsShowingModal = () => {
@@ -136,8 +136,9 @@ const UserCard = ({ user }) => {
         <div className={classes.footer}>
           <div className={classes.stack}>{stackList}</div>
           <CustomProjectIcon
-            projectsIds={user.currentProject || []}
+            projects={user.currentProject || []}
             addProject={changeIsShowingModal}
+            edit
           />
         </div>
       </CardActionArea>

@@ -15,7 +15,7 @@ import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
 import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
-import EditUserPage from './Pages/UsersPage/EditUserPage.jsx';
+import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
 
 
 const theme = createMuiTheme({
@@ -41,6 +41,7 @@ function App() {
               <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
               <Route exact path="/users/:userId" component={SingleUserPage} />
+              <Route exact path="/users/info/:userId" component={SingleUserPage} />
               <Route exact path="/users/edituser/:userId" component={EditUserPage} />
               <Route  path="/signin" component={Signin} />
               <Route  path="/signup" component={SignUp} />

@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import UsersList from './UsersList.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
@@ -41,13 +42,14 @@ function Users() {
 
   useEffect(() => {
     dispatch(getUsers());
+    dispatch(getProjects());
   }, [dispatch]);
 
 
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>
-        <h1>Developers</h1>
+        <h1>Users</h1>
       </div>
       <FilterPanel />
       <Grid

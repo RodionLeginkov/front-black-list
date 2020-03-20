@@ -185,7 +185,7 @@ export default function MiniDrawer() {
         <Divider />
         <List>
           <Link to="/" className={classes.link}>
-            <ListItem button key="Home" color="red[500]">
+            <ListItem button key="Home" color="red[500]" onClick={handleDrawerClose}>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
@@ -194,7 +194,7 @@ export default function MiniDrawer() {
           </Link>
 
           <Link to="/users" className={classes.link}>
-            <ListItem button key="Users">
+            <ListItem button key="Users" onClick={handleDrawerClose}>
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
@@ -203,7 +203,7 @@ export default function MiniDrawer() {
           </Link>
 
           <Link to="/projects" className={classes.link}>
-            <ListItem button key="Projects">
+            <ListItem button key="Projects" onClick={handleDrawerClose}>
               <ListItemIcon>
                 <DeveloperBoardIcon />
               </ListItemIcon>

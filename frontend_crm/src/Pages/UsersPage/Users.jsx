@@ -9,9 +9,12 @@ import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    paddingLeft: '100px',
+    paddingLeft: '20px',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '100px',
+    },
     background: '#fff',
   },
   usersWrapper: {
@@ -31,7 +34,7 @@ const useStyles = makeStyles({
   h1: {
     fontSize: '40px',
   },
-});
+}));
 
 function Users() {
   const classes = useStyles();

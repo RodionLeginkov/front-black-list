@@ -21,7 +21,13 @@ import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  body: {
+    margin: '0 20px 40px 20px',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 20px 40px 95px',
+    },
+  },
   footerIcons: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -56,12 +62,21 @@ const useStyles = makeStyles(() => ({
     margitTop: '3px  !important',
   },
   breadcrumbs: {
-    margin: '85px 20px',
+    margin: '85px 0 0 0',
     color: '#777777',
     cursor: 'pointer',
+    [theme.breakpoints.up('sm')]: {
+      margin: '85px 20px',
+    },
   },
   button: {
     color: '#777777',
+  },
+  column: {
+    flexDirection: 'column',
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
   },
 }));
 
@@ -87,14 +102,14 @@ function CurrentProject(props) {
   }, [dispatch, projectId, project]);
   let stackList = [];
   if (!project) { return (<Loading />); }
-  
+
   if (project) {
     stackList = project.stack.map((elem) => (
       <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
     ));
   }
   return (
-    <div style={{ marginLeft: '85px' }}>
+    <div className={classes.body}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Link color="inherit" onClick={() => history.push('/projects')}   >
@@ -129,7 +144,7 @@ function CurrentProject(props) {
 
         <UserList users={project.developers} />
 
-        <div className={classes.content}>
+        <div className={clsx(classes.content, classes.column)}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
           <Typography className={classes.description}>
             {project.description}

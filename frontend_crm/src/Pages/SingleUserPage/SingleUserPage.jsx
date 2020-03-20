@@ -19,9 +19,13 @@ import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectI
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    margin: '100px 10px 0 85px',
+    margin: '100px 20px 0 0',
+    paddingLeft: '20px',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '95px',
+    },
   },
   footerIcons: {
     display: 'flex',
@@ -34,20 +38,37 @@ const useStyles = makeStyles(() => ({
     color: '#444',
   },
   content: {
-    margin: '0px 20px',
+    margin: '0 0 0 20px',
     display: 'flex',
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 20px',
+    },
   },
   header: {
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  h1: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    fontSize: 26,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 32,
+    },
+  },
   userImage: {
-    width: 160,
-    height: 160,
-    borderRadius: 120,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
     backgroundSize: 'cover !important',
     margin: 20,
     boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+    [theme.breakpoints.up('sm')]: {
+      width: 160,
+      height: 160,
+      borderRadius: 120,
+    },
   },
   col: {
     display: 'flex',
@@ -61,21 +82,27 @@ const useStyles = makeStyles(() => ({
   row: {
     display: 'flex',
     flexDirection: 'row',
+    overflow: 'hidden',
   },
   fieldName: {
-    display: 'block;',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 20,
+    },
   },
   body: {
     padding: '10px 10px 10px 20px',
   },
   fieldTitle: {
     display: 'block;',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: 20,
+    },
   },
   field: {
     display: 'flex',
@@ -86,6 +113,9 @@ const useStyles = makeStyles(() => ({
     fontSize: 16,
     margin: '10px',
     display: 'flex',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   stackAndDuration: {
     display: 'flex',
@@ -99,8 +129,11 @@ const useStyles = makeStyles(() => ({
     margitTop: '3px  !important',
   },
   breadcrumbs: {
-    margin: '85px 20px',
+    margin: '85px 0 0 0',
     color: '#777777',
+    [theme.breakpoints.up('sm')]: {
+      margin: '85px 20px',
+    },
   },
   link: {
     '&:hover': {
@@ -158,11 +191,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
+        <Typography color="textPrimary">{user.fullName}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.fullName || user.login}</h1>
+          <h1 className={classes.h1}>{user.fullName}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>

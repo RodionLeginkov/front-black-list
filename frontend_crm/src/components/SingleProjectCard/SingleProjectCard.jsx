@@ -21,7 +21,7 @@ import AddUserModal from '../AddUserModal/AddUserModal';
 const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 20,
-    marginRight: 10,
+    margin: '0 5px',
     minHeight: 200,
     maxWidth: 400,
     width: '100%',

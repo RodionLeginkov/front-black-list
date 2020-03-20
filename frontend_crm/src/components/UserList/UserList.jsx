@@ -15,9 +15,17 @@ import Tooltip from '@material-ui/core/Tooltip';
   
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    // maxWidth: 360,
+    marginLeft: '20px',
+    display: 'flex',
+    alignItems: 'left',
+    flexDirection: 'column',
     backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.up('sm')]: {
+      flexDirection: 'row',
+    },
+  },
+  list: {
+    width: '100%',
   },
   inline: {
     display: 'inline',
@@ -69,16 +77,16 @@ export default function CustomList(props) {
   );
   if (users.length > 0) {
     return (
-      <div style={{ marginLeft: '20px', display: 'flex' }}>
+      <div className={classes.root}>
         <h2>Developers:</h2>
-        <List className={classes.root}>
+        <List className={classes.list}>
           {devList}
         </List>
       </div>
     );
   }
   return (
-    <div style={{ marginLeft: '20px', display: 'flex', alignItems: 'center' }}>
+    <div className={classes.root}>
       <h2>Developers:</h2>
       <Typography
         component="span"

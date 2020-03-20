@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { TextField } from '@material-ui/core';
+import { TextField, Tooltip } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -29,6 +29,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import './ProjectStyles.css'
+import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -89,6 +91,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
+  helperIcon: {
+    color: '#a3a3a3',
+    cursor: 'default',
+    fontSize: '30px'
+  }
 }));
 function AddProjectPage(props) {
   const classes = useStyles();
@@ -197,6 +204,16 @@ function AddProjectPage(props) {
                 className={classes.inputForm}
                 name='name'
                 onChange={handleChange}
+
+                InputProps={{
+                  endAdornment:
+                    <InputAdornment position="end">
+                      <Tooltip title={'Project Name'}>
+                        <HelpOutlineSharpIcon className={classes.helperIcon} />
+                      </Tooltip>
+                    </InputAdornment>
+
+                }}
               />
               <div className={classes.smallForm}>
                 <FormControl
@@ -215,6 +232,11 @@ function AddProjectPage(props) {
                     labelWidth={47}
                     name='status'
                     value={project.status}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <HelpOutlineSharpIcon className={classes.helperIcon} />
+                      </InputAdornment>
+                    }
                     onChange={handleChange}
                   >
                     <MenuItem value="active">Active</MenuItem>
@@ -491,11 +513,11 @@ function AddProjectPage(props) {
                 onChange={handleChange}
               />
               <div >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{ marginTop: '-6px' }}>
                   <Grid container  >
                     <Grid item xs={6}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', }}
+                        style={{ width: '100%', marginTop: '10px' }}
                         // name="startDate"
                         inputVariant="outlined"
                         disableToolbar
@@ -513,7 +535,7 @@ function AddProjectPage(props) {
                     </Grid>
                     {projectId ? <Grid item xs={6} style={{ paddingLeft: '10px' }}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', }}
+                        style={{ width: '100%', marginTop: '10px' }}
                         inputVariant="outlined"
                         disableToolbar
                         // name="endDate"

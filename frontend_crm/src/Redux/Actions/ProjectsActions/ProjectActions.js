@@ -86,3 +86,5 @@ export const updateProjectDevelopers = (project) => async (dispatch) => {
 export const filteredProjectName = (name) => ({ type: FILTER_PROJECT_NAME, payload: name });
 
 export const filteredProjects = (filters) => ({ type: FILTER_PROJECT, payload: filters });
+
+// export const fileredPro

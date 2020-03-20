@@ -1,3 +1,4 @@
+import produce from 'immer';
 import {
   ADD_PROJECT, FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
@@ -24,6 +25,12 @@ const initialState = {
   deleteProjecError: false,
   patchProjecError: false,
   loadingCurrentUser: false,
+  filters: {
+    name: '',
+    stack: ['all'],
+    status: ['all'],
+    duration: ['all'],
+  }
 };
 
 const projectReducer = (state = initialState, action) => {

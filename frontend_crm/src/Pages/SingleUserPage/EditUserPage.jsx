@@ -28,11 +28,7 @@ import { userRoles, englishLevels, stackList } from '../../constants/constants';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    margin: '0 auto',
     maxWidth: '700px',
-    [theme.breakpoints.up('sm')]: {
-      margin: '0 20px 0 95px',
-    },
   },
   breadcrumbs: {
     margin: '85px 20px 0 20px',
@@ -48,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: '5px',
     boxShadow: theme.shadows[5],
-    padding: '20px 40px',
   },
   content: {
     margin: '0px 20px',
@@ -60,7 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
   position: {
     display: 'flex',
-    alignItems: 'Center',
+    alignItems: 'center',
+    placeContent: 'center',
+    marginBottom: 40,
+    [theme.breakpoints.up('sm')]: {
+      margin: '0 20px 40px 95px',
+    },
   },
   button: {
     display: 'flex',
@@ -151,7 +151,7 @@ const EditUserPage = ({ match, isError }) => {
   }
 
   return (
-    <>
+    <div>
       {!userId
         ? (
           <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -174,7 +174,7 @@ const EditUserPage = ({ match, isError }) => {
           </Breadcrumbs>
         )}
       <div className={classes.position}>
-        <Paper className={classes.root}>
+        <Paper className={classes.paper}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <h2>Edit user</h2>
@@ -362,7 +362,7 @@ const EditUserPage = ({ match, isError }) => {
           </div>
         </Paper>
       </div>
-    </>
+    </div>
   );
 };
 

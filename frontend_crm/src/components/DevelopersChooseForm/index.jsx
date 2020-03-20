@@ -33,8 +33,8 @@ export default function DevelopersChooseForm(props) {
   const handleChange = (event, values) => {
     developersChange(values);
   };
-  
-  const  users = useSelector((state) => state.users.users)
+
+  const users = useSelector((state) => state.users.users);
   let filteredUsers = users;
   for (const index in developersValue){
     filteredUsers = filteredUsers.filter((user) => {
@@ -61,8 +61,9 @@ export default function DevelopersChooseForm(props) {
       style={{ width: '100%' }}
       renderInput={params => (
           <TextField error={developersValue.length === 0 && isError} {...params} variant="outlined" label="Developers" />
+
         )}
-    />
+      />
     </div>
   );
 }

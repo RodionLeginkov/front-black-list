@@ -2,7 +2,8 @@ import produce from 'immer';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
-  FILTER_USER_EMAIL,
+  FILTER_USER_EMAIL, EDIT_USER, FILTER_USER_STACK, FILTER_USER_PHONE,
+  FILTER_USER_ENGLISH_LEVEL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -15,8 +16,9 @@ const initialState = {
   filters: {
     name: '',
     skill: [],
-    role: ['junior', 'middle', 'senior'],
-    englishLevel: [],
+    role: ['all'],
+    stack: ['all'],
+    englishLevel: ['all'],
     email: '',
     phone: '',
   },
@@ -56,6 +58,12 @@ const userReducer = produce((draft, action) => {
       draft.loadingCurrentUser = false;
       return draft;
 
+    case EDIT_USER:
+      draft.users[draft.users.findIndex((user) =>
+        user._id === action.payload._id)] = action.payload;
+      draft.currentUser = action.payload;
+      return draft;
+
     case FIND_USER:
       draft.currentUser = draft.users.find((user) => user._id === action.payload);
       return draft;
@@ -64,8 +72,20 @@ const userReducer = produce((draft, action) => {
       draft.filters.role = action.payload;
       return draft;
 
+    case FILTER_USER_STACK:
+      draft.filters.stack = action.payload;
+      return draft;
+
     case FILTER_USER_NAME:
       draft.filters.name = action.payload;
+      return draft;
+
+    case FILTER_USER_PHONE:
+      draft.filters.phone = action.payload;
+      return draft;
+
+    case FILTER_USER_ENGLISH_LEVEL:
+      draft.filters.englishLevel = action.payload;
       return draft;
 
     case FILTER_USER_EMAIL:

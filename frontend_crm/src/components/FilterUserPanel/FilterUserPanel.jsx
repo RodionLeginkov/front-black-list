@@ -1,23 +1,30 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Grid from '@material-ui/core/Grid';
 import {
-  filteredUserStatus, filteredUserName, filteredUserEmail, filteredUserPhone,
+  filteredUserRole, filteredUserName, filteredUserEmail, filteredUserPhone,
+  filteredUserStack, filteredUserEnglishLevel,
 } from '../../Redux/Actions/UsersActions/UserActions';
+import { userRoles, stackList, englishLevels } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
   root: {
     marginRight: 20,
     marginBottom: 20,
+  },
+  panel: {
+    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
+    transition: 'all 0.25s ease-in-out',
+    '&:hover': {
+      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+    },
   },
   heading: {
     fontSize: 20,
@@ -29,60 +36,33 @@ const useStyles = makeStyles(() => ({
     width: 20,
   },
   filtersBlock: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '8px 24px 4px',
-  },
-  column: {
-    flexBasis: '33.33%',
-  },
-  itemTitle: {
-    fontSize: '16px',
-    fontWeight: '600',
-  },
-  formGroup: {
-    display: 'flex',
-    flexDirection: 'row',
-    fontSize: 12,
-  },
-  textFields: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
+    maxWidth: 800,
+    padding: '0 20px 20px 20px',
   },
   searchField: {
     width: '100%',
-    marginRight: 20,
   },
 }));
 
 const FilterUserPanel = () => {
   const classes = useStyles();
-  const [selectedFilters, setSelectedFilters] = useState({
-    junior: false,
-    middle: false,
-    senior: false,
-  });
   const [searchName, setSearchName] = useState('');
   const [searchEmail, setSearchEmail] = useState('');
   const [searchPhone, setSearchPhone] = useState('');
 
   const dispatch = useDispatch();
 
-  const handleChange = useCallback((name) => (event) => {
-    setSelectedFilters({ ...selectedFilters, [name]: event.target.checked });
-    const filtersObject = selectedFilters;
-    if (event.target.checked) filtersObject[name] = name;
-    else filtersObject[name] = event.target.checked;
-    const filters = Object.keys(filtersObject).map((filter) => {
-      if (filtersObject[filter]) return filter;
-    });
-    dispatch(filteredUserStatus(filters));
-  }, [selectedFilters, setSelectedFilters, dispatch]);
+  const handleChangeRole = ((event, values) => {
+    dispatch(filteredUserRole(values));
+  });
+
+  const handleChangeStack = ((event, values) => {
+    dispatch(filteredUserStack(values));
+  });
+
+  const handleChangeEnglishLevel = ((event, values) => {
+    dispatch(filteredUserEnglishLevel(values));
+  });
 
   const onChangeSearchName = (event) => {
     setSearchName(event.target.value);
@@ -101,91 +81,97 @@ const FilterUserPanel = () => {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel defaultExpanded>
+      <ExpansionPanel className={classes.panel}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
         >
-          <div className={classes.column}>
-            <Typography className={classes.heading}>Filters</Typography>
-          </div>
+          <Typography className={classes.heading}>Filters</Typography>
         </ExpansionPanelSummary>
-        <div className={classes.filtersBlock}>
-          <ExpansionPanelDetails className={classes.details}>
-            <div className={classes.textFields}>
-              <FormGroup className={classes.formGroup}>
+        <Grid spacing={2} container justify="space-between" className={classes.filtersBlock}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Name"
+              variant="outlined"
+              value={searchName}
+              onChange={onChangeSearchName}
+              size='small'
+              className={classes.searchField}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              value={searchEmail}
+              onChange={onChangeSearchEmail}
+              size='small'
+              className={classes.searchField}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Phone number"
+              variant="outlined"
+              value={searchPhone}
+              onChange={onChangeSearchPhone}
+              size='small'
+              className={classes.searchField}
+            />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Autocomplete
+              multiple
+              options={userRoles}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeRole}
+              renderInput={(params) => (
                 <TextField
-                  className={classes.searchField}
-                  label="Name"
+                  {...params}
                   variant="outlined"
-                  value={searchName}
-                  onChange={onChangeSearchName}
-                  size='small'
+                  label="Job position"
                 />
-              </FormGroup>
-              <FormGroup className={classes.formGroup}>
+              )}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Autocomplete
+              multiple
+              options={stackList}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeStack}
+              renderInput={(params) => (
                 <TextField
-                  className={classes.searchField}
-                  label="Email"
+                  {...params}
                   variant="outlined"
-                  value={searchEmail}
-                  onChange={onChangeSearchEmail}
-                  size='small'
+                  label="Stack"
                 />
-              </FormGroup>
-              <FormGroup className={classes.formGroup}>
+              )}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Autocomplete
+              multiple
+              options={englishLevels}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeEnglishLevel}
+              renderInput={(params) => (
                 <TextField
-                  className={classes.searchField}
-                  label="Phone number"
+                  {...params}
                   variant="outlined"
-                  value={searchPhone}
-                  onChange={onChangeSearchPhone}
-                  size='small'
+                  label="English Level"
                 />
-              </FormGroup>
-            </div>
-
-          </ExpansionPanelDetails>
-          <ExpansionPanelDetails className={classes.details}>
-            <div className={classes.itemTitle}>Job position</div>
-            <FormGroup className={classes.formGroup}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.junior}
-                    onChange={handleChange('junior')}
-                    value='junior'
-                    color="primary"
-                  />
-                )}
-                label="Junior"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.middle}
-                    onChange={handleChange('middle')}
-                    value='middle'
-                    color="primary"
-                  />
-                )}
-                label="Middle"
-              />
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={selectedFilters.senior}
-                    onChange={handleChange('senior')}
-                    value='senior'
-                    color="primary"
-                  />
-                )}
-                label="Senior"
-              />
-            </FormGroup>
-          </ExpansionPanelDetails>
-        </div>
+              )}
+              size="small"
+            />
+          </Grid>
+        </Grid>
       </ExpansionPanel>
     </div>
   );

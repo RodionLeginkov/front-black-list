@@ -95,6 +95,7 @@ const projectReducer = (state = initialState, action) => {
     case EDIT_PROJECT_DEVELOPERS:
       let allProj = state.filteredProjects;
       let  changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+
       delete allProj[changedProjectIndex];
       allProj[changedProjectIndex] = action.payload
       return {
@@ -130,6 +131,7 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
       }
+
     case FILTER_PROJECT:
       return {
         ...state,
@@ -137,6 +139,7 @@ const projectReducer = (state = initialState, action) => {
           || action.payload.includes(p.duration)
           || p.stack.some(r => action.payload.includes(r.tech))) : state.projects,
       }
+
     default:
       return state;
   }

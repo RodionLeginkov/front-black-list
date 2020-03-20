@@ -21,7 +21,7 @@ function Home() {
   return (
     <>
       <div className={classes.homeTopSection}>
-        <h1 style={{ marginTop: '150px' }}>Exceed Team</h1>
+        <h1 style={{ marginTop: '150px' }}> Exceed</h1>
       </div>
       {/* <Grid
         className={classes.usersWrapper}

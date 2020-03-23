@@ -22,7 +22,7 @@ import 'date-fns';
 import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import MessagerForm from '../../components/MessagerForm/MessagerForm.jsx';
+import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
@@ -116,7 +116,7 @@ function AddProjectPage(props) {
     group: [],
     name: '',
     communication: '',
-    messager: [],
+    messenger: [],
     startDate: null,
     endDate: null,
     type: '',
@@ -167,7 +167,7 @@ function AddProjectPage(props) {
   const stackChange = (stack) => setProject({ ...project, stack });
   // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
   const developersChange = (developers) => setProject({ ...project, developers });
-  const messagerChange = (messager) => setProject({ ...project, messager });
+  const messengerChange = (messenger) => setProject({ ...project, messenger });
   // const communicationChange = (communication) => setProject({ ...project, communication })
   const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
@@ -188,6 +188,7 @@ function AddProjectPage(props) {
     }
     else setIsError(true)
   };
+
 
   return (
     <>
@@ -361,20 +362,20 @@ function AddProjectPage(props) {
                       className={classes.selectEmpty}
                       labelWidth={170}
                       name='communication'
-                      value={project.communication}
+                      value={project.communication || ''}
                       onChange={handleChange}
                     >
-                      <MenuItem value="onlyWritten">Only written</MenuItem>
-                      <MenuItem value="calls">Calls</MenuItem>
-                      <MenuItem value="videoCalls">Video calls</MenuItem>
+                      <MenuItem value="Only written">Only written</MenuItem>
+                      <MenuItem value="Calls">Calls</MenuItem>
+                      <MenuItem value="Video calls">Video calls</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
               </Grid>
-              <MessagerForm
-                name='messager'
-                messagerChange={messagerChange}
-                messagerValue={project.messager}
+              <MessengerForm
+                name='messenger'
+                messengerChange={messengerChange}
+                messengerValue={project.messenger}
                 projectId
               // isError={isError}
               />

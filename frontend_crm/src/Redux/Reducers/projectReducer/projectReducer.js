@@ -13,7 +13,9 @@ import {
   FILTER_PROJECT_STACK,
   FILTER_PROJECT_DURATION,
   FILTER_PROJECT_STATUS,
-  FILTER_PROJECT_PAYMENT_TYPE 
+  FILTER_PROJECT_PAYMENT_TYPE,
+  FILTER_PROJECT_MESSENGER,
+  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 const initialState = {
@@ -34,7 +36,9 @@ const initialState = {
     stack: ['all'],
     status: ['all'],
     duration: ['all'],
-    paymentType: ['all']
+    paymentType: ['all'],
+    messenger: ['all'],
+    communication: ['all'],
   }
 };
 
@@ -140,7 +144,12 @@ const projectReducer = produce((draft, action) => {
     case FILTER_PROJECT_PAYMENT_TYPE:
       draft.filters.paymentType = action.payload;
       return draft;
-      
+    case FILTER_PROJECT_MESSENGER:
+      draft.filters.messenger = action.payload;
+      return draft;
+    case FILTER_PROJECT_FORMAT_OF_COMUNICATUIN:
+      draft.filters.communication = action.payload;
+      return draft;
     default:
       return draft;
   }

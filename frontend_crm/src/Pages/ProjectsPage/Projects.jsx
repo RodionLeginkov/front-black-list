@@ -10,7 +10,7 @@ import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
-import getFilteredProjects from '../../Redux/Selectors/ProjectSelectrs'
+import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors'
 
 const useStyles = makeStyles({
   button: {

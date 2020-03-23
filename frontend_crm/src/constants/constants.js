@@ -54,3 +54,15 @@ export const paymentTypes = [
   'flat rate',
   'fixed',
 ]
+
+export const messengers = [
+  'Slack',
+  'Skype',
+  'Whatsapp',
+]
+
+export const projectFormatOfCommunication = [
+  'Only written',
+  'Calls',
+  'Video calls',
+]

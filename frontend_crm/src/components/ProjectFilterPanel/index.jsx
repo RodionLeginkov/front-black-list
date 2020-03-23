@@ -170,12 +170,16 @@ import {
   filteredProjectStatus,
   filteredProjectDuration,
   filteredProjectPaymentType,
+  filteredProjectMessenger,
+  filteredProjectCommunication,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import {
   stackList,
   projectsStatus,
   projectsDuration,
-  paymentTypes
+  paymentTypes,
+  messengers,
+  projectFormatOfCommunication,
 } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
@@ -211,8 +215,6 @@ const useStyles = makeStyles(() => ({
 const FilterUserPanel = () => {
   const classes = useStyles();
   const [searchName, setSearchName] = useState('');
-  const [searchEmail, setSearchEmail] = useState('');
-  const [searchPhone, setSearchPhone] = useState('');
 
   const dispatch = useDispatch();
 
@@ -230,6 +232,14 @@ const FilterUserPanel = () => {
 
   const handleChangePaymentType = ((event, values) => {
     dispatch(filteredProjectPaymentType(values))
+  })
+
+  const handleChangeMessengers = ((event, values) => {
+    dispatch(filteredProjectMessenger(values))
+  })
+
+  const handleChangeFormatOfCommunication = ((event, values) => {
+    dispatch(filteredProjectCommunication(values))
   })
 
   const onChangeSearchName = (event) => {
@@ -321,6 +331,40 @@ const FilterUserPanel = () => {
                   {...params}
                   variant="outlined"
                   label="Payment type"
+                />
+              )}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Autocomplete
+              multiple
+              options={messengers}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeMessengers}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Messengers"
+                />
+              )}
+              size="small"
+            />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Autocomplete
+              multiple
+              options={projectFormatOfCommunication}
+              getOptionLabel={(option) => option}
+              filterSelectedOptions
+              onChange={handleChangeFormatOfCommunication}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Format of communication"
                 />
               )}
               size="small"

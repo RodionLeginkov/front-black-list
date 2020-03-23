@@ -12,6 +12,8 @@ import {
   LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS, FILTER_PROJECT_STACK,
   FILTER_PROJECT_STATUS, FILTER_PROJECT_DURATION,
   FILTER_PROJECT_PAYMENT_TYPE ,
+  FILTER_PROJECT_MESSENGER,
+  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 // import { addNewProject } from './ProjectsApi';
@@ -32,7 +34,6 @@ export const addProject = (project) => async (dispatch) => {
 
 
 export const getProjects = () => async (dispatch) => {
-  console.log("GETPROJECT")
   try {
     // if (localStorage.getItem('admin') === 'true') {
     // console.log("SFJHASFSADFHSUJFDHAUJS")
@@ -108,7 +109,17 @@ export const filteredProjectDuration = (selectedFilters) => {
 }
 
 export const filteredProjectPaymentType = (selectedFilters) => { 
-  console.log(selectedFilters)
   if(!selectedFilters.length) return {type: FILTER_PROJECT_PAYMENT_TYPE , payload: ['all']}
   return {type: FILTER_PROJECT_PAYMENT_TYPE, payload: selectedFilters}
+}
+
+export const filteredProjectMessenger = (selectedFilters) => {
+  if(!selectedFilters.length) return {type: FILTER_PROJECT_MESSENGER , payload: ['all']}
+  return {type: FILTER_PROJECT_MESSENGER, payload: selectedFilters}
+}
+
+export const filteredProjectCommunication = (selectedFilters) => {
+  console.log(selectedFilters)
+  if(!selectedFilters.length) return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: ['all']}
+  return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: selectedFilters}
 }

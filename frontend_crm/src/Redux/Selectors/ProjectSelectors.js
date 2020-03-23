@@ -5,7 +5,9 @@ const getProjectName = (state) => state.projects.filters.name;
 const getProjectStack = (state) => state.projects.filters.stack;
 const getProjectStatus = (state) => state.projects.filters.status;
 const getProjectDuration = (state) => state.projects.filters.duration;
-const getProjectPaymentType = (state) => state.projects.filters.paymentType
+const getProjectPaymentType = (state) => state.projects.filters.paymentType;
+const getProjectMessenger = (state) => state.projects.filters.messenger;
+const getProjectCommunication =(state) => state.projects.filters.communication;
 
 
 const getProjectsByName = createSelector(
@@ -29,7 +31,6 @@ const getProjectsByStatus = createSelector(
     getProjects,
     getProjectStatus,
     (projects, statusFilters) => {
-        console.log('statusFILTER', statusFilters)
         if (statusFilters.includes('all')) return projects;
         return projects.filter((project) => (
             project.status && project.status.includes(statusFilters)
@@ -59,6 +60,30 @@ const getProjectByPaymentType = createSelector(
     }
 )
 
+const getProjectByMessenger = createSelector(
+    getProjects,
+    getProjectMessenger,
+    (projects, messengerFilters) => {
+        if(messengerFilters.includes('all')) return projects;
+        return projects.filter((project) => (
+            project.messenger && project.messenger.some((i) => messengerFilters.includes(i.tech))))
+    }
+)
+
+const getProjectByCommunication = createSelector(
+    getProjects,
+    getProjectCommunication,
+    (projects, communicationFilters) => {
+        console.log("FILT", communicationFilters)
+        if(communicationFilters.includes('all')) return projects;
+        return projects.filter((project) => {
+            console.log("PROJECT", project.communication);
+            return(
+            project.communication && project.communication.includes(communicationFilters)
+        )})
+    }
+)
+
 const getFilteredProjects = createSelector(
     getProjects,
     getProjectsByName,
@@ -66,13 +91,18 @@ const getFilteredProjects = createSelector(
     getProjectsByStatus,
     getProjectByDuration,
     getProjectByPaymentType,
+    getProjectByMessenger,
+    getProjectByCommunication,
     (projects, projectsByName, projectsByStack, projectsByStatus, 
-        projectsByDuration, projectsByPaymentType) => projects.filter((project) => (
+        projectsByDuration, projectsByPaymentType,
+        projectByMessenger, projectByCommunication) => projects.filter((project) => (
         projectsByName.includes(project) &&
         projectsByStack.includes(project) && 
         projectsByStatus.includes(project) &&
         projectsByDuration.includes(project) &&
-        projectsByPaymentType.includes(project)
+        projectsByPaymentType.includes(project) &&
+        projectByMessenger.includes(project) &&
+        projectByCommunication.includes(project)
     )),
 );
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FadeMenu() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const history = useHistory();
   const open = Boolean(anchorEl);
 
   const handleClick = event => {
@@ -36,6 +38,11 @@ export default function FadeMenu() {
     window.location = "/signin";
   };
 
+  const handleClickProfile = () => {
+    history.push(`/profile`);
+    setAnchorEl(null);
+  };
+
   return (
     <>
       <Button className={classes.button} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
@@ -49,7 +56,7 @@ export default function FadeMenu() {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleClickProfile}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleCloselogout}>Logout</MenuItem>
       </Menu>

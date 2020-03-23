@@ -24,6 +24,7 @@ import {
 } from '@material-ui/pickers';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,42 +80,64 @@ const EditUserPage = ({ match, isError }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { userId } = match.params;
+  const { path } = match;
+  let userId;
+  let isProfile = false;
+  if (path === '/profile') {
+    isProfile = true;
+  } else {
+    userId = match.params.userId;
+  }
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
 
-  const initialValue = (userId && curUser) ? curUser : {
-    _id: '',
-    fullName: '',
-    role: '',
-    englishLevel: '',
-    email: '',
-    phoneNumber: '',
-    skype: '',
-    github: '',
-    stack: [],
-    currentProject: [],
-    dataofJoining: '',
-    dataofLeave: '',
-    comment: '',
-  };
+  if (!curUser && !isProfile) {
+    history.push(`/users/info/${userId}`);
+  }
 
-  const [user, setUser] = useState(initialValue);
-  useEffect(() => {
-    setUser(initialValue);
-  }, [initialValue]);
+  const {
+    _id = userId,
+    fullName = '',
+    role = '',
+    status = '',
+    englishLevel = '',
+    email = '',
+    phoneNumber = '',
+    skype = '',
+    github = '',
+    stack = [],
+    currentProject = [],
+    dataofJoining = '',
+    dataofLeave = '',
+    comment = '',
+  } = (!isProfile && userId) ? curUser : JSON.parse(localStorage.getItem('user'));
+
+  const [user, setUser] = useState({
+    _id,
+    fullName,
+    role,
+    status,
+    englishLevel,
+    email,
+    phoneNumber,
+    skype,
+    github,
+    stack,
+    currentProject,
+    dataofJoining,
+    dataofLeave,
+    comment,
+  });
 
   useEffect(() => {
     if (userId && !curUser) {
       dispatch(getUsers());
       dispatch(getUser(userId));
+      setUser(curUser);
     }
+    dispatch(getProjects());
   }, [curUser, dispatch, userId]);
-
-  if (loading) {
-    return (<Loading />);
-  }
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -135,7 +158,8 @@ const EditUserPage = ({ match, isError }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(user));
-    history.push(`/users/info/${userId}`);
+    localStorage.setItem('user', JSON.stringify(user));
+    history.push(`/users/info/${user._id}`);
   };
 
   let filteredProjects = projects;
@@ -144,29 +168,23 @@ const EditUserPage = ({ match, isError }) => {
       project.name !== user.currentProject[index].name));
   }
 
+  if (loading || !user) {
+    return (<Loading />);
+  }
+
   return (
     <>
-      {!userId
-        ? (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography className={classes.link} onClick={() => history.push('/users')}>
-              Users
-            </Typography>
-          </Breadcrumbs>
-        )
-        : (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography className={classes.link} onClick={() => history.push('/users')}>
-              Users
-            </Typography>
-            <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
-              {user.fullName}
-            </Typography>
-            <Typography color="textPrimary">
-              Edit
-            </Typography>
-          </Breadcrumbs>
-        )}
+      <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+        <Typography className={classes.link} onClick={() => history.push('/users')}>
+          Users
+        </Typography>
+        <Typography className={classes.link} onClick={() => history.push(`/users/info/${user._id}`)}>
+          {user.fullName}
+        </Typography>
+        <Typography color="textPrimary">
+          Edit
+        </Typography>
+      </Breadcrumbs>
       <div className={classes.position} style={{ marginLeft: '85px' }}>
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
@@ -204,8 +222,9 @@ const EditUserPage = ({ match, isError }) => {
                   <FormControl
                     className={clsx(classes.formControl, classes.inputForm)}
                     variant="outlined"
+                    placeholder='English Level'
                   >
-                    <InputLabel htmlFor="outlined-adornment-password">English Level</InputLabel>
+                    <InputLabel>English Level</InputLabel>
                     <Select
                       labelWidth={47}
                       name='englishLevel'
@@ -225,7 +244,7 @@ const EditUserPage = ({ match, isError }) => {
                     label="Email"
                     name='email'
                     onChange={handleChange}
-                    disabled
+                    disabled={!isProfile}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>

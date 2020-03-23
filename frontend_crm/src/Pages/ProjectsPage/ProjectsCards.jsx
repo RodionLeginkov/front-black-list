@@ -12,7 +12,7 @@ function ProjectsCards(props) {
   return (
     <>
       {projects.map((card) => (
-        <Grid item container key={Math.random()} justify="center" xs={12} sm={6} md={4} lg={4}>
+        <Grid item container key={Math.random()} justify="flex-start" xs={12} sm={6} md={4} lg={3} xl={3}>
           <SinglProjectCard card={card} />
         </Grid>
       ))}

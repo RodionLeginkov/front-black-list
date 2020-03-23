@@ -115,7 +115,7 @@ function AddProjectPage(props) {
     duration: '',
     group: [],
     name: '',
-    comunication: '',
+    communication: '',
     messager: [],
     startDate: null,
     endDate: null,
@@ -132,7 +132,7 @@ function AddProjectPage(props) {
     projectImage: '',
     developers: [],
   };
-  const reqFields = ['name', 'comunication', 'startDate',
+  const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawalOfFunds',
     'paymentType', 'paymentAmount', 'load', 'resources',]
   const [project, setProject] = useState(initialValue);
@@ -168,7 +168,7 @@ function AddProjectPage(props) {
   // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
   const developersChange = (developers) => setProject({ ...project, developers });
   const messagerChange = (messager) => setProject({ ...project, messager });
-  // const comunicationChange = (comunication) => setProject({ ...project, comunication })
+  // const communicationChange = (communication) => setProject({ ...project, communication })
   const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
@@ -281,7 +281,7 @@ function AddProjectPage(props) {
                     style={{ paddingRight: 9 }}
                     value={project.paymentAmount}
                     onChange={handleChange}
-                    // error={!project.comunication && isError}
+                    // error={!project.communication && isError}
                     name='paymentAmount'
                     endAdornment={
                       <InputAdornment position="end">
@@ -310,13 +310,13 @@ function AddProjectPage(props) {
               {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
               {/* <TextField
                 style={{ width: '49%' }}
-                value={project.comunication}
+                value={project.communication}
                 variant="outlined"
                 id="standard-multiline-flexible"
-                label="Format of comunication"
+                label="Format of communication"
                 multiline
                 rowsMax="5"
-                name='comunication'
+                name='communication'
                 onChange={handleChange}
               /> */}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
@@ -348,20 +348,20 @@ function AddProjectPage(props) {
                 <Grid item xs={6}>
                   <FormControl
                     style={{ width: '100%', paddingLeft: 5 }}
-                    placeholder='Format of comunication'
+                    placeholder='Format of communication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-                    error={!project.comunication && isError}
+                    error={!project.communication && isError}
                     required
                   >
                     <InputLabel >
-                      Format of comunication
+                      Format of communication
             </InputLabel>
                     <Select
                       className={classes.selectEmpty}
                       labelWidth={170}
-                      name='comunication'
-                      value={project.comunication}
+                      name='communication'
+                      value={project.communication}
                       onChange={handleChange}
                     >
                       <MenuItem value="onlyWritten">Only written</MenuItem>

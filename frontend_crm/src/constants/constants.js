@@ -33,3 +33,24 @@ export const englishLevels = [
   'Advanced',
   'Proficient',
 ];
+
+export const projectsStatus = [
+  'onGoing',
+  'stopped',
+  'active',
+  'completed',
+  'pending',
+]
+
+export const projectsDuration = [
+  '1-3 months',
+  '3-6 months',
+  '6-12 months',
+  'Unexpected',
+]
+
+export const paymentTypes = [
+  'hourly',
+  'flat rate',
+  'fixed',
+]

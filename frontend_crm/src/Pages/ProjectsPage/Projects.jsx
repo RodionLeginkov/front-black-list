@@ -10,7 +10,7 @@ import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
-
+import getFilteredProjects from '../../Redux/Selectors/ProjectSelectrs'
 
 const useStyles = makeStyles({
   button: {
@@ -18,22 +18,32 @@ const useStyles = makeStyles({
     minHeight: '40px',
     padding: '0 10px',
   },
+  // container: {
+  //   marginTop: '20px',
+  //   margin: 'auto',
+  // },
   container: {
-    marginTop: '20px',
-    margin: 'auto',
+    paddingLeft: '100px',
+
   },
   tableWrapper: {
     width: '100%',
-    maxWidth: '1440px',
+    // maxWidth: '1440px',
     margin: '0 auto',
   },
   projectsHeader: {
+    // alignItems: 'center',
+    // maxWidth: '1360px',
+    // justifyContent: 'space-between',
+    // display: 'flex',
+    // margin: '0 auto',
+    // marginTop: '70px',
     alignItems: 'center',
-    maxWidth: '1360px',
+    marginRight: '20px',
     justifyContent: 'space-between',
     display: 'flex',
-    margin: '0 auto',
-    marginTop: '70px',
+    margin: '0',
+    marginTop: 70,
   },
   h1: {
     fontSize: '40px',
@@ -44,14 +54,15 @@ export default function StickyHeadTable() {
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
-  const projects = useSelector((state) => state.projects.filteredProjects);
+  const projects = useSelector((state) => getFilteredProjects(state))
+  // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
   return (
-    <div style={{ marginLeft: '85px' }}>
+    <div className={classes.container}>
       <div className={classes.projectsHeader}>
         <h1>Projects</h1>
         <Button

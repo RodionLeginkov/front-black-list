@@ -17,7 +17,8 @@ import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
-
+import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx'
+import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx'
 
 const theme = createMuiTheme({
   palette: {
@@ -40,15 +41,17 @@ function App() {
               <PrivateRoute exact path="/projects" component={Projects} />
               <PrivateRoute exact path="/leads" component={Leads} />
               <Route path="/projects/addproject" component={AddProjectPage} />
+              <Route path="/users/inviteuser" component={InviteUserPage} />
               <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
               <Route exact path="/users/:userId" component={SingleUserPage} />
               <Route exact path="/users/info/:userId" component={SingleUserPage} />
               <Route exact path="/users/edituser/:userId" component={EditUserPage} />
-              <Route  path="/signin" component={Signin} />
-              <Route  path="/signup" component={SignUp} />
+              <Route path="/signin" component={Signin} />
+              <Route path="/signup" component={SignUp} />
               <Route path="/Forgot" component={Forgot} />
               <Route exact path="/Reset/:token" component={ResetPassword} />
+              <Route path="/newreset" component={NewReserPasswordPage} />
             </Switch>
           </div>
         </AuthContextProvider>

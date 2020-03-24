@@ -135,7 +135,7 @@ export default function ResetPassword(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Update your password
+          sdfgedgsdgd
         </Typography>
         <form className={classes.form} onSubmit={updatePassword}>
           <TextField

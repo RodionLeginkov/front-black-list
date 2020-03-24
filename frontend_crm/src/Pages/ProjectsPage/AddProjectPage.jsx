@@ -34,6 +34,7 @@ import {
 } from '@material-ui/pickers';
 import './ProjectStyles.css'
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -98,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#a3a3a3',
     cursor: 'default',
     fontSize: '30px'
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 }));
 function AddProjectPage(props) {
@@ -173,6 +179,7 @@ function AddProjectPage(props) {
   const endDateChange = (endDate) => setProject({ ...project, endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
 
+  const handleClose = () => projectId ? history.push(`/projects/${project._id}`) : history.push('/projects')
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -214,7 +221,14 @@ function AddProjectPage(props) {
             className={clsx(classes.content, classes.header)}
           >
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
-              <h2>Add new project</h2>
+              <div className={classes.header}>
+                <h2>Add new project</h2>
+                <Tooltip title='close'>
+                  <Button onClick={handleClose}>
+                    <CloseSharpIcon style={{ color: '#a3a3a3', }} />
+                  </Button>
+                </Tooltip>
+              </div>
               <TextField
                 required
                 style={{ marginBottom: 10 }}
@@ -530,11 +544,11 @@ function AddProjectPage(props) {
                 onChange={handleChange}
               />
               <div >
-                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{marginTop:'-6px'}}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils} style={{ marginTop: '-6px' }}>
                   <Grid container  >
                     <Grid item xs={6}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', marginTop:'10px'}}
+                        style={{ width: '100%', marginTop: '10px' }}
                         // name="startDate"
                         inputVariant="outlined"
                         disableToolbar

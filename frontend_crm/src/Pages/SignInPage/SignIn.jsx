@@ -236,11 +236,11 @@ export default function SignUp() {
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
+            {/* <Grid item>
               <Link to="/signup">
                 Don't have an account? Sign Up
               </Link>
-            </Grid>
+            </Grid> */}
           </Grid>
         </form>
       </div>

@@ -11,6 +11,9 @@ import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import ProjectsList from './ProjectsList'
 
 const useStyles = makeStyles({
   button: {
@@ -18,26 +21,14 @@ const useStyles = makeStyles({
     minHeight: '40px',
     padding: '0 10px',
   },
-  // container: {
-  //   marginTop: '20px',
-  //   margin: 'auto',
-  // },
   container: {
     paddingLeft: '100px',
-
   },
   tableWrapper: {
     width: '100%',
-    // maxWidth: '1440px',
     margin: '0 auto',
   },
   projectsHeader: {
-    // alignItems: 'center',
-    // maxWidth: '1360px',
-    // justifyContent: 'space-between',
-    // display: 'flex',
-    // margin: '0 auto',
-    // marginTop: '70px',
     alignItems: 'center',
     marginRight: '20px',
     justifyContent: 'space-between',
@@ -48,11 +39,13 @@ const useStyles = makeStyles({
   h1: {
     fontSize: '40px',
   },
+
 });
 export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
+  const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false)
   const dispatch = useDispatch();
   const projects = useSelector((state) => getFilteredProjects(state))
   // const projects = useSelector((state) => state.projects.filteredProjects)
@@ -61,10 +54,27 @@ export default function StickyHeadTable() {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
+
+  // let projectWidgetView = undefined;
+  
+  // if (localStorage.getItem('projectWidgetView') === 'false') projectWidgetView = false
+  // else projectWidgetView = true
+  
+  const handleChange = (event) => {
+    setWidgetView(!widgetView)
+    localStorage.setItem('projectWidgetView', !widgetView)
+  }
+
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
-        <h1>Projects</h1>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <h1>Projects</h1>
+          <FormControlLabel style={{ marginLeft: '10px' }}
+            control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
+            label="Widget view"
+          />
+        </div>
         <Button
           variant="contained"
           color="primary"
@@ -77,9 +87,11 @@ export default function StickyHeadTable() {
       </div>
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
-        {/* <ProjectList classes={classes} /> */}
         <Grid container>
-          {loading ? <CircularProgress style={{ margin: '0 auto' }} /> : <ProjectCards projects={projects} />}
+
+          {loading ? <CircularProgress style={{ margin: '0 auto' }} />
+            : widgetView ? <ProjectCards projects={projects} />
+              : <ProjectsList projects={projects} />}
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />

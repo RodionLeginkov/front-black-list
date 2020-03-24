@@ -1,122 +1,82 @@
 import React from 'react';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: '#32418c',
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
-const columns = [
-  { id: 'project', label: 'Project Name', minWidth: 170 },
-  { id: 'status', label: 'Status', minWidth: 50 },
-  {
-    id: 'workers',
-    label: 'Workers',
-    minWidth: 250,
-    align: 'center',
-    format: (value) => value.toLocaleString(),
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
   },
-  {
-    id: 'salaries',
-    label: 'Salaries',
-    minWidth: 50,
-    align: 'center',
-    format: (value) => value.toLocaleString(),
-  },
-  {
-    id: 'mark',
-    label: 'Mark',
-    minWidth: 50,
-    align: 'center',
-    format: (value) => value.toLocaleString(),
-  },
-];
+}))(TableRow);
 
-function createData(project, status, workers, salaries, mark) {
-  return {
-    project, status, workers, salaries, mark,
-  };
+function createData(name) {
+  return { name};
 }
 
-const rows = [
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
-  createData('BlackList', 'Active', 'HPT_Team', 0, 'excellent'),
+// const rows = [
+//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+//   createData('Eclair', 262, 16.0, 24, 6.0),
+//   createData('Cupcake', 305, 3.7, 67, 4.3),
+//   createData('Gingerbread', 356, 16.0, 49, 3.9),
+// ];
 
-];
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+    marginRight: 20,
+  },
+});
 
+export default function ProjectsList(props) {
+  const classes = useStyles();
 
-function ProjectsList({ classes }) {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const {projects} = props
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-
+  const rows = projects.map((project) => createData(project.name,))
   return (
-
-    <div>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                {columns.map((column) => {
-                  const value = row[column.id];
-                  return (
-                    <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        pr={100}
-                // display="inline-flex"
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </div>
+    <TableContainer component={Paper} style={{marginRight: 20}}>
+      <Table className={classes.table} aria-label="customized table">
+        <TableHead color='primary'>
+          <TableRow>
+            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
+            <StyledTableCell align="right">Calories</StyledTableCell>
+            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <StyledTableRow key={row.name}>
+              <StyledTableCell component="th" scope="row">
+                {row.name}
+              </StyledTableCell>
+              <StyledTableCell align="right">{row.calories}</StyledTableCell>
+              <StyledTableCell align="right">{row.fat}</StyledTableCell>
+              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
-
-export default ProjectsList;

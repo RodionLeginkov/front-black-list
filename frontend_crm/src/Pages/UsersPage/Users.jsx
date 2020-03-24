@@ -49,15 +49,17 @@ function Users() {
   const dispatch = useDispatch();
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
-  const [widgetView, setWidgetView] = useState(true)
+  const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false)
 
   useEffect(() => {
     dispatch(getUsers());
     dispatch(getProjects());
   }, [dispatch]);
 
-  const handleChange = (event) => setWidgetView(event.target.checked)
-
+  const handleChange = (event) => {
+    setWidgetView(!widgetView)
+    localStorage.setItem('userWidgetView', !widgetView)
+  }
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>

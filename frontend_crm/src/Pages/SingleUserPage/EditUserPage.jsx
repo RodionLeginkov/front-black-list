@@ -103,7 +103,7 @@ const EditUserPage = ({ match, isError }) => {
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
     setUser(initialValue);
-  }, [initialValue]);
+  }, [loading]);
 
   useEffect(() => {
     if (userId && !curUser) {

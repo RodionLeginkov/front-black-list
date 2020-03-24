@@ -45,7 +45,7 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const [widgetView, setWidgetView] = useState(true)
+  const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false)
   const dispatch = useDispatch();
   const projects = useSelector((state) => getFilteredProjects(state))
   // const projects = useSelector((state) => state.projects.filteredProjects)
@@ -55,7 +55,15 @@ export default function StickyHeadTable() {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const handleChange = (event) => setWidgetView(event.target.checked)
+  // let projectWidgetView = undefined;
+  
+  // if (localStorage.getItem('projectWidgetView') === 'false') projectWidgetView = false
+  // else projectWidgetView = true
+  
+  const handleChange = (event) => {
+    setWidgetView(!widgetView)
+    localStorage.setItem('projectWidgetView', !widgetView)
+  }
 
   return (
     <div className={classes.container}>

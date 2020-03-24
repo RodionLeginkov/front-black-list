@@ -24,6 +24,8 @@ export const signIn = (user) => async (dispatch) => {
     dispatch({ type: SIGNIN_SUCCESS, payload: data });
     localStorage.setItem('token', data.token);
     localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('userWidgetView', false);
+    localStorage.setItem('projectWidgetView', false);
     dispatch({ type: SIGNIN_LOGGEDIN });
   } catch (error) {
     dispatch({ type: SIGNIN_ERROR, payload: error });

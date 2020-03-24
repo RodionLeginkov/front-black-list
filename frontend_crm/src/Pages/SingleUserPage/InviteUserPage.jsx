@@ -89,7 +89,7 @@ const EditUserPage = ({ match, isError }) => {
     const curUser = useSelector((state) => state.users.currentUser);
     const loading = useSelector((state) => state.users.loadingCurrentUser);
     const projects = useSelector((state) => state.projects.projects);
-
+    
     const initialValue = (userId && curUser) ? curUser : {
         _id: '',
         fullName: '',
@@ -109,7 +109,7 @@ const EditUserPage = ({ match, isError }) => {
     const [user, setUser] = useState(initialValue);
     useEffect(() => {
         setUser(initialValue);
-    }, [initialValue]);
+    }, [loading]);
 
     useEffect(() => {
         if (userId && !curUser) {
@@ -226,7 +226,6 @@ const EditUserPage = ({ match, isError }) => {
                                         label="Email"
                                         name='email'
                                         onChange={handleChange}
-                                        disabled
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>

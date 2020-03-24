@@ -59,17 +59,17 @@ export default function ProjectsList(props) {
     dispatch(findProject(id));
     history.push(`/projects/${id}`);
   }
-  console.log(rows)
+
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead color='primary'>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Project Name</StyledTableCell>
+            <StyledTableCell align="right">TableCell</StyledTableCell>
+            <StyledTableCell align="right">TableCell</StyledTableCell>
+            <StyledTableCell align="right">TableCell</StyledTableCell>
+            <StyledTableCell align="right">TableCell</StyledTableCell>
             {/* <StyledTableCell align="right">Action</StyledTableCell> */}
           </TableRow>
         </TableHead>

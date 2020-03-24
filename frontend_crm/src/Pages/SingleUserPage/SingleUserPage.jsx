@@ -218,8 +218,8 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           <Button onClick={handleClickOnBack}>
             <ArrowBackIosIcon />
           </Button>
-          <Button>
-            <EditSharpIcon onClick={handleClickOnEdit} />
+          <Button onClick={handleClickOnEdit}>
+            <EditSharpIcon  />
           </Button>
           <Button onClick={handleClickOpenPopUp} className={classes.deleteButton}>
             <DeleteOutlineIcon />

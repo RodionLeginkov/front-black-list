@@ -74,12 +74,10 @@ const getProjectByCommunication = createSelector(
     getProjects,
     getProjectCommunication,
     (projects, communicationFilters) => {
-        console.log("FILT", communicationFilters)
         if(communicationFilters.includes('all')) return projects;
         return projects.filter((project) => {
-            console.log("PROJECT", project.communication);
             return(
-            project.communication && project.communication.includes(communicationFilters)
+            project.communication && project.communication[0].includes(communicationFilters)
         )})
     }
 )

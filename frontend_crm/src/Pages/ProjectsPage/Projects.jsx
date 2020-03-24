@@ -45,7 +45,7 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const [widgetView, setWidgetView] = useState(false )
+  const [widgetView, setWidgetView] = useState(true)
   const dispatch = useDispatch();
   const projects = useSelector((state) => getFilteredProjects(state))
   // const projects = useSelector((state) => state.projects.filteredProjects)
@@ -62,7 +62,7 @@ export default function StickyHeadTable() {
       <div className={classes.projectsHeader}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <h1>Projects</h1>
-          <FormControlLabel style={{ marginLeft: '10px' }} 
+          <FormControlLabel style={{ marginLeft: '10px' }}
             control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
             label="Widget view"
           />
@@ -80,10 +80,10 @@ export default function StickyHeadTable() {
       <ProjectFilterPanel />
       <div className={classes.tableWrapper}>
         <Grid container>
-     
-          {loading ? <CircularProgress style={{ margin: '0 auto' }} /> 
-          : widgetView ? <ProjectCards projects={projects} /> 
-          :    <ProjectsList projects={projects} />}
+
+          {loading ? <CircularProgress style={{ margin: '0 auto' }} />
+            : widgetView ? <ProjectCards projects={projects} />
+              : <ProjectsList projects={projects} />}
         </Grid>
       </div>
       <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />

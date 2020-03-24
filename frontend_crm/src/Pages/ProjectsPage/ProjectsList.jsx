@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
 import DeleteModal from '../../components/DeleteModal/DeleteModal'
+import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -29,8 +32,8 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-function createData(name) {
-  return { name };
+function createData(name, id) {
+  return { name, id };
 }
 
 const useStyles = makeStyles({
@@ -45,10 +48,18 @@ const useStyles = makeStyles({
 
 export default function ProjectsList(props) {
   const classes = useStyles();
-  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
+  // const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const { projects } = props
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const rows = projects.map((project) => createData(project.name, project._id))
 
-  const rows = projects.map((project) => createData(project.name))
+  function handleClick(id) {
+    console.log(id)
+    dispatch(findProject(id));
+    history.push(`/projects/${id}`);
+  }
+  console.log(rows)
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>
       <Table className={classes.table} aria-label="customized table">
@@ -64,7 +75,10 @@ export default function ProjectsList(props) {
         </TableHead>
         <TableBody>
           {rows.map(project => (
-            <StyledTableRow key={project.name}>
+            <StyledTableRow
+              style={{ cursor: 'pointer' }}
+              key={project.name}
+              onClick={() => handleClick(project.id)}>
               <StyledTableCell component="th" scope="row">
                 {project.name}
               </StyledTableCell>

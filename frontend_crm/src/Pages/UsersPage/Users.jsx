@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import UsersCards from './UsersCards.jsx';
+import { useHistory } from 'react-router-dom';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -11,6 +12,7 @@ import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 import UsersList from './UsersList.jsx';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles({
   container: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles({
   },
   usersHeader: {
     alignItems: 'center',
-    maxWidth: '1370px',
+    // maxWidth: '1370px',
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0',
@@ -34,15 +36,20 @@ const useStyles = makeStyles({
   h1: {
     fontSize: '40px',
   },
+  button: {
+    fontSize: '13 px',
+    minHeight: '40px',
+    padding: '0 10px',
+  },
 });
 
 function Users() {
   const classes = useStyles();
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
-  const [widgetView, setWidgetView] = useState(false)
+  const [widgetView, setWidgetView] = useState(true)
 
   useEffect(() => {
     dispatch(getUsers());
@@ -61,6 +68,15 @@ function Users() {
             label="Widget view"
           />
         </div>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          className={classes.button}
+          onClick={() => history.push('/users/inviteuser')}
+        >
+          Invite user
+        </Button>
       </div>
       <FilterPanel />
       <Grid

@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { messengers } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -32,19 +33,19 @@ const messegers = [
   { tech: 'Whatsapp' },
 ];
 
-export default function MessagerForm(props) {
+export default function MessengerForm(props) {
   const classes = useStyles();
-  const { messagerChange, messagerValue, isError } = props;
-
+  const { messengerChange, messengerValue, isError } = props;
+console.log(messengerValue)
   const handleChange = (event, values) => {
-    messagerChange(values);
+    messengerChange(values);
   };
 
-  let filteredMessagers = messegers
-  for (const index in messagerValue) {
-    filteredMessagers = filteredMessagers.filter((t) => {
+  let filteredMessenger = messegers
+  for (const index in messengerValue) {
+    filteredMessenger = filteredMessenger.filter((t) => {
       return (
-        t.tech !== messagerValue[index].tech)
+        t.tech !== messengerValue[index].tech)
     })
 
   }
@@ -55,11 +56,11 @@ export default function MessagerForm(props) {
         multiple
         className={clsx(classes.formControl, classes.inputForm)}
         id="checkboxes-tags-demo"
-        options={filteredMessagers}
+        options={filteredMessenger}
         disableCloseOnSelect
         getOptionLabel={option => option.tech}
         onChange={handleChange}
-        value={messagerValue}
+        value={messengerValue}
         renderOption={(option, { selected }) => (
           <React.Fragment>
 
@@ -68,7 +69,7 @@ export default function MessagerForm(props) {
         )}
         style={{ width: '100%' }}
         renderInput={params => (
-          <TextField error={messagerValue.length === 0 && isError} {...params} variant="outlined" label="Messagers" />
+          <TextField error={messengerValue.length === 0 && isError} {...params} variant="outlined" label="Messengers" />
         )}
       />
     </div>

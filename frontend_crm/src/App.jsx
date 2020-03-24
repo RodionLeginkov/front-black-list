@@ -6,6 +6,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar';
 import Users from './Pages/UsersPage/Users.jsx';
 import Projects from './Pages/ProjectsPage/Projects';
+import Leads from './Pages/LeadsPage/Leads';
 import Home from './Pages/HomePage/Home';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
@@ -37,6 +38,7 @@ function App() {
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/users" component={Users} />
               <PrivateRoute exact path="/projects" component={Projects} />
+              <PrivateRoute exact path="/leads" component={Leads} />
               <Route path="/projects/addproject" component={AddProjectPage} />
               <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />

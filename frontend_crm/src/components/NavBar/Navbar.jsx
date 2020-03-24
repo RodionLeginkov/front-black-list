@@ -18,12 +18,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
-
+import Tooltip from '@material-ui/core/Tooltip';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import FadeMenu from '../ProfileButton/ProfileButton.jsx';
+import RowingSharpIcon from '@material-ui/icons/RowingSharp';
+import AccessAlarmSharpIcon from '@material-ui/icons/AccessAlarmSharp';
 
 const drawerWidth = 240;
 
@@ -178,40 +180,55 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
-              <ChevronLeftIcon />
-            )}
+                <ChevronLeftIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
         <List>
           <Link to="/" className={classes.link}>
-            <ListItem button key="Home" color="red[500]">
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
+            <Tooltip title='Home'>
+              <ListItem button key="Home" color="red[500]">
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+            </Tooltip>
           </Link>
 
           <Link to="/users" className={classes.link}>
-            <ListItem button key="Users">
-              <ListItemIcon>
-                <PeopleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Users" />
-            </ListItem>
+            <Tooltip title='Users'>
+              <ListItem button key="Users">
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+              </ListItem>
+            </Tooltip>
           </Link>
 
           <Link to="/projects" className={classes.link}>
-            <ListItem button key="Projects">
-              <ListItemIcon>
-                <DeveloperBoardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Projects" />
-            </ListItem>
+            <Tooltip title='Projects'>
+              <ListItem button key="Projects">
+                <ListItemIcon>
+                  <DeveloperBoardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Projects" />
+              </ListItem>
+            </Tooltip>
+          </Link>
+          <Link to="/leads" className={classes.link}>
+            <Tooltip title='Leads'>
+              <ListItem button key="Leads">
+                <ListItemIcon>
+                  <AccessAlarmSharpIcon />
+                </ListItemIcon>
+                <ListItemText primary="Leads" />
+              </ListItem>
+            </Tooltip>
           </Link>
         </List>
-
         <Divider />
       </Drawer>
     </div>

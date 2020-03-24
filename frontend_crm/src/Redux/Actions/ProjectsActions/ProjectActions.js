@@ -9,7 +9,11 @@ import {
   FIND_PROJECT, DELETE_PROJECT_ERROR,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   LOAD_PROJECT_ERROR, FILTER_PROJECT_NAME,
-  LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
+  LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS, FILTER_PROJECT_STACK,
+  FILTER_PROJECT_STATUS, FILTER_PROJECT_DURATION,
+  FILTER_PROJECT_PAYMENT_TYPE ,
+  FILTER_PROJECT_MESSENGER,
+  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 // import { addNewProject } from './ProjectsApi';
@@ -17,6 +21,7 @@ import {
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
+    console.log("SFJHASFSADFHSUJFDHAUJS")
     // console.log('PROJECT', project);
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
@@ -31,13 +36,14 @@ export const addProject = (project) => async (dispatch) => {
 export const getProjects = () => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
+    // console.log("SFJHASFSADFHSUJFDHAUJS")
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
-    // console.log(loginToken);
     const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}project`, { headers: { token: loginToken } });
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
-    dispatch({ type: LOAD_RPOJECT_ERROR, payload: error });
+    // console.log("ERROR")
+    dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
   }
 };
 
@@ -87,4 +93,33 @@ export const updateProjectDevelopers = (project) => async (dispatch) => {
 
 export const filteredProjectName = (name) => ({ type: FILTER_PROJECT_NAME, payload: name });
 
-export const filteredProjects = (filters) => ({ type: FILTER_PROJECT, payload: filters });
+export const filteredProjectStack = (selectedFilters) => {
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_STACK, payload: ['all'] }
+  return { type: FILTER_PROJECT_STACK, payload: selectedFilters }
+}
+
+export const filteredProjectStatus = (selectedFilters) => {
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_STATUS, payload: ['all'] }
+  return { type: FILTER_PROJECT_STATUS, payload: selectedFilters }
+}
+
+export const filteredProjectDuration = (selectedFilters) => {
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_DURATION, payload: ['all'] }
+  return { type: FILTER_PROJECT_DURATION, payload: selectedFilters }
+}
+
+export const filteredProjectPaymentType = (selectedFilters) => { 
+  if(!selectedFilters.length) return {type: FILTER_PROJECT_PAYMENT_TYPE , payload: ['all']}
+  return {type: FILTER_PROJECT_PAYMENT_TYPE, payload: selectedFilters}
+}
+
+export const filteredProjectMessenger = (selectedFilters) => {
+  if(!selectedFilters.length) return {type: FILTER_PROJECT_MESSENGER , payload: ['all']}
+  return {type: FILTER_PROJECT_MESSENGER, payload: selectedFilters}
+}
+
+export const filteredProjectCommunication = (selectedFilters) => {
+  console.log(selectedFilters)
+  if(!selectedFilters.length) return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: ['all']}
+  return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: selectedFilters}
+}

@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { TextField } from '@material-ui/core';
+import { TextField, Tooltip } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -22,7 +22,7 @@ import 'date-fns';
 import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import MessagerForm from '../../components/MessagerForm/MessagerForm.jsx';
+import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
@@ -32,6 +32,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import './ProjectStyles.css'
+import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -92,6 +94,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
+  helperIcon: {
+    color: '#a3a3a3',
+    cursor: 'default',
+    fontSize: '30px'
+  }
 }));
 function AddProjectPage(props) {
   const classes = useStyles();
@@ -108,8 +115,8 @@ function AddProjectPage(props) {
     duration: '',
     group: [],
     name: '',
-    comunication: '',
-    messager: [],
+    communication: '',
+    messenger: [],
     startDate: null,
     endDate: null,
     type: '',
@@ -125,7 +132,7 @@ function AddProjectPage(props) {
     projectImage: '',
     developers: [],
   };
-  const reqFields = ['name', 'comunication', 'startDate',
+  const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawalOfFunds',
     'paymentType', 'paymentAmount', 'load', 'resources',]
   const [project, setProject] = useState(initialValue);
@@ -160,8 +167,8 @@ function AddProjectPage(props) {
   const stackChange = (stack) => setProject({ ...project, stack });
   // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
   const developersChange = (developers) => setProject({ ...project, developers });
-  const messagerChange = (messager) => setProject({ ...project, messager });
-  // const comunicationChange = (comunication) => setProject({ ...project, comunication })
+  const messengerChange = (messenger) => setProject({ ...project, messenger });
+  // const communicationChange = (communication) => setProject({ ...project, communication })
   const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const endDateChange = (endDate) => setProject({ ...project, endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
@@ -181,6 +188,7 @@ function AddProjectPage(props) {
     }
     else setIsError(true)
   };
+
 
   return (
     <>
@@ -219,6 +227,16 @@ function AddProjectPage(props) {
                 className={classes.inputForm}
                 name='name'
                 onChange={handleChange}
+
+                InputProps={{
+                  endAdornment:
+                    <InputAdornment position="end">
+                      <Tooltip title={'Project Name'}>
+                        <HelpOutlineSharpIcon className={classes.helperIcon} />
+                      </Tooltip>
+                    </InputAdornment>
+
+                }}
               />
               <div className={classes.smallForm}>
                 <FormControl
@@ -237,6 +255,11 @@ function AddProjectPage(props) {
                     labelWidth={47}
                     name='status'
                     value={project.status}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <HelpOutlineSharpIcon className={classes.helperIcon} />
+                      </InputAdornment>
+                    }
                     onChange={handleChange}
                   >
                     <MenuItem value="active">Active</MenuItem>
@@ -259,7 +282,7 @@ function AddProjectPage(props) {
                     style={{ paddingRight: 9 }}
                     value={project.paymentAmount}
                     onChange={handleChange}
-                    // error={!project.comunication && isError}
+                    // error={!project.communication && isError}
                     name='paymentAmount'
                     endAdornment={
                       <InputAdornment position="end">
@@ -288,13 +311,13 @@ function AddProjectPage(props) {
               {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
               {/* <TextField
                 style={{ width: '49%' }}
-                value={project.comunication}
+                value={project.communication}
                 variant="outlined"
                 id="standard-multiline-flexible"
-                label="Format of comunication"
+                label="Format of communication"
                 multiline
                 rowsMax="5"
-                name='comunication'
+                name='communication'
                 onChange={handleChange}
               /> */}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
@@ -326,33 +349,33 @@ function AddProjectPage(props) {
                 <Grid item xs={6}>
                   <FormControl
                     style={{ width: '100%', paddingLeft: 5 }}
-                    placeholder='Format of comunication'
+                    placeholder='Format of communication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
-                    error={!project.comunication && isError}
+                    error={!project.communication && isError}
                     required
                   >
                     <InputLabel >
-                      Format of comunication
+                      Format of communication
             </InputLabel>
                     <Select
                       className={classes.selectEmpty}
                       labelWidth={170}
-                      name='comunication'
-                      value={project.comunication}
+                      name='communication'
+                      value={project.communication || ''}
                       onChange={handleChange}
                     >
-                      <MenuItem value="onlyWritten">Only written</MenuItem>
-                      <MenuItem value="calls">Calls</MenuItem>
-                      <MenuItem value="videoCalls">Video calls</MenuItem>
+                      <MenuItem value="Only written">Only written</MenuItem>
+                      <MenuItem value="Calls">Calls</MenuItem>
+                      <MenuItem value="Video calls">Video calls</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
               </Grid>
-              <MessagerForm
-                name='messager'
-                messagerChange={messagerChange}
-                messagerValue={project.messager}
+              <MessengerForm
+                name='messenger'
+                messengerChange={messengerChange}
+                messengerValue={project.messenger}
                 projectId
               // isError={isError}
               />
@@ -530,7 +553,7 @@ function AddProjectPage(props) {
                     </Grid>
                     {projectId ? <Grid item xs={6} style={{ paddingLeft: '10px' }}>
                       <KeyboardDatePicker
-                        style={{ width: '100%', marginTop:'10px'}}
+                        style={{ width: '100%', marginTop: '10px' }}
                         inputVariant="outlined"
                         disableToolbar
                         // name="endDate"

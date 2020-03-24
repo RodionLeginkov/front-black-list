@@ -1,3 +1,4 @@
+import produce from 'immer';
 import {
   ADD_PROJECT, FILTER_PROJECT,
   LOAD_CURRENT_PROJECT,
@@ -5,10 +6,16 @@ import {
   DELETE_PROJECT_ERROR,
   DELETE_PROJECT, FIND_PROJECT,
   ADD_RPOJECT_ERROR, LOAD_RPOJECT,
-  LOAD_RPOJECT_SUCCESS, LOAD_RPOJECT_ERROR,
+  LOAD_RPOJECT_SUCCESS, LOAD_PROJECT_ERROR,
   CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS,
   EDIT_PROJECT, EDIT_PROJECT_ERROR,
   FILTER_PROJECT_NAME,
+  FILTER_PROJECT_STACK,
+  FILTER_PROJECT_DURATION,
+  FILTER_PROJECT_STATUS,
+  FILTER_PROJECT_PAYMENT_TYPE,
+  FILTER_PROJECT_MESSENGER,
+  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 const initialState = {
@@ -24,125 +31,128 @@ const initialState = {
   deleteProjecError: false,
   patchProjecError: false,
   loadingCurrentUser: false,
+  filters: {
+    name: '',
+    stack: ['all'],
+    status: ['all'],
+    duration: ['all'],
+    paymentType: ['all'],
+    messenger: ['all'],
+    communication: ['all'],
+  }
 };
 
-const projectReducer = (state = initialState, action) => {
+const projectReducer = produce((draft, action) => {
   switch (action.type) {
     case ADD_PROJECT_BEGIN:
-      return {
-        ...state,
-        addingProject: true,
-      };
-    case ADD_PROJECT:
+      draft.addingProject = true;
+      return draft;
 
-      return {
-        ...state,
-        projects: [...state.projects, action.payload],
-        filteredProjects: [...state.projects, action.payload],
-        addingProject: false,
-      };
+    case ADD_PROJECT:
+      draft.projects = [...draft.projects, action.payload];
+      draft.filteredProjects = [...draft.projects, action.payload];
+      draft.addingProject = false;
+      return draft;
+
     case ADD_RPOJECT_ERROR:
-      return {
-        ...state,
-        addingProject: false,
-        addingProjectError: action.payload,
-      };
+      draft.addingProject = false;
+      draft.addingProjectError = action.payload
+      return draft;
+
     case LOAD_RPOJECT:
-      return {
-        ...state,
-        loadingProjects: true,
-      };
+      draft.loadingProjects = true;
+      return draft;
+
     case LOAD_RPOJECT_SUCCESS:
-      return {
-        ...state,
-        projects: action.payload,
-        filteredProjects: action.payload,
-        loadingProjects: false,
-      };
-    case LOAD_RPOJECT_ERROR:
-      return {
-        ...state,
-        addingProject: false,
-        loadingProjectsError: action.payload,
-      };
+      draft.projects = action.payload;
+      draft.filteredProjects = action.payload;
+      draft.loadingProjects = false;
+      return draft;
+
+    case LOAD_PROJECT_ERROR:
+      draft.loadingProjectsError = true;
+      return draft;
+
     case FIND_PROJECT:
-      return {
-        ...state,
-        currentProject: state.projects.find((p) => p._id === action.payload),
-      };
+      draft.currentProject = draft.projects.find((p) => p._id === action.payload);
+      return draft;
+
     case DELETE_PROJECT:
-      return {
-        ...state,
-        projects: state.projects.filter((p) => p._id !== action.payload),
-        filteredProjects: state.projects.filter((p) => p._id !== action.payload),
-      };
+      console.log("BEFORE", draft.projects)
+      draft.projects = draft.projects.filter((p) => p._id !== action.payload)
+      draft.filteredProjects = draft.filteredProjects.filter((p) => p._id !== action.payload)
+      console.log("AFTER", draft.projects)
+      return draft;
+
     case DELETE_PROJECT_ERROR:
-      return {
-        ...state,
-        deleteProjecError: action.payload,
-      };
+      draft.deleteProjecError = action.payload;
+      return draft;
+
     case EDIT_PROJECT:
-      let proj = state.filteredProjects;
+      let proj = draft.filteredProjects;
       let ProjectIndex = proj.findIndex((p) => p._id === action.payload._id);
       delete proj[ProjectIndex];
       proj[ProjectIndex] = action.payload
-      return {
-        ...state,
-        projects: [...proj],
-        filteredProjects: [...proj],
-        currentProject: action.payload,
-      };
-    case EDIT_PROJECT_DEVELOPERS:
-      let allProj = state.filteredProjects;
-      let  changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      draft.projects = proj;
+      draft.filteredProjects = proj;
+      draft.currentProject = action.payload
+      return draft;
 
+    case EDIT_PROJECT_DEVELOPERS:
+      let allProj = draft.filteredProjects;
+      let changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
       delete allProj[changedProjectIndex];
       allProj[changedProjectIndex] = action.payload
-      return {
-        ...state,
-        projects: [...allProj],
-        filteredProjects: [...allProj],
-        // currentProject: action.payload,
-      };
+      draft.projects = allProj;
+      draft.filteredProjects = allProj;
+      return draft;
+
     case EDIT_PROJECT_ERROR:
-      return {
-        ...state,
-        currentProject: action.payload,
-      };
+      draft.currentProject = action.payload;
+      return draft;
+
     case LOAD_CURRENT_PROJECT:
-      return {
+      draft.loadingCurrentProjects = true;
+      return draft;
 
-        loadingCurrentProjects: true,
-      };
     case CURRENT_PROJECT:
-      return {
-        ...state,
-        currentProject: action.payload,
-        loadingCurrentProjects: false,
-      };
+      draft.currentProject = action.payload;
+      draft.loadingCurrentProjects = false;
+      return draft;
+
     case LOAD_CURRENT_PROJECT_SUCCESS:
-      return {
-        ...state,
-        currentProject: action.payload,
-        loadingCurrentProjects: false,
-      }
+      draft.currentProject = action.payload;
+      draft.loadingCurrentProjects = false;
+      return draft;
+
     case FILTER_PROJECT_NAME:
-      return {
-        ...state,
-        filteredProjects: state.projects.filter((p) => p.name.toLowerCase().includes(action.payload.toLowerCase()))
-      }
+      draft.filters.name = action.payload;
+      return draft
 
-    case FILTER_PROJECT:
-      return {
-        ...state,
-        filteredProjects: action.payload.length > 0 ? state.projects.filter((p) => action.payload.includes(p.status)
-          || action.payload.includes(p.duration)
-          || p.stack.some(r => action.payload.includes(r.tech))) : state.projects,
-      }
+    case FILTER_PROJECT_STACK:
+      draft.filters.stack = action.payload;
+      return draft;
 
+    case FILTER_PROJECT_STATUS:
+      draft.filters.status = action.payload;
+      return draft;
+
+    case FILTER_PROJECT_DURATION:
+      draft.filters.duration = action.payload;
+      return draft;
+
+    case FILTER_PROJECT_PAYMENT_TYPE:
+      draft.filters.paymentType = action.payload;
+      return draft;
+    case FILTER_PROJECT_MESSENGER:
+      draft.filters.messenger = action.payload;
+      return draft;
+    case FILTER_PROJECT_FORMAT_OF_COMUNICATUIN:
+      draft.filters.communication = action.payload;
+      return draft;
     default:
-      return state;
+      return draft;
   }
-};
+}, initialState);
 
 export default projectReducer;

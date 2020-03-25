@@ -187,7 +187,7 @@ const EditUserPage = ({ match, isError }) => {
                                 </Tooltip>
                             </div>
                             <Grid spacing={2} container justify="space-between">
-                                <Grid item xs={12} sm={12}>
+                                <Grid item xs={12} sm={6}>
                                     <TextField
                                         // style={{ marginBottom: 10 }}
                                         value={user.fullName}
@@ -198,7 +198,19 @@ const EditUserPage = ({ match, isError }) => {
                                         name='fullName'
                                         onChange={handleChange}
                                     />
-
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                    disabled
+                                        // style={{ marginBottom: 10 }}
+                                        value={user.fullName}
+                                        label="User surname"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='fullName'
+                                        onChange={handleChange}
+                                    />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
                                     <FormControl

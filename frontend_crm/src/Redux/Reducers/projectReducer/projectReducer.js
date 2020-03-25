@@ -78,10 +78,8 @@ const projectReducer = produce((draft, action) => {
       return draft;
 
     case DELETE_PROJECT:
-      console.log("BEFORE", draft.projects)
       draft.projects = draft.projects.filter((p) => p._id !== action.payload)
       draft.filteredProjects = draft.filteredProjects.filter((p) => p._id !== action.payload)
-      console.log("AFTER", draft.projects)
       return draft;
 
     case DELETE_PROJECT_ERROR:

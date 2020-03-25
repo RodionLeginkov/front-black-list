@@ -36,7 +36,6 @@ const messegers = [
 export default function MessengerForm(props) {
   const classes = useStyles();
   const { messengerChange, messengerValue, isError } = props;
-console.log(messengerValue)
   const handleChange = (event, values) => {
     messengerChange(values);
   };

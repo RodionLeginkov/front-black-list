@@ -7,9 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import Button from '@material-ui/core/Button';
-import DeleteModal from '../../components/DeleteModal/DeleteModal'
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -45,7 +42,6 @@ const useStyles = makeStyles({
 
 export default function UsersList(props) {
   const classes = useStyles();
-  const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const { users } = props
 
   const rows = users.map((user) => createData(user.fullName))

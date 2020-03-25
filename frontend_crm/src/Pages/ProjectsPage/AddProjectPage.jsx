@@ -25,8 +25,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
-import IconButton from '@material-ui/core/IconButton';
 import AddResourcesForm from '../../components/AddResourcesForm/AddResourcesForm.jsx'
 import {
   MuiPickersUtilsProvider,
@@ -64,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   header: {
-    alignItems: 'center',
+    display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'center'
   },
   position: {
     // marginTop: '100px',
@@ -100,11 +99,6 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'default',
     fontSize: '30px'
   },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }
 }));
 function AddProjectPage(props) {
   const classes = useStyles();
@@ -175,7 +169,8 @@ function AddProjectPage(props) {
   const developersChange = (developers) => setProject({ ...project, developers });
   const messengerChange = (messenger) => setProject({ ...project, messenger });
   // const communicationChange = (communication) => setProject({ ...project, communication })
-  const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
+  // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
+  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: date }) };
   const endDateChange = (endDate) => setProject({ ...project, endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
 
@@ -426,7 +421,6 @@ function AddProjectPage(props) {
                     required
                     className={clsx(classes.formControl)}
                     style={{ paddingLeft: 5, width: '100%' }}
-                    required
                     error={!project.source && isError}
                   // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -15,7 +15,6 @@ import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import StackIcon from '../StackIcon/StackIcon.jsx';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
-import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddUserModal from '../AddUserModal/AddUserModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
   //   justifyContent: 'space-between',
   // },
   root: {
-    height: '100%',
-    maxHeight: '250px',
+    height: '250px',
+    // maxHeight: '270px',
     width: '100%',
     marginRight: 20,
     marginBottom: 20,
@@ -104,7 +103,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+function difDates(startDate, curDate) {
+  const
+    difMonth = curDate.getMonth() - startDate.getMonth(),
+    difYear = curDate.getFullYear() - startDate.getFullYear(),
+    difDay = curDate.getDate() - startDate.getDate();
+  if (difYear * 12 + difMonth > 12 && difMonth > 0) {
+    return `${difYear} year(s) ${difMonth} month(s)`
+  }
+  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12+difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`
+  }
+  else {
+    return `${Math.floor(difDay / 7)} week(s)`
+  }
+}
 
 export default function RecipeReviewCard(props) {
   const { card } = props;
@@ -122,6 +141,9 @@ export default function RecipeReviewCard(props) {
   const stackList = card.stack.map((elem) => (
     <StackIcon key={Math.random()} tech={elem.tech} size='small' />
   ));
+
+  const startDate = new Date(card.startDate);
+  const curDate = new Date();
 
   return (
     <>
@@ -142,7 +164,8 @@ export default function RecipeReviewCard(props) {
             <div className={classes.projectInfo}>
               <div className={classes.priceAndDuration}>
                 <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" />
-                { card.duration ? <CustomBadge text={`${card.duration}`} theme="duration" style={{ marginTop: '20px' }} /> : ''}
+                {/* {card.duration ? <CustomBadge text={ difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} /> : ''} */}
+                <CustomBadge text={difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} />
               </div>
               <div>
                 <div style={{ margin: '10px', display: 'flex' }}>

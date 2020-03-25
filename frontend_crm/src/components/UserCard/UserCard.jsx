@@ -87,6 +87,30 @@ const useStyles = makeStyles({
   },
 });
 
+
+function difDates(startDate, curDate) {
+  const
+    difMonth = curDate.getMonth() - startDate.getMonth(),
+    difYear = curDate.getFullYear() - startDate.getFullYear(),
+    difDay = curDate.getDate() - startDate.getDate();
+  if (difYear * 12 + difMonth > 12 && difMonth > 0) {
+    return `${difYear} year(s) ${difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`
+  }
+  else {
+    return `${Math.floor(difDay / 7)} week(s)`
+  }
+}
+
+
 const UserCard = ({ user }) => {
   const classes = useStyles();
   const [isShowingModal, setIsShowingModal] = useState(false);
@@ -106,20 +130,31 @@ const UserCard = ({ user }) => {
     <StackIcon key={Math.random()} tech={element} size='small' />
   ));
 
+
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+
+  const startDate = new Date(user.dataofJoining);
+  const curDate = new Date();
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardContent onClick={handleClickCard}>
           <div className={classes.divider} />
-          <div className={classes.roleBadge}>
-            <CustomBage
-              text={user.status}
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            {/* <div className={classes.roleBadge}> */}
+              <CustomBage
+                text={user.status}
+                size="medium"
+                position={user.status}
+                className={classes.badge}
+              />
+            {/* </div> */}
+            {user.dataofJoining ? <CustomBage
+              text={difDates(startDate, curDate)}
               size="medium"
               position={user.status}
-              className={classes.badge}
-            />
+              className={classes.badge} /> : ''}
           </div>
           <div className={classes.row}>
             <div

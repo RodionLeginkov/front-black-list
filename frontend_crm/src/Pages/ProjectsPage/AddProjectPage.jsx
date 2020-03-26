@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { TextField, Tooltip } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,9 +11,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import StackForm from '../../components/Form/StackForm';
 import DevelopersChooseForm from '../../components/DevelopersChooseForm';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
-import InputAdornment from "@material-ui/core/InputAdornment";
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
@@ -23,16 +22,19 @@ import Loading from '../../components/Loading';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
-import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import {
+  getProject, getProjects, addProject, updateProject,
+} from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import AddResourcesForm from '../../components/AddResourcesForm/AddResourcesForm.jsx'
+import AddResourcesForm from '../../components/AddResourcesForm/AddResourcesForm.jsx';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import './ProjectStyles.css'
+import './ProjectStyles.css';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -64,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   position: {
     // marginTop: '100px',
@@ -97,14 +99,14 @@ const useStyles = makeStyles((theme) => ({
   helperIcon: {
     color: '#a3a3a3',
     cursor: 'default',
-    fontSize: '30px'
+    fontSize: '30px',
   },
 }));
 function AddProjectPage(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const projectId = props.match.params.projectId;
+  const { projectId } = props.match.params;
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
@@ -134,12 +136,12 @@ function AddProjectPage(props) {
   };
   const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawalOfFunds',
-    'paymentType', 'paymentAmount', 'load', 'resources',]
+    'paymentType', 'paymentAmount', 'load', 'resources'];
   const [project, setProject] = useState(initialValue);
-  const [isError, setIsError] = useState(false)
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
-  }, [loading])
+  }, [loading]);
 
 
   useEffect(() => {
@@ -155,7 +157,7 @@ function AddProjectPage(props) {
   // }, [dispatch])
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
     // (<h1 style={{marginTop: '200px'}}>LOADIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING!</h1>)
   }
 
@@ -170,15 +172,15 @@ function AddProjectPage(props) {
   const messengerChange = (messenger) => setProject({ ...project, messenger });
   // const communicationChange = (communication) => setProject({ ...project, communication })
   // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
-  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: date }) };
+  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: date }); };
   const endDateChange = (endDate) => setProject({ ...project, endDate });
-  const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] })
+  const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] });
 
-  const handleClose = () => projectId ? history.push(`/projects/${project._id}`) : history.push('/projects')
+  const handleClose = () => (projectId ? history.push(`/projects/${project._id}`) : history.push('/projects'));
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isEmpty = reqFields.find((field) => { return (!project[field]) })
+    const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {
         dispatch(updateProject(project));
@@ -187,29 +189,32 @@ function AddProjectPage(props) {
         dispatch(addProject(project));
         history.push('/projects');
       }
-    }
-    else setIsError(true)
+    } else setIsError(true);
   };
 
 
   return (
     <>
-      {!projectId ?
-        <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-          <Link color="inherit" onClick={() => history.push('/projects')}   >
-            Projects
-        </Link>
-          <Typography color="textPrimary" onClick={() => history.push(`/projects/addproject`)} >Add new project</Typography>
-        </Breadcrumbs> :
-        <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-          <Link color="inherit" onClick={() => history.push('/projects')}   >
-            Projects
-        </Link>
-          <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}   >
-            {project.name}
-          </Link>
-          <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)} >Edit project</Typography>
-        </Breadcrumbs>}
+      {!projectId
+        ? (
+          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+            <Link color="inherit" onClick={() => history.push('/projects')}>
+              Projects
+            </Link>
+            <Typography color="textPrimary" onClick={() => history.push('/projects/addproject')}>Add new project</Typography>
+          </Breadcrumbs>
+        )
+        : (
+          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+            <Link color="inherit" onClick={() => history.push('/projects')}>
+              Projects
+            </Link>
+            <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}>
+              {project.name}
+            </Link>
+            <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)}>Edit project</Typography>
+          </Breadcrumbs>
+        )}
       <div className={classes.position} style={{ marginLeft: '85px' }}>
         <Paper className={classes.root}>
           <div
@@ -217,10 +222,10 @@ function AddProjectPage(props) {
           >
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <div className={classes.header}>
-                <h2>Add new project</h2>
+                {!projectId ? <h2>Add new project</h2> : <h2>Add new project</h2>}
                 <Tooltip title='close'>
                   <Button onClick={handleClose}>
-                    <CloseSharpIcon style={{ color: '#a3a3a3', }} />
+                    <CloseSharpIcon style={{ color: '#a3a3a3' }} />
                   </Button>
                 </Tooltip>
               </div>
@@ -240,10 +245,10 @@ function AddProjectPage(props) {
                 InputProps={{
                   endAdornment:
                     <InputAdornment position="end">
-                      <Tooltip title={'Project Name'}>
+                      <Tooltip title="Project Name">
                         <HelpOutlineSharpIcon className={classes.helperIcon} />
                       </Tooltip>
-                    </InputAdornment>
+                    </InputAdornment>,
 
                 }}
               />
@@ -256,19 +261,19 @@ function AddProjectPage(props) {
                 // error={!project.status && isError}
                 // helperText={(!project.status && isError) ? "Empty field." : ''}
                 >
-                  <InputLabel >
+                  <InputLabel>
                     Status
-            </InputLabel>
+                  </InputLabel>
                   <Select
                     className={classes.selectEmpty}
                     labelWidth={47}
                     name='status'
                     value={project.status}
-                    endAdornment={
+                    endAdornment={(
                       <InputAdornment position="end">
                         <HelpOutlineSharpIcon className={classes.helperIcon} />
                       </InputAdornment>
-                    }
+                    )}
                     onChange={handleChange}
                   >
                     <MenuItem value="active">Active</MenuItem>
@@ -293,25 +298,25 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                     // error={!project.communication && isError}
                     name='paymentAmount'
-                    endAdornment={
+                    endAdornment={(
                       <InputAdornment position="end">
-                        {" "}
+                        {' '}
                         <Select
-                          disableUnderline={true}
+                          disableUnderline
                           style={{ minWidth: 0 }}
                           onChange={handleChange}
                           name='paymentType'
                           value={project.paymentType}
                         >
-                          <MenuItem value={'hourly'}>hourly</MenuItem>
-                          <MenuItem value={'flat rate'}>flat rate</MenuItem>
-                          <MenuItem value={'fixed'}>fixed</MenuItem>
+                          <MenuItem value="hourly">hourly</MenuItem>
+                          <MenuItem value="flat rate">flat rate</MenuItem>
+                          <MenuItem value="fixed">fixed</MenuItem>
                         </Select>
                       </InputAdornment>
-                    }
+                    )}
                     aria-describedby="outlined-weight-helper-text"
                     inputProps={{
-                      "aria-label": "weight"
+                      'aria-label': 'weight',
                     }}
                     labelWidth={65}
                   />
@@ -338,9 +343,9 @@ function AddProjectPage(props) {
                     className={clsx(classes.formControl, classes.inputForm)}
                   // error={!project.duration && isError}
                   >
-                    <InputLabel >
+                    <InputLabel>
                       Duration
-            </InputLabel>
+                    </InputLabel>
                     <Select
                       name='duration'
                       className={classes.selectEmpty}
@@ -364,9 +369,9 @@ function AddProjectPage(props) {
                     error={!project.communication && isError}
                     required
                   >
-                    <InputLabel >
+                    <InputLabel>
                       Format of communication
-            </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.selectEmpty}
                       labelWidth={170}
@@ -388,14 +393,16 @@ function AddProjectPage(props) {
                 projectId
               // isError={isError}
               />
-              {projectId ? <StackForm
-                name='stack'
+              {projectId ? (
+                <StackForm
+                  name='stack'
 
-                stackChange={stackChange}
-                stackValue={project.stack}
-                isEdit
-                projectId
-              /> : ' '}
+                  stackChange={stackChange}
+                  stackValue={project.stack}
+                  isEdit
+                  projectId
+                />
+              ) : ' '}
               <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
                 <Grid item xs={6}>
                   <TextField
@@ -424,9 +431,9 @@ function AddProjectPage(props) {
                     error={!project.source && isError}
                   // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
-                    <InputLabel >
+                    <InputLabel>
                       Source
-            </InputLabel>
+                    </InputLabel>
                     <Select
                       className={classes.selectEmpty}
                       labelWidth={47}
@@ -454,7 +461,7 @@ function AddProjectPage(props) {
                     required
                   // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
-                    <InputLabel >
+                    <InputLabel>
                       Withdrawal of funds
                     </InputLabel>
                     <Select
@@ -537,9 +544,9 @@ function AddProjectPage(props) {
                 name='description'
                 onChange={handleChange}
               />
-              <div >
+              <div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} style={{ marginTop: '-6px' }}>
-                  <Grid container  >
+                  <Grid container>
                     <Grid item xs={6}>
                       <KeyboardDatePicker
                         style={{ width: '100%', marginTop: '10px' }}
@@ -559,24 +566,26 @@ function AddProjectPage(props) {
                         }}
                       />
                     </Grid>
-                    {projectId ? <Grid item xs={6} style={{ paddingLeft: '10px' }}>
-                      <KeyboardDatePicker
-                        style={{ width: '100%', marginTop: '10px' }}
-                        inputVariant="outlined"
-                        disableToolbar
-                        // name="endDate"
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="normal"
+                    {projectId ? (
+                      <Grid item xs={6} style={{ paddingLeft: '10px' }}>
+                        <KeyboardDatePicker
+                          style={{ width: '100%', marginTop: '10px' }}
+                          inputVariant="outlined"
+                          disableToolbar
+                          // name="endDate"
+                          variant="inline"
+                          format="MM/dd/yyyy"
+                          margin="normal"
 
-                        label="End date"
-                        value={project.endDate}
-                        onChange={endDateChange}
-                        KeyboardButtonProps={{
-                          'aria-label': 'change date',
-                        }}
-                      />
-                    </Grid> : ''}
+                          label="End date"
+                          value={project.endDate}
+                          onChange={endDateChange}
+                          KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                          }}
+                        />
+                      </Grid>
+                    ) : ''}
                   </Grid>
                   <AddResourcesForm project={project} resChange={resChange} isError={isError} />
                 </MuiPickersUtilsProvider>
@@ -599,4 +608,4 @@ function AddProjectPage(props) {
   );
 }
 
-export default AddProjectPage
+export default AddProjectPage;

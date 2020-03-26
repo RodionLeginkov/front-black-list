@@ -1,3 +1,4 @@
+ 
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -17,8 +18,8 @@ import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
-import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx'
-import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx'
+import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
+import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
 
 const theme = createMuiTheme({
   palette: {
@@ -50,8 +51,8 @@ function App() {
               <Route path="/signin" component={Signin} />
               <Route path="/signup" component={SignUp} />
               <Route path="/Forgot" component={Forgot} />
-              <Route exact path="/Reset/:token" component={ResetPassword} />
-              <Route path="/newreset" component={NewReserPasswordPage} />
+              {/* <Route exact path="/Reset/:token" component={ResetPassword} /> */}
+              <Route path="/Reset/:token" component={NewReserPasswordPage} />
             </Switch>
           </div>
         </AuthContextProvider>

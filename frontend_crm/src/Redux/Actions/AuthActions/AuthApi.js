@@ -10,6 +10,14 @@ async function signin(url, data) {
   return response;
 }
 
-export const signUpNewUser = (data) => signUp(`${process.env.REACT_APP_BASE_API}users/signup/`, data);
+async function invite(url, data) {
+  const response = await axios.post(url, data);
+  return response;
+}
 
-export const loginUser = (data) => signin(`${process.env.REACT_APP_BASE_API}users/login`, data);
+
+export const signUpNewUser = (data) => signUp(`${process.env.REACT_APP_BASE_API}/signup/`, data);
+
+export const loginUser = (data) => signin(`${process.env.REACT_APP_BASE_API}/signin/`, data);
+
+export const inviteUser = (data) => invite(`${process.env.REACT_APP_BASE_API}/v1/user/invitation/`, data);

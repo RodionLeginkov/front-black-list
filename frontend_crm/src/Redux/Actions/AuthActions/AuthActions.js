@@ -1,7 +1,8 @@
-import { signUpNewUser, loginUser } from './AuthApi';
+import { signUpNewUser, loginUser, inviteUser } from './AuthApi';
 import {
   SIGNUP_LOADING, SIGNUP_SUCCESS, SIGNUP_ERROR,
   SIGNIN_LOADING, SIGNIN_SUCCESS, SIGNIN_ERROR, SIGNIN_LOGGEDIN,
+  INVITE_LOADING, INVITE_SUCCESS, INVITE_ERROR,
 } from '../../ActionTypes/authTypes/authTypes';
 
 export const signUp = (user) => async (dispatch) => {
@@ -17,8 +18,9 @@ export const signUp = (user) => async (dispatch) => {
 export const signIn = (user) => async (dispatch) => {
   try {
     // console.log('Login', login, 'password', password);
-    // console.log('user', user);
     dispatch({ type: SIGNIN_LOADING });
+
+    console.log('user', user);
     const { data } = await loginUser(user);
     // console.log(data);
     dispatch({ type: SIGNIN_SUCCESS, payload: data });
@@ -29,5 +31,16 @@ export const signIn = (user) => async (dispatch) => {
     dispatch({ type: SIGNIN_LOGGEDIN });
   } catch (error) {
     dispatch({ type: SIGNIN_ERROR, payload: error });
+  }
+};
+
+export const inviteUsers = (user) => async (dispatch) => {
+  try {
+    dispatch({ type: INVITE_LOADING });
+    const { data } = await inviteUser(user);
+    dispatch({ type: INVITE_SUCCESS, payload: data });
+    window.location = '/';
+  } catch (error) {
+    dispatch({ type: INVITE_ERROR, payload: error });
   }
 };

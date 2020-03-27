@@ -52,7 +52,7 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
     };
     const initialValue = isEdit ? curProject : {
-        name: '', status: '', price: '', stack: [], description: '', _id: '', duration: '', developers: [],
+        name: '', status: '', price: '', stack: [], description: '', uuid: '', duration: '', developers: [],
     };
 
     const [project, setProject] = useState(initialValue);

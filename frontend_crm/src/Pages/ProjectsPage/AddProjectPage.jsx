@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     margin: '0 auto',
-    maxWidth: '700px',
+    maxWidth: '750px',
   },
   breadcrumbs: {
     margin: '85px 20px 40px 0px',
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    margin: '5px 0',
+    marginBotton: '5px',
   },
   descriptionForm: {
     // margin: '5px 0',
@@ -110,32 +110,35 @@ function AddProjectPage(props) {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
+
+console.log(curProject)
+
   const initialValue = (projectId && curProject) ? curProject : {
-    _id: '',
-    status: '',
-    stack: [],
-    duration: '',
-    group: [],
+    // status: '',
+    // stack: [],
+    // duration: '',
+    // group: [],
     name: '',
     communication: '',
-    messenger: [],
-    startDate: null,
-    endDate: null,
-    type: '',
     source: '',
-    withdrawalOfFunds: '',
+    start_date: '',
+    end_date: '',
+    type: '',
+    withdrawal_of_funds: '',
     owner: '',
-    paymentType: '',
-    paymentAmount: '',
-    load: '',
+    // messenger: [],
+    // paymentType: '',
+    // paymentAmount: '',
+    // load: '',
     description: '',
-    resources: [],
+    // resources: [],
     history: '',
-    projectImage: '',
-    developers: [],
+    // projectImage: '',
+    // developers: [],
+
   };
   const reqFields = ['name', 'communication', 'startDate',
-    'type', 'source', 'withdrawalOfFunds',
+    'type', 'source', 'withdrawal_of_funds',
     'paymentType', 'paymentAmount', 'load', 'resources'];
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false);
@@ -143,6 +146,8 @@ function AddProjectPage(props) {
     setProject(initialValue);
   }, [loading]);
 
+
+  console.log('________________________________')
 
   useEffect(() => {
     if (projectId && !curProject) {
@@ -156,10 +161,10 @@ function AddProjectPage(props) {
   //   if (projectId && curProject) setProject(curProject)
   // }, [dispatch])
 
-  if (loading) {
-    return <Loading />;
-    // (<h1 style={{marginTop: '200px'}}>LOADIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING!</h1>)
-  }
+  // if (loading) {
+  //   return <Loading />;
+  //   // (<h1 style={{marginTop: '200px'}}>LOADIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING!</h1>)
+  // }
 
 
   const handleChange = (e) => {
@@ -167,29 +172,29 @@ function AddProjectPage(props) {
   };
 
   const stackChange = (stack) => setProject({ ...project, stack });
-  // const withdrawalOfFundsChange = (withdrawalOfFunds) => setProject({ ...project, withdrawalOfFunds })
+  // const withdrawal_of_fundsChange = (withdrawal_of_funds) => setProject({ ...project, withdrawal_of_funds })
   const developersChange = (developers) => setProject({ ...project, developers });
   const messengerChange = (messenger) => setProject({ ...project, messenger });
   // const communicationChange = (communication) => setProject({ ...project, communication })
   // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
-  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: date }); };
+  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] });
 
-  const handleClose = () => (projectId ? history.push(`/projects/${project._id}`) : history.push('/projects'));
+  const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!project[field]));
-    if (isEmpty === undefined) {
-      if (projectId) {
-        dispatch(updateProject(project));
-        history.push(`/projects/${project._id}`);
-      } else {
-        dispatch(addProject(project));
-        history.push('/projects');
-      }
-    } else setIsError(true);
+    // const isEmpty = reqFields.find((field) => (!project[field]));
+    // if (isEmpty === undefined) {
+    if (projectId) {
+      dispatch(updateProject(project));
+      history.push(`/projects/${project.uuid}`);
+    } else {
+      dispatch(addProject(project));
+      history.push('/projects');
+    }
+    // } else setIsError(true);
   };
 
 
@@ -209,10 +214,10 @@ function AddProjectPage(props) {
             <Link color="inherit" onClick={() => history.push('/projects')}>
               Projects
             </Link>
-            <Link color="inherit" onClick={() => history.push(`/projects/${project._id}`)}>
+            <Link color="inherit" onClick={() => history.push(`/projects/${project.uuid}`)}>
               {project.name}
             </Link>
-            <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project._id}`)}>Edit project</Typography>
+            <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project.uuid}`)}>Edit project</Typography>
           </Breadcrumbs>
         )}
       <div className={classes.position} style={{ marginLeft: '85px' }}>
@@ -253,7 +258,7 @@ function AddProjectPage(props) {
                 }}
               />
               <div className={classes.smallForm}>
-                <FormControl
+                {/* <FormControl
                   placeholder='Status'
                   variant="outlined"
                   className={clsx(classes.formControl, classes.inputForm)}
@@ -282,8 +287,8 @@ function AddProjectPage(props) {
                     <MenuItem value="onGoing">On going</MenuItem>
                     <MenuItem value="stopped">Stopped</MenuItem>
                   </Select>
-                </FormControl>
-                <FormControl
+                </FormControl> */}
+                {/* <FormControl
                   required
                   error={(!project.paymentAmount || !project.paymentType) && isError}
                   style={{ paddingLeft: 5 }}
@@ -320,7 +325,7 @@ function AddProjectPage(props) {
                     }}
                     labelWidth={65}
                   />
-                </FormControl>
+                </FormControl> */}
               </div>
               {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
               {/* <TextField
@@ -334,8 +339,8 @@ function AddProjectPage(props) {
                 name='communication'
                 onChange={handleChange}
               /> */}
-              <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
-                <Grid item xs={6}>
+              <Grid style={{ marginBotton: '5px ' }} container justify="space-between">
+                {/* <Grid item xs={6}>
                   <FormControl
                     style={{ width: '100%', paddingRight: 5 }}
                     placeholder='Duration'
@@ -359,10 +364,10 @@ function AddProjectPage(props) {
                       <MenuItem value='Unexpected'>Unexpected</MenuItem>
                     </Select>
                   </FormControl>
-                </Grid>
-                <Grid item xs={6}>
+                </Grid> */}
+                <Grid item xs={4} >
                   <FormControl
-                    style={{ width: '100%', paddingLeft: 5 }}
+                    style={{ width: '100%', paddingRight: 5}}
                     placeholder='Format of communication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -385,8 +390,8 @@ function AddProjectPage(props) {
                     </Select>
                   </FormControl>
                 </Grid>
-              </Grid>
-              <MessengerForm
+              {/* </Grid> */}
+              {/* <MessengerForm
                 name='messenger'
                 messengerChange={messengerChange}
                 messengerValue={project.messenger}
@@ -402,9 +407,9 @@ function AddProjectPage(props) {
                   isEdit
                   projectId
                 />
-              ) : ' '}
-              <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between">
-                <Grid item xs={6}>
+              ) : ' '} */}
+              {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
+                <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%', paddingRight: 5 }}
                     value={project.type}
@@ -420,16 +425,16 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
 
                   <FormControl
                     placeholder='Source'
                     variant="outlined"
                     required
                     className={clsx(classes.formControl)}
-                    style={{ paddingLeft: 5, width: '100%' }}
+                    style={{  width: '100%' }}
                     error={!project.source && isError}
-                  // helperText={(!project.status && isError) ? "Empty field." : ''}
+                  helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel>
                       Source
@@ -444,20 +449,20 @@ function AddProjectPage(props) {
                       <MenuItem value="upwork">Upwork</MenuItem>
                       <MenuItem value="angelList">AngelList</MenuItem>
                       <MenuItem value="linkedIn">LinkedIn</MenuItem>
-                      {/* <MenuItem value="extraLeads">extra-leads</MenuItem> */}
+                      <MenuItem value="extraLeads">extra-leads</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
               </Grid>
 
               <Grid style={{ margin: '10px 0px' }} container justify="space-between">
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <FormControl
                     placeholder='Withdrawal of funds'
                     variant="outlined"
                     // className={clsx( classes.inputForm)}
-                    style={{ width: '100%', paddingRight: '10px' }}
-                    error={!project.withdrawalOfFunds && isError}
+                    style={{ width: '100%', paddingRight: '5px' }}
+                    error={!project.withdrawal_of_funds && isError}
                     required
                   // helperText={(!project.status && isError) ? "Empty field." : ''}
                   >
@@ -467,8 +472,8 @@ function AddProjectPage(props) {
                     <Select
                       className={classes.selectEmpty}
                       labelWidth={145}
-                      name='withdrawalOfFunds'
-                      value={project.withdrawalOfFunds || ''}
+                      name='withdrawal_of_funds'
+                      value={project.withdrawal_of_funds || ''}
                       onChange={handleChange}
                     >
                       <MenuItem value="bankWire">Bank wire</MenuItem>
@@ -477,11 +482,11 @@ function AddProjectPage(props) {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <TextField
                     // error={!project.owner && isError}
                     // helperText={(!project.status && isError) ? "Empty field." : ''}
-                    style={{ width: '100%', paddingRight: '10px' }}
+                    style={{ width: '100%' }}
                     value={project.owner}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -492,7 +497,7 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%' }}
                     required
@@ -507,9 +512,9 @@ function AddProjectPage(props) {
                     name='load'
                     onChange={handleChange}
                   />
-                </Grid>
+                </Grid> */}
               </Grid>
-              <Grid container style={{ margin: '10px 0px' }}>
+              {/* <Grid container style={{ margin: '10px 0px' }}>
                 <Grid item xs={12}>
                   <DevelopersChooseForm
                     name='developers'
@@ -517,8 +522,8 @@ function AddProjectPage(props) {
                     developersValue={project.developers}
                   // isError={isError}
                   />
-                </Grid>
-                {/* <Grid item xs={6}>
+                </Grid> */}
+              {/* <Grid item xs={6}>
                   <TextField
                     style={{ width: '100%', paddingLeft: '10px' }}
                     value={project.group}
@@ -531,9 +536,9 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                   />
                 </Grid> */}
-              </Grid>
+              {/* </Grid> */}
               <TextField
-
+                style={{marginBottom: '10px'}}
                 value={project.description}
                 variant="outlined"
                 id="standard-multiline-flexible"
@@ -542,6 +547,18 @@ function AddProjectPage(props) {
                 rowsMax="5"
                 className={classes.descriptionForm}
                 name='description'
+                onChange={handleChange}
+              />
+              <TextField
+
+                value={project.history}
+                variant="outlined"
+                id="standard-multiline-flexible"
+                label="History"
+                multiline
+                rowsMax="5"
+                className={classes.descriptionForm}
+                name='history'
                 onChange={handleChange}
               />
               <div>
@@ -566,28 +583,28 @@ function AddProjectPage(props) {
                         }}
                       />
                     </Grid>
-                    {projectId ? (
-                      <Grid item xs={6} style={{ paddingLeft: '10px' }}>
-                        <KeyboardDatePicker
-                          style={{ width: '100%', marginTop: '10px' }}
-                          inputVariant="outlined"
-                          disableToolbar
-                          // name="endDate"
-                          variant="inline"
-                          format="MM/dd/yyyy"
-                          margin="normal"
+                    {/* {projectId ? ( */}
+                    <Grid item xs={6} style={{ paddingLeft: '10px' }}>
+                      <KeyboardDatePicker
+                        style={{ width: '100%', marginTop: '10px' }}
+                        inputVariant="outlined"
+                        disableToolbar
+                        // name="endDate"
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
 
-                          label="End date"
-                          value={project.endDate}
-                          onChange={endDateChange}
-                          KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                          }}
-                        />
-                      </Grid>
-                    ) : ''}
+                        label="End date"
+                        value={project.endDate}
+                        onChange={endDateChange}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                    </Grid>
+                    {/* ) : ''} */}
                   </Grid>
-                  <AddResourcesForm project={project} resChange={resChange} isError={isError} />
+                  {/* <AddResourcesForm project={project} resChange={resChange} isError={isError} /> */}
                 </MuiPickersUtilsProvider>
               </div>
               <div className={classes.button}>

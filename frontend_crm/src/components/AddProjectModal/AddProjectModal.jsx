@@ -66,7 +66,7 @@ const AddProjectModal = ({
 
   const handleAdd = (e) => {
     e.preventDefault();
-    dispatch(updateUser({ _id: user._id, currentProject: selectedProjects }));
+    dispatch(updateUser({ uuid: user.uuid, currentProject: selectedProjects }));
     changeIsOpen();
   };
 

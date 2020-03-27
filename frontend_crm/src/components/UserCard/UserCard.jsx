@@ -117,23 +117,26 @@ const UserCard = ({ user }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+
   const handleClickCard = () => {
-    dispatch(findUser(user._id));
-    history.push(`/users/info/${user._id}`);
+    dispatch(findUser(user.uuid));
+    history.push(`/user/${user.uuid}`);
   };
+
+  console.log(user)
 
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
 
-  const stackList = user.stack.map((element) => (
-    <StackIcon key={Math.random()} tech={element} size='small' />
-  ));
+  // const stackList = user.stack.map((element) => (
+  //   <StackIcon key={Math.random()} tech={element} size='small' />
+  // ));
 
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const startDate = new Date(user.dataofJoining);
+  const startDate = new Date(user.hiredAt);
   const curDate = new Date();
 
   return (
@@ -141,19 +144,19 @@ const UserCard = ({ user }) => {
       <CardActionArea>
         <CardContent onClick={handleClickCard}>
           <div className={classes.divider} />
-          <div style={{display:'flex', justifyContent:'space-between'}}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {/* <div className={classes.roleBadge}> */}
-              <CustomBage
-                text={user.status}
-                size="medium"
-                position={user.status}
-                className={classes.badge}
-              />
+            <CustomBage
+              text={user.role}
+              size="medium"
+              position={user.role}
+              className={classes.badge}
+            />
             {/* </div> */}
-            {user.dataofJoining ? <CustomBage
+            {user.hiredAt ? <CustomBage
               text={difDates(startDate, curDate)}
               size="medium"
-              position={user.status}
+              position={user.role}
               className={classes.badge} /> : ''}
           </div>
           <div className={classes.row}>
@@ -164,12 +167,12 @@ const UserCard = ({ user }) => {
           </div>
           <div className={classes.row}>
             <div className={classes.name}>
-              {user.fullName}
+              {user.firstName} {user.lastName}
             </div>
           </div>
         </CardContent>
         <div className={classes.footer}>
-          <div className={classes.stack}>{stackList}</div>
+          {/* <div className={classes.stack}>{stackList}</div> */}
           <CustomProjectIcon
             projects={user.currentProject || []}
             addProject={changeIsShowingModal}

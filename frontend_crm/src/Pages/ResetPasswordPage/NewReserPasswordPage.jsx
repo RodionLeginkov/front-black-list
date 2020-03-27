@@ -108,7 +108,7 @@ export default function ResetPassword(props) {
       try {
         console.log(form.password);
         console.log(tokenId);
-        const response = await axios.put(`${process.env.REACT_APP_BASE_API}/v1/users/updatePassword`, {
+        const response = await axios.put(`${process.env.REACT_APP_BASE_API}/users/updatePassword`, {
           password: form.password,
           token: tokenId,
         });

@@ -40,11 +40,11 @@ export default function CustomList(props) {
 
   const devList = users.map((user) =>
 
-    <div key={user._id}>
+    <div key={user.uuid}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
           <Tooltip title={user.fullName}>
-            <Avatar onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
+            <Avatar onClick={() => handleClick(user.uuid)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
           </Tooltip>
         </ListItemAvatar>
         <ListItemText

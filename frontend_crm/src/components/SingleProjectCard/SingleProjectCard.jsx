@@ -133,14 +133,14 @@ export default function RecipeReviewCard(props) {
   const dispatch = useDispatch();
 
   function handleClick() {
-    dispatch(findProject(card._id));
-    history.push(`/projects/${card._id}`);
+    dispatch(findProject(card.uuid));
+    history.push(`/projects/${card.uuid}`);
   }
   const classes = useStyles();
 
-  const stackList = card.stack.map((elem) => (
-    <StackIcon key={Math.random()} tech={elem.tech} size='small' />
-  ));
+  // const stackList = card.stack.map((elem) => (
+  //   <StackIcon key={Math.random()} tech={elem.tech} size='small' />
+  // ));
 
   const startDate = new Date(card.startDate);
   const curDate = new Date();
@@ -169,7 +169,7 @@ export default function RecipeReviewCard(props) {
               </div>
               <div>
                 <div style={{ margin: '10px', display: 'flex' }}>
-                  {stackList}
+                  {/* {stackList} */}
                 </div>
               </div>
             </div>
@@ -182,11 +182,11 @@ export default function RecipeReviewCard(props) {
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
-          <DevAvatars users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
+          {/* <DevAvatars users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} /> */}
 
         </div>
       </Card>
-      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card._id} name={card.name} />
+      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card.uuid} name={card.name} />
       <AddUserModal addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
     </>
   );

@@ -85,7 +85,6 @@ const EditUserPage = ({ match, isError }) => {
   const projects = useSelector((state) => state.projects.projects);
 
   const initialValue = (userId && curUser) ? curUser : {
-    _id: '',
     fullName: '',
     role: '',
     englishLevel: '',
@@ -95,9 +94,13 @@ const EditUserPage = ({ match, isError }) => {
     github: '',
     stack: [],
     currentProject: [],
-    dataofJoining: '',
     dataofLeave: '',
     comment: '',
+    firstName: '',
+    lastName: '',
+    phone1: '',
+    hiredAt: '',
+    Skills: ''
   };
 
   const [user, setUser] = useState(initialValue);
@@ -121,21 +124,21 @@ const EditUserPage = ({ match, isError }) => {
   };
 
   const handleChangeStack = ((event, values) => {
-    setUser({ ...user, stack: values });
+    setUser({ ...user, Skills: values });
   });
 
   const handleChangeProject = (event, values) => {
     setUser({ ...user, currentProject: values });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, dataofJoining });
+  const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
 
   const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(user));
-    history.push(`/users/info/${userId}`);
+    history.push(`/user/${userId}`);
   };
 
   let filteredProjects = projects;
@@ -144,6 +147,8 @@ const EditUserPage = ({ match, isError }) => {
       project.name !== user.currentProject[index].name));
   }
 
+
+  console.log(user)
   return (
     <>
       {!userId
@@ -192,8 +197,8 @@ const EditUserPage = ({ match, isError }) => {
                     <InputLabel>Role</InputLabel>
                     <Select
                       labelWidth={47}
-                      name='status'
-                      value={user.status || ''}
+                      name='role'
+                      value={user.role || ''}
                       onChange={handleChange}
                     >
                       {userRoles.map((role) => <MenuItem value={role} key={role}>{role}</MenuItem>)}
@@ -264,21 +269,21 @@ const EditUserPage = ({ match, isError }) => {
                     multiple
                     options={stackList}
                     getOptionLabel={(option) => option}
-                    defaultValue={user.stack}
+                    defaultValue={user.Skills}
                     filterSelectedOptions
-                    name='stack'
+                    name='Skill'
                     onChange={handleChangeStack}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         variant="outlined"
-                        label="Stack"
+                        label="Skills"
                       />
                     )}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Autocomplete
+                  {/* <Autocomplete
                     multiple
                     options={filteredProjects}
                     getOptionLabel={(option) => option.name}
@@ -293,7 +298,7 @@ const EditUserPage = ({ match, isError }) => {
                         label="Projects"
                       />
                     )}
-                  />
+                  /> */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -317,7 +322,7 @@ const EditUserPage = ({ match, isError }) => {
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of joining"
-                      value={user.dataofJoining}
+                      value={user.hiredAt}
                       onChange={startDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

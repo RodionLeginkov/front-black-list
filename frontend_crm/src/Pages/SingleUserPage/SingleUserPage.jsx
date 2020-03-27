@@ -55,6 +55,7 @@ const useStyles = makeStyles(() => ({
   },
   leftCol: {
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'column',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
   },
@@ -119,7 +120,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const handleClickOpenPopUp = () => {
     setOpenPopUp(true);
   };
-
   const handleClosePopUp = () => {
     setOpenPopUp(false);
   };
@@ -130,6 +130,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickOnDelete = () => {
+    console.log('IDIDIDID', userId)
     dispatch(deleteUser(userId));
     history.push('/users');
   };
@@ -148,9 +149,9 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const stackList = user.stack.map((element) => (
-    <StackIcon key={Math.random()} tech={element} size='medium' />
-  ));
+  // const stackList = user.stack.map((element) => (
+  //   <StackIcon key={Math.random()} tech={element} size='medium' />
+  // ));
 
   return (
     <div className={classes.container}>
@@ -158,11 +159,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>  {user.firstName} {user.lastName}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.fullName || user.login}</h1>
+          <h1>{user.firstName} {user.lastName}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
@@ -172,7 +173,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           <div className={classes.leftCol}>
             <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
             <span className={classes.fieldName}>
-              {user.fullName}
+            {user.firstName} {user.lastName}
             </span>
           </div>
           <div className={classes.col}>
@@ -192,7 +193,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Stack: </span>
                 <div className={classes.fieldValue}>
-                  {stackList}
+                  {/* {stackList} */}
                 </div>
               </div>
               <div className={classes.field}>
@@ -219,7 +220,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             <ArrowBackIosIcon />
           </Button>
           <Button onClick={handleClickOnEdit}>
-            <EditSharpIcon  />
+            <EditSharpIcon />
           </Button>
           <Button onClick={handleClickOpenPopUp} className={classes.deleteButton}>
             <DeleteOutlineIcon />

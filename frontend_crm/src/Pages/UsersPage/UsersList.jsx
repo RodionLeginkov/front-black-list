@@ -73,7 +73,7 @@ export default function UsersList(props) {
                   <DeleteOutlineIcon />
                 </Button>
               </StyledTableCell> */}
-              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={user._id} name={user.name} /> */}
+              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={user.uuid} name={user.name} /> */}
             </StyledTableRow>
           ))}
         </TableBody>

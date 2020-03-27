@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, Tooltip } from '@material-ui/core';
+import { TextField, Tooltip, useTheme } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -97,7 +97,7 @@ const EditUserPage = ({ match, isError }) => {
     firstName: '',
     lastName: '',
     phone1: '',
-
+    hiredAt: null
   };
 
   const [user, setUser] = useState(initialValue);
@@ -117,10 +117,10 @@ const EditUserPage = ({ match, isError }) => {
   }
 
   const handleChange = (e) => {
-    console.log('USER', user);
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining  })
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -131,14 +131,15 @@ const EditUserPage = ({ match, isError }) => {
       firstName: user.firstName,
       lastName: user.lastName,
       phone1: user.phone1,
+      hiredAt: user.hiredAt,
     };
     // console.log(login);
     dispatch(inviteUsers(login));
   };
-    // else {
-    //   //setOpen(true);
-    // }
-    //
+  // else {
+  //   //setOpen(true);
+  // }
+  //
 
   if (userAuth && userAuth.user) {
     // window.location = '/signin';
@@ -190,7 +191,7 @@ const EditUserPage = ({ match, isError }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <TextField
-                                        // style={{ marginBottom: 10 }}
+                    // style={{ marginBottom: 10 }}
                     value={user.fullName}
                     label="User name"
                     variant="outlined"
@@ -203,7 +204,7 @@ const EditUserPage = ({ match, isError }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
 
-                                        // style={{ marginBottom: 10 }}
+                    // style={{ marginBottom: 10 }}
                     value={user.fullName}
                     label="User surname"
                     variant="outlined"
@@ -251,6 +252,24 @@ const EditUserPage = ({ match, isError }) => {
                   />
                 </Grid>
               </Grid>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid item xs={12} sm={6}>
+                  <KeyboardDatePicker
+                    style={{ width: '100%' }}
+                    inputVariant="outlined"
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    label="Date of joining"
+                    value={user.hiredAt}
+                    onChange={startDateChange}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
+                    }}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
               <div className={classes.button}>
                 <Button
                   variant="contained"

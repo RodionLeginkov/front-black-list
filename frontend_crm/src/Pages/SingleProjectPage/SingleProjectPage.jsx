@@ -78,6 +78,7 @@ function CurrentProject(props) {
 
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
+  console.log(project)
   useEffect(() => {
     if (!project) {
       dispatch(getUsers());
@@ -88,11 +89,11 @@ function CurrentProject(props) {
   let stackList = [];
   if (!project) { return (<Loading />); }
   
-  if (project) {
-    stackList = project.stack.map((elem) => (
-      <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
-    ));
-  }
+  // if (project) {
+  //   stackList = project.stack.map((elem) => (
+  //     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
+  //   ));
+  // }
   return (
     <div style={{ marginLeft: '85px' }}>
 
@@ -100,7 +101,7 @@ function CurrentProject(props) {
         <Link color="inherit" onClick={() => history.push('/projects')}   >
           Projects
         </Link>
-        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project._id}`)} >{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/project/${project.uuid}`)} >{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -115,7 +116,7 @@ function CurrentProject(props) {
         <div className={classes.stackAndDuration}>
           <h2>Stack: </h2>
           <div className={classes.stackIcons}>
-            {stackList}
+            {/* {stackList} */}
           </div>
         </div>
         <div className={classes.stackAndDuration}>
@@ -127,7 +128,7 @@ function CurrentProject(props) {
           </div>
         </div>
 
-        <UserList users={project.developers} />
+        {/* <UserList users={project.developers} /> */}
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
@@ -141,7 +142,7 @@ function CurrentProject(props) {
             <ArrowBackIosIcon />
           </Button>
           <Button className={classes.button}
-            onClick={() => history.push(`/projects/editproject/${project._id}`)}>
+            onClick={() => history.push(`/project/${project.uuid}`)}>
             <EditSharpIcon />
           </Button>
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
@@ -149,7 +150,7 @@ function CurrentProject(props) {
           </Button>
         </div>
       </Paper>
-      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} />
+      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} />
       {/* <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit /> */}
       {/* <AddProjectPage curProject={{...project}} isEdit /> */}
     </div>

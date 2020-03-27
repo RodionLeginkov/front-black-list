@@ -31,8 +31,8 @@ export default function DevAvatars(props) {
   }
 
   const devList = users.map((user) =>
-    <Tooltip className={classes.avatar} title={user.fullName} key={user._id}>
-      <Avatar  onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
+    <Tooltip className={classes.avatar} title={user.fullName} key={user.uuid}>
+      <Avatar  onClick={() => handleClick(user.uuid)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
     </Tooltip>
   );
 

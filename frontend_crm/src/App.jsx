@@ -43,11 +43,11 @@ function App() {
               <PrivateRoute exact path="/leads" component={Leads} />
               <Route path="/projects/addproject" component={AddProjectPage} />
               <Route path="/users/inviteuser" component={InviteUserPage} />
-              <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
+              <Route path="/project/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
-              <Route exact path="/users/:userId" component={SingleUserPage} />
-              <Route exact path="/users/info/:userId" component={SingleUserPage} />
-              <Route exact path="/users/edituser/:userId" component={EditUserPage} />
+              <Route exact path="/user/:userId" component={SingleUserPage} />
+              <Route exact path="/user/info/:userId" component={SingleUserPage} />
+              <Route exact path="/user/:userId" component={EditUserPage} />
               <Route path="/signin" component={Signin} />
               <Route path="/signup" component={SignUp} />
               <Route path="/Forgot" component={Forgot} />

@@ -49,10 +49,9 @@ export default function ProjectsList(props) {
   const { projects } = props
   const history = useHistory();
   const dispatch = useDispatch();
-  const rows = projects.map((project) => createData(project.name, project._id))
+  const rows = projects.map((project) => createData(project.name, project.uuid))
 
   function handleClick(id) {
-    console.log(id)
     dispatch(findProject(id));
     history.push(`/projects/${id}`);
   }
@@ -88,7 +87,7 @@ export default function ProjectsList(props) {
                   <DeleteOutlineIcon />
                 </Button>
               </StyledTableCell> */}
-              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} /> */}
+              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} /> */}
             </StyledTableRow>
           ))}
         </TableBody>

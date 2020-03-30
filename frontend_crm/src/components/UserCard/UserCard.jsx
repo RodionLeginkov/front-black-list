@@ -12,6 +12,7 @@ import CustomProjectIcon from '../CustomProjectIcon/CustomProjectIcon.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import AddProjectModal from '../AddProjectModal/AddProjectModal.jsx';
 import { stackList } from '../../constants/constants'
+import { userRoles } from '../../constants/constants'
 
 const useStyles = makeStyles({
   root: {
@@ -138,8 +139,9 @@ const UserCard = ({ user }) => {
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const startDate = new Date(user.hiredAt);
-  const curDate = new Date();
+  const startDate = new Date(user.hiredAt),
+    curDate = new Date(),
+    role = userRoles.find((item) => item.value === user.role).label;
 
   return (
     <Card className={classes.root}>
@@ -149,9 +151,9 @@ const UserCard = ({ user }) => {
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {/* <div className={classes.roleBadge}> */}
             <CustomBage
-              text={user.role}
+              text={role}
               size="medium"
-              position={user.role}currentProject
+              position={user.role} currentProject
             />
             {/* </div> */}
             {user.hiredAt ? <CustomBage

@@ -17,6 +17,7 @@ import {
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
 import { addNewProject } from './ProjectsApi';
+import { compose } from 'redux';
 
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
@@ -75,10 +76,12 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
+    console.log('project', project)
     const loginToken = localStorage.getItem('token');
     // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });
-    dispatch({ type: EDIT_PROJECT, payload: data[0] });
+    console.log("DATA", data)
+    dispatch({ type: EDIT_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
   }
@@ -88,7 +91,7 @@ export const updateProjectDevelopers = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchProject(project, { headers: { token: loginToken } });
-    dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data[0] });
+    dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_DEVELOPERS_ERROR, payload: error });
   }

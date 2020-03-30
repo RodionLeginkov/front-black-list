@@ -19,6 +19,7 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Loading from '../../components/Loading';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
@@ -34,7 +35,7 @@ import {
 import './ProjectStyles.css';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
-
+import { userRoles, englishLevels, stackList } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -110,9 +111,8 @@ function AddProjectPage(props) {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
-  console.log('CURPROJECT', curProject)
-
-
+  
+  
   const initialValue = (projectId && curProject) ? curProject : {
     // status: '',
     // stack: [],
@@ -133,23 +133,24 @@ function AddProjectPage(props) {
     description: '',
     // resources: [],
     history: '',
+    Skills: []
     // projectImage: '',
     // developers: [],
-
+    
   };
-
-
-
+  
+  
   const reqFields = ['name', 'communication', 'startDate',
-    'type', 'source', 'withdrawal_of_funds',
-    'paymentType', 'paymentAmount', 'load', 'resources'];
+  'type', 'source', 'withdrawal_of_funds',
+  'paymentType', 'paymentAmount', 'load', 'resources'];
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
   }, [loading]);
-
-  console.log("PROJECT", project.communication)
+  
+//   console.log('INITIAL', curProject)
+// console.log("CHANGED", project)
 
   useEffect(() => {
     if (projectId && !curProject) {
@@ -184,6 +185,11 @@ function AddProjectPage(props) {
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] });
 
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
+
+  // const handleChangeStack = ((event, values) => {
+  //   setProject({ ...project, Skills: values });
+  // });
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -369,7 +375,7 @@ function AddProjectPage(props) {
                 </Grid> */}
                 <Grid item xs={4} >
                   <FormControl
-                    style={{ width: '100%', paddingRight: 5}}
+                    style={{ width: '100%', paddingRight: 5 }}
                     placeholder='Format of communication'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -392,8 +398,8 @@ function AddProjectPage(props) {
                     </Select>
                   </FormControl>
                 </Grid>
-              {/* </Grid> */}
-              {/* <MessengerForm
+                {/* </Grid> */}
+                {/* <MessengerForm
                 name='messenger'
                 messengerChange={messengerChange}
                 messengerValue={project.messenger}
@@ -410,7 +416,7 @@ function AddProjectPage(props) {
                   projectId
                 />
               ) : ' '} */}
-              {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
+                {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
                 <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%', paddingRight: 5 }}
@@ -434,9 +440,9 @@ function AddProjectPage(props) {
                     variant="outlined"
                     required
                     className={clsx(classes.formControl)}
-                    style={{  width: '100%' }}
+                    style={{ width: '100%' }}
                     error={!project.source && isError}
-                  helpertext={(!project.status && isError) ? "Empty field." : ''}
+                    helpertext={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel>
                       Source
@@ -539,8 +545,31 @@ function AddProjectPage(props) {
                   />
                 </Grid> */}
               {/* </Grid> */}
+
+
+
+              {/* Return  this later*/}
+              {/* <Grid item xs={12}>
+                <Autocomplete
+                  style={{ margin: '5px 0px 10px' }}
+                  multiple
+                  options={stackList}
+                  getOptionLabel={(option) => option}
+                  defaultValue={project.Skills.name}
+                  filterSelectedOptions
+                  name='Skill'
+                  // onChange={handleChangeStack}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Skills"
+                    />
+                  )}
+                />
+              </Grid> */}
               <TextField
-                style={{marginBottom: '10px'}}
+                style={{ marginBottom: '10px' }}
                 value={project.description}
                 variant="outlined"
                 id="standard-multiline-flexible"

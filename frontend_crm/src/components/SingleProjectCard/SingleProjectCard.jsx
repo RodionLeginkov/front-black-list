@@ -112,7 +112,7 @@ function difDates(startDate, curDate) {
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
     return `${difYear} year(s) ${difMonth} month(s)`
   }
-  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
     return `${difYear - 1} year(s) ${12+difMonth} month(s)`
   }
   else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
@@ -122,7 +122,7 @@ function difDates(startDate, curDate) {
     return `${12 + difMonth} month(s)`
   }
   else {
-    return `${Math.floor(difDay / 7)} week(s)`
+    return `${difDay} day(s)`
   }
 }
 

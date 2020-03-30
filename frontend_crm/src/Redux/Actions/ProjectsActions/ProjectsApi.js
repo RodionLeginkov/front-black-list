@@ -16,7 +16,7 @@ async function deleteData(url, data) {
 }
 
 async function patchData(url, data) {
-  const response = await axios.patch(url, data);
+  const response = await axios.put(url, data);
   return response;
 }
 
@@ -28,6 +28,6 @@ export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BAS
 
 export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}/project/projectId/`, id);
 
-export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data.uuid}`, data, { headers: { token } });
+export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}/project/${data.uuid}`, data, { headers: { token } });
 
 export const loadProject = (id, tokens) => getData(`${process.env.REACT_APP_BASE_API}/project/${id}`, tokens);

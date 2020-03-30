@@ -48,7 +48,7 @@ export const updateUser = (userData) => async (dispatch) => {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
     console.log("DATATAATATATA", data)
-    dispatch({ type: EDIT_USER, payload: data[0] });
+    dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_USER_ERROR, payload: error });
   }

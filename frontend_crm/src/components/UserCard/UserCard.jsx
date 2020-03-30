@@ -107,7 +107,7 @@ function difDates(startDate, curDate) {
     return `${12 + difMonth} month(s)`
   }
   else {
-    return `${Math.floor(difDay / 7)} week(s)`
+    return `${difDay} day(s)`
   }
 }
 

@@ -77,22 +77,23 @@ function CurrentProject(props) {
   }
 
   const { projectId } = props.match.params;
-console.log(projectId)
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    console.log(project)
     if (!project) {
-      dispatch(getUsers());
-      dispatch(getProjects());
+      // dispatch(getUsers());
+      // dispatch(getProjects());
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
   if (!project) { return (<Loading />); }
+  
+
+console.log("SKILLS", project.Skills)
+
 
   const projectStack = project.Skills.map((element) => {
     if (stackList.includes(element.name)) {
-      console.log('qweqwe')
       return <StackIcon key={Math.random()} tech={element.name} size='medium' />
     }
   }

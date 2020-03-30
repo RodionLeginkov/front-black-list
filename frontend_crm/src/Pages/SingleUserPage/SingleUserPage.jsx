@@ -131,17 +131,17 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickOnDelete = () => {
-    console.log('IDIDIDID', userId)
     dispatch(deleteUser(userId));
     history.push('/users');
   };
 
   const handleClickOnEdit = () => {
-    console.log('qweqweqwe')
     history.push(`/user/edituser/${userId}`);
   };
 
   const user = useSelector((state) => state.users.currentUser);
+
+console.log(user)
 
   useEffect(() => {
     if (!user) dispatch(getUser(userId));

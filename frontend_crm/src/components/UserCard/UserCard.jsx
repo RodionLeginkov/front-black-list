@@ -11,6 +11,7 @@ import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import CustomProjectIcon from '../CustomProjectIcon/CustomProjectIcon.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import AddProjectModal from '../AddProjectModal/AddProjectModal.jsx';
+import { stackList } from '../../constants/constants'
 
 const useStyles = makeStyles({
   root: {
@@ -87,39 +88,77 @@ const useStyles = makeStyles({
   },
 });
 
+
+function difDates(startDate, curDate) {
+  const
+    difMonth = curDate.getMonth() - startDate.getMonth(),
+    difYear = curDate.getFullYear() - startDate.getFullYear(),
+    difDay = curDate.getDate() - startDate.getDate();
+  if (difYear * 12 + difMonth > 12 && difMonth > 0) {
+    return `${difYear} year(s) ${difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`
+  }
+  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`
+  }
+  else {
+    return `${difDay} day(s)`
+  }
+}
+
+
 const UserCard = ({ user }) => {
   const classes = useStyles();
   const [isShowingModal, setIsShowingModal] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
+
   const handleClickCard = () => {
-    dispatch(findUser(user._id));
-    history.push(`/users/info/${user._id}`);
+    dispatch(findUser(user.uuid));
+    history.push(`/user/${user.uuid}`);
   };
+
 
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
 
-  const stackList = user.stack.map((element) => (
-    <StackIcon key={Math.random()} tech={element} size='small' />
-  ));
+  const userStack = user.Skills.map((element) => {
+    if (stackList.includes(element.name)) {
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+    }
+  });
+
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+
+  const startDate = new Date(user.hiredAt);
+  const curDate = new Date();
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
         <CardContent onClick={handleClickCard}>
           <div className={classes.divider} />
-          <div className={classes.roleBadge}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {/* <div className={classes.roleBadge}> */}
             <CustomBage
-              text={user.status}
+              text={user.role}
               size="medium"
-              position={user.status}
-              className={classes.badge}
+              position={user.role}currentProject
             />
+            {/* </div> */}
+            {user.hiredAt ? <CustomBage
+              text={difDates(startDate, curDate)}
+              size="medium"
+              position={user.role}
+              className={classes.badge} /> : ''}
           </div>
           <div className={classes.row}>
             <div
@@ -129,14 +168,14 @@ const UserCard = ({ user }) => {
           </div>
           <div className={classes.row}>
             <div className={classes.name}>
-              {user.fullName}
+              {user.firstName} {user.lastName}
             </div>
           </div>
         </CardContent>
         <div className={classes.footer}>
-          <div className={classes.stack}>{stackList}</div>
+          <div className={classes.stack}>{userStack}</div>
           <CustomProjectIcon
-            projects={user.currentProject || []}
+            projects={user.Projects || []}
             addProject={changeIsShowingModal}
             edit
           />

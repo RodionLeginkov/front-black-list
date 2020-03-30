@@ -74,14 +74,12 @@ const projectReducer = produce((draft, action) => {
       return draft;
 
     case FIND_PROJECT:
-      draft.currentProject = draft.projects.find((p) => p._id === action.payload);
+      draft.currentProject = draft.projects.find((p) => p.uuid === action.payload);
       return draft;
 
     case DELETE_PROJECT:
-      console.log("BEFORE", draft.projects)
-      draft.projects = draft.projects.filter((p) => p._id !== action.payload)
-      draft.filteredProjects = draft.filteredProjects.filter((p) => p._id !== action.payload)
-      console.log("AFTER", draft.projects)
+      draft.projects = draft.projects.filter((p) => p.uuid !== action.payload)
+      draft.filteredProjects = draft.filteredProjects.filter((p) => p.uuid !== action.payload)
       return draft;
 
     case DELETE_PROJECT_ERROR:
@@ -90,7 +88,7 @@ const projectReducer = produce((draft, action) => {
 
     case EDIT_PROJECT:
       let proj = draft.filteredProjects;
-      let ProjectIndex = proj.findIndex((p) => p._id === action.payload._id);
+      let ProjectIndex = proj.findIndex((p) => p.uuid === action.payload.uuid);
       delete proj[ProjectIndex];
       proj[ProjectIndex] = action.payload
       draft.projects = proj;
@@ -100,7 +98,7 @@ const projectReducer = produce((draft, action) => {
 
     case EDIT_PROJECT_DEVELOPERS:
       let allProj = draft.filteredProjects;
-      let changedProjectIndex = allProj.findIndex((p) => p._id === action.payload._id);
+      let changedProjectIndex = allProj.findIndex((p) => p.uuid === action.payload.uuid);
       delete allProj[changedProjectIndex];
       allProj[changedProjectIndex] = action.payload
       draft.projects = allProj;

@@ -10,9 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
-  
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -38,34 +38,38 @@ export default function CustomList(props) {
   }
 
 
-  const devList = users.map((user) =>
 
-    <div key={user._id}>
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Tooltip title={user.fullName}>
-            <Avatar onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
-          </Tooltip>
-        </ListItemAvatar>
-        <ListItemText
-          primary={user.fullName}
-          secondary={(
-            <>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                {user.status}
-              </Typography>
-              {' — developer`s info'}
-            </>
-          )}
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-    </div>
+  const devList = users.map((user) => {
+    const userName = `${user.firstName} ${user.lastName}`;
+    return (
+      < div key={user.uuid} >
+        <ListItem alignItems="flex-start">
+          <ListItemAvatar>
+            <Tooltip title={userName}>
+              <Avatar onClick={() => handleClick(user.uuid)} alt={userName.toUpperCase()} src={`${user.userImage}`} />
+            </Tooltip>
+          </ListItemAvatar>
+          <ListItemText
+            primary={userName}
+            secondary={(
+              <>
+                <Typography
+                  component="span"
+                  variant="body2"
+                  className={classes.inline}
+                  color="textPrimary"
+                >
+                  {user.status}
+                </Typography>
+                {' — developer`s info'}
+              </>
+            )}
+          />
+        </ListItem>
+        <Divider variant="inset" component="li" />
+      </div >
+    )
+  }
   );
   if (users.length > 0) {
     return (

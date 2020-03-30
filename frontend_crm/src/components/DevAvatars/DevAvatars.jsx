@@ -30,11 +30,14 @@ export default function DevAvatars(props) {
     history.push(`/users/${userId}`);
   }
 
-  const devList = users.map((user) =>
-    <Tooltip className={classes.avatar} title={user.fullName} key={user._id}>
-      <Avatar  onClick={() => handleClick(user._id)} alt={user.fullName.toUpperCase()} src={`${user.userImage}`} />
-    </Tooltip>
-  );
+  
+  const devList = users.map((user) =>{
+  const userName = `${user.firstName} ${user.lastName}` ;
+  return(
+    <Tooltip className={classes.avatar} title={userName} key={user.uuid}>
+      <Avatar  onClick={() => handleClick(user.uuid)} alt={user.lastName.toUpperCase()} src={`${user.userImage}`} />
+    </Tooltip>)
+  });
 
   return (
     <>

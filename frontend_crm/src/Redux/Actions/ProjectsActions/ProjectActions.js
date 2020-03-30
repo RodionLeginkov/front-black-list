@@ -16,16 +16,18 @@ import {
   FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
-// import { addNewProject } from './ProjectsApi';
+import { addNewProject } from './ProjectsApi';
+import { compose } from 'redux';
 
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
-    console.log("SFJHASFSADFHSUJFDHAUJS")
     // console.log('PROJECT', project);
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-    const { data } = await axios.post(`${process.env.REACT_APP_BASE_API}project/addproject`, project, { headers: { token: loginToken } });
+    console.log("SFJHASFSADFHSUJFDHAUJS", project)
+    const { data } = await addNewProject(project,  { headers: { token: loginToken } });
+    console.log("DATA", data)
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });
@@ -36,10 +38,11 @@ export const addProject = (project) => async (dispatch) => {
 export const getProjects = () => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
-    // console.log("SFJHASFSADFHSUJFDHAUJS")
+    // console.log("DADADADADAD")
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}project`, { headers: { token: loginToken } });
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}/projects`, { headers: { token: loginToken } });
+    // console.log(data)
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     // console.log("ERROR")
@@ -52,7 +55,7 @@ export const getProject = (id) => async (dispatch) => {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = localStorage.getItem('token');
     const { data } = await loadProject(id, { headers: { token: loginToken } });
-    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
+    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
   }
@@ -63,7 +66,8 @@ export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
 export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { token: loginToken } });
+    await axios.delete(`${process.env.REACT_APP_BASE_API}/project/${id}`, { headers: { token: loginToken } });
+    console.log('asdasdasdad')
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {
     dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
@@ -72,10 +76,12 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
+    console.log('project', project)
     const loginToken = localStorage.getItem('token');
     // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });
-    dispatch({ type: EDIT_PROJECT, payload: data[0] });
+    console.log("DATA", data)
+    dispatch({ type: EDIT_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
   }
@@ -85,7 +91,7 @@ export const updateProjectDevelopers = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchProject(project, { headers: { token: loginToken } });
-    dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data[0] });
+    dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_DEVELOPERS_ERROR, payload: error });
   }

@@ -41,8 +41,8 @@ const CustomProjectIcon = ({
   const projectsList = projects.map((project) => {
     if (!project) return <div className={classes.skeleton} key={Math.random()} />;
     return (
-      <Tooltip className={classes.avatar} title={project.name} key={project._id}>
-        <Avatar onClick={() => handleClick(project._id)} alt={project.name}>
+      <Tooltip className={classes.avatar} title={project.name} key={project.uuid}>
+        <Avatar onClick={() => handleClick(project.uuid)} alt={project.name}>
           {project.name && project.name[0].toUpperCase()}
         </Avatar>
       </Tooltip>

@@ -50,6 +50,8 @@ function Users() {
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false)
+console.log(users)
+
 
   useEffect(() => {
     dispatch(getUsers());

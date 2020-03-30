@@ -105,6 +105,7 @@ export default function SignUp() {
       email: form.email,
       password: form.password,
     };
+    console.log(login);
     if (!form.email.includes('@')) {
       setEmailError({
         ...form,

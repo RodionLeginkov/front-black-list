@@ -120,6 +120,7 @@ export default function MiniDrawer() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+
         color="primary"
         position="fixed"
         className={clsx(classes.appBar, {
@@ -155,14 +156,12 @@ export default function MiniDrawer() {
             >
               <NotificationsIcon />
             </IconButton>
-
             <FadeMenu className={classes.topProfileIcons} />
-
           </div>
-
         </Toolbar>
       </AppBar>
       <Drawer
+        style={{ display:{xs: 'none', sm: 'block' } }}
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,

@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Express from '../../Assets/devIcons/Express.svg';
 import AWS from '../../Assets/devIcons/AWS.svg';
-import PostgresQl from '../../Assets/devIcons/PostgresQl.svg';
+import postgreSQL from '../../Assets/devIcons/postgreSQL.svg';
 import Angular from '../../Assets/devIcons/Angular.svg';
-import ReactDev from '../../Assets/devIcons/ReactDev.svg';
+import react from '../../Assets/devIcons/ReactDev.svg';
 import Node from '../../Assets/devIcons/Node.svg';
 import MongoDb from '../../Assets/devIcons/MongoDb.svg';
 import GraphQl from '../../Assets/devIcons/GraphQl.svg';
@@ -43,9 +43,9 @@ const useStyles = makeStyles(() => ({
 }));
 const icons = [
   GraphQl,
-  PostgresQl,
+  postgreSQL,
   Express,
-  ReactDev,
+  react,
   MongoDb,
   Angular,
   AWS,
@@ -58,11 +58,13 @@ function StackIcon(props) {
     size, tech, className,
   } = props;
 
+  
   const iconClassName = clsx(classes.icon, {
     [classes.small]: size === 'small',
     [classes.medium]: size === 'medium',
     [classes.large]: size === 'large',
   }, className);
+
 
   const findedIcon = icons.find((elem) => elem.includes(tech));
   return (

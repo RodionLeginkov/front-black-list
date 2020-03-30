@@ -1,3 +1,4 @@
+ 
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -17,8 +18,8 @@ import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
-import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx'
-import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx'
+import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
+import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
 
 const theme = createMuiTheme({
   palette: {
@@ -42,16 +43,16 @@ function App() {
               <PrivateRoute exact path="/leads" component={Leads} />
               <Route path="/projects/addproject" component={AddProjectPage} />
               <Route path="/users/inviteuser" component={InviteUserPage} />
-              <Route path="/projects/editproject/:projectId" component={AddProjectPage} />
+              <Route path="/project/:projectId" component={AddProjectPage} />
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
-              <Route exact path="/users/:userId" component={SingleUserPage} />
-              <Route exact path="/users/info/:userId" component={SingleUserPage} />
-              <Route exact path="/users/edituser/:userId" component={EditUserPage} />
+              <Route exact path="/user/:userId" component={SingleUserPage} />
+              <Route exact path="/user/info/:userId" component={SingleUserPage} />
+              <Route exact path="/user/edituser/:userId" component={EditUserPage} />
               <Route path="/signin" component={Signin} />
               <Route path="/signup" component={SignUp} />
               <Route path="/Forgot" component={Forgot} />
-              <Route exact path="/Reset/:token" component={ResetPassword} />
-              <Route path="/newreset" component={NewReserPasswordPage} />
+              {/* <Route exact path="/Reset/:token" component={ResetPassword} /> */}
+              <Route path="/Reset/:token" component={NewReserPasswordPage} />
             </Switch>
           </div>
         </AuthContextProvider>

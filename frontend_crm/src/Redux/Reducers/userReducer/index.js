@@ -27,8 +27,8 @@ const initialState = {
 const userReducer = produce((draft, action) => {
   switch (action.type) {
     case DELETE_USER:
-      draft.users = draft.users.filter((user) => user._id !== action.payload);
-      draft.filteredUsers = draft.users.filter((user) => user._id !== action.payload);
+      draft.users = draft.users.filter((user) => user.uuid !== action.payload);
+      draft.filteredUsers = draft.users.filter((user) => user.uuid !== action.payload);
       return draft;
 
     case DELETE_USER_ERROR:
@@ -60,12 +60,12 @@ const userReducer = produce((draft, action) => {
 
     case EDIT_USER:
       draft.users[draft.users.findIndex((user) =>
-        user._id === action.payload._id)] = action.payload;
+        user.uuid === action.payload.uuid)] = action.payload;
       draft.currentUser = action.payload;
       return draft;
 
     case FIND_USER:
-      draft.currentUser = draft.users.find((user) => user._id === action.payload);
+      draft.currentUser = draft.users.find((user) => user.uuid === action.payload);
       return draft;
 
     case FILTER_USER_ROLE:

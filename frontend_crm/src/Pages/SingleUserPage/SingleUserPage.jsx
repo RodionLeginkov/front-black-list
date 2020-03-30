@@ -18,6 +18,7 @@ import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
+import { stackList } from '../../constants/constants'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -55,6 +56,7 @@ const useStyles = makeStyles(() => ({
   },
   leftCol: {
     display: 'flex',
+    alignItems: 'center',
     flexDirection: 'column',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
   },
@@ -119,7 +121,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const handleClickOpenPopUp = () => {
     setOpenPopUp(true);
   };
-
   const handleClosePopUp = () => {
     setOpenPopUp(false);
   };
@@ -135,10 +136,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickOnEdit = () => {
-    history.push(`/users/edituser/${userId}`);
+    history.push(`/user/edituser/${userId}`);
   };
 
   const user = useSelector((state) => state.users.currentUser);
+
+console.log(user)
 
   useEffect(() => {
     if (!user) dispatch(getUser(userId));
@@ -148,9 +151,15 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const stackList = user.stack.map((element) => (
-    <StackIcon key={Math.random()} tech={element} size='medium' />
-  ));
+  // console.log(user.Skills)
+  const userStack = user.Skills.map((element) => {
+    // console.log('Stack', element.UserSkill.level)
+    if (stackList.includes(element.name)) {
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+    }
+  });
+
+  const englishLevel = user.Skills.find((element) => element.name.includes('English'))
 
   return (
     <div className={classes.container}>
@@ -158,11 +167,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user._id}`)}>{user.fullName}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>  {user.firstName} {user.lastName}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.fullName || user.login}</h1>
+          <h1>{user.firstName} {user.lastName}</h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
@@ -172,7 +181,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           <div className={classes.leftCol}>
             <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
             <span className={classes.fieldName}>
-              {user.fullName}
+              {user.firstName} {user.lastName}
             </span>
           </div>
           <div className={classes.col}>
@@ -186,28 +195,27 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Phone: </span>
                 <div className={classes.fieldValue}>
-                  {user.phoneNumber}
+                  {user.phone1}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Stack: </span>
                 <div className={classes.fieldValue}>
-                  {stackList}
+                  {userStack}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Projects: </span>
                 <div className={classes.fieldValue}>
                   <CustomProjectIcon
-                    projects={user.currentProject || []}
-                    edit={false}
+                    projects={user.Projects || []}
                   />
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>English level: </span>
                 <div className={classes.fieldValue}>
-                  {user.englishLevel}
+                  {englishLevel ? englishLevel.UserSkill.level : 'not stated'}
                 </div>
               </div>
             </div>
@@ -219,7 +227,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             <ArrowBackIosIcon />
           </Button>
           <Button onClick={handleClickOnEdit}>
-            <EditSharpIcon  />
+            <EditSharpIcon />
           </Button>
           <Button onClick={handleClickOpenPopUp} className={classes.deleteButton}>
             <DeleteOutlineIcon />

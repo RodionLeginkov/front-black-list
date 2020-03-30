@@ -24,7 +24,7 @@ export const getUser = (userId) => async (dispatch) => {
     dispatch({ type: LOAD_CURRENT_USER });
     const loginToken = localStorage.getItem('token');
     const { data } = await loadUser(loginToken, userId);
-    dispatch({ type: LOAD_CURRENT_USER_SUCCESS, payload: data.info[0] });
+    dispatch({ type: LOAD_CURRENT_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
   }
@@ -44,9 +44,11 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
+    console.log('DATA', userData)
     const loginToken = localStorage.getItem('token');
-    const { data } = await patchUser(loginToken, userData._id, userData);
-    dispatch({ type: EDIT_USER, payload: data[0] });
+    const { data } = await patchUser(loginToken, userData.uuid, userData);
+    console.log("DATATAATATATA", data)
+    dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_USER_ERROR, payload: error });
   }

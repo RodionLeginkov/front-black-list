@@ -61,7 +61,7 @@ export default function ProjectModal(props) {
   } = props;
 
   const initialValue = isEdit ? curProject : {
-    name: '', status: '', paymentAmount: '', stack: [], description: '', _id: '', duration: '',
+    name: '', status: '', paymentAmount: '', stack: [], description: '', uuid: '', duration: '',
     paymentType: '', developers: [],
   };
   

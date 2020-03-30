@@ -85,7 +85,6 @@ const EditUserPage = ({ match, isError }) => {
   const projects = useSelector((state) => state.projects.projects);
 
   const initialValue = (userId && curUser) ? curUser : {
-    _id: '',
     fullName: '',
     role: '',
     englishLevel: '',
@@ -95,9 +94,13 @@ const EditUserPage = ({ match, isError }) => {
     github: '',
     stack: [],
     currentProject: [],
-    dataofJoining: '',
     dataofLeave: '',
     comment: '',
+    firstName: '',
+    lastName: '',
+    phone1: '',
+    hiredAt: '',
+    Skills: [],
   };
 
   const [user, setUser] = useState(initialValue);
@@ -121,21 +124,21 @@ const EditUserPage = ({ match, isError }) => {
   };
 
   const handleChangeStack = ((event, values) => {
-    setUser({ ...user, stack: values });
+    setUser({ ...user, Skills: values });
   });
 
   const handleChangeProject = (event, values) => {
     setUser({ ...user, currentProject: values });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, dataofJoining });
+  const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
 
   const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(updateUser(user));
-    history.push(`/users/info/${userId}`);
+    history.push(`/user/${userId}`);
   };
 
   let filteredProjects = projects;
@@ -143,6 +146,7 @@ const EditUserPage = ({ match, isError }) => {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== user.currentProject[index].name));
   }
+
 
   return (
     <>
@@ -159,7 +163,7 @@ const EditUserPage = ({ match, isError }) => {
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
-            <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
+            <Typography className={classes.link} onClick={() => history.push(`/user/${userId}`)}>
               {user.fullName}
             </Typography>
             <Typography color="textPrimary">
@@ -172,16 +176,32 @@ const EditUserPage = ({ match, isError }) => {
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <h2>Edit user</h2>
-              <TextField
-                style={{ marginBottom: 10 }}
-                value={user.fullName}
-                label="User name"
-                variant="outlined"
-                inputProps={{ 'aria-label': 'description' }}
-                className={classes.inputForm}
-                name='fullName'
-                onChange={handleChange}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    style={{ marginBottom: 10 }}
+                    value={user.firstName}
+                    label="User name"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='firstName'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    style={{ marginBottom: 10 }}
+                    value={user.lastName}
+                    label="User name"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='lastName'
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <FormControl
@@ -192,15 +212,19 @@ const EditUserPage = ({ match, isError }) => {
                     <InputLabel>Role</InputLabel>
                     <Select
                       labelWidth={47}
-                      name='status'
-                      value={user.status || ''}
+                      name='role'
+                      value={user.role || ''}
                       onChange={handleChange}
                     >
                       {userRoles.map((role) => <MenuItem value={role} key={role}>{role}</MenuItem>)}
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+
+
+
+                {/* Return this later */}
+                {/* <Grid item xs={12} sm={6}>
                   <FormControl
                     className={clsx(classes.formControl, classes.inputForm)}
                     variant="outlined"
@@ -216,69 +240,64 @@ const EditUserPage = ({ match, isError }) => {
                         <MenuItem value={level} key={level}>{level}</MenuItem>))}
                     </Select>
                   </FormControl>
-                </Grid>
+                </Grid> */}
+
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     style={{ width: '100%' }}
-                    value={user.email}
+                    value={user.email || ''}
                     variant="outlined"
                     label="Email"
                     name='email'
                     onChange={handleChange}
-                    disabled
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     style={{ width: '100%' }}
-                    value={user.phoneNumber}
+                    value={user.phone1 || ''}
                     variant="outlined"
-                    label="Phone Number"
+                    label="Phone Number №1"
                     name='phoneNumber'
                     onChange={handleChange}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     style={{ width: '100%' }}
-                    value={user.skype}
+                    value={user.phone2 || ''}
                     variant="outlined"
-                    label="Skype"
-                    name='skype'
+                    label="Phone Number №2"
+                    name='phoneNumber'
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    style={{ width: '100%' }}
-                    value={user.github}
-                    variant="outlined"
-                    label="gitHub"
-                    name='github'
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
+
+
+                {/* Retern this later */}
+                {/* <Grid item xs={12}>
                   <Autocomplete
                     style={{ margin: '5px 0px 10px' }}
                     multiple
                     options={stackList}
                     getOptionLabel={(option) => option}
-                    defaultValue={user.stack}
+                    defaultValue={user.Skills}
                     filterSelectedOptions
-                    name='stack'
+                    name='Skill'
                     onChange={handleChangeStack}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         variant="outlined"
-                        label="Stack"
+                        label="Skills"
                       />
                     )}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
-                  <Autocomplete
+                  {/* <Autocomplete
                     multiple
                     options={filteredProjects}
                     getOptionLabel={(option) => option.name}
@@ -293,19 +312,7 @@ const EditUserPage = ({ match, isError }) => {
                         label="Projects"
                       />
                     )}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    value={user.comment}
-                    variant="outlined"
-                    label="Comment"
-                    multiline
-                    rowsMax="5"
-                    className={classes.descriptionForm}
-                    name='comment'
-                    onChange={handleChange}
-                  />
+                  /> */}
                 </Grid>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
@@ -317,7 +324,7 @@ const EditUserPage = ({ match, isError }) => {
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of joining"
-                      value={user.dataofJoining}
+                      value={user.hiredAt || ''}
                       onChange={startDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

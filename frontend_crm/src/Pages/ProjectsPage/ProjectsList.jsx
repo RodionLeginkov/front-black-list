@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -9,9 +9,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import Button from '@material-ui/core/Button';
-import DeleteModal from '../../components/DeleteModal/DeleteModal'
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const StyledTableCell = withStyles(theme => ({
@@ -52,10 +49,9 @@ export default function ProjectsList(props) {
   const { projects } = props
   const history = useHistory();
   const dispatch = useDispatch();
-  const rows = projects.map((project) => createData(project.name, project._id))
+  const rows = projects.map((project) => createData(project.name, project.uuid))
 
   function handleClick(id) {
-    console.log(id)
     dispatch(findProject(id));
     history.push(`/projects/${id}`);
   }
@@ -91,7 +87,7 @@ export default function ProjectsList(props) {
                   <DeleteOutlineIcon />
                 </Button>
               </StyledTableCell> */}
-              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project._id} name={project.name} /> */}
+              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} /> */}
             </StyledTableRow>
           ))}
         </TableBody>

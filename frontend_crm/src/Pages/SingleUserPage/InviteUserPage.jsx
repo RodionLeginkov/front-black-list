@@ -168,7 +168,7 @@ const EditUserPage = ({ match, isError }) => {
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
-            <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
+            <Typography className={classes.link} onClick={() => history.push(`/user/${userId}`)}>
               {user.fullName}
             </Typography>
             <Typography color="textPrimary">

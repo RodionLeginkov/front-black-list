@@ -114,25 +114,25 @@ const EditUserPage = ({ match, isError }) => {
       dispatch(getUser(userId));
     }
   }, [curUser, dispatch, userId]);
-
+  
   if (loading) {
     return (<Loading />);
   }
-
+  
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
+  
   const handleChangeStack = ((event, values) => {
     setUser({ ...user, Skills: values });
   });
-
+  
   const handleChangeProject = (event, values) => {
     setUser({ ...user, currentProject: values });
   };
 
   const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
-
+  
   const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
 
   const onSubmit = (e) => {
@@ -140,15 +140,16 @@ const EditUserPage = ({ match, isError }) => {
     dispatch(updateUser(user));
     history.push(`/user/${userId}`);
   };
-
+  
   let filteredProjects = projects;
   for (const index in user.currentProject) {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== user.currentProject[index].name));
   }
-
-
+  
+  
   console.log(user)
+  console.log('_______________________________________________')
   return (
     <>
       {!userId
@@ -164,7 +165,7 @@ const EditUserPage = ({ match, isError }) => {
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
-            <Typography className={classes.link} onClick={() => history.push(`/users/info/${userId}`)}>
+            <Typography className={classes.link} onClick={() => history.push(`/user/${userId}`)}>
               {user.fullName}
             </Typography>
             <Typography color="textPrimary">

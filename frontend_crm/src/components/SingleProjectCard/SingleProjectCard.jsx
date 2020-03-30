@@ -16,6 +16,7 @@ import StackIcon from '../StackIcon/StackIcon.jsx';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 import AddUserModal from '../AddUserModal/AddUserModal';
+import { stackList } from '../../constants/constants'
 
 const useStyles = makeStyles((theme) => ({
   // root: {
@@ -138,11 +139,15 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
 
-  // const stackList = card.stack.map((elem) => (
-  //   <StackIcon key={Math.random()} tech={elem.tech} size='small' />
-  // ));
+console.log(card)
 
-  const startDate = new Date(card.startDate);
+  const projectStack = card.Skills.map((element) => {
+    if (stackList.includes(element.name)) {
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+    }}
+  );
+
+  const startDate = new Date(card.start_date);
   const curDate = new Date();
 
   return (
@@ -169,7 +174,7 @@ export default function RecipeReviewCard(props) {
               </div>
               <div>
                 <div style={{ margin: '10px', display: 'flex' }}>
-                  {/* {stackList} */}
+                  {projectStack}
                 </div>
               </div>
             </div>
@@ -182,7 +187,7 @@ export default function RecipeReviewCard(props) {
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
-          {/* <DevAvatars users={card.developers} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} /> */}
+          <DevAvatars users={card.Users} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
 
         </div>
       </Card>

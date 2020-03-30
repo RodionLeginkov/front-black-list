@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/prefer-default-export
 export const stackList = [
   'GraphQl',
-  'PostgresQl',
+  'postgreSQL',
   'Express',
-  'ReactDev',
+  'React',
   'MongoDb',
   'Angular',
   'AWS',

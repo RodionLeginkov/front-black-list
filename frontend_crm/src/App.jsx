@@ -47,7 +47,7 @@ function App() {
               <Route exact path="/projects/:projectId" component={SingleProjectPage} />
               <Route exact path="/user/:userId" component={SingleUserPage} />
               <Route exact path="/user/info/:userId" component={SingleUserPage} />
-              <Route exact path="/user/:userId" component={EditUserPage} />
+              <Route exact path="/user/edituser/:userId" component={EditUserPage} />
               <Route path="/signin" component={Signin} />
               <Route path="/signup" component={SignUp} />
               <Route path="/Forgot" component={Forgot} />

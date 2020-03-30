@@ -20,6 +20,8 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
+import { stackList } from '../../constants/constants'
+import { compose } from 'redux';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -43,7 +45,7 @@ const useStyles = makeStyles(() => ({
     margin: '10px',
     display: 'flex',
   },
-  stackAndDuration: {
+  stackAndEnglish: {
     margin: '0px 20px',
     display: 'flex',
     alignItems: 'center',
@@ -52,7 +54,7 @@ const useStyles = makeStyles(() => ({
     margin: '4px 13px',
     paddingBottom: '10px',
   },
-  duration: {
+  english: {
     margitTop: '3px  !important',
   },
   breadcrumbs: {
@@ -75,25 +77,27 @@ function CurrentProject(props) {
   }
 
   const { projectId } = props.match.params;
-
+console.log(projectId)
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
-  console.log(project)
   useEffect(() => {
+    console.log(project)
     if (!project) {
       dispatch(getUsers());
       dispatch(getProjects());
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
-  let stackList = [];
   if (!project) { return (<Loading />); }
-  
-  // if (project) {
-  //   stackList = project.stack.map((elem) => (
-  //     <StackIcon key={Math.random()} tech={elem.tech} size='medium' />
-  //   ));
-  // }
+
+  const projectStack = project.Skills.map((element) => {
+    if (stackList.includes(element.name)) {
+      console.log('qweqwe')
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+    }
+  }
+  );
+  const englishLevel = project.Skills.find((element) => element.name.includes('English'))
   return (
     <div style={{ marginLeft: '85px' }}>
 
@@ -113,22 +117,22 @@ function CurrentProject(props) {
           </div>
         </div>
         <Divider />
-        <div className={classes.stackAndDuration}>
+        <div className={classes.stackAndEnglish}>
           <h2>Stack: </h2>
           <div className={classes.stackIcons}>
-            {/* {stackList} */}
+            {projectStack}
           </div>
         </div>
-        <div className={classes.stackAndDuration}>
-          <h2>Duration: </h2>
+        <div className={classes.stackAndEnglish}>
+          <h2>English level: </h2>
           <div style={{ margin: '10px' }}>
-            <Typography className={classes.duration}>
-              {project.duration}
+            <Typography className={classes.english}>
+              {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
             </Typography>
           </div>
         </div>
 
-        {/* <UserList users={project.developers} /> */}
+        <UserList users={project.Users} />
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>

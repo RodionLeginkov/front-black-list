@@ -110,8 +110,8 @@ function AddProjectPage(props) {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
+  console.log('CURPROJECT', curProject)
 
-console.log(curProject)
 
   const initialValue = (projectId && curProject) ? curProject : {
     // status: '',
@@ -121,8 +121,8 @@ console.log(curProject)
     name: '',
     communication: '',
     source: '',
-    start_date: '',
-    end_date: '',
+    start_date: null,
+    end_date: null,
     type: '',
     withdrawal_of_funds: '',
     owner: '',
@@ -137,6 +137,9 @@ console.log(curProject)
     // developers: [],
 
   };
+
+
+
   const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawal_of_funds',
     'paymentType', 'paymentAmount', 'load', 'resources'];
@@ -146,8 +149,7 @@ console.log(curProject)
     setProject(initialValue);
   }, [loading]);
 
-
-  console.log('________________________________')
+  console.log("PROJECT", project.communication)
 
   useEffect(() => {
     if (projectId && !curProject) {
@@ -177,8 +179,8 @@ console.log(curProject)
   const messengerChange = (messenger) => setProject({ ...project, messenger });
   // const communicationChange = (communication) => setProject({ ...project, communication })
   // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
-  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, startDate: startDate }); };
-  const endDateChange = (endDate) => setProject({ ...project, endDate });
+  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
+  const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] });
 
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
@@ -227,7 +229,7 @@ console.log(curProject)
           >
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <div className={classes.header}>
-                {!projectId ? <h2>Add new project</h2> : <h2>Add new project</h2>}
+                {!projectId ? <h2>Add new project</h2> : <h2>Edit project</h2>}
                 <Tooltip title='close'>
                   <Button onClick={handleClose}>
                     <CloseSharpIcon style={{ color: '#a3a3a3' }} />
@@ -238,7 +240,7 @@ console.log(curProject)
                 required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}
-                // helperText={(!project.name && isError) ? "Empty field." : ''}
+                // helpertext={(!project.name && isError) ? "Empty field." : ''}
                 value={project.name || ''}
                 label="Project Name"
                 variant="outlined"
@@ -264,7 +266,7 @@ console.log(curProject)
                   className={clsx(classes.formControl, classes.inputForm)}
                   style={{ paddingRight: 5 }}
                 // error={!project.status && isError}
-                // helperText={(!project.status && isError) ? "Empty field." : ''}
+                // helpertext={(!project.status && isError) ? "Empty field." : ''}
                 >
                   <InputLabel>
                     Status
@@ -381,7 +383,7 @@ console.log(curProject)
                       className={classes.selectEmpty}
                       labelWidth={170}
                       name='communication'
-                      value={project.communication || ''}
+                      value={project.communication}
                       onChange={handleChange}
                     >
                       <MenuItem value="Only written">Only written</MenuItem>
@@ -418,7 +420,7 @@ console.log(curProject)
                     label="Type"
                     error={!project.type && isError}
                     required
-                    // helperText={(!project.status && isError) ? "Empty field." : ''}
+                    // helpertext={(!project.status && isError) ? "Empty field." : ''}
                     multiline
                     rowsMax="5"
                     name='type'
@@ -434,7 +436,7 @@ console.log(curProject)
                     className={clsx(classes.formControl)}
                     style={{  width: '100%' }}
                     error={!project.source && isError}
-                  helperText={(!project.status && isError) ? "Empty field." : ''}
+                  helpertext={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel>
                       Source
@@ -443,7 +445,7 @@ console.log(curProject)
                       className={classes.selectEmpty}
                       labelWidth={47}
                       name='source'
-                      value={project.source}
+                      value={project.source || ''}
                       onChange={handleChange}
                     >
                       <MenuItem value="upwork">Upwork</MenuItem>
@@ -464,7 +466,7 @@ console.log(curProject)
                     style={{ width: '100%', paddingRight: '5px' }}
                     error={!project.withdrawal_of_funds && isError}
                     required
-                  // helperText={(!project.status && isError) ? "Empty field." : ''}
+                  // helpertext={(!project.status && isError) ? "Empty field." : ''}
                   >
                     <InputLabel>
                       Withdrawal of funds
@@ -485,7 +487,7 @@ console.log(curProject)
                 <Grid item xs={6}>
                   <TextField
                     // error={!project.owner && isError}
-                    // helperText={(!project.status && isError) ? "Empty field." : ''}
+                    // helpertext={(!project.status && isError) ? "Empty field." : ''}
                     style={{ width: '100%' }}
                     value={project.owner}
                     variant="outlined"
@@ -502,7 +504,7 @@ console.log(curProject)
                     style={{ width: '100%' }}
                     required
                     error={!project.load && isError}
-                    // helperText={(!project.status && isError) ? "Empty field." : ''}
+                    // helpertext={(!project.status && isError) ? "Empty field." : ''}
                     value={project.load}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -575,8 +577,8 @@ console.log(curProject)
                         margin="normal"
                         required
                         label="Start date"
-                        error={!project.startDate && isError}
-                        value={project.startDate}
+                        error={!project.start_date && isError}
+                        value={project.start_date}
                         onChange={startDateChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date',
@@ -595,7 +597,7 @@ console.log(curProject)
                         margin="normal"
 
                         label="End date"
-                        value={project.endDate}
+                        value={project.end_date}
                         onChange={endDateChange}
                         KeyboardButtonProps={{
                           'aria-label': 'change date',

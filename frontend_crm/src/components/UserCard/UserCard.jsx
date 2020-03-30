@@ -11,6 +11,7 @@ import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import CustomProjectIcon from '../CustomProjectIcon/CustomProjectIcon.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import AddProjectModal from '../AddProjectModal/AddProjectModal.jsx';
+import { stackList } from '../../constants/constants'
 
 const useStyles = makeStyles({
   root: {
@@ -123,15 +124,16 @@ const UserCard = ({ user }) => {
     history.push(`/user/${user.uuid}`);
   };
 
-  console.log(user)
 
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
 
-  // const stackList = user.stack.map((element) => (
-  //   <StackIcon key={Math.random()} tech={element} size='small' />
-  // ));
+  const userStack = user.Skills.map((element) => {
+    if (stackList.includes(element.name)) {
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+    }
+  });
 
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
@@ -149,8 +151,7 @@ const UserCard = ({ user }) => {
             <CustomBage
               text={user.role}
               size="medium"
-              position={user.role}
-              className={classes.badge}
+              position={user.role}currentProject
             />
             {/* </div> */}
             {user.hiredAt ? <CustomBage
@@ -172,9 +173,9 @@ const UserCard = ({ user }) => {
           </div>
         </CardContent>
         <div className={classes.footer}>
-          {/* <div className={classes.stack}>{stackList}</div> */}
+          <div className={classes.stack}>{userStack}</div>
           <CustomProjectIcon
-            projects={user.currentProject || []}
+            projects={user.Projects || []}
             addProject={changeIsShowingModal}
             edit
           />

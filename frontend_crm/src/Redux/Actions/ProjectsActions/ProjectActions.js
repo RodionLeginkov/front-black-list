@@ -54,7 +54,7 @@ export const getProject = (id) => async (dispatch) => {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = localStorage.getItem('token');
     const { data } = await loadProject(id, { headers: { token: loginToken } });
-    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data.project[0] });
+    dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
   }

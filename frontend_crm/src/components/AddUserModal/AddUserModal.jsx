@@ -8,6 +8,21 @@ import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import DevelopersChooseForm from '../DevelopersChooseForm';
 import { updateProjectDevelopers } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { userRoles, englishLevels, stackList } from '../../constants/constants';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import { TextField } from '@material-ui/core';
+import NumberFormat from 'react-number-format';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -35,10 +50,16 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
     },
     modalWidth: {
-        width: '400px',
+        width: '600px',
     },
     header: {
         color: '#777',
+    },
+    inputForm: {
+        width: '100%',
+        marginTop: '10px',
+        marginBottom: '0px',
+        paddingBottom: '0px',
     },
 }));
 
@@ -68,8 +89,13 @@ export default function AddUserModal(props) {
         if (isEdit) dispatch(updateProjectDevelopers(project));
         setProject(initialValue);
         setAddUserModalOpen(false);
-      };
+    };
     const developersChange = (developers) => setProject({ ...project, developers });
+
+
+    // const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
+
+    // const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
 
     return (
         <div className={classes.position}>
@@ -88,12 +114,100 @@ export default function AddUserModal(props) {
                 <Fade in={addUserModalOpen}>
                     <div className={clsx(classes.paper, classes.modalWidth)}>
                         <form className={classes.root} noValidate autoComplete="off" >
-                            <h2 className={classes.header}>Add user</h2>
+                            <h2 className={classes.header}>{project.name}</h2>
                             <DevelopersChooseForm
                                 name='developers'
                                 developersChange={developersChange}
-                                developersValue={project.developers}
+                                developersValue={project.Users}
                                 isEdit />
+                            <Grid container spacing={1}>
+                                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                                    <FormControl
+                                        placeholder='Role'
+                                        variant="outlined"
+                                        className={clsx(classes.formControl, classes.inputForm)}
+
+                                    >
+                                        <InputLabel>Role</InputLabel>
+                                        <Select
+                                            labelWidth={47}
+                                            name='role'
+                                        // onChange={handleChange}
+                                        >
+                                            {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                                    <TextField
+                                        label="Load"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='lastName'
+                                        InputProps={{
+                                            endAdornment:
+                                                <InputAdornment position="end">
+                                                  hr/day
+                                                </InputAdornment>,
+
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                                    <TextField
+                                        label="Rate"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='lastName'
+                                    // onChange={handleChange}
+                                    />
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                                    <TextField
+                                        label="Unit"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='lastName'
+                                    // onChange={handleChange}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+                                <KeyboardDatePicker
+                                    className={clsx(classes.formControl, classes.inputForm)}
+                                    style={{ width: '100%' }}
+                                    inputVariant="outlined"
+                                    disableToolbar
+                                    variant="inline"
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    label="Start Date"
+                                    // onChange={startDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+
+                                <KeyboardDatePicker
+                                    style={{ width: '100%' }}
+                                    inputVariant="outlined"
+                                    disableToolbar
+                                    variant="inline"
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    label="End date"
+                                    className={clsx(classes.formControl, classes.inputForm)}
+                                    // onChange={endDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+
+                            </MuiPickersUtilsProvider>
                             <div className={classes.buttons}>
                                 <Button
                                     variant="contained"

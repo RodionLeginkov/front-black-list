@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DevelopersChooseForm(props) {
   const classes = useStyles();
-  const { developersChange, developersValue, isError } = props;
+  const { userChange, developersValue, isError } = props;
   const handleChange = (event, values) => {
-    developersChange(values);
+    console.log('values', values)
+    userChange(values);
   };
 
   const users = useSelector((state) => state.users.users);
@@ -44,6 +45,12 @@ export default function DevelopersChooseForm(props) {
   }
   return (
     <>
+      <Autocomplete
+        options={filteredUsers}
+        onChange={handleChange}
+        getOptionLabel={(option) => option.lastName + ' ' + option.firstName}
+        renderInput={(params) => <TextField {...params} label="User" variant="outlined" />}
+      />
       {/* <Autocomplete
       multiple
       className={clsx(classes.formControl, classes.inputForm)}
@@ -65,11 +72,6 @@ export default function DevelopersChooseForm(props) {
 
         )}
       /> */}
-      <Autocomplete
-        options={filteredUsers}
-        getOptionLabel={(option) => option.lastName + ' ' + option.firstName}
-        renderInput={(params) => <TextField {...params} label="User" variant="outlined" />}
-      />
     </>
   );
 }

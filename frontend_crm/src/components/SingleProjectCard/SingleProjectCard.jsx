@@ -139,7 +139,6 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
 
-console.log(card)
 
   // const projectStack = card.Skills.map((element) => {
   //   if (stackList.includes(element.name)) {
@@ -150,7 +149,7 @@ console.log(card)
   const startDate = new Date(card.start_date);
   const curDate = new Date();
 
-console.log(card)
+
 
   return (
     <>

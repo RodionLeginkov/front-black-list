@@ -7,7 +7,7 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import DevelopersChooseForm from '../DevelopersChooseForm';
-import { updateProjectDevelopers } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
 import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -72,8 +72,16 @@ export default function AddUserModal(props) {
     const handleClose = () => {
         setAddUserModalOpen(false);
     };
-    const initialValue = isEdit ? curProject : {
-        name: '', status: '', price: '', stack: [], description: '', uuid: '', duration: '', developers: [],
+
+    const initialValue = {
+        user_uuid: '',
+        project_uuid: curProject.uuid,
+        role: '',
+        rate: null,
+        unit: '',
+        load: null,
+        start_date: null,
+        end_date: null,
     };
 
     const [project, setProject] = useState(initialValue);
@@ -84,18 +92,23 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
     };
 
+    
+    const handleChange = (e) => {
+        setProject({ ...project, [e.target.name]: e.target.value });
+    };
+    
+    
     const handleAdd = (e) => {
         e.preventDefault();
-        if (isEdit) dispatch(updateProjectDevelopers(project));
+        console.log('PROJECT',project)
+        dispatch(addMilestone(project));
         setProject(initialValue);
         setAddUserModalOpen(false);
     };
-    const developersChange = (developers) => setProject({ ...project, developers });
+    const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
 
-
-    // const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
-
-    // const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
+    const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
+    const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
 
     return (
         <div className={classes.position}>
@@ -117,7 +130,7 @@ export default function AddUserModal(props) {
                             <h2 className={classes.header}>{project.name}</h2>
                             <DevelopersChooseForm
                                 name='developers'
-                                developersChange={developersChange}
+                                userChange={userChange}
                                 developersValue={project.Users}
                                 isEdit />
                             <Grid container spacing={1}>
@@ -130,9 +143,10 @@ export default function AddUserModal(props) {
                                     >
                                         <InputLabel>Role</InputLabel>
                                         <Select
+                                            value={project.role || ''}
                                             labelWidth={47}
                                             name='role'
-                                        // onChange={handleChange}
+                                            onChange={handleChange}
                                         >
                                             {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
                                         </Select>
@@ -140,15 +154,17 @@ export default function AddUserModal(props) {
                                 </Grid>
                                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                                     <TextField
+                                        value={project.load || ''}
                                         label="Load"
                                         variant="outlined"
                                         inputProps={{ 'aria-label': 'description' }}
                                         className={classes.inputForm}
-                                        name='lastName'
+                                        name='load'
+                                        onChange={handleChange}
                                         InputProps={{
                                             endAdornment:
                                                 <InputAdornment position="end">
-                                                  hr/day
+                                                    hr/day
                                                 </InputAdornment>,
 
                                         }}
@@ -156,22 +172,24 @@ export default function AddUserModal(props) {
                                 </Grid>
                                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                                     <TextField
+                                        value={project.rate || ''}
                                         label="Rate"
                                         variant="outlined"
                                         inputProps={{ 'aria-label': 'description' }}
                                         className={classes.inputForm}
-                                        name='lastName'
-                                    // onChange={handleChange}
+                                        name='rate'
+                                        onChange={handleChange}
                                     />
                                 </Grid>
                                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                                     <TextField
+                                        value={project.unit || ''}
                                         label="Unit"
                                         variant="outlined"
                                         inputProps={{ 'aria-label': 'description' }}
                                         className={classes.inputForm}
-                                        name='lastName'
-                                    // onChange={handleChange}
+                                        name='unit'
+                                        onChange={handleChange}
                                     />
                                 </Grid>
                             </Grid>
@@ -185,8 +203,9 @@ export default function AddUserModal(props) {
                                     variant="inline"
                                     format="dd/MM/yyyy"
                                     margin="normal"
+                                    value={project.start_date}
                                     label="Start Date"
-                                    // onChange={startDateChange}
+                                    onChange={startDateChange}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
@@ -201,7 +220,8 @@ export default function AddUserModal(props) {
                                     margin="normal"
                                     label="End date"
                                     className={clsx(classes.formControl, classes.inputForm)}
-                                    // onChange={endDateChange}
+                                    onChange={endDateChange}
+                                    value={project.end_date}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}

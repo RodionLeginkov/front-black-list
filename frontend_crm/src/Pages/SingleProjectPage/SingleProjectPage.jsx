@@ -133,7 +133,7 @@ console.log("SKILLS", project.Skills)
           </div>
         </div>
 
-        <UserList users={project.Users} />
+        {/* <UserList users={project.Users} /> */}
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>

@@ -61,11 +61,21 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '0px',
         paddingBottom: '0px',
     },
+    cardHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        fontSize: '20px',
+      },
 }));
 
 export default function AddUserModal(props) {
     const {
-        addUserModalOpen, setAddUserModalOpen, curProject, isEdit,
+        addUserModalOpen,
+        setAddUserModalOpen,
+        curProject,
+        isEdit,
+        milestonesChange
     } = props;
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -92,17 +102,18 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
     };
 
-    
+
     const handleChange = (e) => {
         setProject({ ...project, [e.target.name]: e.target.value });
     };
-    
-    
+
+
     const handleAdd = (e) => {
         e.preventDefault();
-        console.log('PROJECT',project)
-        dispatch(addMilestone(project));
-        setProject(initialValue);
+        console.log('PROJECT', project)
+        if (isEdit) dispatch(addMilestone(project));
+        else milestonesChange(project)
+            setProject(initialValue);
         setAddUserModalOpen(false);
     };
     const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
@@ -135,22 +146,15 @@ export default function AddUserModal(props) {
                                 isEdit />
                             <Grid container spacing={1}>
                                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
-                                    <FormControl
-                                        placeholder='Role'
+                                    <TextField
+                                        value={project.role || ''}
+                                        label="Role"
                                         variant="outlined"
-                                        className={clsx(classes.formControl, classes.inputForm)}
-
-                                    >
-                                        <InputLabel>Role</InputLabel>
-                                        <Select
-                                            value={project.role || ''}
-                                            labelWidth={47}
-                                            name='role'
-                                            onChange={handleChange}
-                                        >
-                                            {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
-                                        </Select>
-                                    </FormControl>
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='role'
+                                        onChange={handleChange}
+                                    />
                                 </Grid>
                                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                                     <TextField

@@ -89,16 +89,15 @@ function CurrentProject(props) {
   if (!project) { return (<Loading />); }
   
 
-console.log("SKILLS", project.Skills)
 
 
-  const projectStack = project.Skills.map((element) => {
-    if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
-    }
-  }
-  );
-  const englishLevel = project.Skills.find((element) => element.name.includes('English'))
+  // const projectStack = project.Skills.map((element) => {
+  //   if (stackList.includes(element.name)) {
+  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+  //   }
+  // }
+  // );stack
+  // const englishLevel = project.Skills.find((element) => element.name.includes('English'))
   return (
     <div style={{ marginLeft: '85px' }}>
 
@@ -121,14 +120,14 @@ console.log("SKILLS", project.Skills)
         <div className={classes.stackAndEnglish}>
           <h2>Stack: </h2>
           <div className={classes.stackIcons}>
-            {projectStack}
+            {/* {projectStack} */}
           </div>
         </div>
         <div className={classes.stackAndEnglish}>
           <h2>English level: </h2>
           <div style={{ margin: '10px' }}>
             <Typography className={classes.english}>
-              {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
+              {/* {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'} */}
             </Typography>
           </div>
         </div>

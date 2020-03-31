@@ -22,12 +22,9 @@ import { compose } from 'redux';
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
-    // console.log('PROJECT', project);
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-    console.log("SFJHASFSADFHSUJFDHAUJS", project)
     const { data } = await addNewProject(project,  { headers: { token: loginToken } });
-    console.log("DATA", data)
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });

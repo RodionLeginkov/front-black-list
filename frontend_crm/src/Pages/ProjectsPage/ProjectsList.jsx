@@ -29,9 +29,9 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-function createData(name, description, owner, id) {
-  console.log(owner)
-  return { name, description, owner, id };
+function createData(name, description, customer, id) {
+  console.log(customer)
+  return { name, description, customer, id };
 }
 
 const useStyles = makeStyles({
@@ -50,7 +50,7 @@ export default function ProjectsList(props) {
   const { projects } = props
   const history = useHistory();
   const dispatch = useDispatch();
-  const rows = projects.map((project) => createData(project.name, project.description, project.owner, project.uuid))
+  const rows = projects.map((project) => createData(project.name, project.description, project.customer, project.uuid))
 
   function handleClick(id) {
     dispatch(findProject(id));
@@ -79,7 +79,7 @@ export default function ProjectsList(props) {
               <StyledTableCell component="th" scope="row">
                 {project.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{project.owner}</StyledTableCell>
+              <StyledTableCell align="right">{project.customer}</StyledTableCell>
               <StyledTableCell align="right">{project.description}</StyledTableCell>
               {/* <StyledTableCell align="right">{project.carbs}</StyledTableCell>
               <StyledTableCell align="right">{project.protein}</StyledTableCell> */}

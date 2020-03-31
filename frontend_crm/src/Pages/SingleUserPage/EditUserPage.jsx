@@ -164,7 +164,7 @@ const EditUserPage = ({ match, isError }) => {
               Users
             </Typography>
             <Typography className={classes.link} onClick={() => history.push(`/user/${userId}`)}>
-              {user.fullName}
+              {user.firstName} {user.lastName}
             </Typography>
             <Typography color="textPrimary">
               Edit
@@ -216,7 +216,7 @@ const EditUserPage = ({ match, isError }) => {
                       value={user.role || ''}
                       onChange={handleChange}
                     >
-                      {userRoles.map((role) => <MenuItem value={role} key={role}>{role}</MenuItem>)}
+                      {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
                     </Select>
                   </FormControl>
                 </Grid>

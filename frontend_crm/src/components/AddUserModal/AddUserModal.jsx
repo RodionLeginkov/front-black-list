@@ -7,7 +7,22 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import DevelopersChooseForm from '../DevelopersChooseForm';
-import { updateProjectDevelopers } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
+import { userRoles, englishLevels, stackList } from '../../constants/constants';
+import FormControl from '@material-ui/core/FormControl';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import { TextField } from '@material-ui/core';
+import NumberFormat from 'react-number-format';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -35,24 +50,48 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '20px',
     },
     modalWidth: {
-        width: '400px',
+        width: '600px',
     },
     header: {
         color: '#777',
     },
+    inputForm: {
+        width: '100%',
+        marginTop: '10px',
+        marginBottom: '0px',
+        paddingBottom: '0px',
+    },
+    cardHeader: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        fontSize: '20px',
+      },
 }));
 
 export default function AddUserModal(props) {
     const {
-        addUserModalOpen, setAddUserModalOpen, curProject, isEdit,
+        addUserModalOpen,
+        setAddUserModalOpen,
+        curProject,
+        isEdit,
+        milestonesChange
     } = props;
     const classes = useStyles();
     const dispatch = useDispatch();
     const handleClose = () => {
         setAddUserModalOpen(false);
     };
-    const initialValue = isEdit ? curProject : {
-        name: '', status: '', price: '', stack: [], description: '', uuid: '', duration: '', developers: [],
+
+    const initialValue = {
+        user_uuid: '',
+        project_uuid: curProject.uuid,
+        role: '',
+        rate: null,
+        unit: '',
+        load: null,
+        start_date: null,
+        end_date: null,
     };
 
     const [project, setProject] = useState(initialValue);
@@ -63,13 +102,24 @@ export default function AddUserModal(props) {
         setAddUserModalOpen(false);
     };
 
+
+    const handleChange = (e) => {
+        setProject({ ...project, [e.target.name]: e.target.value });
+    };
+
+
     const handleAdd = (e) => {
         e.preventDefault();
-        if (isEdit) dispatch(updateProjectDevelopers(project));
-        setProject(initialValue);
+        console.log('PROJECT', project)
+        if (isEdit) dispatch(addMilestone(project));
+        else milestonesChange(project)
+            setProject(initialValue);
         setAddUserModalOpen(false);
-      };
-    const developersChange = (developers) => setProject({ ...project, developers });
+    };
+    const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
+
+    const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
+    const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
 
     return (
         <div className={classes.position}>
@@ -88,12 +138,100 @@ export default function AddUserModal(props) {
                 <Fade in={addUserModalOpen}>
                     <div className={clsx(classes.paper, classes.modalWidth)}>
                         <form className={classes.root} noValidate autoComplete="off" >
-                            <h2 className={classes.header}>Add user</h2>
+                            <h2 className={classes.header}>{project.name}</h2>
                             <DevelopersChooseForm
                                 name='developers'
-                                developersChange={developersChange}
-                                developersValue={project.developers}
+                                userChange={userChange}
+                                developersValue={project.Users}
                                 isEdit />
+                            <Grid container spacing={1}>
+                                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                                    <TextField
+                                        value={project.role || ''}
+                                        label="Role"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='role'
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                                    <TextField
+                                        value={project.load || ''}
+                                        label="Load"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='load'
+                                        onChange={handleChange}
+                                        InputProps={{
+                                            endAdornment:
+                                                <InputAdornment position="end">
+                                                    hr/day
+                                                </InputAdornment>,
+
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                                    <TextField
+                                        value={project.rate || ''}
+                                        label="Rate"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='rate'
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+                                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                                    <TextField
+                                        value={project.unit || ''}
+                                        label="Unit"
+                                        variant="outlined"
+                                        inputProps={{ 'aria-label': 'description' }}
+                                        className={classes.inputForm}
+                                        name='unit'
+                                        onChange={handleChange}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
+                                <KeyboardDatePicker
+                                    className={clsx(classes.formControl, classes.inputForm)}
+                                    style={{ width: '100%' }}
+                                    inputVariant="outlined"
+                                    disableToolbar
+                                    variant="inline"
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    value={project.start_date}
+                                    label="Start Date"
+                                    onChange={startDateChange}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+
+                                <KeyboardDatePicker
+                                    style={{ width: '100%' }}
+                                    inputVariant="outlined"
+                                    disableToolbar
+                                    variant="inline"
+                                    format="dd/MM/yyyy"
+                                    margin="normal"
+                                    label="End date"
+                                    className={clsx(classes.formControl, classes.inputForm)}
+                                    onChange={endDateChange}
+                                    value={project.end_date}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+
+                            </MuiPickersUtilsProvider>
                             <div className={classes.buttons}>
                                 <Button
                                     variant="contained"

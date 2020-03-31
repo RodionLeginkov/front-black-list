@@ -139,16 +139,17 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
 
-console.log(card)
 
-  const projectStack = card.Skills.map((element) => {
-    if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
-    }}
-  );
+  // const projectStack = card.Skills.map((element) => {
+  //   if (stackList.includes(element.name)) {
+  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+  //   }}
+  // );
 
   const startDate = new Date(card.start_date);
   const curDate = new Date();
+
+
 
   return (
     <>
@@ -168,13 +169,13 @@ console.log(card)
           <CardContent>
             <div className={classes.projectInfo}>
               <div className={classes.priceAndDuration}>
-                <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" />
+                {/* <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" /> */}
                 {/* {card.duration ? <CustomBadge text={ difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} /> : ''} */}
                 <CustomBadge text={difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} />
               </div>
               <div>
                 <div style={{ margin: '10px', display: 'flex' }}>
-                  {projectStack}
+                  {/* {projectStack} */}
                 </div>
               </div>
             </div>

@@ -11,20 +11,17 @@ export const stackList = [
 ];
 
 export const userRoles = [
-  { label: 'CEO', value: 'ceo'},
+  { label: 'CEO', value: 'ceo' },
   { label: 'CTO', value: 'cto' },
-  { label: 'Intern', value: 'intern' },
+  { label: 'Sales Manager', value: 'sales_manager' },
+  { label: 'Office Manager', value: 'office_manager' },
+  { label: 'HR Manager', value: 'hr_manager' },
+  { label: 'Team Leader', value: 'team_leader' },
   { label: 'Junior Developer', value: 'junior_developer' },
   { label: 'Middle Developer', value: 'middle_developer' },
   { label: 'Senior Developer', value: 'senior_developer' },
-  { label: 'Head of Sales', value: 'head_of_sales' },
-  { label: 'Junior Sales', value: 'junior_sales' },
-  { label: 'Sales', value: 'sales' },
-  { label: 'Junior HR', value: 'junior_hr' },
-  { label: 'HR', value: 'hr' },
-  { label: 'Head of HR', value: 'head_of_hr' },
+  { label: 'Intern', value: 'intern' },
 ];
-
 export const englishLevels = [
   'No knowledge of English',
   'Elementary',

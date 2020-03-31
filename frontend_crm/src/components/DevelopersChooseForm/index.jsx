@@ -29,21 +29,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DevelopersChooseForm(props) {
   const classes = useStyles();
-  const { developersChange, developersValue, isError } = props;
+  const { userChange, developersValue, isError } = props;
   const handleChange = (event, values) => {
-    developersChange(values);
+    console.log('values', values)
+    userChange(values);
   };
 
   const users = useSelector((state) => state.users.users);
   let filteredUsers = users;
-  for (const index in developersValue){
+  for (const index in developersValue) {
     filteredUsers = filteredUsers.filter((user) => {
-      return(
-      user.fullName !== developersValue[index].fullName)})
+      return (
+        user.lastName !== developersValue[index].lastName)
+    })
   }
   return (
-    <div>
-    <Autocomplete
+    <>
+      <Autocomplete
+        options={filteredUsers}
+        onChange={handleChange}
+        getOptionLabel={(option) => option.lastName + ' ' + option.firstName}
+        renderInput={(params) => <TextField {...params} label="User" variant="outlined" />}
+      />
+      {/* <Autocomplete
       multiple
       className={clsx(classes.formControl, classes.inputForm)}
       id="checkboxes-tags-demo"
@@ -55,7 +63,7 @@ export default function DevelopersChooseForm(props) {
       renderOption={(option, { selected }) => (
         <React.Fragment>
     
-          {option.fullName}
+          {option.firstName} {option.lastName}
         </React.Fragment>
       )}
       style={{ width: '100%' }}
@@ -63,7 +71,7 @@ export default function DevelopersChooseForm(props) {
           <TextField error={developersValue.length === 0 && isError} {...params} variant="outlined" label="Developers" />
 
         )}
-      />
-    </div>
+      /> */}
+    </>
   );
 }

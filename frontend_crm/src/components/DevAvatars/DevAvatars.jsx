@@ -30,20 +30,20 @@ export default function DevAvatars(props) {
     history.push(`/users/${userId}`);
   }
 
-  
-  const devList = users.map((user) =>{
-  const userName = `${user.firstName} ${user.lastName}` ;
-  return(
-    <Tooltip className={classes.avatar} title={userName} key={user.uuid}>
-      <Avatar  onClick={() => handleClick(user.uuid)} alt={user.lastName.toUpperCase()} src={`${user.userImage}`} />
-    </Tooltip>)
-  });
+  console.log(users)  
+  // const devList = users.map((user) =>{
+  // const userName = `${user.firstName} ${user.lastName}` ;
+  // return(
+  //   <Tooltip className={classes.avatar} title={userName} key={user.uuid}>
+  //     <Avatar  onClick={() => handleClick(user.uuid)} alt={user.lastName.toUpperCase()} src={`${user.userImage}`} />
+  //   </Tooltip>)
+  // });
 
   return (
     <>
       <AvatarGroup key={Math.random()} className={classes.avatarGroup}>
-        {devList}
-        <Tooltip  className={classes.avatar} title="Add developer to the project">
+        {/* {devList} */}
+        <Tooltip  className={classes.avatar} title="Set user">
           <Avatar onClick={() => setAddUserModalOpen(true)} style={{backgroundColor: '#32418c',}}>+</Avatar>
         </Tooltip>
       </AvatarGroup>

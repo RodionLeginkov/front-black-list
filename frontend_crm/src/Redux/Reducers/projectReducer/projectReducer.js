@@ -49,6 +49,7 @@ const projectReducer = produce((draft, action) => {
       return draft;
 
     case ADD_PROJECT:
+      draft.currentProject = action.payload
       draft.projects = [...draft.projects, action.payload];
       draft.filteredProjects = [...draft.projects, action.payload];
       draft.addingProject = false;

@@ -22,12 +22,14 @@ import Loading from '../../components/Loading';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
+import Divider from '@material-ui/core/Divider';
 import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import AddResourcesForm from '../../components/AddResourcesForm/AddResourcesForm.jsx';
+import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
+import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -111,8 +113,8 @@ function AddProjectPage(props) {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
-  
-  
+
+
   const initialValue = (projectId && curProject) ? curProject : {
     // status: '',
     // stack: [],
@@ -125,39 +127,40 @@ function AddProjectPage(props) {
     end_date: null,
     type: '',
     withdrawal_of_funds: '',
-    owner: '',
+    customer: '',
     // messenger: [],
     // paymentType: '',
     // paymentAmount: '',
     // load: '',
     description: '',
-    // resources: [],
+    // resources: []
     history: '',
-    Skills: []
+    Skills: [],
+    Projects_Milestones: [],
     // projectImage: '',
     // developers: [],
-    
+
   };
-  
-  
+
+
   const reqFields = ['name', 'communication', 'startDate',
-  'type', 'source', 'withdrawal_of_funds',
-  'paymentType', 'paymentAmount', 'load', 'resources'];
+    'type', 'source', 'withdrawal_of_funds',
+    'paymentType', 'paymentAmount', 'load', 'resources'];
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
   }, [loading]);
-  
-//   console.log('INITIAL', curProject)
-// console.log("CHANGED", project)
+
+  //   console.log('INITIAL', curProject)
+  // console.log("CHANGED", project)
 
   useEffect(() => {
     if (projectId && !curProject) {
       dispatch(getProjects());
       dispatch(getProject(projectId));
-      dispatch(getUsers());
     }
+    dispatch(getUsers());
   }, [dispatch]);
 
   // useEffect(() => {
@@ -168,7 +171,6 @@ function AddProjectPage(props) {
   //   return <Loading />;
   //   // (<h1 style={{marginTop: '200px'}}>LOADIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIING!</h1>)
   // }
-
 
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
@@ -182,7 +184,7 @@ function AddProjectPage(props) {
   // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
   const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
-  const resChange = (newRes) => setProject({ ...project, resources: [...project.resources, newRes] });
+  const milestonesChange = (newMilestone) => setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
 
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
 
@@ -200,6 +202,20 @@ function AddProjectPage(props) {
       history.push(`/projects/${project.uuid}`);
     } else {
       dispatch(addProject(project));
+      // const proj = useSelector((state) => state.projects.currentProject)
+
+
+      // console.log('DATAPROJECT', proj)
+      // for (index in projects.Projects_Milestones){
+      //   setProject({...project, Projects_Milestones[index].project_uuid})
+      // }
+
+      // project.Projects_Milestones.map((item) => {
+      //   setProject({})
+
+      
+        // dispatch(addMilestone(item))
+      // })
       history.push('/projects');
     }
     // } else setIsError(true);
@@ -347,8 +363,8 @@ function AddProjectPage(props) {
                 name='communication'
                 onChange={handleChange}
               /> */}
-              <Grid style={{ marginBotton: '5px ' }} container justify="space-between">
-                {/* <Grid item xs={6}>
+              {/* <Grid style={{ marginBotton: '5px ' }} container justify="space-between"> */}
+              {/* <Grid item xs={6}>
                   <FormControl
                     style={{ width: '100%', paddingRight: 5 }}
                     placeholder='Duration'
@@ -373,7 +389,7 @@ function AddProjectPage(props) {
                     </Select>
                   </FormControl>
                 </Grid> */}
-                <Grid item xs={4} >
+              {/* <Grid item xs={4} >
                   <FormControl
                     style={{ width: '100%', paddingRight: 5 }}
                     placeholder='Format of communication'
@@ -397,9 +413,9 @@ function AddProjectPage(props) {
                       <MenuItem value="Video calls">Video calls</MenuItem>
                     </Select>
                   </FormControl>
-                </Grid>
-                {/* </Grid> */}
-                {/* <MessengerForm
+                </Grid> */}
+              {/* </Grid> */}
+              {/* <MessengerForm
                 name='messenger'
                 messengerChange={messengerChange}
                 messengerValue={project.messenger}
@@ -416,8 +432,8 @@ function AddProjectPage(props) {
                   projectId
                 />
               ) : ' '} */}
-                {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
-                <Grid item xs={4}>
+              {/* <Grid style={{ margin: '5px 0px 10px' }} container justify="space-between"> */}
+              {/* <Grid item xs={4}>
                   <TextField
                     style={{ width: '100%', paddingRight: 5 }}
                     value={project.type}
@@ -426,14 +442,14 @@ function AddProjectPage(props) {
                     label="Type"
                     error={!project.type && isError}
                     required
-                    // helpertext={(!project.status && isError) ? "Empty field." : ''}
+                    helpertext={(!project.status && isError) ? "Empty field." : ''}
                     multiline
                     rowsMax="5"
                     name='type'
                     onChange={handleChange}
                   />
-                </Grid>
-                <Grid item xs={4}>
+                </Grid> */}
+              {/* <Grid item xs={4}>
 
                   <FormControl
                     placeholder='Source'
@@ -461,10 +477,10 @@ function AddProjectPage(props) {
                     </Select>
                   </FormControl>
                 </Grid>
-              </Grid>
+              </Grid> */}
 
-              <Grid style={{ margin: '10px 0px' }} container justify="space-between">
-                <Grid item xs={6}>
+              <Grid style={{ margin: '0px 0px 10px' }} container justify="space-between">
+                {/* <Grid item xs={6}>
                   <FormControl
                     placeholder='Withdrawal of funds'
                     variant="outlined"
@@ -489,19 +505,19 @@ function AddProjectPage(props) {
                       <MenuItem value="pending">Payoneer</MenuItem>
                     </Select>
                   </FormControl>
-                </Grid>
-                <Grid item xs={6}>
+                </Grid> */}
+                <Grid item xs={12}>
                   <TextField
-                    // error={!project.owner && isError}
+                    // error={!project.customer && isError}
                     // helpertext={(!project.status && isError) ? "Empty field." : ''}
                     style={{ width: '100%' }}
-                    value={project.owner}
+                    value={project.customer}
                     variant="outlined"
                     id="standard-multiline-flexible"
-                    label="Owner"
+                    label="Customer"
                     multiline
                     rowsMax="5"
-                    name='owner'
+                    name='customer'
                     onChange={handleChange}
                   />
                 </Grid>
@@ -542,11 +558,7 @@ function AddProjectPage(props) {
                     rowsMax="5"
                     name='group'
                     onChange={handleChange}
-                  />
-                </Grid> */}
-              {/* </Grid> */}
-
-
+                  />label
 
               {/* Return  this later*/}
               {/* <Grid item xs={12}>
@@ -580,8 +592,7 @@ function AddProjectPage(props) {
                 name='description'
                 onChange={handleChange}
               />
-              <TextField
-
+              {/* <TextField
                 value={project.history}
                 variant="outlined"
                 id="standard-multiline-flexible"
@@ -591,14 +602,14 @@ function AddProjectPage(props) {
                 className={classes.descriptionForm}
                 name='history'
                 onChange={handleChange}
-              />
-              <div>
+              /> */}
+              {/* <div>
                 <MuiPickersUtilsProvider utils={DateFnsUtils} style={{ marginTop: '-6px' }}>
                   <Grid container>
                     <Grid item xs={6}>
                       <KeyboardDatePicker
                         style={{ width: '100%', marginTop: '10px' }}
-                        // name="startDate"
+                        name="startDate"
                         inputVariant="outlined"
                         disableToolbar
                         variant="inline"
@@ -614,13 +625,13 @@ function AddProjectPage(props) {
                         }}
                       />
                     </Grid>
-                    {/* {projectId ? ( */}
+                    {projectId ? (
                     <Grid item xs={6} style={{ paddingLeft: '10px' }}>
                       <KeyboardDatePicker
                         style={{ width: '100%', marginTop: '10px' }}
                         inputVariant="outlined"
                         disableToolbar
-                        // name="endDate"
+                        name="endDate"
                         variant="inline"
                         format="MM/dd/yyyy"
                         margin="normal"
@@ -633,11 +644,13 @@ function AddProjectPage(props) {
                         }}
                       />
                     </Grid>
-                    {/* ) : ''} */}
+                    ) : ''}
                   </Grid>
-                  {/* <AddResourcesForm project={project} resChange={resChange} isError={isError} /> */}
                 </MuiPickersUtilsProvider>
-              </div>
+              </div> */}
+              <Divider />
+              <AddMilestonesForm project={project} milestonesChange={milestonesChange} isError={isError} />
+              <Divider />
               <div className={classes.button}>
                 <Button
                   variant="contained"

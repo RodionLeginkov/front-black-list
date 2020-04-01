@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 async function postData(url, data) {
-    const response = await axios.post(url, data)
-    return response;
+  const response = await axios.post(url, data);
+  return response;
 }
+
 
 async function deleteData(url, data) {
     const response = await axios.delete(url)

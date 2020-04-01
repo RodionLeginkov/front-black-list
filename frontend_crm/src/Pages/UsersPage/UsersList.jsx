@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { userRoles } from '../../constants/constants'
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -29,8 +30,9 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-function createData(fName, lName, seniority, role, id) {
-  return { fName, lName, seniority, role, id };
+function createData(fName, lName, milestons, seniority, role, id) {
+
+  return { fName, lName, milestons, seniority, role, id };
 }
 
 const useStyles = makeStyles({
@@ -71,12 +73,20 @@ export default function UsersList(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const projects = useSelector((state) => state.projects.filteredProjects)
   const rows = users.map((user) => {
+    console.log(user)
     const startDate = new Date(user.hiredAt),
       curDate = new Date(),
       role = userRoles.find((item) => item.value === user.role).label;
-    return createData(user.firstName, user.lastName,
-      difDates(startDate, curDate), role, user.uuid)
+    return createData(
+      user.firstName,
+      user.lastName,
+      user.Users_Milestones,
+      difDates(startDate, curDate),
+      role,
+      user.uuid
+    )
   })
 
   function handleClick(id) {
@@ -84,17 +94,18 @@ export default function UsersList(props) {
     history.push(`/user/${id}`);
   }
 
+
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead color='primary'>
           <TableRow>
             <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell align="right">Seniority</StyledTableCell>
             <StyledTableCell align="right">Role</StyledTableCell>
-            {/* <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell> */}
-            {/* <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
-            {/* <StyledTableCell align="right">Action</StyledTableCell> */}
+            <StyledTableCell align="right">Current project</StyledTableCell>
+            <StyledTableCell align="right">Current rate</StyledTableCell>
+            <StyledTableCell align="right">Role in the project</StyledTableCell>
+            <StyledTableCell align="right">Seniority</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -106,10 +117,14 @@ export default function UsersList(props) {
               <StyledTableCell component="th" scope="row">
                 {user.fName} {user.lName}
               </StyledTableCell>
-              <StyledTableCell align="right">{user.seniority}</StyledTableCell>
               <StyledTableCell align="right">{user.role}</StyledTableCell>
-              {/* <StyledTableCell align="right">{user.carbs}</StyledTableCell> */}
-              {/* <StyledTableCell align="right">{user.protein}</StyledTableCell> */}
+              <StyledTableCell align="right">{user.milestons.map((item) => <p>{projects.map((project) => {
+                if (project.uuid === item.project_uuid) return project.name
+              })}</p>)}
+              </StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.rate}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.role}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.seniority}</StyledTableCell>
               {/* <StyledTableCell align="right">
                 <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
                   <DeleteOutlineIcon />

@@ -26,6 +26,7 @@ console.log("POST PROJECT", project)
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
     const { data } = await addNewProject(project,  { headers: { token: loginToken } });
+    console.log('DATA', data)
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });
@@ -40,7 +41,6 @@ export const getProjects = () => async (dispatch) => {
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
     const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}/projects`, { headers: { token: loginToken } });
-    // console.log(data)
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     // console.log("ERROR")

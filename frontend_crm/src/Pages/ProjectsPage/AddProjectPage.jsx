@@ -143,8 +143,6 @@ function AddProjectPage(props) {
   };
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : []
 
-  console.log('CURPROJECT', curProject)
-  console.log('initialMilestones', initialMilestones)
 
   const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawal_of_funds',
@@ -167,8 +165,6 @@ function AddProjectPage(props) {
   }, [dispatch]);
 
 
-  console.log('projectMilestones', projectMilestones)
-
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
@@ -182,7 +178,7 @@ function AddProjectPage(props) {
   const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const milestonesChange = (newMilestone) => {
-    setProject({ ...project, Projects_Milestones: newMilestone });
+    setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
     setProjectMilestones([...projectMilestones, newMilestone])
   };
 
@@ -197,6 +193,7 @@ function AddProjectPage(props) {
     e.preventDefault();
     // const isEmpty = reqFields.find((field) => (!project[field]));
     // if (isEmpty === undefined) {
+      console.log(project)
     delete project.Skills;
     if (projectId) {
       delete project.Projects_Milestones;
@@ -206,9 +203,6 @@ function AddProjectPage(props) {
           dispatch(addMilestone(projectMilestones[index]))
         }
       }
-
-
-
       history.push(`/projects/${project.uuid}`);
     } else {
       dispatch(addProject(project));
@@ -659,7 +653,7 @@ function AddProjectPage(props) {
                 </MuiPickersUtilsProvider>
               </div> */}
               <Divider />
-              <AddMilestonesForm project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError} />
+              <AddMilestonesForm project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError}  setProjectMilestones={setProjectMilestones} isEdit />
               <Divider />
               <div className={classes.button}>
                 <Button

@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 function AddMilestonesForm(props) {
 
     const classes = useStyles();
-    const {project, projectMilestones, milestonesChange, isError } = props;
+    const { project, projectMilestones, milestonesChange, isError, isEdit, setProjectMilestones } = props;
     const [addUserModalOpen, setAddUserModalOpen] = useState(false)
     const [newResValue, setNewResValue] = useState()
 
@@ -120,7 +120,6 @@ function AddMilestonesForm(props) {
     const open = Boolean(anchorEl);
 
     const handleOptions = (event) => {
-        console.log(event.currentTarget)
         setAnchorEl(event.currentTarget);
     };
 
@@ -138,7 +137,8 @@ function AddMilestonesForm(props) {
         setAddUserModalOpen(true)
     }
     const ITEM_HEIGHT = 48;
-
+    
+    console.log('users', users)
     const milestones = projectMilestones.map((milestone) => {
         const user = users.find((elem) => elem.uuid === milestone.user_uuid),
             userName = `${user.firstName} ${user.lastName}`,
@@ -157,7 +157,7 @@ function AddMilestonesForm(props) {
                         <Typography style={{ marginLeft: '7px' }}>
                             <b>{userName}</b>
                         </Typography>
-                        <MenuBotton />
+                        {isEdit ? <MenuBotton milestones={projectMilestones} singleMilestone={milestone} setProjectMilestones={setProjectMilestones} /> : ''}
                     </div>
                     <CustomBage
                         text={milestone.role}
@@ -209,20 +209,22 @@ function AddMilestonesForm(props) {
 
             </Grid> */}
                 {milestones}
-                <Grid item xs={1}>
-                    <Tooltip title="Set user">
-                        <IconButton aria-label="delete" onClick={handleClick}>
-                            <AddCircleOutlineSharpIcon style={{ fontSize: '30px' }} />
-                        </IconButton>
-                    </Tooltip>
-                </Grid>
+                {isEdit ?
+                    <Grid item xs={1}>
+                        <Tooltip title="Set user">
+                            <IconButton aria-label="delete" onClick={handleClick}>
+                                <AddCircleOutlineSharpIcon style={{ fontSize: '30px' }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid> : ''}
             </Grid>
-            <AddUserModal
+            {isEdit ? <AddUserModal
                 projectMilestones={projectMilestones}
                 addUserModalOpen={addUserModalOpen}
                 setAddUserModalOpen={setAddUserModalOpen}
                 curProject={project}
                 milestonesChange={milestonesChange} />
+                : ''}
         </>
     )
 }

@@ -89,7 +89,8 @@ const EditUserPage = ({ match, isError }) => {
     role: '',
     englishLevel: '',
     email: '',
-    phoneNumber: '',
+    phone1: '',
+    phone2: '',
     skype: '',
     github: '',
     stack: [],
@@ -99,7 +100,8 @@ const EditUserPage = ({ match, isError }) => {
     firstName: '',
     lastName: '',
     phone1: '',
-    hiredAt: '',
+    firedAt: null,
+    hiredAt: null,
     Skills: [],
   };
 
@@ -119,6 +121,9 @@ const EditUserPage = ({ match, isError }) => {
     return (<Loading />);
   }
 
+
+console.log(user)
+
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -133,7 +138,7 @@ const EditUserPage = ({ match, isError }) => {
 
   const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
 
-  const endDateChange = (dataofLeave) => setUser({ ...user, dataofLeave });
+  const endDateChange = (firedAt) => setUser({ ...user, firedAt });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -259,7 +264,7 @@ const EditUserPage = ({ match, isError }) => {
                     value={user.phone1 || ''}
                     variant="outlined"
                     label="Phone Number №1"
-                    name='phoneNumber'
+                    name='phone1'
                     onChange={handleChange}
                   />
                 </Grid>
@@ -270,7 +275,7 @@ const EditUserPage = ({ match, isError }) => {
                     value={user.phone2 || ''}
                     variant="outlined"
                     label="Phone Number №2"
-                    name='phoneNumber'
+                    name='phone2'
                     onChange={handleChange}
                   />
                 </Grid>
@@ -340,7 +345,7 @@ const EditUserPage = ({ match, isError }) => {
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of Leave"
-                      value={user.dataofLeave ? user.dataofLeave : '01/01/2100'}
+                      value={user.firedAt || '' }
                       onChange={endDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUserModal(props) {
     const {
+        projectMilestones,
         addUserModalOpen,
         setAddUserModalOpen,
         curProject,
@@ -110,7 +111,6 @@ export default function AddUserModal(props) {
 
     const handleAdd = (e) => {
         e.preventDefault();
-        console.log('PROJECT', project)
         if (isEdit) dispatch(addMilestone(project));
         else milestonesChange(project)
             setProject(initialValue);

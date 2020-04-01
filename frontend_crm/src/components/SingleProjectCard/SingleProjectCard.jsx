@@ -150,7 +150,7 @@ export default function RecipeReviewCard(props) {
   const curDate = new Date();
 
 
-
+console.log("CARD",card)
   return (
     <>
       <Card className={classes.root}>
@@ -188,7 +188,7 @@ export default function RecipeReviewCard(props) {
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
             <DeleteOutlineIcon />
           </Button>
-          <DevAvatars users={card.Users} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
+          <DevAvatars milestones={card.Projects_Milestones} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
 
         </div>
       </Card>

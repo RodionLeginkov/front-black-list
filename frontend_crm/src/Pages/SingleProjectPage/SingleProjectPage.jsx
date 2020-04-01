@@ -18,6 +18,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
+import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import { stackList } from '../../constants/constants'
@@ -47,8 +48,8 @@ const useStyles = makeStyles(() => ({
   },
   stackAndEnglish: {
     margin: '0px 20px',
-    display: 'flex',
-    alignItems: 'center',
+    // display: 'flex',
+    // alignItems: 'center',
   },
   description: {
     margin: '4px 13px',
@@ -78,18 +79,19 @@ function CurrentProject(props) {
 
   const { projectId } = props.match.params;
   const dispatch = useDispatch();
+ 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
+    dispatch(getProjects());
+    dispatch(getProject(projectId));
     if (!project) {
-      // dispatch(getUsers());
-      // dispatch(getProjects());
-      dispatch(getProject(projectId));
     }
+    dispatch(getUsers());
   }, [dispatch, projectId, project]);
   if (!project) { return (<Loading />); }
   
 
-
+console.log(project)
 
   // const projectStack = project.Skills.map((element) => {
   //   if (stackList.includes(element.name)) {
@@ -124,12 +126,13 @@ function CurrentProject(props) {
           </div>
         </div>
         <div className={classes.stackAndEnglish}>
-          <h2>English level: </h2>
-          <div style={{ margin: '10px' }}>
-            <Typography className={classes.english}>
-              {/* {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'} */}
-            </Typography>
-          </div>
+          <h2>Milestones: </h2>
+          
+            {/* <Typography className={classes.english}>
+              {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
+            </Typography> */}
+            <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
+          
         </div>
 
         {/* <UserList users={project.Users} /> */}

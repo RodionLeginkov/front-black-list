@@ -21,9 +21,13 @@ import {
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
+console.log("POST PROJECT", project)
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-    const { data } = await addNewProject(project, { headers: { token: loginToken } });
+
+    const { data } = await addNewProject(project,  { headers: { token: loginToken } });
+    console.log('DATA', data)
+
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });
@@ -37,8 +41,9 @@ export const getProjects = () => async (dispatch) => {
     // console.log("DADADADADAD")
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}projects`, { headers: { token: loginToken } });
-    // console.log(data)
+
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}/projects`, { headers: { token: loginToken } });
+
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     // console.log("ERROR")
@@ -72,7 +77,7 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
-    console.log('project', project);
+
     const loginToken = localStorage.getItem('token');
     // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });

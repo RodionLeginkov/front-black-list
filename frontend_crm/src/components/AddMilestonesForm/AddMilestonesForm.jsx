@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 function AddMilestonesForm(props) {
 
     const classes = useStyles();
-    const { project, milestonesChange, isError } = props;
+    const { setProject, project, projectMilestones, milestonesChange, isError, isEdit, setProjectMilestones } = props;
     const [addUserModalOpen, setAddUserModalOpen] = useState(false)
     const [newResValue, setNewResValue] = useState()
 
@@ -120,7 +120,6 @@ function AddMilestonesForm(props) {
     const open = Boolean(anchorEl);
 
     const handleOptions = (event) => {
-        console.log(event.currentTarget)
         setAnchorEl(event.currentTarget);
     };
 
@@ -139,7 +138,7 @@ function AddMilestonesForm(props) {
     }
     const ITEM_HEIGHT = 48;
 
-    const milestones = project.Projects_Milestones.map((milestone) => {
+    const milestones = projectMilestones.map((milestone) => {
         const user = users.find((elem) => elem.uuid === milestone.user_uuid),
             userName = `${user.firstName} ${user.lastName}`,
             role = userRoles.find((item) => item.value === user.role).label,
@@ -154,10 +153,15 @@ function AddMilestonesForm(props) {
                 <Card className={classes.root}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         {/* <Avatar > user.lastName[0] </Avatar> */}
-                        <Typography style={{marginLeft: '7px'}}>
+                        <Typography style={{ marginLeft: '7px' }}>
                             <b>{userName}</b>
                         </Typography>
-                        <MenuBotton />
+                        {isEdit ? <MenuBotton
+                            project={project}
+                            setProject={setProject}
+                            milestones={projectMilestones}
+                            singleMilestone={milestone}
+                            setProjectMilestones={setProjectMilestones} /> : ''}
                     </div>
                     <CustomBage
                         text={milestone.role}
@@ -209,19 +213,22 @@ function AddMilestonesForm(props) {
 
             </Grid> */}
                 {milestones}
-                <Grid item xs={1}>
-                    <Tooltip title="Set user">
-                        <IconButton aria-label="delete" onClick={handleClick}>
-                            <AddCircleOutlineSharpIcon style={{ fontSize: '30px' }} />
-                        </IconButton>
-                    </Tooltip>
-                </Grid>
+                {isEdit ?
+                    <Grid item xs={1}>
+                        <Tooltip title="Set user">
+                            <IconButton aria-label="delete" onClick={handleClick}>
+                                <AddCircleOutlineSharpIcon style={{ fontSize: '30px' }} />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid> : ''}
             </Grid>
-            <AddUserModal
+            {isEdit ? <AddUserModal
+                projectMilestones={projectMilestones}
                 addUserModalOpen={addUserModalOpen}
                 setAddUserModalOpen={setAddUserModalOpen}
-                curProject={{ ...project }}
+                curProject={project}
                 milestonesChange={milestonesChange} />
+                : ''}
         </>
     )
 }

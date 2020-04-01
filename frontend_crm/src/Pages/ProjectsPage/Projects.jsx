@@ -14,6 +14,7 @@ import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import ProjectsList from './ProjectsList'
+import { compose } from 'redux';
 
 const useStyles = makeStyles({
   button: {
@@ -54,6 +55,9 @@ export default function StickyHeadTable() {
     dispatch(getProjects());
     dispatch(getUsers());
   }, [dispatch]);
+
+  const users = useSelector((state)=> state.users.users)
+  console.log('users', users)
 
   // let projectWidgetView = undefined;
   

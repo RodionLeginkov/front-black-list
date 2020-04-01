@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { patchProject, loadProject } from './ProjectsApi';
+import { compose } from 'redux';
+import { patchProject, loadProject, addNewProject } from './ProjectsApi';
 import {
 
   ADD_PROJECT, ADD_PROJECT_BEGIN, ADD_RPOJECT_ERROR, DELETE_PROJECT,
@@ -11,22 +12,20 @@ import {
   LOAD_PROJECT_ERROR, FILTER_PROJECT_NAME,
   LOAD_CURRENT_PROJECT, LOAD_CURRENT_PROJECT_SUCCESS, FILTER_PROJECT_STACK,
   FILTER_PROJECT_STATUS, FILTER_PROJECT_DURATION,
-  FILTER_PROJECT_PAYMENT_TYPE ,
+  FILTER_PROJECT_PAYMENT_TYPE,
   FILTER_PROJECT_MESSENGER,
-  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN
+  FILTER_PROJECT_FORMAT_OF_COMUNICATUIN,
 } from '../../ActionTypes/projectsTypes/projectsTypes';
 
-import { addNewProject } from './ProjectsApi';
-import { compose } from 'redux';
 
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
-console.log("POST PROJECT", project)
+    console.log('POST PROJECT', project);
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-    const { data } = await addNewProject(project,  { headers: { token: loginToken } });
-    console.log('DATA', data)
+    const { data } = await addNewProject(project, { headers: { token: loginToken } });
+    console.log('DATA', data);
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });
@@ -65,7 +64,7 @@ export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     await axios.delete(`${process.env.REACT_APP_BASE_API}/project/${id}`, { headers: { token: loginToken } });
-    console.log('asdasdasdad')
+    console.log('asdasdasdad');
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {
     dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
@@ -74,11 +73,11 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
-    console.log('PROJECT', project)
+    console.log('PROJECT', project);
     const loginToken = localStorage.getItem('token');
     // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });
-    console.log("DATA", data)
+    console.log('DATA', data);
     dispatch({ type: EDIT_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
@@ -98,32 +97,32 @@ export const updateProjectDevelopers = (project) => async (dispatch) => {
 export const filteredProjectName = (name) => ({ type: FILTER_PROJECT_NAME, payload: name });
 
 export const filteredProjectStack = (selectedFilters) => {
-  if (!selectedFilters.length) return { type: FILTER_PROJECT_STACK, payload: ['all'] }
-  return { type: FILTER_PROJECT_STACK, payload: selectedFilters }
-}
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_STACK, payload: ['all'] };
+  return { type: FILTER_PROJECT_STACK, payload: selectedFilters };
+};
 
 export const filteredProjectStatus = (selectedFilters) => {
-  if (!selectedFilters.length) return { type: FILTER_PROJECT_STATUS, payload: ['all'] }
-  return { type: FILTER_PROJECT_STATUS, payload: selectedFilters }
-}
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_STATUS, payload: ['all'] };
+  return { type: FILTER_PROJECT_STATUS, payload: selectedFilters };
+};
 
 export const filteredProjectDuration = (selectedFilters) => {
-  if (!selectedFilters.length) return { type: FILTER_PROJECT_DURATION, payload: ['all'] }
-  return { type: FILTER_PROJECT_DURATION, payload: selectedFilters }
-}
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_DURATION, payload: ['all'] };
+  return { type: FILTER_PROJECT_DURATION, payload: selectedFilters };
+};
 
-export const filteredProjectPaymentType = (selectedFilters) => { 
-  if(!selectedFilters.length) return {type: FILTER_PROJECT_PAYMENT_TYPE , payload: ['all']}
-  return {type: FILTER_PROJECT_PAYMENT_TYPE, payload: selectedFilters}
-}
+export const filteredProjectPaymentType = (selectedFilters) => {
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_PAYMENT_TYPE, payload: ['all'] };
+  return { type: FILTER_PROJECT_PAYMENT_TYPE, payload: selectedFilters };
+};
 
 export const filteredProjectMessenger = (selectedFilters) => {
-  if(!selectedFilters.length) return {type: FILTER_PROJECT_MESSENGER , payload: ['all']}
-  return {type: FILTER_PROJECT_MESSENGER, payload: selectedFilters}
-}
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_MESSENGER, payload: ['all'] };
+  return { type: FILTER_PROJECT_MESSENGER, payload: selectedFilters };
+};
 
 export const filteredProjectCommunication = (selectedFilters) => {
-  console.log(selectedFilters)
-  if(!selectedFilters.length) return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: ['all']}
-  return {type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: selectedFilters}
-}
+  console.log(selectedFilters);
+  if (!selectedFilters.length) return { type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: ['all'] };
+  return { type: FILTER_PROJECT_FORMAT_OF_COMUNICATUIN, payload: selectedFilters };
+};

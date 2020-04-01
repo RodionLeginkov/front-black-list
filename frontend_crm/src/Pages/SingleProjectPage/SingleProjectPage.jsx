@@ -79,10 +79,11 @@ function CurrentProject(props) {
 
   const { projectId } = props.match.params;
   const dispatch = useDispatch();
+ 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
     if (!project) {
-      // dispatch(getProjects());
+      dispatch(getProjects());
       dispatch(getProject(projectId));
     }
     dispatch(getUsers());

@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 function AddMilestonesForm(props) {
 
     const classes = useStyles();
-    const { project, projectMilestones, milestonesChange, isError, isEdit, setProjectMilestones } = props;
+    const { setProject, project, projectMilestones, milestonesChange, isError, isEdit, setProjectMilestones } = props;
     const [addUserModalOpen, setAddUserModalOpen] = useState(false)
     const [newResValue, setNewResValue] = useState()
 
@@ -137,8 +137,7 @@ function AddMilestonesForm(props) {
         setAddUserModalOpen(true)
     }
     const ITEM_HEIGHT = 48;
-    
-    console.log('users', users)
+
     const milestones = projectMilestones.map((milestone) => {
         const user = users.find((elem) => elem.uuid === milestone.user_uuid),
             userName = `${user.firstName} ${user.lastName}`,
@@ -157,7 +156,12 @@ function AddMilestonesForm(props) {
                         <Typography style={{ marginLeft: '7px' }}>
                             <b>{userName}</b>
                         </Typography>
-                        {isEdit ? <MenuBotton milestones={projectMilestones} singleMilestone={milestone} setProjectMilestones={setProjectMilestones} /> : ''}
+                        {isEdit ? <MenuBotton
+                            project={project}
+                            setProject={setProject}
+                            milestones={projectMilestones}
+                            singleMilestone={milestone}
+                            setProjectMilestones={setProjectMilestones} /> : ''}
                     </div>
                     <CustomBage
                         text={milestone.role}

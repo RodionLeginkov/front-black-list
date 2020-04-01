@@ -23,26 +23,26 @@ export default function DevAvatars(props) {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { users, setAddUserModalOpen } = props;
+  const { milestones, setAddUserModalOpen } = props;
   
   function handleClick(userId) {
     dispatch(findUser(userId));
-    history.push(`/users/${userId}`);
+    history.push(`/user/${userId}`);
   }
 
-  console.log(users)  
-  // const devList = users.map((user) =>{
+  console.log(milestones)  
+  const devList = milestones.map((user) =>{
   // const userName = `${user.firstName} ${user.lastName}` ;
-  // return(
-  //   <Tooltip className={classes.avatar} title={userName} key={user.uuid}>
-  //     <Avatar  onClick={() => handleClick(user.uuid)} alt={user.lastName.toUpperCase()} src={`${user.userImage}`} />
-  //   </Tooltip>)
-  // });
+  return(
+    <Tooltip className={classes.avatar} title={user.user_uuid} key={user.user_uuid}>
+      <Avatar  onClick={() => handleClick(user.user_uuid)} alt={user.user_uuid} src={`${user.userImage}`} />
+    </Tooltip>)
+  });
 
   return (
     <>
       <AvatarGroup key={Math.random()} className={classes.avatarGroup}>
-        {/* {devList} */}
+        {devList}
         <Tooltip  className={classes.avatar} title="Set user">
           <Avatar onClick={() => setAddUserModalOpen(true)} style={{backgroundColor: '#32418c',}}>+</Avatar>
         </Tooltip>

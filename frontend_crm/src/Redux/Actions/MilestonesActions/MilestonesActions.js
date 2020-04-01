@@ -14,7 +14,7 @@ export const addMilestone = (milestone) => async (dispatch) => {
     try {
         dispatch({ type: POST_MILESTONE })
         const { data } = await postMilestone(milestone)
-        console.log('DATA', data)
+        console.log('DATA_MILESTONE', data)
         dispatch({ type: POST_MILESTONE_SUCCESS, payload: data })
     }
     catch (error) {
@@ -27,6 +27,7 @@ export const deleteMilestone = (id) => async (dispatch) => {
         console.log(id)
         dispatch({ type: DELETE_MILESTONE })
         await deleteMilestones(id)
+        console.log('HELLO WORLD')
         dispatch({ type: DELETE_MILESTONE_SUCCESS, payload: id })
     }
     catch (error) {

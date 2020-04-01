@@ -155,7 +155,6 @@ function AddProjectPage(props) {
     setProjectMilestones(initialMilestones)
   }, [loading]);
 
-
   useEffect(() => {
     if (projectId && !curProject) {
       dispatch(getProjects());
@@ -178,8 +177,8 @@ function AddProjectPage(props) {
   const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const milestonesChange = (newMilestone) => {
-    setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
     setProjectMilestones([...projectMilestones, newMilestone])
+    setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
   };
 
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
@@ -188,38 +187,27 @@ function AddProjectPage(props) {
   //   setProject({ ...project, Skills: values });
   // });
 
+  console.log('TEST PRoject', project)
+  console.log('TEST projectMilestones', projectMilestones)
+
 
   const onSubmit = (e) => {
     e.preventDefault();
     // const isEmpty = reqFields.find((field) => (!project[field]));
     // if (isEmpty === undefined) {
       console.log(project)
-    delete project.Skills;
+      console.log('Skills' in project); // true
     if (projectId) {
-      delete project.Projects_Milestones;
-      dispatch(updateProject(project));
+      // delete project.Projects_Milestones;
       for (let index in projectMilestones) {
         if (Number(index) + 1 > curProject.Projects_Milestones.length) {
           dispatch(addMilestone(projectMilestones[index]))
         }
       }
+      dispatch(updateProject(project));
       history.push(`/projects/${project.uuid}`);
     } else {
       dispatch(addProject(project));
-      // const proj = useSelector((state) => state.projects.currentProject)
-
-
-      // console.log('DATAPROJECT', proj)
-      // for (index in projects.Projects_Milestones){
-      //   setProject({...project, Projects_Milestones[index].project_uuid})
-      // }
-
-      // project.Projects_Milestones.map((item) => {
-      //   setProject({})
-
-
-      // dispatch(addMilestone(item))
-      // })
       history.push('/projects');
     }
     // } else setIsError(true);
@@ -653,7 +641,7 @@ function AddProjectPage(props) {
                 </MuiPickersUtilsProvider>
               </div> */}
               <Divider />
-              <AddMilestonesForm project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError}  setProjectMilestones={setProjectMilestones} isEdit />
+              <AddMilestonesForm setProject={setProject} project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError}  setProjectMilestones={setProjectMilestones} isEdit />
               <Divider />
               <div className={classes.button}>
                 <Button

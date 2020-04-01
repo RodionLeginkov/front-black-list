@@ -11,7 +11,7 @@ import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/Milestone
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
-  const {milestones, singleMilestone, setProjectMilestones } = props;
+  const {project, setProject, milestones, singleMilestone, setProjectMilestones } = props;
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -26,6 +26,7 @@ export default function LongMenu(props) {
 
   const handleDelete = () => {
     const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid)
+    setProject({ ...project, Projects_Milestones: filteredMilestones });
     setProjectMilestones(filteredMilestones)
     dispatch(deleteMilestone(singleMilestone.uuid))
   }

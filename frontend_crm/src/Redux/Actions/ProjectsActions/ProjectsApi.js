@@ -21,13 +21,13 @@ async function patchData(url, data) {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export const addNewProject = (project, token) => postData(`${process.env.REACT_APP_BASE_API}/project`, project, token);
+export const addNewProject = (project, token) => postData(`${process.env.REACT_APP_BASE_API}project`, project, token);
 
 // eslint-disable-next-line import/prefer-default-export
 export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BASE_API}project/`, project);
 
-export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}/project/projectId/`, id);
+export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}project/projectId/`, id);
 
-export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}/project/${data.uuid}`, data, { headers: { token } });
+export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data.uuid}`, data, { headers: { token } });
 
-export const loadProject = (id, tokens) => getData(`${process.env.REACT_APP_BASE_API}/project/${id}`, tokens);
+export const loadProject = (id, tokens) => getData(`${process.env.REACT_APP_BASE_API}project/${id}`, tokens);

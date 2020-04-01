@@ -11,8 +11,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { userRoles } from '../../constants/constants'
-const StyledTableCell = withStyles(theme => ({
+import { userRoles } from '../../constants/constants';
+
+const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: '#32418c',
     color: theme.palette.common.white,
@@ -22,7 +23,7 @@ const StyledTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles(theme => ({
+const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -31,8 +32,9 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 function createData(fName, lName, milestons, seniority, role, id) {
-
-  return { fName, lName, milestons, seniority, role, id };
+  return {
+    fName, lName, milestons, seniority, role, id,
+  };
 }
 
 const useStyles = makeStyles({
@@ -47,47 +49,46 @@ const useStyles = makeStyles({
 
 function difDates(startDate, curDate) {
   const
-    difMonth = curDate.getMonth() - startDate.getMonth(),
-    difYear = curDate.getFullYear() - startDate.getFullYear(),
-    difDay = curDate.getDate() - startDate.getDate();
+    difMonth = curDate.getMonth() - startDate.getMonth();
+  const difYear = curDate.getFullYear() - startDate.getFullYear();
+  const difDay = curDate.getDate() - startDate.getDate();
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
-    return `${difYear} year(s) ${difMonth} month(s)`
+    return `${difYear} year(s) ${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
-    return `${difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
-    return `${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`;
   }
-  else {
-    return `${difDay} day(s)`
-  }
+
+  return `${difDay} day(s)`;
 }
 
 export default function UsersList(props) {
   const classes = useStyles();
-  const { users } = props
+  const { users } = props;
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const projects = useSelector((state) => state.projects.filteredProjects)
+  const projects = useSelector((state) => state.projects.filteredProjects);
   const rows = users.map((user) => {
-    console.log(user)
-    const startDate = new Date(user.hiredAt),
-      curDate = new Date(),
-      role = userRoles.find((item) => item.value === user.role).label;
+    // console.log(user)
+    const startDate = new Date(user.hiredAt);
+    const curDate = new Date();
+    const role = userRoles.find((item) => item.value === user.role).label;
     return createData(
       user.firstName,
       user.lastName,
       user.Users_Milestones,
       difDates(startDate, curDate),
       role,
-      user.uuid
-    )
-  })
+      user.uuid,
+    );
+  });
 
   function handleClick(id) {
     dispatch(findUser(id));
@@ -109,18 +110,26 @@ export default function UsersList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(user => (
+          {rows.map((user) => (
             <StyledTableRow
               style={{ cursor: 'pointer' }}
               key={user.lName}
-              onClick={() => handleClick(user.id)}>
+              onClick={() => handleClick(user.id)}
+            >
               <StyledTableCell component="th" scope="row">
-                {user.fName} {user.lName}
+                {user.fName}
+                {' '}
+                {user.lName}
               </StyledTableCell>
               <StyledTableCell align="right">{user.role}</StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p>{projects.map((project) => {
-                if (project.uuid === item.project_uuid) return project.name
-              })}</p>)}
+              <StyledTableCell align="right">
+                {user.milestons.map((item) => (
+                  <p>
+                    {projects.map((project) => {
+                      if (project.uuid === item.project_uuid) return project.name;
+                    })}
+                  </p>
+                ))}
               </StyledTableCell>
               <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.rate}</p>)}</StyledTableCell>
               <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.role}</p>)}</StyledTableCell>

@@ -11,8 +11,8 @@ import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import CustomProjectIcon from '../CustomProjectIcon/CustomProjectIcon.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import AddProjectModal from '../AddProjectModal/AddProjectModal.jsx';
-import { stackList } from '../../constants/constants'
-import { userRoles } from '../../constants/constants'
+import { stackList, userRoles } from '../../constants/constants';
+
 
 const useStyles = makeStyles({
   root: {
@@ -92,24 +92,23 @@ const useStyles = makeStyles({
 
 function difDates(startDate, curDate) {
   const
-    difMonth = curDate.getMonth() - startDate.getMonth(),
-    difYear = curDate.getFullYear() - startDate.getFullYear(),
-    difDay = curDate.getDate() - startDate.getDate();
+    difMonth = curDate.getMonth() - startDate.getMonth();
+  const difYear = curDate.getFullYear() - startDate.getFullYear();
+  const difDay = curDate.getDate() - startDate.getDate();
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
-    return `${difYear} year(s) ${difMonth} month(s)`
+    return `${difYear} year(s) ${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
-    return `${difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
-    return `${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`;
   }
-  else {
-    return `${difDay} day(s)`
-  }
+
+  return `${difDay} day(s)`;
 }
 
 
@@ -132,16 +131,16 @@ const UserCard = ({ user }) => {
 
   const userStack = user.Skills.map((element) => {
     if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
     }
   });
 
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
-  const startDate = new Date(user.hiredAt),
-    curDate = new Date(),
-    role = userRoles.find((item) => item.value === user.role).label;
+  const startDate = new Date(user.hiredAt);
+  const curDate = new Date();
+  const role = userRoles.find((item) => item.value === user.role).label;
 
   return (
     <Card className={classes.root}>
@@ -153,14 +152,18 @@ const UserCard = ({ user }) => {
             <CustomBage
               text={role}
               size="medium"
-              position={user.role} currentProject
+              position={user.role}
+              currentProject
             />
             {/* </div> */}
-            {user.hiredAt ? <CustomBage
-              text={difDates(startDate, curDate)}
-              size="medium"
-              position={user.role}
-              className={classes.badge} /> : ''}
+            {user.hiredAt ? (
+              <CustomBage
+                text={difDates(startDate, curDate)}
+                size="medium"
+                position={user.role}
+                className={classes.badge}
+              />
+            ) : ''}
           </div>
           <div className={classes.row}>
             <div
@@ -170,7 +173,9 @@ const UserCard = ({ user }) => {
           </div>
           <div className={classes.row}>
             <div className={classes.name}>
-              {user.firstName} {user.lastName}
+              {user.firstName}
+              {' '}
+              {user.lastName}
             </div>
           </div>
         </CardContent>

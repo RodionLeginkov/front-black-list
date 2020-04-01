@@ -20,7 +20,7 @@ export const signIn = (user) => async (dispatch) => {
     // console.log('Login', login, 'password', password);
     dispatch({ type: SIGNIN_LOADING });
 
-    console.log('user', user);
+    // console.log('user', user);
     const { data } = await loginUser(user);
     // console.log(data);
     dispatch({ type: SIGNIN_SUCCESS, payload: data });

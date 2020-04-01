@@ -5,10 +5,10 @@ import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Tooltip from '@material-ui/core/Tooltip';
-import { findUser } from '../../Redux/Actions/UsersActions/UserActions'
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions'
+import { findUser, getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
-const useStyles = makeStyles(theme => ({
+
+const useStyles = makeStyles((theme) => ({
   avatarGroup: {
     padding: '5px',
   },
@@ -26,26 +26,26 @@ export default function DevAvatars(props) {
   const dispatch = useDispatch();
   const { milestones, setAddUserModalOpen } = props;
 
-  const users = useSelector((state) => state.users.users)
+  const users = useSelector((state) => state.users.users);
 
   function handleClick(userId) {
     dispatch(findUser(userId));
     history.push(`/user/${userId}`);
   }
 
-  console.log(users)
+  // console.log(users)
 
 
   const devList = milestones.map((milestone) => {
-
     const user = users.find((user) => user.uuid === milestone.user_uuid);
-    console.log(user)
+    // console.log(user);
     if (user) {
-      const userName = `${user.firstName} ${user.lastName}`
+      const userName = `${user.firstName} ${user.lastName}`;
       return (
         <Tooltip className={classes.avatar} title={userName} key={milestone.user_uuid}>
           <Avatar onClick={() => handleClick(milestone.user_uuid)} alt={userName} src={`${milestone.userImage}`} />
-        </Tooltip>)
+        </Tooltip>
+      );
     }
   });
 
@@ -54,9 +54,10 @@ export default function DevAvatars(props) {
       <AvatarGroup key={Math.random()} className={classes.avatarGroup}>
         {devList}
         <Tooltip className={classes.avatar} title="Set user">
-          <Avatar onClick={() => setAddUserModalOpen(true)} style={{ backgroundColor: '#32418c', }}>+</Avatar>
+          <Avatar onClick={() => setAddUserModalOpen(true)} style={{ backgroundColor: '#32418c' }}>+</Avatar>
         </Tooltip>
       </AvatarGroup>
 
-    </>)
+    </>
+  );
 }

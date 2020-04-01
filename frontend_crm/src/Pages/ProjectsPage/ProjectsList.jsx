@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
-const StyledTableCell = withStyles(theme => ({
+const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: '#32418c',
     color: theme.palette.common.white,
@@ -21,7 +21,7 @@ const StyledTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles(theme => ({
+const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
@@ -30,8 +30,10 @@ const StyledTableRow = withStyles(theme => ({
 }))(TableRow);
 
 function createData(name, description, customer, id) {
-  console.log(customer)
-  return { name, description, customer, id };
+  // console.log(customer)
+  return {
+    name, description, customer, id,
+  };
 }
 
 const useStyles = makeStyles({
@@ -47,10 +49,10 @@ const useStyles = makeStyles({
 export default function ProjectsList(props) {
   const classes = useStyles();
   // const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
-  const { projects } = props
+  const { projects } = props;
   const history = useHistory();
   const dispatch = useDispatch();
-  const rows = projects.map((project) => createData(project.name, project.description, project.customer, project.uuid))
+  const rows = projects.map((project) => createData(project.name, project.description, project.customer, project.uuid));
 
   function handleClick(id) {
     dispatch(findProject(id));
@@ -71,11 +73,12 @@ export default function ProjectsList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(project => (
+          {rows.map((project) => (
             <StyledTableRow
               style={{ cursor: 'pointer' }}
               key={project.name}
-              onClick={() => handleClick(project.id)}>
+              onClick={() => handleClick(project.id)}
+            >
               <StyledTableCell component="th" scope="row">
                 {project.name}
               </StyledTableCell>

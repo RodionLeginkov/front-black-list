@@ -17,7 +17,7 @@ async function patchData(url, data, token) {
 
 // eslint-disable-next-line import/prefer-default-export
 
-export const loadAllUsers = (filter, token) => getData(`${process.env.REACT_APP_BASE_API}/users/`, filter, token);
+export const loadAllUsers = (filter, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filter, token);
 
 
 export const loadUser = (token, userId) => getData(`${process.env.REACT_APP_BASE_API}user/${userId}`, token);

@@ -18,7 +18,6 @@ const intitialState = {
 const authReducer = (state = intitialState, action) => {
   switch (action.type) {
     case SIGNIN_LOADING:
-      console.log(action.payload);
       return {
         ...state,
         loading: true,

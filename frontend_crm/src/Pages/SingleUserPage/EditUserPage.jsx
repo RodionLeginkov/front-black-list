@@ -122,7 +122,7 @@ const EditUserPage = ({ match, isError }) => {
   }
 
 
-console.log(user)
+  // console.log(user)
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -169,7 +169,9 @@ console.log(user)
               Users
             </Typography>
             <Typography className={classes.link} onClick={() => history.push(`/user/${userId}`)}>
-              {user.firstName} {user.lastName}
+              {user.firstName}
+              {' '}
+              {user.lastName}
             </Typography>
             <Typography color="textPrimary">
               Edit
@@ -225,7 +227,6 @@ console.log(user)
                     </Select>
                   </FormControl>
                 </Grid>
-
 
 
                 {/* Return this later */}
@@ -345,7 +346,7 @@ console.log(user)
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of Leave"
-                      value={user.firedAt || '' }
+                      value={user.firedAt || ''}
                       onChange={endDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

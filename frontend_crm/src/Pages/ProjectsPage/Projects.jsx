@@ -5,16 +5,15 @@ import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel';
-import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors'
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import ProjectsList from './ProjectsList'
-import { compose } from 'redux';
+import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
+import ProjectsList from './ProjectsList';
 
 const useStyles = makeStyles({
   button: {
@@ -46,9 +45,9 @@ export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false)
+  const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false);
   const dispatch = useDispatch();
-  const projects = useSelector((state) => getFilteredProjects(state))
+  const projects = useSelector((state) => getFilteredProjects(state));
   // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
@@ -56,25 +55,26 @@ export default function StickyHeadTable() {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const users = useSelector((state)=> state.users.users)
-  console.log('users', users)
+  const users = useSelector((state) => state.users.users);
+  // console.log('users', users)
 
   // let projectWidgetView = undefined;
-  
+
   // if (localStorage.getItem('projectWidgetView') === 'false') projectWidgetView = false
   // else projectWidgetView = true
-  
+
   const handleChange = (event) => {
-    setWidgetView(!widgetView)
-    localStorage.setItem('projectWidgetView', !widgetView)
-  }
+    setWidgetView(!widgetView);
+    localStorage.setItem('projectWidgetView', !widgetView);
+  };
 
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <h1>Projects</h1>
-          <FormControlLabel style={{ marginLeft: '10px' }}
+          <FormControlLabel
+            style={{ marginLeft: '10px' }}
             control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
             label="Widget view"
           />

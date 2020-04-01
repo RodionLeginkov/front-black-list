@@ -5,35 +5,35 @@ import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Tooltip } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import StackForm from '../../components/Form/StackForm';
-import DevelopersChooseForm from '../../components/DevelopersChooseForm';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import StackForm from '../../components/Form/StackForm';
+// import DevelopersChooseForm from '../../components/DevelopersChooseForm';
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
-import Loading from '../../components/Loading';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+// import Loading from '../../components/Loading';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import Divider from '@material-ui/core/Divider';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
-import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
@@ -114,7 +114,6 @@ function AddProjectPage(props) {
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
 
 
-
   const initialValue = (projectId && curProject) ? curProject : {
     // status: '',
     // stack: [],
@@ -141,18 +140,18 @@ function AddProjectPage(props) {
     // developers: [],
 
   };
-  const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : []
+  const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
 
 
   const reqFields = ['name', 'communication', 'startDate',
     'type', 'source', 'withdrawal_of_funds',
     'paymentType', 'paymentAmount', 'load', 'resources'];
-  const [projectMilestones, setProjectMilestones] = useState(initialMilestones)
+  const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
-    setProjectMilestones(initialMilestones)
+    setProjectMilestones(initialMilestones);
   }, [loading]);
 
   useEffect(() => {
@@ -177,7 +176,7 @@ function AddProjectPage(props) {
   const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const milestonesChange = (newMilestone) => {
-    setProjectMilestones([...projectMilestones, newMilestone])
+    setProjectMilestones([...projectMilestones, newMilestone]);
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
   };
 
@@ -187,21 +186,21 @@ function AddProjectPage(props) {
   //   setProject({ ...project, Skills: values });
   // });
 
-  console.log('TEST PRoject', project)
-  console.log('TEST projectMilestones', projectMilestones)
+  // console.log('TEST PRoject', project)
+  // console.log('TEST projectMilestones', projectMilestones)
 
 
   const onSubmit = (e) => {
     e.preventDefault();
     // const isEmpty = reqFields.find((field) => (!project[field]));
     // if (isEmpty === undefined) {
-      console.log(project)
-      console.log('Skills' in project); // true
+    // console.log(project)
+    // console.log('Skills' in project); // true
     if (projectId) {
       // delete project.Projects_Milestones;
-      for (let index in projectMilestones) {
+      for (const index in projectMilestones) {
         if (Number(index) + 1 > curProject.Projects_Milestones.length) {
-          dispatch(addMilestone(projectMilestones[index]))
+          dispatch(addMilestone(projectMilestones[index]));
         }
       }
       dispatch(updateProject(project));
@@ -265,11 +264,11 @@ function AddProjectPage(props) {
 
                 InputProps={{
                   endAdornment:
-                    <InputAdornment position="end">
-                      <Tooltip title="Project Name">
-                        <HelpOutlineSharpIcon className={classes.helperIcon} />
-                      </Tooltip>
-                    </InputAdornment>,
+  <InputAdornment position="end">
+    <Tooltip title="Project Name">
+      <HelpOutlineSharpIcon className={classes.helperIcon} />
+    </Tooltip>
+  </InputAdornment>,
 
                 }}
               />
@@ -552,7 +551,7 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                   />label
 
-              {/* Return  this later*/}
+              {/* Return  this later */}
               {/* <Grid item xs={12}>
                 <Autocomplete
                   style={{ margin: '5px 0px 10px' }}
@@ -641,7 +640,7 @@ function AddProjectPage(props) {
                 </MuiPickersUtilsProvider>
               </div> */}
               <Divider />
-              <AddMilestonesForm setProject={setProject} project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError}  setProjectMilestones={setProjectMilestones} isEdit />
+              <AddMilestonesForm setProject={setProject} project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError} setProjectMilestones={setProjectMilestones} isEdit />
               <Divider />
               <div className={classes.button}>
                 <Button

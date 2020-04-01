@@ -52,14 +52,14 @@ function Users() {
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState();
-  console.log(users);
+  // console.log(users);
   // const filter = 'developer';
 
   useEffect(() => {
     dispatch(getUsers(filter));
     dispatch(getProjects());
   }, [dispatch, filter]);
-  console.log('filter', filter);
+  // console.log('filter', filter);
   const handleChange = (event) => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
@@ -85,7 +85,7 @@ function Users() {
           Invite user
         </Button>
       </div>
-      <FilterPanel />
+      {/* <FilterPanel /> */}
       <Grid container style={{ marginBottom: 15 }} spacing={1}>
         <Grid item>
           <Button

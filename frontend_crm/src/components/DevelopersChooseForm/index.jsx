@@ -31,24 +31,22 @@ export default function DevelopersChooseForm(props) {
   const classes = useStyles();
   const { userChange, developersValue, isError } = props;
   const handleChange = (event, values) => {
-    console.log('values', values)
+    // console.log('values', values)
     userChange(values);
   };
 
   const users = useSelector((state) => state.users.users);
   let filteredUsers = users;
   for (const index in developersValue) {
-    filteredUsers = filteredUsers.filter((user) => {
-      return (
-        user.lastName !== developersValue[index].lastName)
-    })
+    filteredUsers = filteredUsers.filter((user) => (
+      user.lastName !== developersValue[index].lastName));
   }
   return (
     <>
       <Autocomplete
         options={filteredUsers}
         onChange={handleChange}
-        getOptionLabel={(option) => option.lastName + ' ' + option.firstName}
+        getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}
         renderInput={(params) => <TextField {...params} label="User" variant="outlined" />}
       />
       {/* <Autocomplete
@@ -62,7 +60,7 @@ export default function DevelopersChooseForm(props) {
       value={developersValue}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-    
+
           {option.firstName} {option.lastName}
         </React.Fragment>
       )}

@@ -106,8 +106,8 @@ export default function ResetPassword(props) {
     e.preventDefault();
     if (form.password.length > 6 && (form.password === form.confirmPassword)) {
       try {
-        console.log(form.password);
-        console.log(tokenId);
+        // console.log(form.password);
+        // console.log(tokenId);
         const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePassword`, {
           password: form.password,
           token: tokenId,
@@ -137,7 +137,7 @@ export default function ResetPassword(props) {
   };
 
   const onChanghePassword = (e) => {
-    console.log('ASDASDASD', form);
+    // console.log('ASDASDASD', form);
     setState({
       ...form,
       [e.target.name]: e.target.value,

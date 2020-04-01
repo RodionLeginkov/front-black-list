@@ -11,18 +11,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
+import { compose } from 'redux';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import UserList from '../../components/UserList/UserList.jsx';
 import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx'
+import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
-import { stackList } from '../../constants/constants'
-import { compose } from 'redux';
+import { stackList } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -79,7 +79,7 @@ function CurrentProject(props) {
 
   const { projectId } = props.match.params;
   const dispatch = useDispatch();
- 
+
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
     if (!project) {
@@ -89,9 +89,9 @@ function CurrentProject(props) {
     }
   }, [dispatch, projectId, project]);
   if (!project) { return (<Loading />); }
-  
 
-console.log(project)
+
+  // sconsole.log(project);
 
   // const projectStack = project.Skills.map((element) => {
   //   if (stackList.includes(element.name)) {
@@ -104,10 +104,10 @@ console.log(project)
     <div style={{ marginLeft: '85px' }}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Link color="inherit" onClick={() => history.push('/projects')}   >
+        <Link color="inherit" onClick={() => history.push('/projects')}>
           Projects
         </Link>
-        <Typography color="textPrimary" onClick={() => history.push(`/project/${project.uuid}`)} >{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/project/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -127,12 +127,12 @@ console.log(project)
         </div>
         <div className={classes.stackAndEnglish}>
           <h2>Milestones: </h2>
-          
-            {/* <Typography className={classes.english}>
+
+          {/* <Typography className={classes.english}>
               {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
             </Typography> */}
-            <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
-          
+          <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
+
         </div>
 
         {/* <UserList users={project.Users} /> */}
@@ -148,8 +148,10 @@ console.log(project)
           <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
           </Button>
-          <Button className={classes.button}
-            onClick={() => history.push(`/project/${project.uuid}`)}>
+          <Button
+            className={classes.button}
+            onClick={() => history.push(`/project/${project.uuid}`)}
+          >
             <EditSharpIcon />
           </Button>
           <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>

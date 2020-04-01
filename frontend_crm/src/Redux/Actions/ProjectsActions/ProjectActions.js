@@ -22,6 +22,7 @@ import { compose } from 'redux';
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
+console.log("POST PROJECT", project)
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
     const { data } = await addNewProject(project,  { headers: { token: loginToken } });
@@ -73,7 +74,7 @@ export const deleteProject = (id) => async (dispatch) => {
 
 export const updateProject = (project) => async (dispatch) => {
   try {
-    console.log('project', project)
+    console.log('PROJECT', project)
     const loginToken = localStorage.getItem('token');
     // console.log(loginToken);
     const { data } = await patchProject(project, { headers: { token: loginToken } });

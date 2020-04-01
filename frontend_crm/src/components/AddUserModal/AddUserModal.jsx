@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUserModal(props) {
     const {
+        projectMilestones,
         addUserModalOpen,
         setAddUserModalOpen,
         curProject,

@@ -21,12 +21,12 @@ import {
 // eslint-disable-next-line import/prefer-default-export
 export const addProject = (project) => async (dispatch) => {
   try {
-console.log("POST PROJECT", project)
+    console.log('POST PROJECT', project);
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
 
-    const { data } = await addNewProject(project,  { headers: { token: loginToken } });
-    console.log('DATA', data)
+    const { data } = await addNewProject(project, { headers: { token: loginToken } });
+    console.log('DATA', data);
 
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
@@ -67,7 +67,9 @@ export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
 export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { token: loginToken } });
+
+    await axios.delete(`${process.env.REACT_APP_BASE_API}/project/${id}`, { headers: { token: loginToken } });
+
     console.log('asdasdasdad');
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {

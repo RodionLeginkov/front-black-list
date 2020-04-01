@@ -8,11 +8,12 @@ import {
   FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = () => async (dispatch) => {
+export const getUsers = (filter) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
+    console.log('REDUX', filter);
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(loginToken);
+    const { data } = await loadAllUsers(filter, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
@@ -44,10 +45,10 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
-    console.log('DATA', userData)
+    console.log('DATA', userData);
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
-    console.log("DATATAATATATA", data)
+    console.log('DATATAATATATA', data);
     dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_USER_ERROR, payload: error });

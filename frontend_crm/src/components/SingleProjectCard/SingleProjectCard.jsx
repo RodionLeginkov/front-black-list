@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import Tooltip from '@material-ui/core/Tooltip';
 import { useHistory } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
@@ -111,7 +112,7 @@ function difDates(startDate, curDate) {
     return `${difYear} year(s) ${difMonth} month(s)`
   }
   else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12+difMonth} month(s)`
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
   }
   else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
     return `${difMonth} month(s)`
@@ -148,7 +149,7 @@ export default function RecipeReviewCard(props) {
   const curDate = new Date();
 
 
-//console.log("CARD",card)
+  //console.log("CARD",card)
   return (
     <>
       <Card className={classes.root}>
@@ -183,14 +184,18 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
-            <DeleteOutlineIcon />
-          </Button>
+          <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
+            <span>
+              <Button disabled={card.Projects_Milestones.length === 0 ? false : true} className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
+                <DeleteOutlineIcon />
+              </Button>
+            </span>
+          </Tooltip>
           <DevAvatars milestones={card.Projects_Milestones} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
 
         </div>
       </Card>
-      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card.uuid} name={card.name} />
+      <DeleteModal milestones={card.Projects_Milestones} deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card.uuid} name={card.name} />
       <AddUserModal addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
     </>
   );

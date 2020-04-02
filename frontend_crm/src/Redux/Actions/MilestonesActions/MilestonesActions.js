@@ -26,6 +26,7 @@ export const deleteMilestone = (id) => async (dispatch) => {
 
     dispatch({ type: DELETE_MILESTONE_SUCCESS, payload: id });
   } catch (error) {
+    console.log('MILE',error)
     dispatch({ type: DELETE_MILESTONE_ERROR, payload: error });
   }
 };

@@ -18,7 +18,7 @@ import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
-import { stackList } from '../../constants/constants'
+import { stackList } from '../../constants/constants';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -140,7 +140,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const user = useSelector((state) => state.users.currentUser);
-
+  console.log(user);
 
   useEffect(() => {
     if (!user) dispatch(getUser(userId));
@@ -154,11 +154,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const userStack = user.Skills.map((element) => {
     // console.log('Stack', element.UserSkill.level)
     if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />
+      return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
     }
   });
 
-  const englishLevel = user.Skills.find((element) => element.name.includes('English'))
+  const englishLevel = user.Skills.find((element) => element.name.includes('English'));
 
   return (
     <div className={classes.container}>
@@ -166,11 +166,20 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>  {user.firstName} {user.lastName}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>
+          {' '}
+          {user.firstName}
+          {' '}
+          {user.lastName}
+        </Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.header)}>
-          <h1>{user.firstName} {user.lastName}</h1>
+          <h1>
+            {user.firstName}
+            {' '}
+            {user.lastName}
+          </h1>
           <div style={{ marginRight: '10px' }}>
             <CustomBadge text={user.status} position={user.status} size="large" />
           </div>
@@ -180,7 +189,9 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           <div className={classes.leftCol}>
             <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
             <span className={classes.fieldName}>
-              {user.firstName} {user.lastName}
+              {user.firstName}
+              {' '}
+              {user.lastName}
             </span>
           </div>
           <div className={classes.col}>
@@ -198,23 +209,34 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 </div>
               </div>
               <div className={classes.field}>
-                <span className={classes.fieldTitle}>Stack: </span>
+                <span className={classes.fieldTitle}>Second Phone: </span>
                 <div className={classes.fieldValue}>
-                  {userStack}
+                  {user.phone2}
                 </div>
               </div>
               <div className={classes.field}>
-                <span className={classes.fieldTitle}>Projects: </span>
+                <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
-                  <CustomProjectIcon
-                    projects={user.Projects || []}
-                  />
+                  {user.role}
                 </div>
               </div>
               <div className={classes.field}>
-                <span className={classes.fieldTitle}>English level: </span>
+                <span className={classes.fieldTitle}>Project Ready </span>
                 <div className={classes.fieldValue}>
-                  {englishLevel ? englishLevel.UserSkill.level : 'not stated'}
+                  {user.project_ready}
+                  %
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Current Task: </span>
+                <div className={classes.fieldValue}>
+                  {user.current_task}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Current Occupation: </span>
+                <div className={classes.fieldValue}>
+                  {user.current_occupation}
                 </div>
               </div>
             </div>

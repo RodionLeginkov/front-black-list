@@ -5,29 +5,14 @@ import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Tooltip } from '@material-ui/core';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import StackForm from '../../components/Form/StackForm';
-// import DevelopersChooseForm from '../../components/DevelopersChooseForm';
-// import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
-// import Loading from '../../components/Loading';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
 import Divider from '@material-ui/core/Divider';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import MessengerForm from '../../components/MessengerForm/MessengerForm.jsx';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -37,7 +22,7 @@ import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesAc
 import './ProjectStyles.css';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
-import { userRoles, englishLevels, stackList } from '../../constants/constants';
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -143,12 +128,12 @@ function AddProjectPage(props) {
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
 
 
-  const reqFields = ['name', 'communication', 'startDate',
-    'type', 'source', 'withdrawal_of_funds',
-    'paymentType', 'paymentAmount', 'load', 'resources'];
+  // const reqFields = ['name', 'communication', 'startDate',
+  //   'type', 'source', 'withdrawal_of_funds',
+  //   'paymentType', 'paymentAmount', 'load', 'resources'];
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
-  const [isError, setIsError] = useState(false);
+  const [isError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
     setProjectMilestones(initialMilestones);
@@ -167,14 +152,14 @@ function AddProjectPage(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-  const stackChange = (stack) => setProject({ ...project, stack });
-  // const withdrawal_of_fundsChange = (withdrawal_of_funds) => setProject({ ...project, withdrawal_of_funds })
-  const developersChange = (developers) => setProject({ ...project, developers });
-  const messengerChange = (messenger) => setProject({ ...project, messenger });
-  // const communicationChange = (communication) => setProject({ ...project, communication })
-  // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
-  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
+  // const stackChange = (stack) => setProject({ ...project, stack });
+  // // const withdrawal_of_fundsChange = (withdrawal_of_funds) => setProject({ ...project, withdrawal_of_funds })
+  // const developersChange = (developers) => setProject({ ...project, developers });
+  // const messengerChange = (messenger) => setProject({ ...project, messenger });
+  // // const communicationChange = (communication) => setProject({ ...project, communication })
+  // // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
+  // const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
+  // const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const milestonesChange = (newMilestone) => {
     setProjectMilestones([...projectMilestones, newMilestone]);
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });

@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUserModal(props) {
   const {
-    projectMilestones,
     addUserModalOpen,
     setAddUserModalOpen,
     curProject,
@@ -80,9 +79,9 @@ export default function AddUserModal(props) {
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const handleClose = () => {
-    setAddUserModalOpen(false);
-  };
+  // const handleClose = () => {
+  //   setAddUserModalOpen(false);
+  // };
 
   const initialValue = {
     user_uuid: '',
@@ -118,7 +117,7 @@ export default function AddUserModal(props) {
   };
   const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
 
-  const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
+  const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
 
   return (

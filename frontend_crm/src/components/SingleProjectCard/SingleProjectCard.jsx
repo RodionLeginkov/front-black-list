@@ -12,11 +12,9 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import StackIcon from '../StackIcon/StackIcon.jsx';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 import AddUserModal from '../AddUserModal/AddUserModal';
-import { stackList } from '../../constants/constants'
 
 const useStyles = makeStyles((theme) => ({
   // root: {

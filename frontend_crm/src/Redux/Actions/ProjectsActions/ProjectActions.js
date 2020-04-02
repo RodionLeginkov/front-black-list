@@ -23,9 +23,9 @@ export const addProject = (project) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-
+console.log('project',project)
     const { data } = await addNewProject(project, { headers: { token: loginToken } });
-
+console.log('data',data)
 
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {

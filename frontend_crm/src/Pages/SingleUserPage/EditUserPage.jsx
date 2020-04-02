@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Loading from '../../components/Loading';
 import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -23,7 +22,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { userRoles, englishLevels, stackList } from '../../constants/constants';
+import { userRoles  } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,7 +98,6 @@ const EditUserPage = ({ match, isError }) => {
     comment: '',
     firstName: '',
     lastName: '',
-    phone1: '',
     firedAt: null,
     hiredAt: null,
     Skills: [],
@@ -121,20 +119,17 @@ const EditUserPage = ({ match, isError }) => {
     return (<Loading />);
   }
 
-
-  // console.log(user)
-
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleChangeStack = ((event, values) => {
-    setUser({ ...user, Skills: values });
-  });
+  // const handleChangeStack = ((event, values) => {
+  //   setUser({ ...user, Skills: values });
+  // });
 
-  const handleChangeProject = (event, values) => {
-    setUser({ ...user, currentProject: values });
-  };
+  // const handleChangeProject = (event, values) => {
+  //   setUser({ ...user, currentProject: values });
+  // };
 
   const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
 
@@ -330,7 +325,7 @@ const EditUserPage = ({ match, isError }) => {
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of joining"
-                      value={user.hiredAt || ''}
+                      value={new Date(user.hiredAt) || ''}
                       onChange={startDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',
@@ -346,7 +341,7 @@ const EditUserPage = ({ match, isError }) => {
                       format="dd/MM/yyyy"
                       margin="normal"
                       label="Date of Leave"
-                      value={user.firedAt || ''}
+                      value={user.firedAt}
                       onChange={endDateChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change date',

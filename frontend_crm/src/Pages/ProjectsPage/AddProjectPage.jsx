@@ -189,6 +189,7 @@ function AddProjectPage(props) {
         }
       }
       dispatch(updateProject(project));
+      dispatch(getProject(projectId));
       history.push(`/projects/${project.uuid}`);
     } else {
       dispatch(addProject(project));

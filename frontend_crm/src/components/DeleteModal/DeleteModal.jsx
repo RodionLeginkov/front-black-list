@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     modalWidth: {
         width: '400px',
     },
-    header: { 
+    header: {
         color: '#777',
     },
 }));
@@ -47,7 +47,7 @@ export default function DeleteModal(props) {
         deleteModalIsOpen, setdeleteModalIsOpen, id, name,
     } = props;
     const classes = useStyles();
-    const history = useHistory();   
+    const history = useHistory();
     const dispatch = useDispatch();
 
     const handleClose = () => {

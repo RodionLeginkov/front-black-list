@@ -12,6 +12,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
@@ -153,9 +154,13 @@ function CurrentProject(props) {
           >
             <EditSharpIcon />
           </Button>
-          <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
-            <DeleteOutlineIcon />
-          </Button>
+          <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
+            <span>
+              <Button disabled={project.Projects_Milestones.length === 0 ? false : true} className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
+                <DeleteOutlineIcon />
+              </Button>
+            </span>
+          </Tooltip>
         </div>
       </Paper>
       <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} />

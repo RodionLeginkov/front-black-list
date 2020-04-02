@@ -7,6 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
+import {getProject} from '../../Redux/Actions/ProjectsActions/ProjectActions'
 
 const ITEM_HEIGHT = 48;
 
@@ -29,6 +30,7 @@ export default function LongMenu(props) {
     setProject({ ...project, Projects_Milestones: filteredMilestones });
     setProjectMilestones(filteredMilestones)
     dispatch(deleteMilestone(singleMilestone.uuid))
+    dispatch(getProject(project.uuid));
   }
 
   return (

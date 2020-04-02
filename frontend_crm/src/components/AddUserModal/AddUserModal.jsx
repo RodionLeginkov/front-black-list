@@ -107,6 +107,8 @@ export default function AddUserModal(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -117,8 +119,8 @@ export default function AddUserModal(props) {
   };
   const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
 
-  const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
+  const startDateChange = (startDate) => {setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
+  const endDateChange = (endDate) => {setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate });};
 
   return (
     <div className={classes.position}>
@@ -158,6 +160,7 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
+                    type="number"
                     value={project.load || ''}
                     label="Load"
                     variant="outlined"
@@ -167,8 +170,8 @@ export default function AddUserModal(props) {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-  <InputAdornment position="end">
-    hr/day
+                        <InputAdornment position="end">
+                          hr/day
   </InputAdornment>,
 
                     }}
@@ -176,6 +179,7 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
+                    type="number"
                     value={project.rate || ''}
                     label="Rate"
                     variant="outlined"
@@ -204,15 +208,17 @@ export default function AddUserModal(props) {
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
+                  onClick={() => setOpenStartDatePicker(isOpenStartDatePicker => !isOpenStartDatePicker)}
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
+                  open={openStartDatePicker}
                   value={project.start_date}
                   label="Start Date"
                   onChange={startDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
+                  // KeyboardButtonProps={{
+                  //   'aria-label': 'change date',
+                  // }}
                 />
 
                 <KeyboardDatePicker
@@ -222,7 +228,10 @@ export default function AddUserModal(props) {
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
+                  onClick={() => setOpenEndDatePicker(isOpenEndDatePicker => !isOpenEndDatePicker)}
+                  setOpenEndDatePicker
                   label="End date"
+                  open={openEndDatePicker}
                   className={clsx(classes.formControl, classes.inputForm)}
                   onChange={endDateChange}
                   value={project.end_date}

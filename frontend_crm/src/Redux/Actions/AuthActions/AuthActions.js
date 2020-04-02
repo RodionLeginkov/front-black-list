@@ -39,7 +39,6 @@ export const inviteUsers = (user) => async (dispatch) => {
     dispatch({ type: INVITE_LOADING });
     const { data } = await inviteUser(user);
     dispatch({ type: INVITE_SUCCESS, payload: data });
-    window.location = '/users';
   } catch (error) {
     dispatch({ type: INVITE_ERROR, payload: error });
   }

@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUserPage = ({ match, isError }) => {
+const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -91,6 +91,7 @@ const EditUserPage = ({ match, isError }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
   const userAuth = useSelector((state) => state.auth);
+  const [isError, setIsError] = useState(false);
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
     role: '',
@@ -99,6 +100,14 @@ const EditUserPage = ({ match, isError }) => {
     phone1: '',
     hiredAt: null
   };
+
+  const reqFields = [
+    'email',
+    'role',
+    'firstName',
+    'lastName',
+    'phone1',
+    'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
@@ -120,31 +129,29 @@ const EditUserPage = ({ match, isError }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining  })
+  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining })
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const login = {
-      email: user.email,
-      role: user.role,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone1: user.phone1,
-      hiredAt: user.hiredAt,
-    };
-    // console.log(login);
-    dispatch(inviteUsers(login));
+    const isEmpty = reqFields.find((field) => (!user[field]));
+    if (isEmpty === undefined) {
+      const login = {
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone1: user.phone1,
+        hiredAt: user.hiredAt,
+      };
+      dispatch(inviteUsers(login));
+      history.push('/users')
+    } else setIsError(true);
   };
   // else {
   //   //setOpen(true);
   // }
   //
 
-  if (userAuth && userAuth.user) {
-    // window.location = '/signin';
-    // history.push('/signin');
-  }
 
   let filteredProjects = projects;
   for (const index in user.currentProject) {
@@ -191,8 +198,10 @@ const EditUserPage = ({ match, isError }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    error={!user.firstName && isError}
+                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ""}
                     // style={{ marginBottom: 10 }}
-                    value={user.fullName}
+                    value={user.firstName}
                     label="User name"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -203,9 +212,10 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-
+                    error={!user.lastName && isError}
+                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ""}
                     // style={{ marginBottom: 10 }}
-                    value={user.fullName}
+                    value={user.lastName}
                     label="User surname"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -216,6 +226,9 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl
+                    error={!user.role && isError}
+
+                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
                     placeholder='Role'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -233,6 +246,8 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
+                    error={!user.email && isError}
+                    helperText={(!user.email.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"
@@ -243,8 +258,10 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
+                    error={!user.phone1 && isError}
+                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
-                    value={user.phoneNumber}
+                    value={user.phone1}
                     variant="outlined"
                     label="Phone Number"
                     name='phone1'
@@ -255,6 +272,8 @@ const EditUserPage = ({ match, isError }) => {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid item xs={12} sm={6}>
                   <KeyboardDatePicker
+                    error={!user.hiredAt && isError}
+                    helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar

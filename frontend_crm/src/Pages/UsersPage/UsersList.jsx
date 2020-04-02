@@ -112,7 +112,7 @@ export default function UsersList(props) {
           {rows.map((user) => (
             <StyledTableRow
               style={{ cursor: 'pointer' }}
-              key={user.lName}
+              key={Math.random()}
               onClick={() => handleClick(user.id)}
             >
               <StyledTableCell component="th" scope="row">
@@ -123,15 +123,15 @@ export default function UsersList(props) {
               <StyledTableCell align="right">{user.role}</StyledTableCell>
               <StyledTableCell align="right">
                 {user.milestons.map((item) => (
-                  <p>
+                  <p key={Math.random()}>
                     {projects.map((project) => {
                       if (project.uuid === item.project_uuid) return project.name;
                     })}
                   </p>
                 ))}
               </StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.rate}</p>)}</StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.role}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
               <StyledTableCell align="right">{user.seniority}</StyledTableCell>
               {/* <StyledTableCell align="right">
                 <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>

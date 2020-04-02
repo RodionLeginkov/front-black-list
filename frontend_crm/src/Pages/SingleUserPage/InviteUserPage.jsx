@@ -144,7 +144,8 @@ const EditUserPage = ({ match }) => {
         hiredAt: user.hiredAt,
       };
       dispatch(inviteUsers(login));
-      history.push('/users')
+      dispatch(getUser(userId))
+      // history.push('/users')
     } else setIsError(true);
   };
   // else {
@@ -227,7 +228,6 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={12}>
                   <FormControl
                     error={!user.role && isError}
-
                     helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
                     placeholder='Role'
                     variant="outlined"

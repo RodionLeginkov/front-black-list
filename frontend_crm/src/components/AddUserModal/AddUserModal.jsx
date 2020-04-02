@@ -102,7 +102,6 @@ export default function AddUserModal(props) {
     setAddUserModalOpen(false);
   };
 
-console.log('ISEERROR', isError)
 
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
@@ -112,7 +111,7 @@ console.log('ISEERROR', isError)
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
   const reqFields = [
     'user_uuid',
-    'project_uuid',
+    // 'project_uuid',
     'role',
     'rate',
     'unit',
@@ -123,6 +122,7 @@ console.log('ISEERROR', isError)
   const handleAdd = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
+    console.log('isEmpty', isEmpty)
     if (isEmpty === undefined) {
       if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);

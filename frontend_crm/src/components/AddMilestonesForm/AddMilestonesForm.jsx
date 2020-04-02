@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
-import { useDispatch } from 'react-redux';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
-import Avatar from '@material-ui/core/Avatar';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import { useHistory } from 'react-router-dom';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import Button from '@material-ui/core/Button';
-import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import AddUserModal from '../AddUserModal/AddUserModal';
 import { useSelector } from 'react-redux';
 import { userRoles } from '../../constants/constants'
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MenuBotton from './MenuBotton.jsx'
 
 
@@ -110,22 +98,20 @@ const useStyles = makeStyles((theme) => ({
 function AddMilestonesForm(props) {
 
     const classes = useStyles();
-    const { setProject, project, projectMilestones, milestonesChange, isError, isEdit, setProjectMilestones } = props;
+    const { setProject, project, projectMilestones, milestonesChange, isEdit, setProjectMilestones } = props;
     const [addUserModalOpen, setAddUserModalOpen] = useState(false)
-    const [newResValue, setNewResValue] = useState()
 
-    const handleResChange = (e) => setNewResValue(e.target.value)
     const users = useSelector((state) => state.users.users);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleOptions = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+
+    // const handleOptions = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
 
     const handleClick = (e) => {
@@ -136,8 +122,10 @@ function AddMilestonesForm(props) {
         // }
         setAddUserModalOpen(true)
     }
-    const ITEM_HEIGHT = 48;
 
+
+    if (!users.length) return ''
+    
     const milestones = projectMilestones.map((milestone) => {
         const user = users.find((elem) => elem.uuid === milestone.user_uuid),
             userName = `${user.firstName} ${user.lastName}`,
@@ -146,7 +134,6 @@ function AddMilestonesForm(props) {
             end = new Date(milestone.end_date),
             startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`,
             endDate = `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}`;
-
 
         return (
             <Grid item container key={Math.random()} justify="flex-start" sm={12} md={6} lg={4}>

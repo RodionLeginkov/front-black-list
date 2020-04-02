@@ -10,7 +10,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { userRoles } from '../../constants/constants';
 
 const StyledTableCell = withStyles((theme) => ({

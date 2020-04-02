@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import { useHistory, Link, Redirect } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignUp() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const userAuth = useSelector((state) => state.auth);
@@ -50,7 +49,7 @@ export default function SignUp() {
     err: false,
     message: '',
   });
-  const [passwordError, setPasswordError] = useState({
+  const [passwordError] = useState({
     err: false,
     message: '',
   });
@@ -74,9 +73,9 @@ export default function SignUp() {
       password: e.target.value,
     });
   };
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
   const handleClose = () => {
     setOpen(false);
   };

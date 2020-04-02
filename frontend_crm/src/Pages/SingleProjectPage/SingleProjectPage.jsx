@@ -13,16 +13,13 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
-import { compose } from 'redux';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
-import UserList from '../../components/UserList/UserList.jsx';
-import StackIcon from '../../components/StackIcon/StackIcon.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
-import { stackList } from '../../constants/constants';
+
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -81,6 +78,7 @@ function CurrentProject(props) {
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.projects.currentProject);
+
   useEffect(() => {
     if (!project) {
       dispatch(getProjects());
@@ -88,7 +86,8 @@ function CurrentProject(props) {
       dispatch(getUsers());
     }
   }, [dispatch, projectId, project]);
-  if (!project) { return (<Loading />); }
+
+  if (!project)  return (<Loading />)
 
 
   // sconsole.log(project);
@@ -131,7 +130,7 @@ function CurrentProject(props) {
           {/* <Typography className={classes.english}>
               {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
             </Typography> */}
-          <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
+ <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
 
         </div>
 

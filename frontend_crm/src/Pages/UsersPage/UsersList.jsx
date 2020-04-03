@@ -116,7 +116,7 @@ export default function UsersList(props) {
           {rows.map((user) => (
             <StyledTableRow
               style={{ cursor: 'pointer' }}
-              key={user.lName}
+              key={Math.random()}
               onClick={() => handleClick(user.id)}
             >
               <StyledTableCell component="th" scope="row">
@@ -127,7 +127,7 @@ export default function UsersList(props) {
               <StyledTableCell align="right">{user.current_task}</StyledTableCell>
               <StyledTableCell align="right">
                 {user.milestons.map((item) => (
-                  <p>
+                  <p key={Math.random()}>
                     {projects.map((project) => {
                       if (project.uuid === item.project_uuid) return project.name;
                     })}
@@ -141,6 +141,7 @@ export default function UsersList(props) {
                 {user.project_ready}
                 %
               </StyledTableCell>
+
               <StyledTableCell align="right">{user.seniority}</StyledTableCell>
               {/* <StyledTableCell align="right">
                 <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>

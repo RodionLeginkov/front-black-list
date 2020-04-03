@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUserPage = ({ match, isError }) => {
+const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -83,7 +83,7 @@ const EditUserPage = ({ match, isError }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
-
+  const [isError, setIsError] = useState(false);
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
     role: '',
@@ -106,6 +106,15 @@ const EditUserPage = ({ match, isError }) => {
     hiredAt: null,
     Skills: [],
   };
+
+
+  const reqFields = [
+    'email',
+    'role',
+    'firstName',
+    'lastName',
+    'phone1',
+    'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
@@ -141,8 +150,11 @@ const EditUserPage = ({ match, isError }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(user));
-    history.push(`/user/${userId}`);
+    const isEmpty = reqFields.find((field) => (!user[field]));
+    if (isEmpty === undefined) {
+      dispatch(updateUser(user));
+      history.push(`/user/${userId}`);
+    } else setIsError(true);
   };
 
   let filteredProjects = projects;
@@ -187,6 +199,8 @@ const EditUserPage = ({ match, isError }) => {
                   <TextField
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
+                    error={!user.firstName && isError}
+                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ""}
                     label="User name"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -200,6 +214,8 @@ const EditUserPage = ({ match, isError }) => {
                     style={{ marginBottom: 10 }}
                     value={user.lastName}
                     label="User name"
+                    error={!user.lastName && isError}
+                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ""}
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
@@ -211,6 +227,10 @@ const EditUserPage = ({ match, isError }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <FormControl
+
+                    error={!user.role && isError}
+                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
+
                     placeholder='Role'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -250,6 +270,8 @@ const EditUserPage = ({ match, isError }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    error={!user.email && isError}
+                    helperText={(!user.email.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -260,6 +282,8 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                     error={!user.phone1 && isError}
+                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.phone1 || ''}
                     variant="outlined"
@@ -289,8 +313,8 @@ const EditUserPage = ({ match, isError }) => {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-  <InputAdornment position="end">
-    %
+                        <InputAdornment position="end">
+                          %
   </InputAdornment>,
 
                     }}
@@ -345,6 +369,8 @@ const EditUserPage = ({ match, isError }) => {
                     <KeyboardDatePicker
                       style={{ width: '100%' }}
                       inputVariant="outlined"
+                      error={!user.hiredAt && isError}
+                    helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
                       disableToolbar
                       variant="inline"
                       format="dd/MM/yyyy"

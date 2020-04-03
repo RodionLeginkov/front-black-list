@@ -128,12 +128,10 @@ function AddProjectPage(props) {
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
 
 
-  // const reqFields = ['name', 'communication', 'startDate',
-  //   'type', 'source', 'withdrawal_of_funds',
-  //   'paymentType', 'paymentAmount', 'load', 'resources'];
+  const reqFields = ['name', 'customer', 'description'];
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
-  const [isError] = useState(false);
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
     setProjectMilestones(initialMilestones);
@@ -176,28 +174,27 @@ function AddProjectPage(props) {
 
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    // const isEmpty = reqFields.find((field) => (!project[field]));
-    // if (isEmpty === undefined) {
-    // console.log(project)
-    // console.log('Skills' in project); // true
-    if (projectId) {
-      // delete project.Projects_Milestones;
-      for (const index in projectMilestones) {
-        if (Number(index) + 1 > curProject.Projects_Milestones.length) {
-          dispatch(addMilestone(projectMilestones[index]));
+    // e.preventDefault();
+    const isEmpty = reqFields.find((field) => (!project[field]));
+    if (isEmpty === undefined) {
+      if (projectId) {
+        // delete project.Projects_Milestones;
+        for (const index in projectMilestones) {
+          if (Number(index) + 1 > curProject.Projects_Milestones.length) {
+            dispatch(addMilestone(projectMilestones[index]));
+          }
         }
+        dispatch(updateProject(project));
+        dispatch(getProject(projectId));
+        history.push(`/projects/${project.uuid}`);
+      } else {
+        dispatch(addProject(project));
+        history.push('/projects');
       }
-      dispatch(updateProject(project));
-      dispatch(getProject(projectId));
-      history.push(`/projects/${project.uuid}`);
-    } else {
-      dispatch(addProject(project));
-      history.push('/projects');
-    }
-    // } else setIsError(true);
+    } else setIsError(true);
   };
 
+console.log(!project.name && isError)
 
   return (
     <>
@@ -239,7 +236,7 @@ function AddProjectPage(props) {
                 required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}
-                // helpertext={(!project.name && isError) ? "Empty field." : ''}
+                helperText={(!project.name.length && isError) ? 'Empty field.':"" }
                 value={project.name || ''}
                 label="Project Name"
                 variant="outlined"
@@ -250,11 +247,11 @@ function AddProjectPage(props) {
 
                 InputProps={{
                   endAdornment:
-  <InputAdornment position="end">
-    <Tooltip title="Project Name">
-      <HelpOutlineSharpIcon className={classes.helperIcon} />
-    </Tooltip>
-  </InputAdornment>,
+                    <InputAdornment position="end">
+                      <Tooltip title="Project Name">
+                        <HelpOutlineSharpIcon className={classes.helperIcon} />
+                      </Tooltip>
+                    </InputAdornment>,
 
                 }}
               />
@@ -485,8 +482,8 @@ function AddProjectPage(props) {
                 </Grid> */}
                 <Grid item xs={12}>
                   <TextField
-                    // error={!project.customer && isError}
-                    // helpertext={(!project.status && isError) ? "Empty field." : ''}
+                    error={!project.customer && isError}
+                    helperText={(!project.customer && isError) ? "Empty field." : ''}
                     style={{ width: '100%' }}
                     value={project.customer}
                     variant="outlined"
@@ -558,6 +555,8 @@ function AddProjectPage(props) {
                 />
               </Grid> */}
               <TextField
+                error={!project.description && isError}
+                helperText={(!project.description && isError) ? "Empty field." : ''}
                 style={{ marginBottom: '10px' }}
                 value={project.description}
                 variant="outlined"

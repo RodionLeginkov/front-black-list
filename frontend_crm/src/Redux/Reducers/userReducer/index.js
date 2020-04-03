@@ -4,9 +4,11 @@ import {
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
   FILTER_USER_EMAIL, EDIT_USER, FILTER_USER_STACK, FILTER_USER_PHONE,
   FILTER_USER_ENGLISH_LEVEL,
+  ADD_USER_ERROR, ADD_USER,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
+  user: null,
   users: [],
   length: 8,
   filteredUsers: [],
@@ -14,6 +16,7 @@ const initialState = {
   loadingCurrentUser: false,
   currentUser: null,
   deleteUserError: false,
+  addUserError: false,
   filters: {
     name: '',
     skill: [],
@@ -92,6 +95,13 @@ const userReducer = produce((draft, action) => {
 
     case FILTER_USER_EMAIL:
       draft.filters.email = action.payload;
+      return draft;
+    case ADD_USER:
+      draft.user = action.payload;
+      return draft;
+
+    case ADD_USER_ERROR:
+      draft.addUserError = true;
       return draft;
 
     default:

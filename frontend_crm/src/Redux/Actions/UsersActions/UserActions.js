@@ -1,11 +1,11 @@
 import {
-  loadAllUsers, loadUser, deletedUser, patchUser,
+  loadAllUsers, loadUser, deletedUser, patchUser, postUser,
 } from './UsersApi';
 import {
   LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
   DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
   FILTER_USER_NAME, FILTER_USER_EMAIL, EDIT_USER, EDIT_USER_ERROR,
-  FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
+  FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL, ADD_USER, ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = (filter, page, pageSize) => async (dispatch) => {
@@ -29,6 +29,18 @@ export const getUser = (userId) => async (dispatch) => {
     dispatch({ type: LOAD_CURRENT_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
+  }
+};
+
+export const AddUser = (user) => async (dispatch) => {
+  try {
+    console.log('User', user);
+    const loginToken = localStorage.getItem('token');
+    const { data } = await postUser(user, { headers: { token: loginToken } });
+    console.log('DATA', data);
+    dispatch({ type: ADD_USER, payload: data });
+  } catch (error) {
+    dispatch({ type: ADD_USER_ERROR, payload: error });
   }
 };
 

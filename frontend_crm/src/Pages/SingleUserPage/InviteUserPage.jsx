@@ -24,7 +24,9 @@ import {
 } from '@material-ui/pickers';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
-import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import {
+  getUsers, updateUser, getUser, AddUser,
+} from '../../Redux/Actions/UsersActions/UserActions';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -97,7 +99,7 @@ const EditUserPage = ({ match, isError }) => {
     firstName: '',
     lastName: '',
     phone1: '',
-    hiredAt: null
+    hiredAt: null,
   };
 
   const [user, setUser] = useState(initialValue);
@@ -120,21 +122,36 @@ const EditUserPage = ({ match, isError }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining  })
+  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining });
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const login = {
-      email: user.email,
-      role: user.role,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      phone1: user.phone1,
-      hiredAt: user.hiredAt,
-    };
-    // console.log(login);
-    dispatch(inviteUsers(login));
+    if (user.email === '') {
+      const login = {
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone1: user.phone1,
+        hiredAt: user.hiredAt,
+      };
+      dispatch(AddUser(login));
+      if (login.role === '' || login.firstName === '' || login.lastName === '') ;
+      else history.push('/users');
+    } else {
+      const login = {
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone1: user.phone1,
+        hiredAt: user.hiredAt,
+      };
+      // console.log(login);
+      dispatch(AddUser(login));
+      console.log(login);
+      if (login.role === '' || login.firstName === '' || login.lastName === '') ;
+      else history.push('/users');
+    }
   };
   // else {
   //   //setOpen(true);
@@ -181,7 +198,7 @@ const EditUserPage = ({ match, isError }) => {
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <div className={classes.header}>
-                <h2>Invite user</h2>
+                <h2>Add User</h2>
                 <Tooltip title='close'>
                   <Button>
                     <CloseSharpIcon style={{ color: '#a3a3a3' }} />
@@ -233,6 +250,8 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
+                    error={!user.email && isError}
+                    helperText={(!user.email.length && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"
@@ -244,13 +263,14 @@ const EditUserPage = ({ match, isError }) => {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     style={{ width: '100%' }}
-                    value={user.phoneNumber}
+                    value={user.phone1}
                     variant="outlined"
                     label="Phone Number"
                     name='phone1'
                     onChange={handleChange}
                   />
                 </Grid>
+
               </Grid>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid item xs={12} sm={6}>

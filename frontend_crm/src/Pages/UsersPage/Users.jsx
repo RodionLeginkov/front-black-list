@@ -57,7 +57,7 @@ function Users() {
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState();
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(800);
   const [pageCount, setPageCount] = useState((Math.ceil(allUsers / pageSize)));
   // console.log('test', TEST);
 

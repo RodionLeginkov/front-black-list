@@ -15,6 +15,11 @@ async function patchData(url, data, token) {
   return response;
 }
 
+async function postData(url, data, token) {
+  const response = await axios.post(url, data, { headers: { token } });
+  return response;
+}
+
 // eslint-disable-next-line import/prefer-default-export
 
 export const loadAllUsers = (filter, page, pageSize, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filter, page, pageSize, token);
@@ -25,3 +30,5 @@ export const loadUser = (token, userId) => getData(`${process.env.REACT_APP_BASE
 export const deletedUser = (token, userId) => deleteData(`${process.env.REACT_APP_BASE_API}user/${userId}`, token);
 
 export const patchUser = (token, userId, data) => patchData(`${process.env.REACT_APP_BASE_API}user/${userId}`, data, token);
+
+export const postUser = (data, token) => postData(`${process.env.REACT_APP_BASE_API}user`, data, token);

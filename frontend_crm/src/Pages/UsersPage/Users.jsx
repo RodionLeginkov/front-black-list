@@ -48,6 +48,7 @@ const useStyles = makeStyles({
 
 function Users() {
   const classes = useStyles();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const users = useSelector((state) => getFilteredUsers(state));

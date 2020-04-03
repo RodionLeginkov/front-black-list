@@ -86,6 +86,7 @@ const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const { userId } = match.params;
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
@@ -98,7 +99,7 @@ const EditUserPage = ({ match }) => {
     firstName: '',
     lastName: '',
     phone1: '',
-    hiredAt: null
+    hiredAt: null,
   };
 
   const reqFields = [
@@ -129,12 +130,12 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining })
+  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining });
 
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined) {
+    if (isEmpty === undefined && validateEmail(user.email)) {
       const login = {
         email: user.email,
         role: user.role,
@@ -144,7 +145,7 @@ const EditUserPage = ({ match }) => {
         hiredAt: user.hiredAt,
       };
       dispatch(inviteUsers(login));
-      dispatch(getUser(userId))
+      dispatch(getUser(userId));
       // history.push('/users')
     } else setIsError(true);
   };
@@ -200,7 +201,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     error={!user.firstName && isError}
-                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
                     // style={{ marginBottom: 10 }}
                     value={user.firstName}
                     label="User name"
@@ -214,7 +215,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     error={!user.lastName && isError}
-                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
                     // style={{ marginBottom: 10 }}
                     value={user.lastName}
                     label="User surname"
@@ -228,7 +229,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={12}>
                   <FormControl
                     error={!user.role && isError}
-                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
+                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
                     placeholder='Role'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -246,8 +247,8 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                    error={!user.email && isError}
-                    helperText={(!user.email.length && isError) ? 'Empty field.' : ""}
+                    error={!validateEmail(user.email) && isError}
+                    helperText={(!validateEmail(user.email) && isError) ? 'email is not correct' : ''}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"
@@ -259,7 +260,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     error={!user.phone1 && isError}
-                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={user.phone1}
                     variant="outlined"
@@ -273,7 +274,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <KeyboardDatePicker
                     error={!user.hiredAt && isError}
-                    helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar

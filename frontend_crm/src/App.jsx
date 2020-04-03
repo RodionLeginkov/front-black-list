@@ -3,11 +3,12 @@ import React, { useEffect } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar';
 import Users from './Pages/UsersPage/Users.jsx';
 import Projects from './Pages/ProjectsPage/Projects';
-import axios from 'axios';
 import Leads from './Pages/LeadsPage/Leads';
 import Home from './Pages/HomePage/Home';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
@@ -20,7 +21,6 @@ import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
 import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
 import 'react-notifications/lib/notifications.css';
 
@@ -31,19 +31,17 @@ const theme = createMuiTheme({
 });
 
 function App() {
-
   useEffect(() => {
     axios.interceptors.response.use(
       (res) => res,
       async (error) => {
-        console.log( error.response.data.errors[0])
+        console.log(error.response.data.error);
         const { param, msg } = error.response.data.errors[0];
         NotificationManager.error(msg);
         return error;
       },
     );
-  }, []
-  )
+  }, []);
   // localStorage.setItem('token', '');
   return (
     <>

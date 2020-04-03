@@ -50,26 +50,39 @@ function Users() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.users.length);
+  // const TEST = useSelector((state) => state.users);
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState();
-  const [page, setPage] = useState();
-  const [pageSize, setPageSize] = useState();
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(2);
+  const [pageCount, setPageCount] = useState((Math.ceil(allUsers / pageSize)));
+  // console.log('test', TEST);
+
   // console.log(users);
   // const filter = 'developer';
   // setPage(10);
+
   useEffect(() => {
-    dispatch(getUsers(filter, page));
+    dispatch(getUsers(filter, page, pageSize));
     dispatch(getProjects());
-  }, [dispatch, filter]);
+    // console.log(pageCount);
+  }, [dispatch, filter, page]);
+
+  // else if (allUsers > pageSize) ;
   // console.log('filter', filter);
+
   const handleChange = (event) => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
+  // setPageCount((Math.ceil(allUsers / pageSize)));
   return (
+
     <div className={classes.container}>
+
       <div className={classes.usersHeader}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <h1>Users</h1>
@@ -98,8 +111,10 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: 'Developers' });
-              dispatch(getUsers(filter));
+              setFilter('Developers');
+              dispatch(getUsers(filter, page, pageSize));
+              setPageCount((Math.ceil(allUsers / pageSize)));
+              // setPage(0);
             }}
           >
             Developers
@@ -112,8 +127,9 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: 'manager' });
-              dispatch(getUsers(filter));
+              setFilter('manager');
+              dispatch(getUsers(filter, page, pageSize));
+              setPageCount((Math.ceil(allUsers / pageSize)));
             }}
           >
             Managers
@@ -126,15 +142,22 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: '' });
-              dispatch(getUsers(filter));
+              setFilter('');
+              dispatch(getUsers(filter, page, pageSize));
+              setPageCount((Math.ceil(allUsers / pageSize)));
             }}
           >
             All
           </Button>
         </Grid>
       </Grid>
-      <Pagination count={10} color="primary" />
+      <Pagination
+        count={pageCount}
+        color="primary"
+        onChange={(event, page) => {
+          dispatch(getUsers(filter, page - 1, pageSize));
+        }}
+      />
       <Grid
         className={classes.usersWrapper}
         container

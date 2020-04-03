@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-async function getData(url, filter, token) {
-  const response = await axios.get(url, { params: filter }, { headers: { token } });
+async function getData(url, filter, page, pageSize, token) {
+  const response = await axios.get(url, { params: { filter, page, pageSize } }, { headers: { token } });
   return response;
 }
 
@@ -17,7 +17,7 @@ async function patchData(url, data, token) {
 
 // eslint-disable-next-line import/prefer-default-export
 
-export const loadAllUsers = (filter, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filter, token);
+export const loadAllUsers = (filter, page, pageSize, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filter, page, pageSize, token);
 
 
 export const loadUser = (token, userId) => getData(`${process.env.REACT_APP_BASE_API}user/${userId}`, token);

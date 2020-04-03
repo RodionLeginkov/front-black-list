@@ -30,9 +30,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(fName, lName, milestons, seniority, role, id) {
+function createData(fName, lName, milestons, seniority, role, id, project_ready, current_task) {
   return {
-    fName, lName, milestons, seniority, role, id,
+    fName, lName, milestons, seniority, role, id, project_ready, current_task,
   };
 }
 
@@ -86,6 +86,8 @@ export default function UsersList(props) {
       difDates(startDate, curDate),
       role,
       user.uuid,
+      user.project_ready,
+      user.current_task,
     );
   });
 
@@ -106,6 +108,8 @@ export default function UsersList(props) {
             <StyledTableCell align="right">Current rate</StyledTableCell>
             <StyledTableCell align="right">Role in the project</StyledTableCell>
             <StyledTableCell align="right">Seniority</StyledTableCell>
+            <StyledTableCell align="right">Project Ready</StyledTableCell>
+            <StyledTableCell align="right">Current Task</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -133,6 +137,11 @@ export default function UsersList(props) {
               <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.rate}</p>)}</StyledTableCell>
               <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.role}</p>)}</StyledTableCell>
               <StyledTableCell align="right">{user.seniority}</StyledTableCell>
+              <StyledTableCell align="right">
+                {user.project_ready}
+                %
+              </StyledTableCell>
+              <StyledTableCell align="right">{user.current_task}</StyledTableCell>
               {/* <StyledTableCell align="right">
                 <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
                   <DeleteOutlineIcon />

@@ -8,6 +8,7 @@ import {
 
 const initialState = {
   users: [],
+  length: 8,
   filteredUsers: [],
   loadingUsers: false,
   loadingCurrentUser: false,
@@ -39,7 +40,9 @@ const userReducer = produce((draft, action) => {
       draft.loadingUsers = true;
       return draft;
     case LOAD_USER_SUCCESS:
-      draft.users = action.payload;
+      // console.log('reduceer', action.payload.length);
+      draft.length = action.payload.count;
+      draft.users = action.payload.rows;
       draft.filteredUsers = action.payload;
       draft.loadingUsers = false;
       return draft;
@@ -59,8 +62,7 @@ const userReducer = produce((draft, action) => {
       return draft;
 
     case EDIT_USER:
-      draft.users[draft.users.findIndex((user) =>
-        user.uuid === action.payload.uuid)] = action.payload;
+      draft.users[draft.users.findIndex((user) => user.uuid === action.payload.uuid)] = action.payload;
       draft.currentUser = action.payload;
       return draft;
 

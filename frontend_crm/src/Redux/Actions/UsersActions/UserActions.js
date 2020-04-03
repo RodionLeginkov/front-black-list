@@ -8,11 +8,13 @@ import {
   FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filter) => async (dispatch) => {
+export const getUsers = (filter, page, pageSize) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filter, loginToken);
+    const { data } = await loadAllUsers(filter, page, pageSize, loginToken);
+    // console.log('DATA', data.length);
+    localStorage.setItem('usersCount', data.length);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });

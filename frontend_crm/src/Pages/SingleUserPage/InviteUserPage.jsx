@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUserPage = ({ match, isError }) => {
+const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -91,6 +91,10 @@ const EditUserPage = ({ match, isError }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
   const userAuth = useSelector((state) => state.auth);
+
+  const [isError, setIsError] = useState(false);
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
     role: '',
@@ -106,10 +110,13 @@ const EditUserPage = ({ match, isError }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (userId && !curUser) {
-      dispatch(getUsers());
-      dispatch(getUser(userId));
-    }
+
+    // if (userId && !curUser) {
+    dispatch(getUsers());
+    // dispatch(getUser(userId));
+
+    // }
+
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -120,7 +127,8 @@ const EditUserPage = ({ match, isError }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining  })
+
+  const startDateChange = (dataofJoining) => {setOpenStartDatePicker(isOpen => !isOpen);setUser({ ...user, hiredAt: dataofJoining })};
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -258,6 +266,8 @@ const EditUserPage = ({ match, isError }) => {
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar
+                    onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                    open={openStartDatePicker}
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"

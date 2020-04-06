@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EditUserPage = ({ match, isError }) => {
+const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -82,6 +82,10 @@ const EditUserPage = ({ match, isError }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
+
+  const [isError, setIsError] = useState(false);
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
@@ -131,9 +135,9 @@ const EditUserPage = ({ match, isError }) => {
   //   setUser({ ...user, currentProject: values });
   // };
 
-  const startDateChange = (hiredAt) => setUser({ ...user, hiredAt });
+  const startDateChange = (hiredAt) => { setOpenStartDatePicker(isOpen => !isOpen); setUser({ ...user, hiredAt }) };
 
-  const endDateChange = (firedAt) => setUser({ ...user, firedAt });
+  const endDateChange = (firedAt) => { setOpenEndDatePicker(isOpen => !isOpen); setUser({ ...user, firedAt }) };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -256,6 +260,8 @@ const EditUserPage = ({ match, isError }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    error={!user.phone1 && isError}
+                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.phone1 || ''}
                     variant="outlined"
@@ -320,7 +326,11 @@ const EditUserPage = ({ match, isError }) => {
                     <KeyboardDatePicker
                       style={{ width: '100%' }}
                       inputVariant="outlined"
+                      error={!user.hiredAt && isError}
+                      helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
                       disableToolbar
+                      onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                      open={openStartDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"
@@ -337,6 +347,8 @@ const EditUserPage = ({ match, isError }) => {
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       disableToolbar
+                      onClick={() => setOpenEndDatePicker(isOpen => !isOpen)}
+                      open={openEndDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"
@@ -374,3 +386,4 @@ EditUserPage.propTypes = {
 };
 
 export default EditUserPage;
+

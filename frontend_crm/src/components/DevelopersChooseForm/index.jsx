@@ -41,6 +41,7 @@ export default function DevelopersChooseForm(props) {
     filteredUsers = filteredUsers.filter((user) => (
       user.lastName !== developersValue[index].lastName));
   }
+
   return (
     <>
       <Autocomplete

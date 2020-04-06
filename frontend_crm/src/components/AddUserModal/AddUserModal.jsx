@@ -23,6 +23,7 @@ import {
 // import { userRoles, englishLevels, stackList } from '../../constants/constants';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm';
+import {getProjects} from '../../Redux/Actions/ProjectsActions/ProjectActions'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -110,14 +111,33 @@ export default function AddUserModal(props) {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
+  const reqFields = [
+    'user_uuid',
+    // 'project_uuid',
+    'role',
+    'rate',
+    'unit',
+    'load',
+    'start_date',
+  ]
+
+
+
   const handleAdd = (e) => {
     e.preventDefault();
-    if (isEdit) dispatch(addMilestone(project));
-    else milestonesChange(project);
-    setProject(initialValue);
-    setAddUserModalOpen(false);
+    const isEmpty = reqFields.find((field) => (!project[field]));
+    if (isEmpty === undefined) {
+      if (isEdit) {
+        dispatch(addMilestone(project))
+      }
+      else milestonesChange(project);
+      setProject(initialValue);
+      setAddUserModalOpen(false);
+    } 
   };
-  const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
+
+
+  const userChange = (user) =>{setProject({ ...project, user_uuid: user ? user.uuid : '' })};
 
   const startDateChange = (startDate) => {setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => {setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate });};
@@ -208,11 +228,11 @@ export default function AddUserModal(props) {
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
-                  onClick={() => setOpenStartDatePicker(isOpenStartDatePicker => !isOpenStartDatePicker)}
+                  onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                  open={openStartDatePicker}
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
-                  open={openStartDatePicker}
                   value={project.start_date}
                   label="Start Date"
                   onChange={startDateChange}
@@ -228,10 +248,10 @@ export default function AddUserModal(props) {
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
-                  onClick={() => setOpenEndDatePicker(isOpenEndDatePicker => !isOpenEndDatePicker)}
-                  setOpenEndDatePicker
-                  label="End date"
+
+                  onClick={() => setOpenEndDatePicker(isOpen => !isOpen)}
                   open={openEndDatePicker}
+                  label="End date"
                   className={clsx(classes.formControl, classes.inputForm)}
                   onChange={endDateChange}
                   value={project.end_date}

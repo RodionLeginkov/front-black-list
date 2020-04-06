@@ -188,16 +188,16 @@ function AddProjectPage(props) {
           dispatch(addMilestone(projectMilestones[index]));
         }
       }
-      dispatch(updateProject(project));
-      dispatch(getProject(projectId));
-      history.push(`/projects/${project.uuid}`);
-    } else {
-      dispatch(addProject(project));
-      history.push('/projects');
-    }
+        dispatch(updateProject(project));
+        dispatch(getProject(projectId));
+        history.push(`/projects/${project.uuid}`);
+      } else {
+        dispatch(getProjects());
+        history.push('/projects');
+
+      }
     // } else setIsError(true);
   };
-
 
   return (
     <>

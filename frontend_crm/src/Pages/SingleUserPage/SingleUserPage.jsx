@@ -207,7 +207,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 <span className={classes.fieldTitle}>Projects: </span>
                 <div className={classes.fieldValue}>
                   <CustomProjectIcon
-                    projects={user.Projects || []}
+                       milestones={user.Users_Milestones}
                   />
                 </div>
               </div>

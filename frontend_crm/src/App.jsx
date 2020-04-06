@@ -1,5 +1,5 @@
  
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
@@ -20,6 +20,9 @@ import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
 import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
 import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
+import axios from 'axios';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,6 +31,18 @@ const theme = createMuiTheme({
 });
 
 function App() {
+
+  useEffect(() => {
+    axios.interceptors.response.use(
+      (res) => res,
+      (error) => {
+        const { message } = error.response.data.error;
+        NotificationManager.error(message);
+        return Promise.reject(error);
+      },
+    );
+  }, []);
+
   // localStorage.setItem('token', '');
   return (
 
@@ -35,6 +50,7 @@ function App() {
       <BrowserRouter>
         <AuthContextProvider>
           <div className="App">
+          <NotificationContainer />
             <Navbar />
             <Switch>
               <PrivateRoute exact path="/" component={Home} />

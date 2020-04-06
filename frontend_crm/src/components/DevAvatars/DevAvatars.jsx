@@ -33,17 +33,16 @@ export default function DevAvatars(props) {
     history.push(`/user/${userId}`);
   }
 
-  // console.log(users)
-
-
   const devList = milestones.map((milestone) => {
     const user = users.find((user) => user.uuid === milestone.user_uuid);
-    // console.log(user);
     if (user) {
       const userName = `${user.firstName} ${user.lastName}`;
       return (
-        <Tooltip className={classes.avatar} title={userName} key={milestone.user_uuid}>
-          <Avatar onClick={() => handleClick(milestone.user_uuid)} alt={userName} src={`${milestone.userImage}`} />
+        <Tooltip className={classes.avatar} title={userName} key={Math.random()}>
+          <Avatar
+           onClick={() => handleClick(milestone.user_uuid)} 
+           alt={userName}
+            src={`${milestone.userImage}`} />
         </Tooltip>
       );
     }

@@ -14,6 +14,7 @@
     "axios": "^0.19.2",
     "clsx": "^1.1.0",
     "date-fns": "^2.11.0",
+    "history": "^4.10.1",
     "immer": "^6.0.1",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.24.0",

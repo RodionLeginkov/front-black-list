@@ -99,6 +99,7 @@ export default function AddUserModal(props) {
 
   const handleCancel = (e) => {
     e.preventDefault();
+    setIsError(false);
     setProject(initialValue);
     setAddUserModalOpen(false);
   };
@@ -125,9 +126,11 @@ export default function AddUserModal(props) {
     const isEmpty = reqFields.find((field) => (!project[field]));
     console.log('isEmpty', isEmpty);
     if (isEmpty === undefined) {
+      setIsError(false)
       if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);
       setProject(initialValue);
+      setIsError(false);
       setAddUserModalOpen(false);
     } else setIsError(true);
   };
@@ -235,9 +238,6 @@ export default function AddUserModal(props) {
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
-                  onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
-                  open={openStartDatePicker}
-
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
@@ -250,20 +250,14 @@ export default function AddUserModal(props) {
                 />
 
                 <KeyboardDatePicker
-                  // error={!project.end_date && isError}
-                  // helperText={(!project.end_date && isError) ? "Empty field." : ''}
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
-
-                  onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
-                  open={openEndDatePicker}
                   label="End date"
                   className={clsx(classes.formControl, classes.inputForm)}
-
                   onChange={endDateChange}
                   value={project.end_date}
                   KeyboardButtonProps={{

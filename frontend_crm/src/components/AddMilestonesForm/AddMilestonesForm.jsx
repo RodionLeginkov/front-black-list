@@ -133,8 +133,8 @@ function AddMilestonesForm(props) {
             start = new Date(milestone.start_date),
             end = new Date(milestone.end_date),
             startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`,
-            endDate = `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}`;
-
+            endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
+    
         return (
             <Grid item container key={Math.random()} justify="flex-start" sm={12} md={6} lg={4}>
                 <Card className={classes.root}>

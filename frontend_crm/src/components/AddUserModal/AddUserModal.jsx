@@ -99,6 +99,7 @@ export default function AddUserModal(props) {
 
   const handleCancel = (e) => {
     e.preventDefault();
+    setIsError(false);
     setProject(initialValue);
     setAddUserModalOpen(false);
   };
@@ -129,6 +130,7 @@ export default function AddUserModal(props) {
       if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);
       setProject(initialValue);
+      setIsError(false);
       setAddUserModalOpen(false);
     } else setIsError(true);
   };

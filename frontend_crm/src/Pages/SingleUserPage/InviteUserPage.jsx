@@ -268,8 +268,6 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                    error={!user.phone1 && isError}
-                    helperText={(!user.phone1.length && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={user.phone1}
                     variant="outlined"

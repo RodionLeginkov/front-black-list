@@ -116,10 +116,10 @@ const EditUserPage = ({ match }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (userId && !curUser) {
-      dispatch(getUsers());
-      dispatch(getUser(userId));
-    }
+    // if (userId && !curUser) {
+    dispatch(getUsers());
+    // dispatch(getUser(userId));
+    // }
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -145,7 +145,7 @@ const EditUserPage = ({ match }) => {
         hiredAt: user.hiredAt,
       };
       dispatch(inviteUsers(login));
-      dispatch(getUser(userId));
+      dispatch(getUsers());
       // history.push('/users')
     } else setIsError(true);
   };

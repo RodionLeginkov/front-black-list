@@ -13,7 +13,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
-import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
+// import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 import UsersList from './UsersList.jsx';
 
 
@@ -69,6 +69,7 @@ function Users() {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
+  console.log('users', users);
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>

@@ -23,7 +23,7 @@ import {
 // import { userRoles, englishLevels, stackList } from '../../constants/constants';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm';
-import {getProjects} from '../../Redux/Actions/ProjectsActions/ProjectActions'
+import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -119,11 +119,11 @@ export default function AddUserModal(props) {
     'load',
     'start_date',
 
-  ]
+  ];
   const handleAdd = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
-    console.log('isEmpty', isEmpty)
+    console.log('isEmpty', isEmpty);
     if (isEmpty === undefined) {
       if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);
@@ -133,10 +133,10 @@ export default function AddUserModal(props) {
   };
 
 
-  const userChange = (user) =>{setProject({ ...project, user_uuid: user ? user.uuid : '' })};
+  const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '' }); };
 
-  const startDateChange = (startDate) => { setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => { setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate }); };
+  const startDateChange = (startDate) => { setOpenStartDatePicker((isOpen) => !isOpen); setProject({ ...project, start_date: startDate }); };
+  const endDateChange = (endDate) => { setOpenEndDatePicker((isOpen) => !isOpen); setProject({ ...project, end_date: endDate }); };
 
   return (
     <div className={classes.position}>
@@ -167,7 +167,7 @@ export default function AddUserModal(props) {
                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
                     error={!project.role && isError}
-                    helperText={(!project.role && isError) ? "Empty field." : ''}
+                    helperText={(!project.role && isError) ? 'Empty field.' : ''}
                     value={project.role || ''}
                     label="Role"
                     variant="outlined"
@@ -180,7 +180,7 @@ export default function AddUserModal(props) {
                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
                     error={!project.load && isError}
-                    helperText={(!project.load && isError) ? "Empty field." : ''}
+                    helperText={(!project.load && isError) ? 'Empty field.' : ''}
                     type="number"
                     value={project.load || ''}
                     label="Load"
@@ -191,8 +191,8 @@ export default function AddUserModal(props) {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-                        <InputAdornment position="end">
-                          hr/day
+  <InputAdornment position="end">
+    hr/day
   </InputAdornment>,
 
                     }}
@@ -201,7 +201,7 @@ export default function AddUserModal(props) {
                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     error={!project.rate && isError}
-                    helperText={(!project.rate && isError) ? "Empty field." : ''}
+                    helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     type="number"
                     value={project.rate || ''}
                     label="Rate"
@@ -215,7 +215,7 @@ export default function AddUserModal(props) {
                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     error={!project.unit && isError}
-                    helperText={(!project.unit && isError) ? "Empty field." : ''}
+                    helperText={(!project.unit && isError) ? 'Empty field.' : ''}
                     value={project.unit || ''}
                     label="Unit"
                     variant="outlined"
@@ -230,12 +230,12 @@ export default function AddUserModal(props) {
 
                 <KeyboardDatePicker
                   error={!project.start_date && isError}
-                  helperText={(!project.start_date && isError) ? "Empty field." : ''}
+                  helperText={(!project.start_date && isError) ? 'Empty field.' : ''}
                   className={clsx(classes.formControl, classes.inputForm)}
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
-                  onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                  onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
                   open={openStartDatePicker}
 
                   variant="inline"
@@ -250,8 +250,8 @@ export default function AddUserModal(props) {
                 />
 
                 <KeyboardDatePicker
-                  error={!project.end_date && isError}
-                  helperText={(!project.end_date && isError) ? "Empty field." : ''}
+                  // error={!project.end_date && isError}
+                  // helperText={(!project.end_date && isError) ? "Empty field." : ''}
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
@@ -259,7 +259,7 @@ export default function AddUserModal(props) {
                   format="dd/MM/yyyy"
                   margin="normal"
 
-                  onClick={() => setOpenEndDatePicker(isOpen => !isOpen)}
+                  onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
                   open={openEndDatePicker}
                   label="End date"
                   className={clsx(classes.formControl, classes.inputForm)}

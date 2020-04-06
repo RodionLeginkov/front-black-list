@@ -281,8 +281,8 @@ const EditUserPage = ({ match }) => {
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar
-                    onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
-                    open={openStartDatePicker}
+                    // onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
+                    // open={openStartDatePicker}
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"

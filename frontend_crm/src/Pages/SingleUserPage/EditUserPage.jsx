@@ -376,8 +376,8 @@ const EditUserPage = ({ match }) => {
                       helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
 
                       disableToolbar
-                      onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
-                      open={openStartDatePicker}
+                      // onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
+                      // open={openStartDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"
@@ -394,8 +394,8 @@ const EditUserPage = ({ match }) => {
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       disableToolbar
-                      onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
-                      open={openEndDatePicker}
+                      // onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
+                      // open={openEndDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"

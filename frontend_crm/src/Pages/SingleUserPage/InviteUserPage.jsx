@@ -111,7 +111,6 @@ const EditUserPage = ({ match }) => {
     'role',
     'firstName',
     'lastName',
-    'phone1',
     'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
@@ -125,8 +124,6 @@ const EditUserPage = ({ match }) => {
     // dispatch(getUser(userId));
 
     // }
-
-
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -138,7 +135,7 @@ const EditUserPage = ({ match }) => {
   };
 
 
-  const startDateChange = (dataofJoining) => {setOpenStartDatePicker(isOpen => !isOpen);setUser({ ...user, hiredAt: dataofJoining })};
+  const startDateChange = (dataofJoining) => { setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt: dataofJoining }); };
 
 
   const onSubmit = (e) => {
@@ -150,7 +147,6 @@ const EditUserPage = ({ match }) => {
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
-        phone1: user.phone1,
         hiredAt: user.hiredAt,
       };
       dispatch(inviteUsers(login));
@@ -285,7 +281,7 @@ const EditUserPage = ({ match }) => {
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar
-                    onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                    onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
                     open={openStartDatePicker}
                     variant="inline"
                     format="dd/MM/yyyy"

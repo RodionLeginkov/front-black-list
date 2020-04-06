@@ -135,7 +135,6 @@ const UserCard = ({ user }) => {
     }
   });
 
-
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
   const startDate = new Date(user.hiredAt);
@@ -182,7 +181,7 @@ const UserCard = ({ user }) => {
         <div className={classes.footer}>
           <div className={classes.stack}>{userStack}</div>
           <CustomProjectIcon
-          milestones={user.Users_Milestones}
+            milestones={user.Users_Milestones}
             addProject={changeIsShowingModal}
             edit
           />

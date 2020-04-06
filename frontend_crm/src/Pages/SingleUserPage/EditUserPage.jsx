@@ -118,7 +118,6 @@ const EditUserPage = ({ match }) => {
     'role',
     'firstName',
     'lastName',
-    'phone1',
     'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
@@ -149,9 +148,9 @@ const EditUserPage = ({ match }) => {
   //   setUser({ ...user, currentProject: values });
   // };
 
-  const startDateChange = (hiredAt) => { setOpenStartDatePicker(isOpen => !isOpen); setUser({ ...user, hiredAt }) };
+  const startDateChange = (hiredAt) => { setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt }); };
 
-  const endDateChange = (firedAt) => { setOpenEndDatePicker(isOpen => !isOpen); setUser({ ...user, firedAt }) };
+  const endDateChange = (firedAt) => { setOpenEndDatePicker((isOpen) => !isOpen); setUser({ ...user, firedAt }); };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -205,7 +204,7 @@ const EditUserPage = ({ match }) => {
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
                     error={!user.firstName && isError}
-                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
                     label="User name"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -220,7 +219,7 @@ const EditUserPage = ({ match }) => {
                     value={user.lastName}
                     label="User name"
                     error={!user.lastName && isError}
-                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
@@ -234,7 +233,7 @@ const EditUserPage = ({ match }) => {
                   <FormControl
 
                     error={!user.role && isError}
-                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
+                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
 
                     placeholder='Role'
                     variant="outlined"
@@ -276,7 +275,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     error={!user.email && isError}
-                    helperText={(!user.email.length && isError) ? 'Empty field.' : ""}
+                    helperText={(!user.email.length && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -316,8 +315,8 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-                        <InputAdornment position="end">
-                          %
+  <InputAdornment position="end">
+    %
   </InputAdornment>,
 
                     }}
@@ -374,10 +373,10 @@ const EditUserPage = ({ match }) => {
                       inputVariant="outlined"
                       error={!user.hiredAt && isError}
 
-                      helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
+                      helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
 
                       disableToolbar
-                      onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                      onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
                       open={openStartDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
@@ -395,7 +394,7 @@ const EditUserPage = ({ match }) => {
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       disableToolbar
-                      onClick={() => setOpenEndDatePicker(isOpen => !isOpen)}
+                      onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
                       open={openEndDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
@@ -434,4 +433,3 @@ EditUserPage.propTypes = {
 };
 
 export default EditUserPage;
-

@@ -58,8 +58,8 @@ export default function Forgot() {
           showNullError: false,
         });
       } else {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_API}users/forgotPassword`, { email: form.email });
-
+        const response = await axios.post(`${process.env.REACT_APP_BASE_API}forgotPass`, { email: form.email });
+        console.log('response', response);
         if (response.data === 'email not in db') {
           setState({
             ...form,

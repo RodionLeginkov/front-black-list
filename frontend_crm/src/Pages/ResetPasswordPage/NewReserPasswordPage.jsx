@@ -114,7 +114,10 @@ export default function ResetPassword(props) {
           password: form.password,
           token: tokenId,
         });
-        console.log(response);
+        // console.log(response);
+        // console.log('token', response.data.token.accessToken);
+        localStorage.setItem('token', response.data.token.accessToken);
+        history.push('/');
         if (response.data.message === 'password updated') {
           setState({
             ...form,
@@ -122,7 +125,6 @@ export default function ResetPassword(props) {
             error: false,
 
           });
-          // history.push('/home');
           // window.location = '/signin';
         } else {
           setState({

@@ -3,7 +3,7 @@ import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Forgot() {
   const classes = useStyles();
+  const history = useHistory();
   const [form, setState] = useState({
     email: '',
     showError: false,
@@ -59,27 +60,28 @@ export default function Forgot() {
         });
       } else {
         const response = await axios.post(`${process.env.REACT_APP_BASE_API}forgotPass`, { email: form.email });
+        history.push('/');
         console.log('response', response);
-        if (response.data === 'email not in db') {
-          setState({
-            ...form,
-            showError: true,
-            messageFromServer: '',
-            showNullError: true,
-          });
-        } else if (response.data === 'recovery email sent') {
-          setState({
-            ...form,
-            showError: false,
-            messageFromServer: 'recovery email sent',
-            showNullError: false,
-          });
-          alert('check your email');
-          window.location = '/signin';
-        }
+        // if (response.data === 'email not in db') {
+        //   setState({
+        //     ...form,
+        //     showError: true,
+        //     messageFromServer: '',
+        //     showNullError: true,
+        //   });
+        // } else if (response.data === 'recovery email sent') {
+        //   setState({
+        //     ...form,
+        //     showError: false,
+        //     messageFromServer: 'recovery email sent',
+        //     showNullError: false,
+        //   });
+        //   alert('check your email');
+        //   window.location = '/signin';
+        // }
       }
     } catch (err) {
-      alert('letter sent to your mail');
+
     }
   };
 

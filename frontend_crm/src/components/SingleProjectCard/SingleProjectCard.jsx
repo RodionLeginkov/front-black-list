@@ -148,8 +148,6 @@ export default function RecipeReviewCard(props) {
   const startDate = new Date(card.start_date);
   const curDate = new Date();
 
-
-  //console.log("CARD",card)
   return (
     <>
       <Card className={classes.root}>
@@ -191,12 +189,24 @@ export default function RecipeReviewCard(props) {
               </Button>
             </span>
           </Tooltip>
-          <DevAvatars milestones={card.Projects_Milestones} addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} />
+          <DevAvatars
+            milestones={card.Projects_Milestones}
+            addUserModalOpen={addUserModalOpen}
+            setAddUserModalOpen={setAddUserModalOpen} />
 
         </div>
       </Card>
-      <DeleteModal milestones={card.Projects_Milestones} deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={card.uuid} name={card.name} />
-      <AddUserModal addUserModalOpen={addUserModalOpen} setAddUserModalOpen={setAddUserModalOpen} curProject={{ ...card }} isEdit />
+      <DeleteModal
+        milestones={card.Projects_Milestones}
+        deleteModalIsOpen={deleteModalIsOpen}
+        setdeleteModalIsOpen={setdeleteModalIsOpen}
+        id={card.uuid}
+        name={card.name} />
+
+      <AddUserModal addUserModalOpen={addUserModalOpen}
+        setAddUserModalOpen={setAddUserModalOpen}
+        curProject={{ ...card }}
+        isEdit />
     </>
   );
 }

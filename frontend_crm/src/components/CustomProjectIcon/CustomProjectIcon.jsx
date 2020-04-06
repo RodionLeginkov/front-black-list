@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
@@ -27,36 +27,46 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CustomProjectIcon = ({
-  projects, addProject, edit,
+  milestones, addProject, edit,
 }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const projects = useSelector((state) => state.projects.projects)
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
     history.push(`/projects/${projectId}`);
   };
 
-  const projectsList = projects.map((project) => {
+  const projectsList = milestones.map((milestone) => {
+    const project = projects.find((project) => project.uuid === milestone.project_uuid);
     if (!project) return <div className={classes.skeleton} key={Math.random()} />;
     return (
-      <Tooltip className={classes.avatar} title={project.name} key={project.uuid}>
-        <Avatar onClick={() => handleClick(project.uuid)} alt={project.name}>
-          {project.name && project.name[0].toUpperCase()}
-        </Avatar>
-      </Tooltip>
+      // <Tooltip className={classes.avatar} title={project.name} key={project.uuid}>
+      //   <Avatar onClick={() => handleClick(project.uuid)} alt={project.name}>
+      //     {project.name && project.name[0].toUpperCase()}
+      //   </Avatar>
+      // </Tooltip>
+
+        <Tooltip className={classes.avatar} title={project.name} key={Math.random()}>
+          <Avatar 
+          onClick={() => handleClick(milestone.project_uuid)}
+           alt={project.name} 
+           src={`${milestone.userImage}`} />
+        </Tooltip>
     );
   });
 
   return (
     <AvatarGroup key={Math.random()} className={classes.avatarGroup} max={4}>
       {projectsList}
-      {edit && (
+      {/* {edit && (
       <Tooltip className={classes.avatar} title="Add project">
         <Avatar onClick={addProject} style={{ backgroundColor: '#32418c' }}>+</Avatar>
       </Tooltip>
-      )}
+      )} */}
     </AvatarGroup>
   );
 };

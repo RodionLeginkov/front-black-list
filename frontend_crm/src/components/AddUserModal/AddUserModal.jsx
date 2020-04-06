@@ -23,6 +23,7 @@ import {
 // import { userRoles, englishLevels, stackList } from '../../constants/constants';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm';
+import {getProjects} from '../../Redux/Actions/ProjectsActions/ProjectActions'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -117,7 +118,7 @@ export default function AddUserModal(props) {
     'unit',
     'load',
     'start_date',
-    'end_date'
+
   ]
   const handleAdd = (e) => {
     e.preventDefault();
@@ -130,7 +131,9 @@ export default function AddUserModal(props) {
       setAddUserModalOpen(false);
     } else setIsError(true);
   };
-  const userChange = (user) => setProject({ ...project, user_uuid: user.uuid });
+
+
+  const userChange = (user) =>{setProject({ ...project, user_uuid: user ? user.uuid : '' })};
 
   const startDateChange = (startDate) => { setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate }); };
@@ -233,10 +236,11 @@ export default function AddUserModal(props) {
                   inputVariant="outlined"
                   disableToolbar
                   onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                  open={openStartDatePicker}
+
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
-                  open={openStartDatePicker}
                   value={project.start_date}
                   label="Start Date"
                   onChange={startDateChange}
@@ -254,11 +258,12 @@ export default function AddUserModal(props) {
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
+
                   onClick={() => setOpenEndDatePicker(isOpen => !isOpen)}
-                  setOpenEndDatePicker
-                  label="End date"
                   open={openEndDatePicker}
-                  np className={clsx(classes.formControl, classes.inputForm)}
+                  label="End date"
+                  className={clsx(classes.formControl, classes.inputForm)}
+
                   onChange={endDateChange}
                   value={project.end_date}
                   KeyboardButtonProps={{

@@ -42,9 +42,6 @@ export default function DevelopersChooseForm(props) {
       user.lastName !== developersValue[index].lastName));
   }
 
-
-  console.log(' isError', typeof(isError) )
-  
   return (
     <>
       <Autocomplete

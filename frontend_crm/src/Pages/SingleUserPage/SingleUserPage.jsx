@@ -230,6 +230,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Current Task: </span>
                 <div className={classes.fieldValue}>
+
                   {user.current_task}
                 </div>
               </div>

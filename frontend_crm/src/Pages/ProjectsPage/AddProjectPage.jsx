@@ -191,6 +191,7 @@ function AddProjectPage(props) {
         dispatch(addProject(project));
         history.push('/projects');
       }
+
     } else setIsError(true);
   };
 

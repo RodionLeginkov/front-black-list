@@ -182,7 +182,7 @@ const UserCard = ({ user }) => {
         <div className={classes.footer}>
           <div className={classes.stack}>{userStack}</div>
           <CustomProjectIcon
-            projects={user.Projects || []}
+          milestones={user.Users_Milestones}
             addProject={changeIsShowingModal}
             edit
           />

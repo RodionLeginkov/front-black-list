@@ -92,7 +92,11 @@ const EditUserPage = ({ match }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
   const userAuth = useSelector((state) => state.auth);
+
   const [isError, setIsError] = useState(false);
+  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+
+
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
     role: '',
@@ -119,7 +123,10 @@ const EditUserPage = ({ match }) => {
     // if (userId && !curUser) {
     dispatch(getUsers());
     // dispatch(getUser(userId));
+
     // }
+
+
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -130,7 +137,9 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const startDateChange = (dataofJoining) => setUser({ ...user, hiredAt: dataofJoining });
+
+  const startDateChange = (dataofJoining) => {setOpenStartDatePicker(isOpen => !isOpen);setUser({ ...user, hiredAt: dataofJoining })};
+
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -278,6 +287,8 @@ const EditUserPage = ({ match }) => {
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar
+                    onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
+                    open={openStartDatePicker}
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"

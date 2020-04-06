@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
+import Pagination from '@material-ui/lab/Pagination';
 import { fi } from 'date-fns/locale';
 import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
@@ -14,6 +15,7 @@ import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 import UsersList from './UsersList.jsx';
+
 
 const useStyles = makeStyles({
   container: {
@@ -46,17 +48,20 @@ const useStyles = makeStyles({
 
 function Users() {
   const classes = useStyles();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState();
+  const [page, setPage] = useState();
+  const [pageSize, setPageSize] = useState();
   // console.log(users);
   // const filter = 'developer';
-
+  // setPage(10);
   useEffect(() => {
-    dispatch(getUsers(filter));
+    dispatch(getUsers(filter, page));
     dispatch(getProjects());
   }, [dispatch, filter]);
   // console.log('filter', filter);
@@ -130,6 +135,7 @@ function Users() {
           </Button>
         </Grid>
       </Grid>
+      <Pagination count={10} color="primary" />
       <Grid
         className={classes.usersWrapper}
         container

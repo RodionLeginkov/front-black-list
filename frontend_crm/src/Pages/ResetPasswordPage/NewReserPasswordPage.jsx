@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResetPassword(props) {
+  const history=useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
@@ -120,6 +122,7 @@ export default function ResetPassword(props) {
             error: false,
 
           });
+          history.push('/home')
           // window.location = '/signin';
         } else {
           setState({

@@ -45,10 +45,17 @@ export default function DevelopersChooseForm(props) {
   return (
     <>
       <Autocomplete
+
         options={filteredUsers}
         onChange={handleChange}
         getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}
-        renderInput={(params) => <TextField {...params} label="User" variant="outlined" />}
+        renderInput={(params) =>
+          <TextField
+          error={ !Boolean(developersValue.length) && isError}
+            helperText={!Boolean(developersValue.length) && isError ? "Empty field." : ''}
+            {...params}
+            label="User"
+            variant="outlined" />}
       />
       {/* <Autocomplete
       multiple

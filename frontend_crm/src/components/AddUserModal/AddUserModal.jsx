@@ -94,7 +94,7 @@ export default function AddUserModal(props) {
     start_date: null,
     end_date: null,
   };
-
+  const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
 
   const handleCancel = (e) => {
@@ -110,7 +110,6 @@ export default function AddUserModal(props) {
 
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
-
   const reqFields = [
     'user_uuid',
     // 'project_uuid',
@@ -119,28 +118,25 @@ export default function AddUserModal(props) {
     'unit',
     'load',
     'start_date',
+
   ]
-
-
-
   const handleAdd = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
+    console.log('isEmpty', isEmpty)
     if (isEmpty === undefined) {
-      if (isEdit) {
-        dispatch(addMilestone(project))
-      }
+      if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);
       setProject(initialValue);
       setAddUserModalOpen(false);
-    } 
+    } else setIsError(true);
   };
 
 
   const userChange = (user) =>{setProject({ ...project, user_uuid: user ? user.uuid : '' })};
 
-  const startDateChange = (startDate) => {setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => {setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate });};
+  const startDateChange = (startDate) => { setOpenStartDatePicker(isOpen => !isOpen); setProject({ ...project, start_date: startDate }); };
+  const endDateChange = (endDate) => { setOpenEndDatePicker(isOpen => !isOpen); setProject({ ...project, end_date: endDate }); };
 
   return (
     <div className={classes.position}>
@@ -163,12 +159,15 @@ export default function AddUserModal(props) {
               <DevelopersChooseForm
                 name='developers'
                 userChange={userChange}
-                developersValue={project.Users}
+                developersValue={project.user_uuid}
                 isEdit
+                isError={isError}
               />
               <Grid container spacing={1}>
                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
+                    error={!project.role && isError}
+                    helperText={(!project.role && isError) ? "Empty field." : ''}
                     value={project.role || ''}
                     label="Role"
                     variant="outlined"
@@ -180,6 +179,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
+                    error={!project.load && isError}
+                    helperText={(!project.load && isError) ? "Empty field." : ''}
                     type="number"
                     value={project.load || ''}
                     label="Load"
@@ -199,6 +200,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
+                    error={!project.rate && isError}
+                    helperText={(!project.rate && isError) ? "Empty field." : ''}
                     type="number"
                     value={project.rate || ''}
                     label="Rate"
@@ -211,6 +214,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
+                    error={!project.unit && isError}
+                    helperText={(!project.unit && isError) ? "Empty field." : ''}
                     value={project.unit || ''}
                     label="Unit"
                     variant="outlined"
@@ -224,24 +229,29 @@ export default function AddUserModal(props) {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
                 <KeyboardDatePicker
+                  error={!project.start_date && isError}
+                  helperText={(!project.start_date && isError) ? "Empty field." : ''}
                   className={clsx(classes.formControl, classes.inputForm)}
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
                   onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
                   open={openStartDatePicker}
+
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
                   value={project.start_date}
                   label="Start Date"
                   onChange={startDateChange}
-                  // KeyboardButtonProps={{
-                  //   'aria-label': 'change date',
-                  // }}
+                // KeyboardButtonProps={{
+                //   'aria-label': 'change date',
+                // }}
                 />
 
                 <KeyboardDatePicker
+                  error={!project.end_date && isError}
+                  helperText={(!project.end_date && isError) ? "Empty field." : ''}
                   style={{ width: '100%' }}
                   inputVariant="outlined"
                   disableToolbar
@@ -253,6 +263,7 @@ export default function AddUserModal(props) {
                   open={openEndDatePicker}
                   label="End date"
                   className={clsx(classes.formControl, classes.inputForm)}
+
                   onChange={endDateChange}
                   value={project.end_date}
                   KeyboardButtonProps={{

@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Loading from '../../components/Loading';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
@@ -22,7 +23,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { userRoles  } from '../../constants/constants';
+import { userRoles } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,11 +88,15 @@ const EditUserPage = ({ match }) => {
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
 
+
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
     role: '',
     englishLevel: '',
     email: '',
+    project_ready: '',
+    current_task: '',
+    current_occupation: '',
     phone1: '',
     phone2: '',
     skype: '',
@@ -106,6 +111,15 @@ const EditUserPage = ({ match }) => {
     hiredAt: null,
     Skills: [],
   };
+
+
+  const reqFields = [
+    'email',
+    'role',
+    'firstName',
+    'lastName',
+    'phone1',
+    'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
@@ -141,8 +155,11 @@ const EditUserPage = ({ match }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(user));
-    history.push(`/user/${userId}`);
+    const isEmpty = reqFields.find((field) => (!user[field]));
+    if (isEmpty === undefined) {
+      dispatch(updateUser(user));
+      history.push(`/user/${userId}`);
+    } else setIsError(true);
   };
 
   let filteredProjects = projects;
@@ -187,6 +204,8 @@ const EditUserPage = ({ match }) => {
                   <TextField
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
+                    error={!user.firstName && isError}
+                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ""}
                     label="User name"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -200,6 +219,8 @@ const EditUserPage = ({ match }) => {
                     style={{ marginBottom: 10 }}
                     value={user.lastName}
                     label="User name"
+                    error={!user.lastName && isError}
+                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ""}
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
@@ -211,6 +232,10 @@ const EditUserPage = ({ match }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <FormControl
+
+                    error={!user.role && isError}
+                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ""}
+
                     placeholder='Role'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -250,6 +275,8 @@ const EditUserPage = ({ match }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    error={!user.email && isError}
+                    helperText={(!user.email.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -261,6 +288,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     error={!user.phone1 && isError}
+
                     helperText={(!user.phone1.length && isError) ? 'Empty field.' : ""}
                     style={{ width: '100%' }}
                     value={user.phone1 || ''}
@@ -278,6 +306,33 @@ const EditUserPage = ({ match }) => {
                     variant="outlined"
                     label="Phone Number №2"
                     name='phone2'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    style={{ width: '100%' }}
+                    value={user.project_ready || ''}
+                    variant="outlined"
+                    label="Project ready"
+                    name='project_ready'
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment:
+                        <InputAdornment position="end">
+                          %
+  </InputAdornment>,
+
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    style={{ width: '100%' }}
+                    value={user.current_task || ''}
+                    variant="outlined"
+                    label="Current Task"
+                    name='current_task'
                     onChange={handleChange}
                   />
                 </Grid>
@@ -304,30 +359,26 @@ const EditUserPage = ({ match }) => {
                   />
                 </Grid> */}
                 <Grid item xs={12}>
-                  {/* <Autocomplete
-                    multiple
-                    options={filteredProjects}
-                    getOptionLabel={(option) => option.name}
-                    value={user.currentProject}
-                    filterSelectedOptions
-                    onChange={handleChangeProject}
-                    renderInput={(params) => (
-                      <TextField
-                        error={user.currentProject.length === 0 && isError}
-                        {...params}
-                        variant="outlined"
-                        label="Projects"
-                      />
-                    )}
-                  /> */}
+                  <TextField
+                    style={{ width: '100%' }}
+                    value={user.current_occupation || ''}
+                    variant="outlined"
+                    label="Current Occupation"
+                    name='current_occupation'
+                    onChange={handleChange}
+                  />
                 </Grid>
+
+
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       error={!user.hiredAt && isError}
+
                       helperText={(!user.hiredAt && isError) ? 'Empty field.' : ""}
+
                       disableToolbar
                       onClick={() => setOpenStartDatePicker(isOpen => !isOpen)}
                       open={openStartDatePicker}

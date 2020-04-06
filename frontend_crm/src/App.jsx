@@ -1,8 +1,12 @@
+
  
 import React, {useEffect} from 'react';
+
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar';
 import Users from './Pages/UsersPage/Users.jsx';
@@ -20,9 +24,8 @@ import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';
 import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
 import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
-import axios from 'axios';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -31,6 +34,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
+
 
   useEffect(() => {
     axios.interceptors.response.use(
@@ -74,6 +78,7 @@ function App() {
         </AuthContextProvider>
       </BrowserRouter>
     </ThemeProvider>
+
   );
 }
 export default App;

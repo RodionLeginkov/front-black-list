@@ -1,6 +1,5 @@
 
- 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -34,8 +33,6 @@ const theme = createMuiTheme({
 });
 
 function App() {
-
-
   useEffect(() => {
     axios.interceptors.response.use(
       (res) => res,
@@ -54,7 +51,7 @@ function App() {
       <BrowserRouter>
         <AuthContextProvider>
           <div className="App">
-          <NotificationContainer />
+            <NotificationContainer />
             <Navbar />
             <Switch>
               <PrivateRoute exact path="/" component={Home} />

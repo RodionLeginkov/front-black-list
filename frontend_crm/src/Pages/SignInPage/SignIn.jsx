@@ -231,11 +231,11 @@ export default function SignUp() {
             Sign In
           </Button>
           <Grid container>
-            {/* <Grid item xs>
+            <Grid item xs>
               <Link to="/forgot" variant="body2">
                 Forgot password?
               </Link>
-            </Grid> */}
+            </Grid>
             {/* <Grid item>
               <Link to="/signup">
                 Don't have an account? Sign Up

@@ -86,17 +86,17 @@ const EditUserPage = ({ match }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const { userId } = match.params;
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
   const userAuth = useSelector((state) => state.auth);
-
+  
   const [isError, setIsError] = useState(false);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-
-
+  
+  
+  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
     role: '',
@@ -140,7 +140,7 @@ const EditUserPage = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined && (validateEmail(user.email) || !user.email.length)) {
+    if (isEmpty === undefined && (validateEmail(user.email) && user.email.length)) {
       console.log('NewAdd')
       const login = {
         email: user.email || undefined,
@@ -159,6 +159,7 @@ const EditUserPage = ({ match }) => {
   // }
   //
 
+  console.log(!user.role && isError)
 
   let filteredProjects = projects;
   for (const index in user.currentProject) {
@@ -195,7 +196,7 @@ const EditUserPage = ({ match }) => {
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <div className={classes.header}>
-                <h2>Invite user</h2>
+                <h2>Add user</h2>
                 <Tooltip title='close'>
                   <Button>
                     <CloseSharpIcon style={{ color: '#a3a3a3' }} />
@@ -234,7 +235,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={12}>
                   <FormControl
                     error={!user.role && isError}
-                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
+                    helpertext={(!user.role && isError) ? 'Empty field.' : ''}
                     placeholder='Role'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -252,6 +253,8 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
+                   error={!validateEmail(user.email) && Boolean(user.email) && isError}
+                    helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"

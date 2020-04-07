@@ -28,7 +28,6 @@ export const getUsers = (filter) => async (dispatch) => {
     const loginToken = localStorage.getItem('token');
     const { data } = await loadAllUsers(filter, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
-    console.log('Data', data);
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
   }
@@ -59,7 +58,6 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
-    console.log('userData',userData)
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
 
@@ -92,10 +90,8 @@ export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: na
 
 export const AddUser = (user) => async (dispatch) => {
   try {
-    console.log('User', user);
     const loginToken = localStorage.getItem('token');
     const { data } = await postUser(user, { headers: { token: loginToken } });
-    console.log('DATA', data);
     dispatch({ type: ADD_USER, payload: data });
   } catch (error) {
     dispatch({ type: ADD_USER_ERROR, payload: error });

@@ -49,11 +49,9 @@ export const inviteUsers = (id) => async (dispatch) => {
     try{
       // console.log('History1', useHistory())
       // const history = useHistory();
-console.log('ID', id)
     dispatch({ type: INVITE_LOADING });
     const { data } = await inviteUser(id);
     dispatch({ type: INVITE_SUCCESS, payload: data });
-    window.location = '/users';
   }
   catch(error) {
       dispatch({ type: INVITE_ERROR, payload: error });

@@ -149,12 +149,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickInvite = () => {
-    console.log('userId', userId)
     dispatch(inviteUsers(userId))
   }
 
   const user = useSelector((state) => state.users.currentUser);
-  console.log(user);
+
 
   useEffect(() => {
     if (!user) dispatch(getUser(userId));

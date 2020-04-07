@@ -24,7 +24,9 @@ import {
 } from '@material-ui/pickers';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
-import { getUsers,AddUser, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import {
+  getUsers, AddUser, updateUser, getUser,
+} from '../../Redux/Actions/UsersActions/UserActions';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -91,11 +93,11 @@ const EditUserPage = ({ match }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
   const userAuth = useSelector((state) => state.auth);
-  
+
   const [isError, setIsError] = useState(false);
   const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  
-  
+
+
   const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
@@ -136,12 +138,13 @@ const EditUserPage = ({ match }) => {
 
   const startDateChange = (dataofJoining) => { setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt: dataofJoining }); };
 
-
+  console.log(user.email);
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined && (validateEmail(user.email) && user.email.length)) {
-      console.log('NewAdd')
+    console.log(isEmpty, (validateEmail(user.email) && user.email.length));
+    if ((isEmpty === undefined && !user.email.length) || (isEmpty === undefined && validateEmail(user.email) && user.email.length)) {
+      console.log('NewAdd');
       const login = {
         email: user.email || undefined,
         role: user.role,
@@ -151,7 +154,7 @@ const EditUserPage = ({ match }) => {
       };
       dispatch(AddUser(login));
       dispatch(getUsers());
-      history.push('/users')
+      history.push('/users');
     } else setIsError(true);
   };
   // else {
@@ -159,7 +162,6 @@ const EditUserPage = ({ match }) => {
   // }
   //
 
-  console.log(!user.role && isError)
 
   let filteredProjects = projects;
   for (const index in user.currentProject) {
@@ -253,7 +255,7 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                   error={!validateEmail(user.email) && Boolean(user.email) && isError}
+                    error={!validateEmail(user.email) && Boolean(user.email) && isError}
                     helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
                     style={{ width: '100%' }}
                     value={user.email}

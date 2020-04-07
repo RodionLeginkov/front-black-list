@@ -80,8 +80,8 @@ const useStyles = makeStyles((theme) => ({
   },
   inviteButton: {
     padding: '7px',
-    fontSize: "13px",
-  }
+    fontSize: '13px',
+  },
 }));
 
 const EditUserPage = ({ match }) => {
@@ -163,7 +163,8 @@ const EditUserPage = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined && (validateEmail(user.email) && user.email.length)) {
+    // if ((isEmpty === undefined && !user.email.length) || (isEmpty === undefined && validateEmail(user.email) && user.email.length))
+    if ((isEmpty === undefined && !user.email) || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     } else setIsError(true);
@@ -323,8 +324,8 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-                        <InputAdornment position="end">
-                          %
+  <InputAdornment position="end">
+    %
   </InputAdornment>,
 
                     }}

@@ -1,22 +1,22 @@
 import axios from 'axios';
 
 async function getData(url, filter, token) {
-  const response = await axios.get(url, { params: filter }, { headers: { token } });
+  const response = await axios.get(url, { params: filter, headers: { authorization: token } });
   return response;
 }
 
 async function deleteData(url, token) {
-  const response = await axios.delete(url, { headers: { token } });
+  const response = await axios.delete(url, { headers: { authorization: token } });
   return response;
 }
 
 async function patchData(url, data, token) {
-  const response = await axios.put(url, data, { headers: { token } });
+  const response = await axios.put(url, data, { headers: { authorization: token } });
   return response;
 }
 
 async function postData(url, data, token) {
-  const response = await axios.post(url, data, { headers: { token } });
+  const response = await axios.post(url, data, { headers: { authorization: token } });
   return response;
 }
 

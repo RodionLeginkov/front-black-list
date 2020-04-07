@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-async function postData(url, data) {
-  const response = await axios.post(url, data);
+async function postData(url, data, token) {
+  const response = await axios.post(url, data, { headers: { authorization: token } });
   return response;
 }
 
@@ -15,8 +15,8 @@ async function deleteData(url, data) {
   return response;
 }
 
-async function patchData(url, data) {
-  const response = await axios.put(url, data);
+async function patchData(url, data, token) {
+  const response = await axios.put(url, data, { headers: { authorization: token } });
   return response;
 }
 
@@ -28,6 +28,6 @@ export const loadAllProjects = (project) => getData(`${process.env.REACT_APP_BAS
 
 export const deleteProject = (id) => deleteData(`${process.env.REACT_APP_BASE_API}project/projectId/`, id);
 
-export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data.uuid}`, data, { headers: { token } });
+export const patchProject = (data, token) => patchData(`${process.env.REACT_APP_BASE_API}project/${data.uuid}`, data, token);
 
 export const loadProject = (id, tokens) => getData(`${process.env.REACT_APP_BASE_API}project/${id}`, tokens);

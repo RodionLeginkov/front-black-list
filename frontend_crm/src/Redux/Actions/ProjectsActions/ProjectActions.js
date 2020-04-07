@@ -24,7 +24,7 @@ export const addProject = (project) => async (dispatch) => {
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
 
-    const { data } = await addNewProject(project, { headers: { token: loginToken } });
+    const { data } = await addNewProject(project, loginToken);
 
 
     dispatch({ type: ADD_PROJECT, payload: data });
@@ -41,7 +41,7 @@ export const getProjects = () => async (dispatch) => {
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}projects`, { headers: { token: loginToken } });
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}projects`, { headers: { authorization: loginToken } });
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     // console.log("ERROR")
@@ -53,7 +53,7 @@ export const getProject = (id) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_CURRENT_PROJECT });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadProject(id, { headers: { token: loginToken } });
+    const { data } = await loadProject(id, { headers: { authorization: loginToken } });
     dispatch({ type: LOAD_CURRENT_PROJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
@@ -65,7 +65,7 @@ export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
 export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { token: loginToken } });
+    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { authorization: loginToken } });
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {
     dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
@@ -75,7 +75,7 @@ export const deleteProject = (id) => async (dispatch) => {
 export const updateProject = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    const { data } = await patchProject(project, { headers: { token: loginToken } });
+    const { data } = await patchProject(project, loginToken);
     dispatch({ type: EDIT_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });
@@ -85,7 +85,7 @@ export const updateProject = (project) => async (dispatch) => {
 export const updateProjectDevelopers = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    const { data } = await patchProject(project, { headers: { token: loginToken } });
+    const { data } = await patchProject(project, { headers: { authorization: loginToken } });
     dispatch({ type: EDIT_PROJECT_DEVELOPERS, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_DEVELOPERS_ERROR, payload: error });

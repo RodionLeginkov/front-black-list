@@ -1,5 +1,5 @@
 import {
-  loadAllUsers, loadUser, deletedUser, patchUser,postUser
+  loadAllUsers, loadUser, deletedUser, patchUser, postUser,
 } from './UsersApi';
 import {
   LOAD_USER,
@@ -91,7 +91,7 @@ export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: na
 export const AddUser = (user) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    const { data } = await postUser(user, { headers: { token: loginToken } });
+    const { data } = await postUser(user, loginToken);
     dispatch({ type: ADD_USER, payload: data });
   } catch (error) {
     dispatch({ type: ADD_USER_ERROR, payload: error });

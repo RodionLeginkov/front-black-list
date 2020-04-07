@@ -1,9 +1,24 @@
 import produce from 'immer';
 import {
-  LOAD_USER, LOAD_USER_SUCCESS, LOAD_CURRENT_USER, CURRENT_USER, FIND_USER, DELETE_USER,
-  DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER_SUCCESS, FILTER_USER_NAME,
-  FILTER_USER_EMAIL, EDIT_USER, FILTER_USER_STACK, FILTER_USER_PHONE,
+  CURRENT_USER,
+  LOAD_USER,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_ERROR,
+  FIND_USER,
+  DELETE_USER,
+  DELETE_USER_ERROR,
+  FILTER_USER_ROLE,
+  LOAD_CURRENT_USER,
+  LOAD_CURRENT_USER_SUCCESS,
+  FILTER_USER_NAME,
+  FILTER_USER_EMAIL,
+  EDIT_USER,
+  EDIT_USER_ERROR,
+  FILTER_USER_STACK,
+  FILTER_USER_PHONE,
   FILTER_USER_ENGLISH_LEVEL,
+  ADD_USER,
+  ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 const initialState = {
@@ -33,6 +48,13 @@ const userReducer = produce((draft, action) => {
 
     case DELETE_USER_ERROR:
       draft.deleteUserError = true;
+      return draft;
+    case ADD_USER:
+      draft.user = action.payload;
+      return draft;
+
+    case ADD_USER_ERROR:
+      draft.addUserError = true;
       return draft;
 
     case LOAD_USER:

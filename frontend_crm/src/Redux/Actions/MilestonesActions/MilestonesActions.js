@@ -12,9 +12,7 @@ import {
 export const addMilestone = (milestone) => async (dispatch) => {
   try {
     dispatch({ type: POST_MILESTONE });
-    console.log('MILE', milestone)
     const { data } = await postMilestone(milestone);
-    console.log('DATA',data)
     dispatch({ type: POST_MILESTONE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: POST_MILESTONE_ERROR, payload: error });

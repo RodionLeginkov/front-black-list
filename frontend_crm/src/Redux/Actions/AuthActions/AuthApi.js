@@ -20,4 +20,4 @@ export const signUpNewUser = (data) => signUp(`${process.env.REACT_APP_BASE_API}
 
 export const loginUser = (data) => signin(`${process.env.REACT_APP_BASE_API}signin/`, data);
 
-export const inviteUser = (data) => invite(`${process.env.REACT_APP_BASE_API}user/invitation/`, data);
+export const inviteUser = (id) => invite(`${process.env.REACT_APP_BASE_API}user/invitation/${id}`);

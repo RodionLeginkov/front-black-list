@@ -73,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '200px',
     width: '100%',
   },
+  paperHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
+  inviteButton: {
+    padding: '7px',
+    fontSize: "13px",
+  }
 }));
 
 const EditUserPage = ({ match }) => {
@@ -93,7 +102,7 @@ const EditUserPage = ({ match }) => {
     fullName: '',
     role: '',
     englishLevel: '',
-    email: '',
+    email: undefined,
     project_ready: '',
     current_task: '',
     current_occupation: '',
@@ -114,7 +123,6 @@ const EditUserPage = ({ match }) => {
 
 
   const reqFields = [
-    'email',
     'role',
     'firstName',
     'lastName',
@@ -135,7 +143,7 @@ const EditUserPage = ({ match }) => {
   if (loading) {
     return (<Loading />);
   }
-
+  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -155,7 +163,7 @@ const EditUserPage = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined) {
+    if (isEmpty === undefined && (validateEmail(user.email) && user.email.length)) {
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     } else setIsError(true);
@@ -274,8 +282,8 @@ const EditUserPage = ({ match }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    error={!user.email && isError}
-                    helperText={(!user.email.length && isError) ? 'Empty field.' : ''}
+                    error={!validateEmail(user.email) && Boolean(user.email) && isError}
+                    helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -315,8 +323,8 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-  <InputAdornment position="end">
-    %
+                        <InputAdornment position="end">
+                          %
   </InputAdornment>,
 
                     }}

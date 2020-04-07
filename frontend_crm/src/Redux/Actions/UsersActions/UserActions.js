@@ -1,11 +1,25 @@
 import {
-  loadAllUsers, loadUser, deletedUser, patchUser,
+  loadAllUsers, loadUser, deletedUser, patchUser,postUser
 } from './UsersApi';
 import {
-  LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
-  DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
-  FILTER_USER_NAME, FILTER_USER_EMAIL, EDIT_USER, EDIT_USER_ERROR,
-  FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
+  LOAD_USER,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_ERROR,
+  FIND_USER,
+  DELETE_USER,
+  DELETE_USER_ERROR,
+  FILTER_USER_ROLE,
+  LOAD_CURRENT_USER,
+  LOAD_CURRENT_USER_SUCCESS,
+  FILTER_USER_NAME,
+  FILTER_USER_EMAIL,
+  EDIT_USER,
+  EDIT_USER_ERROR,
+  FILTER_USER_STACK,
+  FILTER_USER_PHONE,
+  FILTER_USER_ENGLISH_LEVEL,
+  ADD_USER,
+  ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = (filter) => async (dispatch) => {
@@ -14,7 +28,6 @@ export const getUsers = (filter) => async (dispatch) => {
     const loginToken = localStorage.getItem('token');
     const { data } = await loadAllUsers(filter, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
-    console.log('Data', data);
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
   }
@@ -74,3 +87,13 @@ export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: na
 //   if (!level.length) return { type: FILTER_USER_ENGLISH_LEVEL, payload: ['all'] };
 //   return ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level });
 // };
+
+export const AddUser = (user) => async (dispatch) => {
+  try {
+    const loginToken = localStorage.getItem('token');
+    const { data } = await postUser(user, { headers: { token: loginToken } });
+    dispatch({ type: ADD_USER, payload: data });
+  } catch (error) {
+    dispatch({ type: ADD_USER_ERROR, payload: error });
+  }
+};

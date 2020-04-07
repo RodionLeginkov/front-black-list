@@ -124,7 +124,6 @@ export default function AddUserModal(props) {
   const handleAdd = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
-    console.log('isEmpty', isEmpty);
     if (isEmpty === undefined) {
       setIsError(false)
       if (isEdit) dispatch(addMilestone(project));

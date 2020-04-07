@@ -5,7 +5,6 @@ import {
   INVITE_LOADING, INVITE_SUCCESS, INVITE_ERROR,
 } from '../../ActionTypes/authTypes/authTypes';
 
-
 export const signUp = (user) => async (dispatch) => {
   try {
     dispatch({ type: SIGNUP_LOADING });
@@ -36,7 +35,7 @@ export const signIn = (user) => async (dispatch) => {
   }
 };
 
-export const inviteUsers = (user) => async (dispatch) => {
+export const inviteUsers = (id) => async (dispatch) => {
     // dispatch({ type: INVITE_LOADING });
     // const { data,error } = await inviteUser(user);
     // console.log(error)
@@ -48,10 +47,11 @@ export const inviteUsers = (user) => async (dispatch) => {
     //   dispatch({ type: INVITE_ERROR, payload: data });
     // }
     try{
+      // console.log('History1', useHistory())
+      // const history = useHistory();
     dispatch({ type: INVITE_LOADING });
-    const { data } = await inviteUser(user);
+    const { data } = await inviteUser(id);
     dispatch({ type: INVITE_SUCCESS, payload: data });
-    window.location = '/users';
   }
   catch(error) {
       dispatch({ type: INVITE_ERROR, payload: error });

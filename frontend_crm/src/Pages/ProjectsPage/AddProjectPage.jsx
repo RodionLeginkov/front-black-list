@@ -195,7 +195,6 @@ function AddProjectPage(props) {
     } else setIsError(true);
   };
 
-console.log(!project.name && isError)
 
   return (
     <>

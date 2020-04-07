@@ -24,7 +24,7 @@ import {
 } from '@material-ui/pickers';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import { userRoles, englishLevels, stackList } from '../../constants/constants';
-import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { getUsers,AddUser, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,7 +107,6 @@ const EditUserPage = ({ match }) => {
   };
 
   const reqFields = [
-    'email',
     'role',
     'firstName',
     'lastName',
@@ -141,17 +140,18 @@ const EditUserPage = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    if (isEmpty === undefined && validateEmail(user.email)) {
+    if (isEmpty === undefined && (validateEmail(user.email) || !user.email.length)) {
+      console.log('NewAdd')
       const login = {
-        email: user.email,
+        email: user.email || undefined,
         role: user.role,
         firstName: user.firstName,
         lastName: user.lastName,
         hiredAt: user.hiredAt,
       };
-      dispatch(inviteUsers(login));
+      dispatch(AddUser(login));
       dispatch(getUsers());
-      // history.push('/users')
+      history.push('/users')
     } else setIsError(true);
   };
   // else {
@@ -174,7 +174,7 @@ const EditUserPage = ({ match }) => {
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
-            <Typography color="textPrimary" onClick={() => history.push('/users/inviteuser')}>Invite user</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/users/inviteuser')}>Add user</Typography>
           </Breadcrumbs>
         )
         : (
@@ -252,8 +252,6 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                    error={!validateEmail(user.email) && isError}
-                    helperText={(!validateEmail(user.email) && isError) ? 'email is not correct' : ''}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"

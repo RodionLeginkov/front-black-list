@@ -73,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '200px',
     width: '100%',
   },
+  paperHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
+  inviteButton: {
+    padding: '7px',
+    fontSize: "13px",
+  }
 }));
 
 const EditUserPage = ({ match }) => {
@@ -114,7 +123,6 @@ const EditUserPage = ({ match }) => {
 
 
   const reqFields = [
-    'email',
     'role',
     'firstName',
     'lastName',
@@ -275,7 +283,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     error={!user.email && isError}
-                    helperText={(!user.email.length && isError) ? 'Empty field.' : ''}
+                    helperText={(!user.email && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -315,8 +323,8 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                     InputProps={{
                       endAdornment:
-  <InputAdornment position="end">
-    %
+                        <InputAdornment position="end">
+                          %
   </InputAdornment>,
 
                     }}

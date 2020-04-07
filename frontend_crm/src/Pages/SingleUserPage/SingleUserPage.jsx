@@ -19,6 +19,9 @@ import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectI
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 import { stackList } from '../../constants/constants';
+import { Tooltip } from '@material-ui/core';
+import {inviteUsers} from '../../Redux/Actions/AuthActions/AuthActions'
+
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -38,10 +41,7 @@ const useStyles = makeStyles(() => ({
     margin: '0px 20px',
     display: 'flex',
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+
   userImage: {
     width: 160,
     height: 160,
@@ -110,6 +110,15 @@ const useStyles = makeStyles(() => ({
       cursor: 'pointer',
     },
   },
+  paperHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  inviteButton: {
+    padding: '7px',
+    fontSize: "13px",
+  }
 }));
 
 const UserInfo = ({ match: { params: { userId }, path } }) => {
@@ -138,6 +147,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const handleClickOnEdit = () => {
     history.push(`/user/edituser/${userId}`);
   };
+
+  const handleClickInvite = () => {
+    console.log('userId', userId)
+    dispatch(inviteUsers(userId))
+  }
 
   const user = useSelector((state) => state.users.currentUser);
   console.log(user);
@@ -174,15 +188,28 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         </Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
-        <div className={clsx(classes.content, classes.header)}>
+        <div className={clsx(classes.content, classes.paperHeader)}>
+          {/* <div className={classes.paperHeader}> */}
           <h1>
             {user.firstName}
             {' '}
             {user.lastName}
           </h1>
-          <div style={{ marginRight: '10px' }}>
-            <CustomBadge text={user.status} position={user.status} size="large" />
-          </div>
+          <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
+            <span>
+              <Button
+                onClick={handleClickInvite}
+                disabled={!user.email}
+                variant="outlined"
+                color="primary"
+                size="large"
+                className={classes.inviteButton}
+              >
+                Invite User
+                </Button>
+            </span>
+            {/* </div> */}
+          </Tooltip>
         </div>
         <Divider />
         <div className={classes.row}>

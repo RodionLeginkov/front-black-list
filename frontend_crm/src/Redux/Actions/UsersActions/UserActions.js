@@ -1,11 +1,25 @@
 import {
-  loadAllUsers, loadUser, deletedUser, patchUser,
+  loadAllUsers, loadUser, deletedUser, patchUser,postUser
 } from './UsersApi';
 import {
-  LOAD_USER, LOAD_USER_SUCCESS, LOAD_USER_ERROR, FIND_USER, DELETE_USER,
-  DELETE_USER_ERROR, FILTER_USER_ROLE, LOAD_CURRENT_USER, LOAD_CURRENT_USER_SUCCESS,
-  FILTER_USER_NAME, FILTER_USER_EMAIL, EDIT_USER, EDIT_USER_ERROR,
-  FILTER_USER_STACK, FILTER_USER_PHONE, FILTER_USER_ENGLISH_LEVEL,
+  LOAD_USER,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_ERROR,
+  FIND_USER,
+  DELETE_USER,
+  DELETE_USER_ERROR,
+  FILTER_USER_ROLE,
+  LOAD_CURRENT_USER,
+  LOAD_CURRENT_USER_SUCCESS,
+  FILTER_USER_NAME,
+  FILTER_USER_EMAIL,
+  EDIT_USER,
+  EDIT_USER_ERROR,
+  FILTER_USER_STACK,
+  FILTER_USER_PHONE,
+  FILTER_USER_ENGLISH_LEVEL,
+  ADD_USER,
+  ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
 export const getUsers = (filter) => async (dispatch) => {
@@ -45,6 +59,7 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const updateUser = (userData) => async (dispatch) => {
   try {
+    console.log('userData',userData)
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
 
@@ -74,3 +89,15 @@ export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: na
 //   if (!level.length) return { type: FILTER_USER_ENGLISH_LEVEL, payload: ['all'] };
 //   return ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level });
 // };
+
+export const AddUser = (user) => async (dispatch) => {
+  try {
+    console.log('User', user);
+    const loginToken = localStorage.getItem('token');
+    const { data } = await postUser(user, { headers: { token: loginToken } });
+    console.log('DATA', data);
+    dispatch({ type: ADD_USER, payload: data });
+  } catch (error) {
+    dispatch({ type: ADD_USER_ERROR, payload: error });
+  }
+};

@@ -40,6 +40,7 @@ const useStyles = makeStyles({
     fontSize: '40px',
   },
   button: {
+    width: '140px',
     fontSize: '13 px',
     minHeight: '40px',
     padding: '0 10px',
@@ -88,7 +89,7 @@ function Users() {
           className={classes.button}
           onClick={() => history.push('/users/inviteuser')}
         >
-          Invite user
+          Add user
         </Button>
       </div>
       {/* <FilterPanel /> */}

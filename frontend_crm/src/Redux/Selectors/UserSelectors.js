@@ -63,23 +63,30 @@ const getUsersByEnglishLevel = createSelector(
   },
 );
 
+// const getFilteredUsers = createSelector(
+//   getUsers,
+//   getUsersByName,
+//   getUsersByRole,
+//   getUsersByStack,
+//   getUsersByEmail,
+//   getUsersByPhone,
+//   getUsersByEnglishLevel,
+//   (users, usersByName, userByRole, userByStack,
+//     userByEmail, userByPhone, UsersByEnglishLevel) => users.filter((user) => (
+//     userByRole.includes(user)
+//     && userByStack.includes(user)
+//     && usersByName.includes(user)
+//     && userByEmail.includes(user)
+//     && userByPhone.includes(user)
+//     && UsersByEnglishLevel.includes(user)
+//   )),
+// );
+
 const getFilteredUsers = createSelector(
   getUsers,
   getUsersByName,
-  getUsersByRole,
-  getUsersByStack,
-  getUsersByEmail,
-  getUsersByPhone,
-  getUsersByEnglishLevel,
-  (users, usersByName, userByRole, userByStack,
-    userByEmail, userByPhone, UsersByEnglishLevel) => users.filter((user) => (
-    userByRole.includes(user)
-    && userByStack.includes(user)
-    && usersByName.includes(user)
-    && userByEmail.includes(user)
-    && userByPhone.includes(user)
-    && UsersByEnglishLevel.includes(user)
+
+  (users, usersByName) => users.filter((user) => (usersByName.includes(user)
   )),
 );
-
 export default getFilteredUsers;

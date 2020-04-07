@@ -14,6 +14,7 @@ export const getUsers = (filter) => async (dispatch) => {
     const loginToken = localStorage.getItem('token');
     const { data } = await loadAllUsers(filter, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
+    console.log('Data', data);
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
   }
@@ -53,23 +54,23 @@ export const updateUser = (userData) => async (dispatch) => {
   }
 };
 
-export const filteredUserRole = (selectedFilters) => {
-  if (!selectedFilters.length) return { type: FILTER_USER_ROLE, payload: ['all'] };
-  return { type: FILTER_USER_ROLE, payload: selectedFilters };
-};
+// export const filteredUserRole = (selectedFilters) => {
+//   if (!selectedFilters.length) return { type: FILTER_USER_ROLE, payload: ['all'] };
+//   return { type: FILTER_USER_ROLE, payload: selectedFilters };
+// };
 
-export const filteredUserStack = (selectedFilters) => {
-  if (!selectedFilters.length) return { type: FILTER_USER_STACK, payload: ['all'] };
-  return { type: FILTER_USER_STACK, payload: selectedFilters };
-};
+// export const filteredUserStack = (selectedFilters) => {
+//   if (!selectedFilters.length) return { type: FILTER_USER_STACK, payload: ['all'] };
+//   return { type: FILTER_USER_STACK, payload: selectedFilters };
+// };
 
 export const filteredUserName = (name) => ({ type: FILTER_USER_NAME, payload: name });
 
-export const filteredUserEmail = (email) => ({ type: FILTER_USER_EMAIL, payload: email });
+// export const filteredUserEmail = (email) => ({ type: FILTER_USER_EMAIL, payload: email });
 
-export const filteredUserPhone = (phone) => ({ type: FILTER_USER_PHONE, payload: phone });
+// export const filteredUserPhone = (phone) => ({ type: FILTER_USER_PHONE, payload: phone });
 
-export const filteredUserEnglishLevel = (level) => {
-  if (!level.length) return { type: FILTER_USER_ENGLISH_LEVEL, payload: ['all'] };
-  return ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level });
-};
+// export const filteredUserEnglishLevel = (level) => {
+//   if (!level.length) return { type: FILTER_USER_ENGLISH_LEVEL, payload: ['all'] };
+//   return ({ type: FILTER_USER_ENGLISH_LEVEL, payload: level });
+// };

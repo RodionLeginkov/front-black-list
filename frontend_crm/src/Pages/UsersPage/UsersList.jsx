@@ -89,7 +89,6 @@ export default function UsersList(props) {
       user.current_task,
     );
   });
-
   function handleClick(id) {
     dispatch(findUser(id));
     history.push(`/user/${id}`);
@@ -123,7 +122,7 @@ export default function UsersList(props) {
                 {' '}
                 {user.lName}
               </StyledTableCell>
-              <StyledTableCell align="right">{user.current_task}</StyledTableCell>
+              <StyledTableCell align="right">{user.currentTask}</StyledTableCell>
               <StyledTableCell align="right">
                 {user.milestons.map((item) => (
                   <p key={Math.random()}>

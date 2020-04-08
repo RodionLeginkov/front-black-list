@@ -9,14 +9,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
 
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    // maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   inline: {

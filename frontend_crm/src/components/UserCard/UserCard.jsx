@@ -133,6 +133,7 @@ const UserCard = ({ user }) => {
     if (stackList.includes(element.name)) {
       return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
     }
+    return null;
   });
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
@@ -147,14 +148,12 @@ const UserCard = ({ user }) => {
         <CardContent onClick={handleClickCard}>
           <div className={classes.divider} />
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {/* <div className={classes.roleBadge}> */}
             <CustomBage
               text={role}
               size="medium"
               position={user.role}
               currentProject
             />
-            {/* </div> */}
             {user.hiredAt ? (
               <CustomBage
                 text={difDates(startDate, curDate)}

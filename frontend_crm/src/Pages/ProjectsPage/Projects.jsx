@@ -11,9 +11,9 @@ import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import ProjectFilterPanel from '../../components/ProjectFilterPanel';
+import ProjectFilterPanel from '../../components/ProjectFilterPanel/index.jsx';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
-import ProjectsList from './ProjectsList';
+import ProjectsList from './ProjectsList.jsx';
 
 const useStyles = makeStyles({
   button: {
@@ -55,15 +55,7 @@ export default function StickyHeadTable() {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const users = useSelector((state) => state.users.users);
-  // console.log('users', users)
-
-  // let projectWidgetView = undefined;
-
-  // if (localStorage.getItem('projectWidgetView') === 'false') projectWidgetView = false
-  // else projectWidgetView = true
-
-  const handleChange = (event) => {
+  const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };

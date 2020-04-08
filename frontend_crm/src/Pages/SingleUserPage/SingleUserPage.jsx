@@ -12,15 +12,11 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
+import { Tooltip } from '@material-ui/core';
 import Loading from '../../components/Loading/index.jsx';
-import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
-import StackIcon from '../../components/StackIcon/StackIcon.jsx';
-import CustomProjectIcon from '../../components/CustomProjectIcon/CustomProjectIcon.jsx';
 import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
-import { stackList } from '../../constants/constants';
-import { Tooltip } from '@material-ui/core';
-import {inviteUsers} from '../../Redux/Actions/AuthActions/AuthActions'
+import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 
 
 const useStyles = makeStyles(() => ({
@@ -117,8 +113,8 @@ const useStyles = makeStyles(() => ({
   },
   inviteButton: {
     padding: '7px',
-    fontSize: "13px",
-  }
+    fontSize: '13px',
+  },
 }));
 
 const UserInfo = ({ match: { params: { userId }, path } }) => {
@@ -149,8 +145,8 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickInvite = () => {
-    dispatch(inviteUsers(userId))
-  }
+    dispatch(inviteUsers(userId));
+  };
 
   const user = useSelector((state) => state.users.currentUser);
 
@@ -162,16 +158,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   if (!user) return (<Loading />);
 
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
-
-  // console.log(user.Skills)
-  const userStack = user.Skills.map((element) => {
-    // console.log('Stack', element.UserSkill.level)
-    if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
-    }
-  });
-
-  const englishLevel = user.Skills.find((element) => element.name.includes('English'));
 
   return (
     <div className={classes.container}>
@@ -188,7 +174,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
-          {/* <div className={classes.paperHeader}> */}
           <h1>
             {user.firstName}
             {' '}
@@ -205,7 +190,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 className={classes.inviteButton}
               >
                 Invite User
-                </Button>
+              </Button>
             </span>
             {/* </div> */}
           </Tooltip>

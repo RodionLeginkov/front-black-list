@@ -54,6 +54,8 @@ const AddProjectModal = ({
   const [selectedProjects, setSelectedProjects] = useState(currentProjectIds);
 
   let filteredProjects = projects;
+  // eslint-disable-next-line guard-for-in
+  // eslint-disable-next-line no-restricted-syntax
   for (const index in selectedProjects) {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== selectedProjects[index].name));

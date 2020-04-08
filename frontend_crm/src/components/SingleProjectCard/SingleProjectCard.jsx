@@ -15,22 +15,11 @@ import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
-import AddUserModal from '../AddUserModal/AddUserModal';
+import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   marginTop: 20,
-  //   marginRight: 10,
-  //   minHeight: 200,
-  //   maxWidth: 400,
-  //   width: '100%',
-  //   display: 'flex',
-  //   flexFlow: 'column ',
-  //   justifyContent: 'space-between',
-  // },
   root: {
     height: '250px',
-    // maxHeight: '270px',
     width: '100%',
     marginRight: 20,
     marginBottom: 20,
@@ -48,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '56.25%',
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -105,30 +94,29 @@ const useStyles = makeStyles((theme) => ({
 
 function difDates(startDate, curDate) {
   const
-    difMonth = curDate.getMonth() - startDate.getMonth(),
-    difYear = curDate.getFullYear() - startDate.getFullYear(),
-    difDay = curDate.getDate() - startDate.getDate();
+    difMonth = curDate.getMonth() - startDate.getMonth();
+  const difYear = curDate.getFullYear() - startDate.getFullYear();
+  const difDay = curDate.getDate() - startDate.getDate();
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
-    return `${difYear} year(s) ${difMonth} month(s)`
+    return `${difYear} year(s) ${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth > 0) {
-    return `${difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+    return `${difMonth} month(s)`;
   }
-  else if (difYear * 12 + difMonth > 0 && difMonth < 0) {
-    return `${12 + difMonth} month(s)`
+  if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+    return `${12 + difMonth} month(s)`;
   }
-  else {
-    return `${difDay} day(s)`
-  }
+
+  return `${difDay} day(s)`;
 }
 
 export default function RecipeReviewCard(props) {
   const { card } = props;
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
-  const [addUserModalOpen, setAddUserModalOpen] = useState(false)
+  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -137,13 +125,6 @@ export default function RecipeReviewCard(props) {
     history.push(`/projects/${card.uuid}`);
   }
   const classes = useStyles();
-
-
-  // const projectStack = card.Skills.map((element) => {
-  //   if (stackList.includes(element.name)) {
-  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />
-  //   }}
-  // );
 
   const startDate = new Date(card.start_date);
   const curDate = new Date();
@@ -157,17 +138,22 @@ export default function RecipeReviewCard(props) {
               <Avatar aria-label="recipe" className={classes.avatar}>
                 {card.name[0].toUpperCase()}
                 {card.name[1].toLowerCase()}
-              </Avatar>) : (<Avatar aria-label="recipe" className={classes.avatar}>
+              </Avatar>
+            ) : (
+              <Avatar aria-label="recipe" className={classes.avatar}>
                 {card.name[0].toUpperCase()}
-              </Avatar>)}
+              </Avatar>
+            )}
             {card.name}
-            <CustomBadge text={card.status} icon={<FiberManualRecordSharpIcon />} status={card.status} />
+            <CustomBadge
+              text={card.status}
+              icon={<FiberManualRecordSharpIcon />}
+              status={card.status}
+            />
           </div>
           <CardContent>
             <div className={classes.projectInfo}>
               <div className={classes.priceAndDuration}>
-                {/* <CustomBadge text={`${card.paymentAmount}$ ${card.paymentType}`} theme="price" /> */}
-                {/* {card.duration ? <CustomBadge text={ difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} /> : ''} */}
                 <CustomBadge text={difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} />
               </div>
               <div>
@@ -184,7 +170,11 @@ export default function RecipeReviewCard(props) {
         <div className={classes.cardFooter}>
           <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
             <span>
-              <Button disabled={card.Projects_Milestones.length === 0 ? false : true} className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
+              <Button
+                disabled={card.Projects_Milestones.length !== 0}
+                className={classes.button}
+                onClick={() => setdeleteModalIsOpen(true)}
+              >
                 <DeleteOutlineIcon />
               </Button>
             </span>
@@ -192,7 +182,8 @@ export default function RecipeReviewCard(props) {
           <DevAvatars
             milestones={card.Projects_Milestones}
             addUserModalOpen={addUserModalOpen}
-            setAddUserModalOpen={setAddUserModalOpen} />
+            setAddUserModalOpen={setAddUserModalOpen}
+          />
 
         </div>
       </Card>
@@ -201,12 +192,15 @@ export default function RecipeReviewCard(props) {
         deleteModalIsOpen={deleteModalIsOpen}
         setdeleteModalIsOpen={setdeleteModalIsOpen}
         id={card.uuid}
-        name={card.name} />
+        name={card.name}
+      />
 
-      <AddUserModal addUserModalOpen={addUserModalOpen}
+      <AddUserModal
+        addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}
         curProject={{ ...card }}
-        isEdit />
+        isEdit
+      />
     </>
   );
 }

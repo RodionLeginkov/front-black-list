@@ -27,13 +27,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 const CustomProjectIcon = ({
-  milestones, addProject, edit,
+  milestones,
 }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const projects = useSelector((state) => state.projects.projects)
+  const projects = useSelector((state) => state.projects.projects);
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
@@ -44,29 +44,19 @@ const CustomProjectIcon = ({
     const project = projects.find((project) => project.uuid === milestone.project_uuid);
     if (!project) return <div className={classes.skeleton} key={Math.random()} />;
     return (
-      // <Tooltip className={classes.avatar} title={project.name} key={project.uuid}>
-      //   <Avatar onClick={() => handleClick(project.uuid)} alt={project.name}>
-      //     {project.name && project.name[0].toUpperCase()}
-      //   </Avatar>
-      // </Tooltip>
-
-        <Tooltip className={classes.avatar} title={project.name} key={Math.random()}>
-          <Avatar 
+      <Tooltip className={classes.avatar} title={project.name} key={Math.random()}>
+        <Avatar
           onClick={() => handleClick(milestone.project_uuid)}
-           alt={project.name} 
-           src={`${milestone.userImage}`} />
-        </Tooltip>
+          alt={project.name}
+          src={`${milestone.userImage}`}
+        />
+      </Tooltip>
     );
   });
 
   return (
     <AvatarGroup key={Math.random()} className={classes.avatarGroup} max={4}>
       {projectsList}
-      {/* {edit && (
-      <Tooltip className={classes.avatar} title="Add project">
-        <Avatar onClick={addProject} style={{ backgroundColor: '#32418c' }}>+</Avatar>
-      </Tooltip>
-      )} */}
     </AvatarGroup>
   );
 };

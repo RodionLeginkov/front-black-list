@@ -1,23 +1,20 @@
 
 import React, { useEffect } from 'react';
-
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
-import Navbar from './components/NavBar/Navbar';
+import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
-import Projects from './Pages/ProjectsPage/Projects';
-import Leads from './Pages/LeadsPage/Leads';
-import Home from './Pages/HomePage/Home';
+import Projects from './Pages/ProjectsPage/Projects.jsx';
+import Leads from './Pages/LeadsPage/Leads.jsx';
+import Home from './Pages/HomePage/Home.jsx';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
 import Forgot from './Pages/ForgotPasswordPage/ForgotPassword.jsx';
 import SingleProjectPage from './Pages/SingleProjectPage/SingleProjectPage.jsx';
 import SingleUserPage from './Pages/SingleUserPage/SingleUserPage.jsx';
-import ResetPassword from './Pages/ResetPasswordPage/ResetPassword.jsx';
 import AuthContextProvider from './context/auth';
 import AddProjectPage from './Pages/ProjectsPage/AddProjectPage.jsx';
 import EditUserPage from './Pages/SingleUserPage/EditUserPage.jsx';

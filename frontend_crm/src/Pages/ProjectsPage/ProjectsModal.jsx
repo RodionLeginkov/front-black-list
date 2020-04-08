@@ -6,7 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { addProject, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import AddProjectForm from './AddProjectForm';
+import AddProjectForm from './AddProjectForm.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -54,17 +54,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProjectModal(props) {
   const {
-    isOpen, 
-    setIsOpen, 
-    curProject, 
+    isOpen,
+    setIsOpen,
+    curProject,
     isEdit,
   } = props;
 
   const initialValue = isEdit ? curProject : {
-    name: '', status: '', paymentAmount: '', stack: [], description: '', uuid: '', duration: '',
-    paymentType: '', developers: [],
+    name: '',
+    status: '',
+    paymentAmount: '',
+    stack: [],
+    description: '',
+    uuid: '',
+    duration: '',
+    paymentType: '',
+    developers: [],
   };
-  
+
   const [project, setProject] = useState(initialValue);
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -91,11 +98,6 @@ export default function ProjectModal(props) {
     setIsOpen(false);
   };
 
-  // const handleCancel = (e) => {
-  //   e.preventDefault();
-  //   setProject(initialValue);
-  //   setIsOpen(false);
-  // };
 
   return (
     <div className={classes.position}>
@@ -114,7 +116,13 @@ export default function ProjectModal(props) {
       >
         <Fade in={isOpen}>
           <div className={clsx(classes.paper, classes.modalWidth)}>
-            <AddProjectForm project={project} projectChange={handleChange} stackChange={stackChange} developersChange={developersChange} submit={onSubmit}/>
+            <AddProjectForm
+              project={project}
+              projectChange={handleChange}
+              stackChange={stackChange}
+              developersChange={developersChange}
+              submit={onSubmit}
+            />
           </div>
         </Fade>
       </Modal>

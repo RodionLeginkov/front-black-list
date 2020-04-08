@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   completed: {
     color: '#fff',
   },
@@ -22,18 +22,17 @@ export default function FadeMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-
   };
   const handleCloselogout = () => {
     setAnchorEl(null);
-    localStorage.clear()
-    window.location = "/signin";
+    localStorage.clear();
+    window.location = '/signin';
   };
 
   return (

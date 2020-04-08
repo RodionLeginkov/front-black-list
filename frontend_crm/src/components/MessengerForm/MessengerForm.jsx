@@ -3,13 +3,10 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { messengers } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    // minWidth: 120,
-    // border:'1px solid'
   },
   chips: {
     display: 'flex',
@@ -40,13 +37,10 @@ export default function MessengerForm(props) {
     messengerChange(values);
   };
 
-  let filteredMessenger = messegers
+  let filteredMessenger = messegers;
   for (const index in messengerValue) {
-    filteredMessenger = filteredMessenger.filter((t) => {
-      return (
-        t.tech !== messengerValue[index].tech)
-    })
-
+    filteredMessenger = filteredMessenger.filter((t) => (
+      t.tech !== messengerValue[index].tech));
   }
   return (
     <div>
@@ -57,21 +51,20 @@ export default function MessengerForm(props) {
         id="checkboxes-tags-demo"
         options={filteredMessenger}
         disableCloseOnSelect
-        getOptionLabel={option => option.tech}
+        getOptionLabel={(option) => option.tech}
         onChange={handleChange}
         value={messengerValue}
-        renderOption={(option, { selected }) => (
-          <React.Fragment>
+        renderOption={(option) => (
+          <>
 
             {option.tech}
-          </React.Fragment>
+          </>
         )}
         style={{ width: '100%' }}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField error={messengerValue.length === 0 && isError} {...params} variant="outlined" label="Messengers" />
         )}
       />
     </div>
   );
 }
- // helperText={(!project.status && isError) ? "Empty field." : ''}

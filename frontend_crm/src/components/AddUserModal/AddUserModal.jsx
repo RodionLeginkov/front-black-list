@@ -6,13 +6,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
-// import FormControl from '@material-ui/core/FormControl';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import Select from '@material-ui/core/Select';
-// import MenuItem from '@material-ui/core/MenuItem';
 import { TextField } from '@material-ui/core';
-// import NumberFormat from 'react-number-format';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -20,10 +15,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-// import { userRoles, englishLevels, stackList } from '../../constants/constants';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import DevelopersChooseForm from '../DevelopersChooseForm';
-import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -80,9 +73,6 @@ export default function AddUserModal(props) {
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  // const handleClose = () => {
-  //   setAddUserModalOpen(false);
-  // };
 
   const initialValue = {
     user_uuid: '',
@@ -109,11 +99,9 @@ export default function AddUserModal(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+
   const reqFields = [
     'user_uuid',
-    // 'project_uuid',
     'role',
     'rate',
     'unit',
@@ -125,7 +113,7 @@ export default function AddUserModal(props) {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
-      setIsError(false)
+      setIsError(false);
       if (isEdit) dispatch(addMilestone(project));
       else milestonesChange(project);
       setProject(initialValue);
@@ -137,8 +125,8 @@ export default function AddUserModal(props) {
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '' }); };
 
-  const startDateChange = (startDate) => { setOpenStartDatePicker((isOpen) => !isOpen); setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => { setOpenEndDatePicker((isOpen) => !isOpen); setProject({ ...project, end_date: endDate }); };
+  const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
+  const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
 
   return (
     <div className={classes.position}>
@@ -166,7 +154,7 @@ export default function AddUserModal(props) {
                 isError={isError}
               />
               <Grid container spacing={1}>
-                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
                     error={!project.role && isError}
                     helperText={(!project.role && isError) ? 'Empty field.' : ''}
@@ -179,7 +167,7 @@ export default function AddUserModal(props) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item item xs={12} sm={6} style={{ paddingBottom: 0 }}>
+                <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
                     error={!project.load && isError}
                     helperText={(!project.load && isError) ? 'Empty field.' : ''}
@@ -187,7 +175,6 @@ export default function AddUserModal(props) {
                     value={project.load || ''}
                     label="Load"
                     variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='load'
                     onChange={handleChange}
@@ -200,7 +187,7 @@ export default function AddUserModal(props) {
                     }}
                   />
                 </Grid>
-                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     error={!project.rate && isError}
                     helperText={(!project.rate && isError) ? 'Empty field.' : ''}
@@ -214,7 +201,7 @@ export default function AddUserModal(props) {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     error={!project.unit && isError}
                     helperText={(!project.unit && isError) ? 'Empty field.' : ''}
@@ -243,9 +230,6 @@ export default function AddUserModal(props) {
                   value={project.start_date}
                   label="Start Date"
                   onChange={startDateChange}
-                // KeyboardButtonProps={{
-                //   'aria-label': 'change date',
-                // }}
                 />
 
                 <KeyboardDatePicker

@@ -7,13 +7,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
-import { fi } from 'date-fns/locale';
 import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
-// import FilterPanel from '../../components/FilterUserPanel/FilterUserPanel.jsx';
 import UsersList from './UsersList.jsx';
 
 
@@ -29,7 +27,6 @@ const useStyles = makeStyles({
   },
   usersHeader: {
     alignItems: 'center',
-    // maxWidth: '1370px',
     justifyContent: 'space-between',
     display: 'flex',
     margin: '0',
@@ -56,17 +53,13 @@ function Users() {
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState();
-  const [page, setPage] = useState();
-  const [pageSize, setPageSize] = useState();
-  // console.log(users);
-  // const filter = 'developer';
-  // setPage(10);
+  const [page] = useState();
   useEffect(() => {
     dispatch(getUsers(filter, page));
     dispatch(getProjects());
+    // eslint-disable-next-line
   }, [dispatch, filter]);
-  // console.log('filter', filter);
-  const handleChange = (event) => {
+  const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
@@ -92,7 +85,6 @@ function Users() {
           Add user
         </Button>
       </div>
-      {/* <FilterPanel /> */}
       <Grid container style={{ marginBottom: 15 }} spacing={1}>
         <Grid item>
           <Button
@@ -144,6 +136,7 @@ function Users() {
         spacing={0}
         justify="flex-start"
       >
+        {/* eslint-disable-next-line no-nested-ternary */}
         {loading ? <Loading />
           : widgetView ? <UsersCards users={users} />
             : <UsersList users={users} />}

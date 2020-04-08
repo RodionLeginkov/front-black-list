@@ -39,7 +39,6 @@ function App() {
         if(error.response.status === 401){
           localStorage.clear();
           history.push('/signin');
-          //window.location = '/signin';
         } 
         const { message } = error.response.data.error;
         NotificationManager.error(message);

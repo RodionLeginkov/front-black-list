@@ -128,7 +128,7 @@ const EditUserPage = ({ match }) => {
 
 
   const startDateChange = (dataofJoining) => {
-    setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt: dataofJoining });
+     setUser({ ...user, hiredAt: dataofJoining });
   };
 
   const onSubmit = (e) => {

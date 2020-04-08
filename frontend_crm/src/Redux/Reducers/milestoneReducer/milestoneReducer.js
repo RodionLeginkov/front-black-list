@@ -5,7 +5,6 @@ import {
     POST_MILESTONE,
     DELETE_MILESTONE_ERROR,
     DELETE_MILESTONE_SUCCESS,
-    DELETE_MILESTONE,
 } from '../../ActionTypes/milestonesTypes/milestonesTypes'
 
 const initialState = {

@@ -53,7 +53,7 @@ export default function ProjectsList(props) {
   const dispatch = useDispatch();
   // eslint-disable-next-line array-callback-return
   const rows = projects.map((project) => {
-    createData(project.name, project.description, project.customer, project.uuid);
+    return  createData(project.name, project.description, project.customer, project.uuid);
   });
   function handleClick(id) {
     dispatch(findProject(id));

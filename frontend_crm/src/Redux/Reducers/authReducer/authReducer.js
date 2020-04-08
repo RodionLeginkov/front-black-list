@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import {
   SIGNUP_LOADING, SIGNUP_SUCCESS, SIGNUP_ERROR,
   SIGNIN_LOADING, SIGNIN_SUCCESS, SIGNIN_ERROR,

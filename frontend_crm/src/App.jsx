@@ -34,6 +34,11 @@ function App() {
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
+        console.log("err",error.response.status)
+        if(error.response.status === 401){
+          localStorage.clear();
+          window.location = '/signin';
+        } 
         const { message } = error.response.data.error;
         NotificationManager.error(message);
         return Promise.reject(error);

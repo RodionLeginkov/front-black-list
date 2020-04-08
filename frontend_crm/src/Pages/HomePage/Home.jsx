@@ -10,7 +10,6 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'center',
-    // alignItems: 'center',
     color: 'white',
     fontSize: '4rem',
   },
@@ -23,12 +22,6 @@ function Home() {
       <div className={classes.homeTopSection}>
         <h1 style={{ marginTop: '150px' }}> Exceed</h1>
       </div>
-      {/* <Grid
-        className={classes.usersWrapper}
-        container
-        spacing={3}
-        justify="center"
-      /> */}
     </>
   );
 }

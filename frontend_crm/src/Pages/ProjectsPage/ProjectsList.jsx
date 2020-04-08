@@ -48,12 +48,13 @@ const useStyles = makeStyles({
 
 export default function ProjectsList(props) {
   const classes = useStyles();
-  // const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
   const { projects } = props;
   const history = useHistory();
   const dispatch = useDispatch();
-  const rows = projects.map((project) => createData(project.name, project.description, project.customer, project.uuid));
-
+  // eslint-disable-next-line array-callback-return
+  const rows = projects.map((project) => {
+    createData(project.name, project.description, project.customer, project.uuid);
+  });
   function handleClick(id) {
     dispatch(findProject(id));
     history.push(`/projects/${id}`);
@@ -67,9 +68,6 @@ export default function ProjectsList(props) {
             <StyledTableCell>Project Name</StyledTableCell>
             <StyledTableCell align="right">Customer</StyledTableCell>
             <StyledTableCell align="right">Description</StyledTableCell>
-            {/* <StyledTableCell align="right">TableCell</StyledTableCell>
-            <StyledTableCell align="right">TableCell</StyledTableCell> */}
-            {/* <StyledTableCell align="right">Action</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -84,14 +82,6 @@ export default function ProjectsList(props) {
               </StyledTableCell>
               <StyledTableCell align="right">{project.customer}</StyledTableCell>
               <StyledTableCell align="right">{project.description}</StyledTableCell>
-              {/* <StyledTableCell align="right">{project.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{project.protein}</StyledTableCell> */}
-              {/* <StyledTableCell align="right">
-                <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
-                  <DeleteOutlineIcon />
-                </Button>
-              </StyledTableCell> */}
-              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} /> */}
             </StyledTableRow>
           ))}
         </TableBody>

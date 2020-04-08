@@ -5,10 +5,10 @@ import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import Tooltip from '@material-ui/core/Tooltip';
-import { findUser, getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   avatarGroup: {
     padding: '5px',
   },
@@ -34,18 +34,20 @@ export default function DevAvatars(props) {
   }
 
   const devList = milestones.map((milestone) => {
-    const user = users.find((user) => user.uuid === milestone.user_uuid);
+    const user = users.find((item) => item.uuid === milestone.user_uuid);
     if (user) {
       const userName = `${user.firstName} ${user.lastName}`;
       return (
         <Tooltip className={classes.avatar} title={userName} key={Math.random()}>
           <Avatar
-           onClick={() => handleClick(milestone.user_uuid)} 
-           alt={userName}
-            src={`${milestone.userImage}`} />
+            onClick={() => handleClick(milestone.user_uuid)}
+            alt={userName}
+            src={`${milestone.userImage}`}
+          />
         </Tooltip>
       );
     }
+    return null;
   });
 
   return (

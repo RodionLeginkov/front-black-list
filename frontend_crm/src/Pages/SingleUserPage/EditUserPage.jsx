@@ -13,7 +13,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import Loading from '../../components/Loading';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
@@ -22,6 +21,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles } from '../../constants/constants';
 
@@ -94,9 +94,6 @@ const EditUserPage = ({ match }) => {
   const projects = useSelector((state) => state.projects.projects);
 
   const [isError, setIsError] = useState(false);
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
-
 
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
@@ -131,6 +128,7 @@ const EditUserPage = ({ match }) => {
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
     setUser(initialValue);
+    // eslint-disable-next-line
   }, [loading]);
 
   useEffect(() => {
@@ -138,6 +136,7 @@ const EditUserPage = ({ match }) => {
       dispatch(getUsers());
       dispatch(getUser(userId));
     }
+    // eslint-disable-next-line
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -148,32 +147,25 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  // const handleChangeStack = ((event, values) => {
-  //   setUser({ ...user, Skills: values });
-  // });
 
-  // const handleChangeProject = (event, values) => {
-  //   setUser({ ...user, currentProject: values });
-  // };
+  const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
 
-  const startDateChange = (hiredAt) => { setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt }); };
-
-  const endDateChange = (firedAt) => { setOpenEndDatePicker((isOpen) => !isOpen); setUser({ ...user, firedAt }); };
+  const endDateChange = (firedAt) => { setUser({ ...user, firedAt }); };
 
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    // if ((isEmpty === undefined && !user.email.length) || (isEmpty === undefined && validateEmail(user.email) && user.email.length))
-    if ((isEmpty === undefined && !user.email) || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
+    if ((isEmpty === undefined && !user.email)
+    || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     } else setIsError(true);
   };
 
   let filteredProjects = projects;
+
   for (const index in user.currentProject) {
-    filteredProjects = filteredProjects.filter((project) => (
-      project.name !== user.currentProject[index].name));
+    filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
 
 
@@ -255,31 +247,17 @@ const EditUserPage = ({ match }) => {
                       value={user.role || ''}
                       onChange={handleChange}
                     >
-                      {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
+                      {userRoles.map((role) => (
+                        <MenuItem
+                          value={role.value}
+                          key={role.label}
+                        >
+                          {role.label}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
-
-
-                {/* Return this later */}
-                {/* <Grid item xs={12} sm={6}>
-                  <FormControl
-                    className={clsx(classes.formControl, classes.inputForm)}
-                    variant="outlined"
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">English Level</InputLabel>
-                    <Select
-                      labelWidth={47}
-                      name='englishLevel'
-                      value={user.englishLevel || ''}
-                      onChange={handleChange}
-                    >
-                      {englishLevels.map((level) => (
-                        <MenuItem value={level} key={level}>{level}</MenuItem>))}
-                    </Select>
-                  </FormControl>
-                </Grid> */}
-
 
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -343,26 +321,6 @@ const EditUserPage = ({ match }) => {
                 </Grid>
 
 
-                {/* Retern this later */}
-                {/* <Grid item xs={12}>
-                  <Autocomplete
-                    style={{ margin: '5px 0px 10px' }}
-                    multiple
-                    options={stackList}
-                    getOptionLabel={(option) => option}
-                    defaultValue={user.Skills}
-                    filterSelectedOptions
-                    name='Skill'
-                    onChange={handleChangeStack}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        label="Skills"
-                      />
-                    )}
-                  />
-                </Grid> */}
                 <Grid item xs={12}>
                   <TextField
                     style={{ width: '100%' }}
@@ -381,12 +339,8 @@ const EditUserPage = ({ match }) => {
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       error={!user.hiredAt && isError}
-
                       helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
-
                       disableToolbar
-                      // onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
-                      // open={openStartDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"
@@ -403,8 +357,6 @@ const EditUserPage = ({ match }) => {
                       style={{ width: '100%' }}
                       inputVariant="outlined"
                       disableToolbar
-                      // onClick={() => setOpenEndDatePicker((isOpen) => !isOpen)}
-                      // open={openEndDatePicker}
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"

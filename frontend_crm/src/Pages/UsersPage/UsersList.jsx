@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -30,9 +30,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(fName, lName, milestons, seniority, role, id, project_ready, current_task) {
+function createData(fName, lName, milestons, seniority, role, id, projectReady, currentTask) {
   return {
-    fName, lName, milestons, seniority, role, id, project_ready, current_task,
+    fName, lName, milestons, seniority, role, id, projectReady, currentTask,
   };
 }
 
@@ -75,7 +75,6 @@ export default function UsersList(props) {
 
   const projects = useSelector((state) => state.projects.filteredProjects);
   const rows = users.map((user) => {
-    // console.log(user)
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
@@ -130,25 +129,20 @@ export default function UsersList(props) {
                   <p key={Math.random()}>
                     {projects.map((project) => {
                       if (project.uuid === item.project_uuid) return project.name;
+                      return null;
                     })}
                   </p>
                 ))}
               </StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.role}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
               <StyledTableCell align="right">{user.role}</StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p>{item.rate}</p>)}</StyledTableCell>
+              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
               <StyledTableCell align="right">
-                {user.project_ready}
+                {user.projectReady}
                 %
               </StyledTableCell>
 
               <StyledTableCell align="right">{user.seniority}</StyledTableCell>
-              {/* <StyledTableCell align="right">
-                <Button className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
-                  <DeleteOutlineIcon />
-                </Button>
-              </StyledTableCell> */}
-              {/* <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={user.uuid} name={user.name} /> */}
             </StyledTableRow>
           ))}
         </TableBody>

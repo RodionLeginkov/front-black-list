@@ -13,7 +13,6 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Tooltip from '@material-ui/core/Tooltip';
-import Link from '@material-ui/core/Link';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -46,8 +45,6 @@ const useStyles = makeStyles(() => ({
   },
   stackAndEnglish: {
     margin: '0px 20px',
-    // display: 'flex',
-    // alignItems: 'center',
   },
   description: {
     margin: '4px 13px',
@@ -66,16 +63,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function CurrentProject(props) {
+const CurrentProject = ({ match }) => {
   const classes = useStyles();
   const history = useHistory();
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
 
-  function handleClick() {
-    history.push('/projects');
-  }
+  const handleClick = () => history.push('/projects');
 
-  const { projectId } = props.match.params;
+  const { projectId } = match.params;
+
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.projects.currentProject);
@@ -88,26 +84,14 @@ function CurrentProject(props) {
     }
   }, [dispatch, projectId, project]);
 
-  if (!project)  return (<Loading />)
+  if (!project) return (<Loading />);
 
-
-  // sconsole.log(project);
-
-  // const projectStack = project.Skills.map((element) => {
-  //   if (stackList.includes(element.name)) {
-  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />
-  //   }
-  // }
-  // );stack
-  // const englishLevel = project.Skills.find((element) => element.name.includes('English'))
   return (
     <div style={{ marginLeft: '85px' }}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Link color="inherit" onClick={() => history.push('/projects')}>
-          Projects
-        </Link>
-        <Typography color="textPrimary" onClick={() => history.push(`/project/${project.uuid}`)}>{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -128,14 +112,9 @@ function CurrentProject(props) {
         <div className={classes.stackAndEnglish}>
           <h2>Milestones: </h2>
 
-          {/* <Typography className={classes.english}>
-              {englishLevel ? englishLevel.ProjectSkills.level : 'not stated'}
-            </Typography> */}
- <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
+          <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
 
         </div>
-
-        {/* <UserList users={project.Users} /> */}
 
         <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
@@ -156,17 +135,24 @@ function CurrentProject(props) {
           </Button>
           <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
             <span>
-              <Button disabled={project.Projects_Milestones.length === 0 ? false : true} className={classes.button} onClick={() => setdeleteModalIsOpen(true)}>
+              <Button
+                disabled={project.Projects_Milestones.length !== 0}
+                className={classes.button}
+                onClick={() => setdeleteModalIsOpen(true)}
+              >
                 <DeleteOutlineIcon />
               </Button>
             </span>
           </Tooltip>
         </div>
       </Paper>
-      <DeleteModal deleteModalIsOpen={deleteModalIsOpen} setdeleteModalIsOpen={setdeleteModalIsOpen} id={project.uuid} name={project.name} />
-      {/* <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} curProject={{...project}} isEdit /> */}
-      {/* <AddProjectPage curProject={{...project}} isEdit /> */}
+      <DeleteModal
+        deleteModalIsOpen={deleteModalIsOpen}
+        setdeleteModalIsOpen={setdeleteModalIsOpen}
+        id={project.uuid}
+        name={project.name}
+      />
     </div>
   );
-}
+};
 export default CurrentProject;

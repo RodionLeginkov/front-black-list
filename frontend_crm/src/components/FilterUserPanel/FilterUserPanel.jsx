@@ -9,8 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import {
-  filteredUserRole, filteredUserName, filteredUserEmail, filteredUserPhone,
-  filteredUserStack, filteredUserEnglishLevel,
+  filteredUserName,
 } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, stackList, englishLevels } from '../../constants/constants';
 
@@ -47,37 +46,26 @@ const useStyles = makeStyles(() => ({
 const FilterUserPanel = () => {
   const classes = useStyles();
   const [searchName, setSearchName] = useState('');
-  const [searchEmail, setSearchEmail] = useState('');
-  const [searchPhone, setSearchPhone] = useState('');
+  const [searchEmail] = useState('');
+  const [searchPhone] = useState('');
 
   const dispatch = useDispatch();
-
-  const handleChangeRole = ((event, values) => {
-    dispatch(filteredUserRole(values));
-  });
-
-  const handleChangeStack = ((event, values) => {
-    dispatch(filteredUserStack(values));
-  });
-
-  const handleChangeEnglishLevel = ((event, values) => {
-    dispatch(filteredUserEnglishLevel(values));
-  });
+  // Example
+  // const handleChangeRole = ((event, values) => {
+  //   dispatch(filteredUserRole(values));
+  // });
 
   const onChangeSearchName = (event) => {
     setSearchName(event.target.value);
     dispatch(filteredUserName(event.target.value));
   };
 
-  const onChangeSearchEmail = (event) => {
-    setSearchEmail(event.target.value);
-    dispatch(filteredUserEmail(event.target.value));
-  };
+  // Example
+  // const onChangeSearchEmail = (event) => {
+  //   setSearchEmail(event.target.value);
+  //   dispatch(filteredUserEmail(event.target.value));
+  // };
 
-  const onChangeSearchPhone = (event) => {
-    setSearchPhone(event.target.value);
-    dispatch(filteredUserPhone(event.target.value));
-  };
 
   return (
     <div className={classes.root}>
@@ -105,7 +93,6 @@ const FilterUserPanel = () => {
               label="Email"
               variant="outlined"
               value={searchEmail}
-              onChange={onChangeSearchEmail}
               size='small'
               className={classes.searchField}
             />
@@ -115,7 +102,6 @@ const FilterUserPanel = () => {
               label="Phone number"
               variant="outlined"
               value={searchPhone}
-              onChange={onChangeSearchPhone}
               size='small'
               className={classes.searchField}
             />
@@ -126,7 +112,6 @@ const FilterUserPanel = () => {
               options={userRoles}
               getOptionLabel={(option) => option}
               filterSelectedOptions
-              onChange={handleChangeRole}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -143,7 +128,6 @@ const FilterUserPanel = () => {
               options={stackList}
               getOptionLabel={(option) => option}
               filterSelectedOptions
-              onChange={handleChangeStack}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -160,7 +144,6 @@ const FilterUserPanel = () => {
               options={englishLevels}
               getOptionLabel={(option) => option}
               filterSelectedOptions
-              onChange={handleChangeEnglishLevel}
               renderInput={(params) => (
                 <TextField
                   {...params}

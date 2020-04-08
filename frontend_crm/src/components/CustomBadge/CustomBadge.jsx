@@ -10,7 +10,6 @@ import clsx from 'clsx';
 const useStyles = makeStyles(() => ({
   badge: {
     padding: '2px 4px',
-    // display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '4px',

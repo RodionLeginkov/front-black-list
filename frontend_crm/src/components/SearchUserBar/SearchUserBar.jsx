@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
 function SearchUserBar() {
-    return (
+  return (
 
-        <TextField id="standard-basic" label="Standard" />
+    <TextField id="standard-basic" label="Standard" />
 
-    )
+  );
 }
 
-export default SearchUserBar
+export default SearchUserBar;

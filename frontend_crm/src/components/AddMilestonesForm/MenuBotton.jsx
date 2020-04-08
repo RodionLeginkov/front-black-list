@@ -1,18 +1,20 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
-import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions'
-import {getProject} from '../../Redux/Actions/ProjectsActions/ProjectActions'
+import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
-  const {project, setProject, milestones, singleMilestone, setProjectMilestones } = props;
+  const {
+    project, setProject, milestones, singleMilestone, setProjectMilestones,
+  } = props;
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -26,12 +28,13 @@ export default function LongMenu(props) {
   };
 
   const handleDelete = () => {
-    const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid)
+    // eslint-disable-next-line max-len
+    const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
     setProject({ ...project, Projects_Milestones: filteredMilestones });
-    setProjectMilestones(filteredMilestones)
-    dispatch(deleteMilestone(singleMilestone.uuid))
+    setProjectMilestones(filteredMilestones);
+    dispatch(deleteMilestone(singleMilestone.uuid));
     dispatch(getProject(project.uuid));
-  }
+  };
 
   return (
     <div>
@@ -56,7 +59,8 @@ export default function LongMenu(props) {
             paddingBottom: '0px',
           },
         }}
-      ><div style={{ display: 'flex', flexDirection: 'row' }}>
+      >
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
           <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton>
               <FileCopySharpIcon style={{ fontSize: '20px' }} />

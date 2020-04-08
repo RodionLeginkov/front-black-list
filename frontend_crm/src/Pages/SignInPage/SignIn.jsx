@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -43,7 +43,6 @@ export default function SignUp() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const userAuth = useSelector((state) => state.auth);
-  // const errorMessage = useSelector((state) => state.errorMessage);
   const [open, setOpen] = useState(false);
   const [emailError, setEmailError] = useState({
     err: false,
@@ -57,7 +56,7 @@ export default function SignUp() {
     email: '',
     password: '',
   });
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl] = React.useState(null);
 
   const onChangheEmail = (e) => {
     setState({
@@ -73,38 +72,17 @@ export default function SignUp() {
       password: e.target.value,
     });
   };
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+
   const handleClose = () => {
     setOpen(false);
   };
-  // useEffect(() => {
-  //   // if (userAuth && userAuth.error)setOpen(true);
-  //   if (userAuth && userAuth.errorMessage) {
-  //     if (userAuth.errorMessage.includes('403')) {
-  //       setPasswordError({
-  //         ...form,
-  //         err: true,
-  //         message: 'password is wrong',
-  //       });
-  //     } else {
-  //       setPasswordError({
-  //         ...form,
-  //         err: false,
-  //         message: '',
-  //       });
-  //     }
-  //   }
-  // }, [userAuth, form, passwordError]);
-  // console.log('Hello', errorMessage);
+
   const onSubmit = (e) => {
     e.preventDefault();
     const login = {
       email: form.email,
       password: form.password,
     };
-    // console.log(login);
     if (!form.email.includes('@')) {
       setEmailError({
         ...form,
@@ -119,43 +97,11 @@ export default function SignUp() {
       });
     }
     dispatch(signIn(login));
-    // if (userAuth && userAuth.error)setOpen(true);
-    // if (userAuth && userAuth.errorMessage) {
-    //   if (userAuth.errorMessage.includes('403')) {
-    //     setEmailError({
-    //       ...form,
-    //       err: true,
-    //       message: 'password is wrong',
-    //     });
-    //   } else {
-    //     setEmailError({
-    //       ...form,
-    //       err: false,
-    //       message: '',
-    //     });
-    //   }
-    // }
   };
 
-  // console.log(userAuth.error);
   if (userAuth && userAuth.loggedIn) {
     window.location = '/';
-    // history.push('/');
   }
-
-  // console.log(userAuth.error);
-  // if (userAuth.error) alert('error');
-  // if (userAuth && userAuth.user) {
-  //   // console.log(localStorage.getItem('token'));
-  //   if (localStorage.getItem('token') != null) history.push('/');
-  // }
-
-  // console.log(userAuth);
-  // if (userAuth && userAuth.user) {
-  // console.log(userAuth.user.token);
-  // if (localStorage.getItem('token') != null) return (<Redirect to="/" />);
-  // if (userAuth.user.token != null) return (<Redirect to="/" />);
-  // }
 
   const id = open ? 'simple-popover' : undefined;
   return (
@@ -183,7 +129,6 @@ export default function SignUp() {
             onChange={onChangheEmail}
             error={emailError.err}
             helperText={emailError.message}
-            // FormHelperText={}
           />
           <TextField
             variant="outlined"
@@ -199,7 +144,6 @@ export default function SignUp() {
             onChange={onChanghePassword}
             error={passwordError.err}
             helperText={passwordError.message}
-            // onClick={handleClick}
           />
           <Popover
             id={id}
@@ -236,11 +180,6 @@ export default function SignUp() {
                 Forgot password?
               </Link>
             </Grid>
-            {/* <Grid item>
-              <Link to="/signup">
-                Don't have an account? Sign Up
-              </Link>
-            </Grid> */}
           </Grid>
         </form>
       </div>

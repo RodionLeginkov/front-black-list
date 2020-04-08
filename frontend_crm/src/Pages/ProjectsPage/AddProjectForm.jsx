@@ -9,8 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import DevelopersChooseForm from '../../components/DevelopersChooseForm';
-import StackForm from '../../components/Form/StackForm';
+import DevelopersChooseForm from '../../components/DevelopersChooseForm/index.jsx';
+import StackForm from '../../components/Form/StackForm.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -51,9 +51,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },
-  // modalWidth: {
-  //   width: '700px',
-  // },
 }));
 
 
@@ -130,17 +127,6 @@ export default function AddProjectForm(props) {
             <MenuItem value='Unexpected'>Unexpected</MenuItem>
           </Select>
         </FormControl>
-        {/* <TextField
-            value={project.price || ''}
-            type="number"
-            style={{ marginLeft: 5 }}
-            variant="outlined"
-            label="Price"
-            inputProps={{ 'aria-label': 'description' }}
-            className={classes.inputForm}
-            name='price'
-            onChange={projectChange}
-          /> */}
         <FormControl
           style={{ marginLeft: 5 }}
           className={clsx(classes.formControl, classes.inputForm)}

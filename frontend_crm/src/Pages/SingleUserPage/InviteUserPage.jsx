@@ -5,16 +5,14 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, Tooltip, useTheme } from '@material-ui/core';
+import { TextField, Tooltip } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Loading from '../../components/Loading';
 import Typography from '@material-ui/core/Typography';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -23,11 +21,12 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
-import { userRoles, englishLevels, stackList } from '../../constants/constants';
+import Loading from '../../components/Loading/index.jsx';
+import { userRoles } from '../../constants/constants';
 import {
-  getUsers, AddUser, updateUser, getUser,
+  getUsers, AddUser,
 } from '../../Redux/Actions/UsersActions/UserActions';
-import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,10 +51,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0px 20px',
     display: 'flex',
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   position: {
     display: 'flex',
     alignItems: 'Center',
@@ -71,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    // margin: '5px 0',
   },
   descriptionForm: {
     maxHeight: '200px',
@@ -92,10 +86,9 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
-  const userAuth = useSelector((state) => state.auth);
 
   const [isError, setIsError] = useState(false);
-  const [openStartDatePicker, setOpenStartDatePicker] = useState(false);
+  const [setOpenStartDatePicker] = useState(false);
 
 
   const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
@@ -117,14 +110,12 @@ const EditUserPage = ({ match }) => {
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
     setUser(initialValue);
+    // eslint-disable-next-line
   }, [loading]);
 
   useEffect(() => {
-    // if (userId && !curUser) {
     dispatch(getUsers());
-    // dispatch(getUser(userId));
-
-    // }
+    // eslint-disable-next-line
   }, [curUser, dispatch, userId]);
 
   if (loading) {
@@ -136,15 +127,16 @@ const EditUserPage = ({ match }) => {
   };
 
 
-  const startDateChange = (dataofJoining) => { setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt: dataofJoining }); };
+  const startDateChange = (dataofJoining) => {
+    setOpenStartDatePicker((isOpen) => !isOpen); setUser({ ...user, hiredAt: dataofJoining });
+  };
 
-  console.log(user.email);
   const onSubmit = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!user[field]));
-    console.log(isEmpty, (validateEmail(user.email) && user.email.length));
-    if ((isEmpty === undefined && !user.email.length) || (isEmpty === undefined && validateEmail(user.email) && user.email.length)) {
-      console.log('NewAdd');
+
+    if ((isEmpty === undefined && !user.email.length)
+    || (isEmpty === undefined && validateEmail(user.email) && user.email.length)) {
       const login = {
         email: user.email || undefined,
         role: user.role,
@@ -157,13 +149,10 @@ const EditUserPage = ({ match }) => {
       history.push('/users');
     } else setIsError(true);
   };
-  // else {
-  //   //setOpen(true);
-  // }
-  //
 
 
   let filteredProjects = projects;
+  // eslint-disable-next-line no-restricted-syntax
   for (const index in user.currentProject) {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== user.currentProject[index].name));
@@ -224,7 +213,6 @@ const EditUserPage = ({ match }) => {
                   <TextField
                     error={!user.lastName && isError}
                     helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
-                    // style={{ marginBottom: 10 }}
                     value={user.lastName}
                     label="User surname"
                     variant="outlined"
@@ -249,7 +237,14 @@ const EditUserPage = ({ match }) => {
                       value={user.role || ''}
                       onChange={handleChange}
                     >
-                      {userRoles.map((role) => <MenuItem value={role.value} key={role.label}>{role.label}</MenuItem>)}
+                      {userRoles.map((role) => (
+                        <MenuItem
+                          value={role.value}
+                          key={role.label}
+                        >
+                          {role.label}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -284,8 +279,6 @@ const EditUserPage = ({ match }) => {
                     style={{ width: '100%' }}
                     inputVariant="outlined"
                     disableToolbar
-                    // onClick={() => setOpenStartDatePicker((isOpen) => !isOpen)}
-                    // open={openStartDatePicker}
                     variant="inline"
                     format="dd/MM/yyyy"
                     margin="normal"

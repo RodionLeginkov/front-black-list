@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -58,34 +58,7 @@ export default function ResetPassword(props) {
     setOpen(false);
   };
 
-
   const tokenId = props.match.params.token;
-  // console.log(tokenId);
-  /* useEffect(() => {
-    async function fetchMyAPI() {
-      console.log(tokenId);
-      const response = await axios.get(`${process.env.REACT_APP_BASE_API}users/reset`, { tokenId });
-      console.log('deth');
-      if (response.data.message = 'password reset link a-ok') {
-        setState({
-          ...form,
-          login: response.data.login,
-          updateL: false,
-          isLoading: false,
-          error: false,
-        });
-      } else {
-        setState({
-          ...form,
-          update: false,
-          isLoading: false,
-          error: true,
-        });
-      }
-    }
-    fetchMyAPI();
-  }); */
-
 
   const updatePassword = async (e) => {
     e.preventDefault();
@@ -113,6 +86,7 @@ export default function ResetPassword(props) {
           });
         }
       } catch (err) {
+        // eslint-disable-next-line no-alert
         alert('Something is going wrong');
       }
     } else {
@@ -166,7 +140,11 @@ export default function ResetPassword(props) {
               horizontal: 'left',
             }}
           >
-            <Typography className={classes.typography}>Password must be more than 6 characters.</Typography>
+            <Typography
+              className={classes.typography}
+            >
+              Password must be more than 6 characters.
+            </Typography>
           </Popover>
           <Button
             type="submit"

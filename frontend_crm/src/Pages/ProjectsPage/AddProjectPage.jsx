@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -20,8 +22,6 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
-import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
-import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   position: {
-    // marginTop: '100px',
     display: 'flex',
     alignItems: 'Center',
   },
@@ -75,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
     marginBotton: '5px',
   },
   descriptionForm: {
-    // margin: '5px 0',
     maxHeight: '200px',
     width: '100%',
   },
@@ -90,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '30px',
   },
 }));
-function AddProjectPage(props) {
+const AddProjectPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -100,10 +98,6 @@ function AddProjectPage(props) {
 
 
   const initialValue = (projectId && curProject) ? curProject : {
-    // status: '',
-    // stack: [],
-    // duration: '',
-    // group: [],
     name: '',
     communication: '',
     source: '',
@@ -112,18 +106,9 @@ function AddProjectPage(props) {
     type: '',
     withdrawal_of_funds: '',
     customer: '',
-    // messenger: [],
-    // paymentType: '',
-    // paymentAmount: '',
-    // load: '',
     description: '',
-    // resources: []
     history: '',
-    // Skills: [],
     Projects_Milestones: [],
-    // projectImage: '',
-    // developers: [],
-
   };
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
 
@@ -135,6 +120,7 @@ function AddProjectPage(props) {
   useEffect(() => {
     setProject(initialValue);
     setProjectMilestones(initialMilestones);
+    // eslint-disable-next-line
   }, [loading]);
 
   useEffect(() => {
@@ -143,6 +129,7 @@ function AddProjectPage(props) {
       dispatch(getProject(projectId));
     }
     dispatch(getUsers());
+    // eslint-disable-next-line
   }, [dispatch]);
 
 
@@ -150,14 +137,6 @@ function AddProjectPage(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-  // const stackChange = (stack) => setProject({ ...project, stack });
-  // // const withdrawal_of_fundsChange = (withdrawal_of_funds) => setProject({ ...project, withdrawal_of_funds })
-  // const developersChange = (developers) => setProject({ ...project, developers });
-  // const messengerChange = (messenger) => setProject({ ...project, messenger });
-  // // const communicationChange = (communication) => setProject({ ...project, communication })
-  // // const startDateChange = (startDate) => setProject({ ...project, startDate: startDate });
-  // const startDateChange = (startDate) => { const date = new Date(startDate); setProject({ ...project, start_date: startDate }); };
-  // const endDateChange = (endDate) => setProject({ ...project, end_date: endDate });
   const milestonesChange = (newMilestone) => {
     setProjectMilestones([...projectMilestones, newMilestone]);
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
@@ -165,20 +144,12 @@ function AddProjectPage(props) {
 
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
 
-  // const handleChangeStack = ((event, values) => {
-  //   setProject({ ...project, Skills: values });
-  // });
 
-  // console.log('TEST PRoject', project)
-  // console.log('TEST projectMilestones', projectMilestones)
-
-
-  const onSubmit = (e) => {
-    // e.preventDefault();
+  const onSubmit = () => {
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {
-        // delete project.Projects_Milestones;
+        // eslint-disable-next-line no-restricted-syntax
         for (const index in projectMilestones) {
           if (Number(index) + 1 > curProject.Projects_Milestones.length) {
             dispatch(addMilestone(projectMilestones[index]));
@@ -191,7 +162,6 @@ function AddProjectPage(props) {
         dispatch(addProject(project));
         history.push('/projects');
       }
-
     } else setIsError(true);
   };
 
@@ -201,7 +171,7 @@ function AddProjectPage(props) {
       {!projectId
         ? (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Link color="inherit" onClick={() => history.push('/projects')}>
+            <Link color="inherit" href='/projects'>
               Projects
             </Link>
             <Typography color="textPrimary" onClick={() => history.push('/projects/addproject')}>Add new project</Typography>
@@ -209,10 +179,10 @@ function AddProjectPage(props) {
         )
         : (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Link color="inherit" onClick={() => history.push('/projects')}>
+            <Link color="inherit" href='/projects'>
               Projects
             </Link>
-            <Link color="inherit" onClick={() => history.push(`/projects/${project.uuid}`)}>
+            <Link color="inherit" href={`/projects/${project.uuid}`}>
               {project.name}
             </Link>
             <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project.uuid}`)}>Edit project</Typography>
@@ -236,36 +206,32 @@ function AddProjectPage(props) {
                 required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}
-                helperText={(!project.name.length && isError) ? 'Empty field.':"" }
+                helperText={(!project.name.length && isError) ? 'Empty field.' : ''}
                 value={project.name || ''}
                 label="Project Name"
-                variant="outlined"
-                inputProps={{ 'aria-label': 'description' }}
                 className={classes.inputForm}
                 name='name'
                 onChange={handleChange}
 
                 InputProps={{
                   endAdornment:
-                    <InputAdornment position="end">
-                      <Tooltip title="Project Name">
-                        <HelpOutlineSharpIcon className={classes.helperIcon} />
-                      </Tooltip>
-                    </InputAdornment>,
+  <InputAdornment position="end">
+    <Tooltip title="Project Name">
+      <HelpOutlineSharpIcon className={classes.helperIcon} />
+    </Tooltip>
+  </InputAdornment>,
 
                 }}
               />
-              <div className={classes.smallForm}>
-       
-              </div>
-            
+              <div className={classes.smallForm} />
+
 
               <Grid style={{ margin: '0px 0px 10px' }} container justify="space-between">
-            
+
                 <Grid item xs={12}>
                   <TextField
                     error={!project.customer && isError}
-                    helperText={(!project.customer && isError) ? "Empty field." : ''}
+                    helperText={(!project.customer && isError) ? 'Empty field.' : ''}
                     style={{ width: '100%' }}
                     value={project.customer}
                     variant="outlined"
@@ -277,12 +243,12 @@ function AddProjectPage(props) {
                     onChange={handleChange}
                   />
                 </Grid>
-          
+
               </Grid>
-           
+
               <TextField
                 error={!project.description && isError}
-                helperText={(!project.description && isError) ? "Empty field." : ''}
+                helperText={(!project.description && isError) ? 'Empty field.' : ''}
                 style={{ marginBottom: '10px' }}
                 value={project.description}
                 variant="outlined"
@@ -294,9 +260,17 @@ function AddProjectPage(props) {
                 name='description'
                 onChange={handleChange}
               />
-            
+
               <Divider />
-              <AddMilestonesForm setProject={setProject} project={project} projectMilestones={projectMilestones} milestonesChange={milestonesChange} isError={isError} setProjectMilestones={setProjectMilestones} isEdit />
+              <AddMilestonesForm
+                setProject={setProject}
+                project={project}
+                projectMilestones={projectMilestones}
+                milestonesChange={milestonesChange}
+                isError={isError}
+                setProjectMilestones={setProjectMilestones}
+                isEdit
+              />
               <Divider />
               <div className={classes.button}>
                 <Button
@@ -314,6 +288,6 @@ function AddProjectPage(props) {
       </div>
     </>
   );
-}
+};
 
 export default AddProjectPage;

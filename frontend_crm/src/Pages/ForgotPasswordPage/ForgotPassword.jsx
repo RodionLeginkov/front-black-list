@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -59,41 +59,20 @@ export default function Forgot() {
           showNullError: false,
         });
       } else {
-        const response = await axios.post(`${process.env.REACT_APP_BASE_API}forgotPass`, { email: form.email });
+        await axios.post(`${process.env.REACT_APP_BASE_API}forgotPass`, { email: form.email });
         history.push('/');
-        console.log('response', response);
-        // if (response.data === 'email not in db') {
-        //   setState({
-        //     ...form,
-        //     showError: true,
-        //     messageFromServer: '',
-        //     showNullError: true,
-        //   });
-        // } else if (response.data === 'recovery email sent') {
-        //   setState({
-        //     ...form,
-        //     showError: false,
-        //     messageFromServer: 'recovery email sent',
-        //     showNullError: false,
-        //   });
-        //   alert('check your email');
-        //   window.location = '/signin';
-        // }
       }
     } catch (err) {
-
+      // eslint-disable-next-line no-console
+      console.error(err);
     }
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    //
-  };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper} onSubmit={onSubmit}>
+      <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>

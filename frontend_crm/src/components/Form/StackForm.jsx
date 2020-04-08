@@ -7,8 +7,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    // minWidth: 120,
-    // border:'1px solid'
   },
   chips: {
     display: 'flex',
@@ -62,7 +60,7 @@ export default function StackForm(props) {
         getOptionLabel={(option) => option.tech}
         onChange={handleChange}
         value={stackValue}
-        renderOption={(option, { selected }) => (
+        renderOption={(option) => (
           <>
             {option.tech}
           </>

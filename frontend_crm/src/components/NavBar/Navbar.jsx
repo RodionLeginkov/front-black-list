@@ -20,12 +20,10 @@ import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import FadeMenu from '../ProfileButton/ProfileButton.jsx';
-import RowingSharpIcon from '@material-ui/icons/RowingSharp';
 import AccessAlarmSharpIcon from '@material-ui/icons/AccessAlarmSharp';
+import FadeMenu from '../ProfileButton/ProfileButton.jsx';
 
 const drawerWidth = 240;
 
@@ -161,7 +159,7 @@ export default function MiniDrawer() {
         </Toolbar>
       </AppBar>
       <Drawer
-        style={{ display:{xs: 'none', sm: 'block' } }}
+        style={{ display: { xs: 'none', sm: 'block' } }}
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: open,
@@ -179,8 +177,8 @@ export default function MiniDrawer() {
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
             ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />

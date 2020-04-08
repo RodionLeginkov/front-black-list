@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch,withRouter, BrowserRouter,useHistory } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
@@ -30,6 +30,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
+  const history = useHistory();
   useEffect(() => {
     axios.interceptors.response.use(
       (res) => res,
@@ -37,7 +38,8 @@ function App() {
         console.log("err",error.response.status)
         if(error.response.status === 401){
           localStorage.clear();
-          window.location = '/signin';
+          history.push('/signin');
+          //window.location = '/signin';
         } 
         const { message } = error.response.data.error;
         NotificationManager.error(message);
@@ -80,4 +82,4 @@ function App() {
 
   );
 }
-export default App;
+export default withRouter(App);

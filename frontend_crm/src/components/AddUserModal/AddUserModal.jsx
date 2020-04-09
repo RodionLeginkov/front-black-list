@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
+import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch } from 'react-redux';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -18,7 +22,7 @@ import {
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-
+import { paymentTypes } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -117,11 +121,10 @@ export default function AddUserModal(props) {
     if (isEmpty === undefined) {
       setIsError(false);
       if (isEdit) dispatch(addMilestone(project));
-      else if (initialMilestone){
-      dispatch(updateMilestone(project));
-      dispatch(getProject(curProject.uuid)); 
-    }
-      else milestonesChange(project);
+      else if (initialMilestone) {
+        dispatch(updateMilestone(project));
+        dispatch(getProject(curProject.uuid));
+      } else milestonesChange(project);
       setProject(initialValue);
       setIsError(false);
       setAddUserModalOpen(false);
@@ -188,7 +191,7 @@ export default function AddUserModal(props) {
                     InputProps={{
                       endAdornment:
   <InputAdornment position="end">
-    hr/day
+    hr/week
   </InputAdornment>,
 
                     }}
@@ -209,7 +212,7 @@ export default function AddUserModal(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
-                  <TextField
+                  {/* <TextField
                     error={!project.unit && isError}
                     helperText={(!project.unit && isError) ? 'Empty field.' : ''}
                     value={project.unit || ''}
@@ -219,7 +222,31 @@ export default function AddUserModal(props) {
                     className={classes.inputForm}
                     name='unit'
                     onChange={handleChange}
-                  />
+                  /> */}
+                  <FormControl
+                    error={!project.unit && isError}
+                    helperText={(!project.unit && isError) ? 'Empty field.' : ''}
+                    placeholder='Rate type'
+                    variant="outlined"
+                    className={clsx(classes.formControl, classes.inputForm)}
+                  >
+                    <InputLabel>Rate type</InputLabel>
+                    <Select
+                      labelWidth={47}
+                      name='unit'
+                      value={project.unit || ''}
+                      onChange={handleChange}
+                    >
+                      {paymentTypes.map((role) => (
+                        <MenuItem
+                          value={role.value}
+                          key={role.label}
+                        >
+                          {role.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
               </Grid>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -264,7 +291,7 @@ export default function AddUserModal(props) {
                   onClick={handleAdd}
                   className={classes.submitButton}
                 >
-                  {initialMilestone ? 'Edit' : 'Add'}
+                  Submit
                 </Button>
                 <Button
                   variant="contained"

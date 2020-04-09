@@ -47,9 +47,10 @@ export const projectsDuration = [
 ]
 
 export const paymentTypes = [
-  'hourly',
-  'flat rate',
-  'fixed',
+  { label: 'Hourly', value: 'hourly' },
+  { label: 'Flat rate', value: 'flat_rate' },
+  { label: 'Fixed', value: 'fixed' },
+  { label: 'Weekly', value: 'weekly' },
 ]
 
 export const messengers = [

@@ -128,13 +128,14 @@ const UserCard = ({ user }) => {
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
-console.log('CARD', user)
-  const userStack = user.Skills.map((element) => {
-    if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
-    }
-    return null;
-  });
+
+  // const userStack = user.Skills.map((element) => {
+  //   if (stackList.includes(element.name)) {
+  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
+  //   }
+  //   return null;
+  // });
+
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
@@ -178,9 +179,9 @@ console.log('CARD', user)
           </div>
         </CardContent>
         <div className={classes.footer}>
-          <div className={classes.stack}>{userStack}</div>
+          {/* <div className={classes.stack}>{userStack}</div> */}
           <CustomProjectIcon
-            milestones={user.Users_Milestones}
+            user={user}
             addProject={changeIsShowingModal}
             edit
           />

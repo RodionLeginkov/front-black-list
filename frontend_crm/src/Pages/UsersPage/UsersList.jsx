@@ -73,8 +73,6 @@ function difDates(startDate, curDate) {
 export default function UsersList(props) {
   const classes = useStyles();
   const { users } = props;
-
-  const projects = useSelector((state) => state.projects.filteredProjects);
   const rows = users.map((user) => {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
@@ -108,7 +106,7 @@ export default function UsersList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((user) => (<UserTableRow key={Math.random()} user={user} projects={projects} />))}
+          {rows.map((user) => (<UserTableRow key={Math.random()} user={user} />))}
         </TableBody>
       </Table>
     </TableContainer>

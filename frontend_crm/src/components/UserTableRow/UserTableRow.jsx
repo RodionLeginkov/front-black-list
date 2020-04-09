@@ -47,7 +47,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const UserTableRow = ({ user, projects }) => {
+const UserTableRow = ({ user }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -65,9 +65,11 @@ const UserTableRow = ({ user, projects }) => {
     // setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  console.log(user)
   return (
     <>
       <StyledTableRow
+        onClick={()=>handleClick(user.id)}
         style={{ cursor: 'pointer' }}
       >
         <StyledTableCell component="th" scope="row">
@@ -108,10 +110,7 @@ const UserTableRow = ({ user, projects }) => {
         <StyledTableCell align="right">
           {user.milestons.map((item) => (
             <p key={Math.random()}>
-              {projects.map((project) => {
-                if (project.uuid === item.project_uuid) return project.name;
-                return null;
-              })}
+            {item.Projects.name}
             </p>
           ))}
         </StyledTableCell>

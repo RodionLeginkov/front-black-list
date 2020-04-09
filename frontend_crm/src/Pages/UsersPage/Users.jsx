@@ -56,7 +56,7 @@ function Users() {
   const [page] = useState();
   useEffect(() => {
     dispatch(getUsers(filter, page));
-    dispatch(getProjects());
+    //dispatch(getProjects());
     // eslint-disable-next-line
   }, [dispatch, filter]);
   const handleChange = () => {
@@ -64,6 +64,7 @@ function Users() {
     localStorage.setItem('userWidgetView', !widgetView);
   };
 
+  //console.log(users)
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>

@@ -180,7 +180,7 @@ const UserCard = ({ user }) => {
         <div className={classes.footer}>
           {/* <div className={classes.stack}>{userStack}</div> */}
           <CustomProjectIcon
-            milestones={user.Users_Milestones}
+            user={user}
             addProject={changeIsShowingModal}
             edit
           />

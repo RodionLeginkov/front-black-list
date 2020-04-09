@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 
 export default function DevelopersChooseForm(props) {
   const { userChange, developersValue, isError } = props;
-  const handleChange = (values) => {
+  const handleChange = (e, values) => {
     userChange(values);
   };
 
@@ -19,14 +19,13 @@ export default function DevelopersChooseForm(props) {
   return (
     <>
       <Autocomplete
-
         options={filteredUsers}
         onChange={handleChange}
         getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}
         renderInput={(params) => (
           <TextField
-            error={!developersValue.length && isError}
-            helperText={!developersValue.length && isError ? 'Empty field.' : ''}
+            error={!developersValue && isError}
+            helperText={!developersValue && isError ? 'Empty field.' : ''}
             {...params}
             label="User"
             variant="outlined"

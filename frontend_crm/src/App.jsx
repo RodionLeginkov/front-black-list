@@ -1,6 +1,8 @@
 
 import React, { useEffect } from 'react';
-import { Route, Switch,withRouter, BrowserRouter,useHistory } from 'react-router-dom';
+import {
+  Route, Switch, withRouter, BrowserRouter, useHistory,
+} from 'react-router-dom';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
@@ -22,24 +24,25 @@ import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
 import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
 import 'react-notifications/lib/notifications.css';
 
-
 const theme = createMuiTheme({
   palette: {
     primary: { main: '#32418C' },
   },
 });
 
+
 function App() {
   const history = useHistory();
+
   useEffect(() => {
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
-        console.log("err",error.response.status)
-        if(error.response.status === 401){
+        console.log('err', error.response.statusText);
+        if (error.response.status === 401) {
           localStorage.clear();
           history.push('/signin');
-        } 
+        }
         const { message } = error.response.data.error;
         NotificationManager.error(message);
         return Promise.reject(error);
@@ -49,7 +52,6 @@ function App() {
 
   // localStorage.setItem('token', '');
   return (
-
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <AuthContextProvider>

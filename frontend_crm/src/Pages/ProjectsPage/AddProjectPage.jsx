@@ -132,7 +132,6 @@ const AddProjectPage = (props) => {
     // eslint-disable-next-line
   }, [dispatch]);
 
-
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
   };

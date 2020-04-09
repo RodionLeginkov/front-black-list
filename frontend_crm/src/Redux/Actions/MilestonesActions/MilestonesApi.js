@@ -5,6 +5,10 @@ async function postData(url, data) {
   return response;
 }
 
+async function updateData(url, data) {
+  const response = await axios.put(url, data);
+  return response;
+}
 
 async function deleteData(url, data) {
   const response = await axios.delete(url);
@@ -14,3 +18,5 @@ async function deleteData(url, data) {
 export const postMilestone = (data) => postData(`${process.env.REACT_APP_BASE_API}milestones`, data);
 
 export const deleteMilestones = (id) => deleteData(`${process.env.REACT_APP_BASE_API}milestone/${id}`);
+
+export const updateMilestones = (data, id) => updateData(`${process.env.REACT_APP_BASE_API}milestone/${id}`, data)

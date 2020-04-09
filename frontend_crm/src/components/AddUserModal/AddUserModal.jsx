@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -15,8 +15,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
+import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -69,12 +71,13 @@ export default function AddUserModal(props) {
     setAddUserModalOpen,
     curProject,
     isEdit,
+    initialMilestone,
     milestonesChange,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const initialValue = {
+  const initialValue = initialMilestone || {
     user_uuid: '',
     project_uuid: curProject.uuid,
     role: '',
@@ -93,7 +96,6 @@ export default function AddUserModal(props) {
     setProject(initialValue);
     setAddUserModalOpen(false);
   };
-
 
   const handleChange = (e) => {
     setProject({ ...project, [e.target.name]: e.target.value });
@@ -115,6 +117,10 @@ export default function AddUserModal(props) {
     if (isEmpty === undefined) {
       setIsError(false);
       if (isEdit) dispatch(addMilestone(project));
+      else if (initialMilestone){
+      dispatch(updateMilestone(project));
+      dispatch(getProject(curProject.uuid)); 
+    }
       else milestonesChange(project);
       setProject(initialValue);
       setIsError(false);
@@ -258,7 +264,7 @@ export default function AddUserModal(props) {
                   onClick={handleAdd}
                   className={classes.submitButton}
                 >
-                  Add
+                  {initialMilestone ? 'Edit' : 'Add'}
                 </Button>
                 <Button
                   variant="contained"

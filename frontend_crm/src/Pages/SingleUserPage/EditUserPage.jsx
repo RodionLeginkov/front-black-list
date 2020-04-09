@@ -93,8 +93,6 @@ const EditUserPage = ({ match }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
 
-console.log('curUser', curUser)
-
   const [isError, setIsError] = useState(false);
 
   const initialValue = (userId && curUser) ? curUser : {
@@ -159,7 +157,6 @@ console.log('curUser', curUser)
     const isEmpty = reqFields.find((field) => (!user[field]));
     if ((isEmpty === undefined && !user.email)
     || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
-      console.log('userBefotre', user)
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     } else setIsError(true);

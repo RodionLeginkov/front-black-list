@@ -38,7 +38,6 @@ function App() {
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
-        console.log('err', error.response.statusText);
         if (error.response.status === 401) {
           localStorage.clear();
           history.push('/signin');

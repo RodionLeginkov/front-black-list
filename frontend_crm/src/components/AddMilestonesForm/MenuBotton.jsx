@@ -1,13 +1,16 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
+import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import { useScrollTrigger } from '@material-ui/core';
 
 const ITEM_HEIGHT = 48;
 
@@ -18,6 +21,8 @@ export default function LongMenu(props) {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+  const user = useSelector((state) => state.users.currentUser)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,6 +30,10 @@ export default function LongMenu(props) {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleChange = () => {
+    setAddUserModalOpen(true);
   };
 
   const handleDelete = () => {
@@ -62,6 +71,11 @@ export default function LongMenu(props) {
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <MenuItem style={{ padding: '0, 8px' }}>
+            <IconButton onClick={handleChange}>
+              <EditSharpIcon style={{ fontSize: '20px' }} />
+            </IconButton>
+          </MenuItem>
+          <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton>
               <FileCopySharpIcon style={{ fontSize: '20px' }} />
             </IconButton>
@@ -73,6 +87,14 @@ export default function LongMenu(props) {
           </MenuItem>
         </div>
       </Menu>
+      <AddUserModal
+        projectMilestones={project.projectMilestones}
+        addUserModalOpen={addUserModalOpen}
+        setAddUserModalOpen={setAddUserModalOpen}
+        curProject={project}
+        initialMilestone={singleMilestone}
+        // milestonesChange={milestonesChange}
+      />
     </div>
   );
 }

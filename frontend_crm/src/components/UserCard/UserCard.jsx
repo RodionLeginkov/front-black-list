@@ -129,12 +129,12 @@ const UserCard = ({ user }) => {
     setIsShowingModal(!isShowingModal);
   };
 
-  const userStack = user.Skills.map((element) => {
-    if (stackList.includes(element.name)) {
-      return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
-    }
-    return null;
-  });
+  // const userStack = user.Skills.map((element) => {
+  //   if (stackList.includes(element.name)) {
+  //     return <StackIcon key={Math.random()} tech={element.name} size='medium' />;
+  //   }
+  //   return null;
+  // });
 
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
@@ -178,7 +178,7 @@ const UserCard = ({ user }) => {
           </div>
         </CardContent>
         <div className={classes.footer}>
-          <div className={classes.stack}>{userStack}</div>
+          {/* <div className={classes.stack}>{userStack}</div> */}
           <CustomProjectIcon
             milestones={user.Users_Milestones}
             addProject={changeIsShowingModal}

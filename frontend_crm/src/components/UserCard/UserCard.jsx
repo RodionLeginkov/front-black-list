@@ -136,6 +136,7 @@ const UserCard = ({ user }) => {
   //   return null;
   // });
 
+
   const defaultIcon = 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
   const startDate = new Date(user.hiredAt);

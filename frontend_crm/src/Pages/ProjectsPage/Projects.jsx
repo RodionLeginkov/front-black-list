@@ -59,7 +59,7 @@ export default function StickyHeadTable() {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };
-
+  
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>

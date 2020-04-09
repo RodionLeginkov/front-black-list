@@ -88,12 +88,6 @@ const projectReducer = produce((draft, action) => {
       return draft;
 
     case EDIT_PROJECT:
-      let proj = draft.filteredProjects;
-      let ProjectIndex = proj.findIndex((p) => p.uuid === action.payload.uuid);
-      delete proj[ProjectIndex];
-      proj[ProjectIndex] = action.payload
-      draft.projects = proj;
-      draft.filteredProjects = proj;
       draft.currentProject = action.payload
       return draft;
 

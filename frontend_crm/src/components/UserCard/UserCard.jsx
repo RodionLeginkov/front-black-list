@@ -128,7 +128,7 @@ const UserCard = ({ user }) => {
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
-
+console.log('CARD', user)
   const userStack = user.Skills.map((element) => {
     if (stackList.includes(element.name)) {
       return <StackIcon key={Math.random()} tech={element.name} size='medium' />;

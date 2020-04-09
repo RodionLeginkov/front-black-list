@@ -75,17 +75,16 @@ const CurrentProject = ({ match }) => {
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.projects.currentProject);
-
+console.log(project)
   useEffect(() => {
-    if (!project) {
-      dispatch(getProjects());
+    if (!project || !project.Projects_Milestones) {
       dispatch(getProject(projectId));
-      dispatch(getUsers());
     }
   }, [dispatch, projectId, project]);
 
-  if (!project) return (<Loading />);
-
+  if (!project || !project.Projects_Milestones){
+     return (<Loading />);
+  }
   return (
     <div style={{ marginLeft: '85px' }}>
 

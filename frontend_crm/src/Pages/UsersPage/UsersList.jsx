@@ -1,6 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,8 +8,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles } from '../../constants/constants';
+import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -44,6 +43,10 @@ const useStyles = makeStyles({
   button: {
     color: '#777777',
   },
+  editButton: {
+    color: '#777777',
+    fontSize: '10px',
+  },
 });
 
 function difDates(startDate, curDate) {
@@ -70,8 +73,6 @@ function difDates(startDate, curDate) {
 export default function UsersList(props) {
   const classes = useStyles();
   const { users } = props;
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   const projects = useSelector((state) => state.projects.filteredProjects);
   const rows = users.map((user) => {
@@ -89,10 +90,6 @@ export default function UsersList(props) {
       user.current_task,
     );
   });
-  function handleClick(id) {
-    dispatch(findUser(id));
-    history.push(`/user/${id}`);
-  }
 
 
   return (
@@ -111,39 +108,7 @@ export default function UsersList(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((user) => (
-            <StyledTableRow
-              style={{ cursor: 'pointer' }}
-              key={Math.random()}
-              onClick={() => handleClick(user.id)}
-            >
-              <StyledTableCell component="th" scope="row">
-                {user.fName}
-                {' '}
-                {user.lName}
-              </StyledTableCell>
-              <StyledTableCell align="right">{user.currentTask}</StyledTableCell>
-              <StyledTableCell align="right">
-                {user.milestons.map((item) => (
-                  <p key={Math.random()}>
-                    {projects.map((project) => {
-                      if (project.uuid === item.project_uuid) return project.name;
-                      return null;
-                    })}
-                  </p>
-                ))}
-              </StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
-              <StyledTableCell align="right">{user.role}</StyledTableCell>
-              <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
-              <StyledTableCell align="right">
-                {user.projectReady}
-                %
-              </StyledTableCell>
-
-              <StyledTableCell align="right">{user.seniority}</StyledTableCell>
-            </StyledTableRow>
-          ))}
+          {rows.map((user) => (<UserTableRow key={Math.random()} user={user} projects={projects} />))}
         </TableBody>
       </Table>
     </TableContainer>

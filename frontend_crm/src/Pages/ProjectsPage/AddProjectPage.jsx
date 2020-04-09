@@ -212,7 +212,7 @@ const AddProjectPage = (props) => {
                 className={classes.inputForm}
                 name='name'
                 onChange={handleChange}
-
+                variant="outlined"
                 InputProps={{
                   endAdornment:
   <InputAdornment position="end">

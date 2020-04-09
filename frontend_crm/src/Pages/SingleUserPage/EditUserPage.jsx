@@ -93,6 +93,8 @@ const EditUserPage = ({ match }) => {
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
 
+console.log('curUser', curUser)
+
   const [isError, setIsError] = useState(false);
 
   const initialValue = (userId && curUser) ? curUser : {
@@ -157,6 +159,7 @@ const EditUserPage = ({ match }) => {
     const isEmpty = reqFields.find((field) => (!user[field]));
     if ((isEmpty === undefined && !user.email)
     || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
+      console.log('userBefotre', user)
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     } else setIsError(true);
@@ -312,18 +315,6 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     style={{ width: '100%' }}
-                    value={user.current_task || ''}
-                    variant="outlined"
-                    label="Current Task"
-                    name='current_task'
-                    onChange={handleChange}
-                  />
-                </Grid>
-
-
-                <Grid item xs={12}>
-                  <TextField
-                    style={{ width: '100%' }}
                     value={user.current_occupation || ''}
                     variant="outlined"
                     label="Current Occupation"
@@ -331,6 +322,19 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
+                <Grid item xs={12} >
+                  <TextField
+                    style={{ width: '100%' }}
+                    value={user.current_task || ''}
+                    variant="outlined"
+                    label="Current Task"
+                    multiline
+                    name='current_task'
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+
 
 
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

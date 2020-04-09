@@ -128,6 +128,7 @@ export default function AddUserModal(props) {
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
 
+
   return (
     <div className={classes.position}>
       <Modal

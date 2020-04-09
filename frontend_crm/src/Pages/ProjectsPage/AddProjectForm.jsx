@@ -167,12 +167,12 @@ export default function AddProjectForm(props) {
         stackValue={project.stack}
         isEdit
       />
-      <DevelopersChooseForm
+      {/* <DevelopersChooseForm
         name='developers'
         developersChange={developersChange}
         developersValue={project.developers}
         isEdit
-      />
+      /> */}
       <TextField
         value={project.description}
         variant="outlined"

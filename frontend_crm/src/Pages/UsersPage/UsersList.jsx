@@ -109,8 +109,9 @@ export default function UsersList(props) {
             <StyledTableCell align="right">Current Task</StyledTableCell>
             <StyledTableCell align="right">Current project</StyledTableCell>
             <StyledTableCell align="right">Role in the project</StyledTableCell>
-            <StyledTableCell align="right">Role</StyledTableCell>
             <StyledTableCell align="right">Current rate</StyledTableCell>
+            <StyledTableCell align="right">Load(h/weak)</StyledTableCell>
+            <StyledTableCell align="right">Role</StyledTableCell>
             <StyledTableCell align="right">Project Ready</StyledTableCell>
             <StyledTableCell align="right">Seniority</StyledTableCell>
           </TableRow>

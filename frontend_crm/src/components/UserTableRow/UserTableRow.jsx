@@ -168,6 +168,8 @@ const UserTableRow = ({ user }) => {
           ))}
         </StyledTableCell>
         <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
+        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
+        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.load}</p>)}</StyledTableCell>
         <StyledTableCell align="right" justify="space-between">
           {userRole ? changedFields.role
             : (
@@ -201,7 +203,6 @@ const UserTableRow = ({ user }) => {
             user={user}
           />
         </StyledTableCell>
-        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
         <StyledTableCell align="right">
           {/* // eslint-disable-next-line no-nested-ternary */}
           {percent ? changedFields.projectReady ? (`${changedFields.projectReady}%`) : ('-') : (

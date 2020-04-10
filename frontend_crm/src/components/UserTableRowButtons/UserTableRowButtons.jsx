@@ -31,8 +31,6 @@ function UserTableRowButtons(props) {
     state,
     setState,
     changedFields,
-    userId,
-    handleChange,
     setChangedFields,
     user,
   } = props;

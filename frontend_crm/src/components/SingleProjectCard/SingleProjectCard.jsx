@@ -125,7 +125,6 @@ export default function RecipeReviewCard(props) {
     history.push(`/projects/${card.uuid}`);
   }
   const classes = useStyles();
-
   const startDate = new Date(card.start_date);
   const curDate = new Date();
 

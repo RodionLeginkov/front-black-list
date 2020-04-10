@@ -25,8 +25,8 @@ export default function DevAvatars(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { milestones, setAddUserModalOpen } = props;
-
   const users = useSelector((state) => state.users.users);
+  console.log("users",users)
 
   function handleClick(userId) {
     dispatch(findUser(userId));

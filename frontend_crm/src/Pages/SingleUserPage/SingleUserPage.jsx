@@ -150,7 +150,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   const user = useSelector((state) => state.users.currentUser);
 
-  console.log(user)
+
 
   useEffect(() => {
     if (!user || !user.Users_Milestones) dispatch(getUser(userId));

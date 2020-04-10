@@ -168,7 +168,7 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
+          <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
                 disabled={card.Projects_Milestones.length !== 0}

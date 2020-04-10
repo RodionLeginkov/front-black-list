@@ -21,17 +21,25 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
-    },
-  },
-}))(TableRow);
-
-function createData(fName, lName, milestons, seniority, role, id, projectReady, currentTask) {
+function createData(firstName,
+  lastName,
+  milestons,
+  seniority,
+  roleForFront,
+  role,
+  uuid,
+  projectReady,
+  current_task) {
   return {
-    fName, lName, milestons, seniority, role, id, projectReady, currentTask,
+    firstName,
+    lastName,
+    milestons,
+    seniority,
+    roleForFront,
+    role,
+    uuid,
+    projectReady,
+    current_task,
   };
 }
 
@@ -83,6 +91,7 @@ export default function UsersList(props) {
       user.Users_Milestones,
       difDates(startDate, curDate),
       role,
+      user.role,
       user.uuid,
       user.project_ready,
       user.current_task,
@@ -99,8 +108,9 @@ export default function UsersList(props) {
             <StyledTableCell align="right">Current Task</StyledTableCell>
             <StyledTableCell align="right">Current project</StyledTableCell>
             <StyledTableCell align="right">Role in the project</StyledTableCell>
-            <StyledTableCell align="right">Role</StyledTableCell>
             <StyledTableCell align="right">Current rate</StyledTableCell>
+            <StyledTableCell align="right">Load(h/weak)</StyledTableCell>
+            <StyledTableCell align="right">Role</StyledTableCell>
             <StyledTableCell align="right">Project Ready</StyledTableCell>
             <StyledTableCell align="right">Seniority</StyledTableCell>
           </TableRow>

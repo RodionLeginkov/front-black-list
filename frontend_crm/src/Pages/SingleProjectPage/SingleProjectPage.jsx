@@ -75,7 +75,6 @@ const CurrentProject = ({ match }) => {
   const dispatch = useDispatch();
 
   const project = useSelector((state) => state.projects.currentProject);
-console.log(project)
   useEffect(() => {
     if (!project || !project.Projects_Milestones) {
       dispatch(getProject(projectId));
@@ -132,7 +131,7 @@ console.log(project)
           >
             <EditSharpIcon />
           </Button>
-          <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains milestones, it can`t be deleted'}>
+          <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
                 disabled={project.Projects_Milestones.length !== 0}

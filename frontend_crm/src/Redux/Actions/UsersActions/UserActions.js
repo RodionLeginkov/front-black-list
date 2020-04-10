@@ -20,8 +20,11 @@ import {
 export const getUsers = (filter) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
+    console.log("dispatch",filter)
+    
     const loginToken = localStorage.getItem('token');
     const { data } = await loadAllUsers(filter, loginToken);
+    console.log("DATA",data)
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });

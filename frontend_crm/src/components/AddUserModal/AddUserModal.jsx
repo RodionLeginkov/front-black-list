@@ -86,7 +86,7 @@ export default function AddUserModal(props) {
     project_uuid: curProject.uuid,
     role: '',
     rate: null,
-    unit: '',
+    rate_type: '',
     load: null,
     start_date: null,
     end_date: null,
@@ -109,8 +109,6 @@ export default function AddUserModal(props) {
   const reqFields = [
     'user_uuid',
     'role',
-    'rate',
-    'unit',
     'load',
     'start_date',
 
@@ -199,8 +197,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    error={!project.rate && isError}
-                    helperText={(!project.rate && isError) ? 'Empty field.' : ''}
+                    // error={!project.rate && isError}
+                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     type="number"
                     value={project.rate || ''}
                     label="Rate"
@@ -224,8 +222,8 @@ export default function AddUserModal(props) {
                     onChange={handleChange}
                   /> */}
                   <FormControl
-                    error={!project.unit && isError}
-                    helperText={(!project.unit && isError) ? 'Empty field.' : ''}
+                    // error={!project.rate_type && isError}
+                    // helperText={(!project.rate_type && isError) ? 'Empty field.' : ''}
                     placeholder='Rate type'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -233,8 +231,8 @@ export default function AddUserModal(props) {
                     <InputLabel>Rate type</InputLabel>
                     <Select
                       labelWidth={47}
-                      name='unit'
-                      value={project.unit || ''}
+                      name='rate_type'
+                      value={project.rate_type || ''}
                       onChange={handleChange}
                     >
                       {paymentTypes.map((role) => (

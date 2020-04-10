@@ -143,7 +143,7 @@ function AddMilestonesForm(props) {
             <Typography>
               {milestone.rate}
               {' '}
-              {milestone.unit}
+              {milestone.rate_type}
             </Typography>
             <Typography>
               {startDate}

@@ -36,9 +36,7 @@ export const deleteMilestone = (id) => async (dispatch) => {
 export const updateMilestone = (milestone) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_MILESTONE });
-    console.log('MILESTONE', milestone, milestone.uuid);
     const { data } = await updateMilestones(milestone, milestone.uuid);
-    console.log('DATA', data);
     dispatch({ type: UPDATE_MILESTONE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: UPDATE_MILESTONE_ERROR, payload: error });

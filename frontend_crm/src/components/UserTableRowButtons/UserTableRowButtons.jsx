@@ -35,8 +35,6 @@ function UserTableRowButtons(props) {
     user,
   } = props;
 
-  console.log(className);
-
   const handleCancel = (e) => {
     e.stopPropagation();
     setChangedFields(user);

@@ -82,7 +82,6 @@ export default function UsersList(props) {
   const classes = useStyles();
   const { users } = props;
   const rows = users.map((user) => {
-    console.log('USER', user);
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;

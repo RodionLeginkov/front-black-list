@@ -90,13 +90,11 @@ const UserTableRow = ({ user }) => {
 
   const handleSubmit = (e) => {
     e.stopPropagation();
-    console.log('changedFields', changedFields);
     dispatch(updateUser(changedFields));
     dispatch(getUser(user.uuid));
     setFullName(!fullName);
   };
 
-  console.log(user);
   return (
     <>
       <StyledTableRow

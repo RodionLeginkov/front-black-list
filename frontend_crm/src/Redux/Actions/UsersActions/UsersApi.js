@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function getData(url, filter, token) {
-  const response = await axios.get(url, { params: filter, headers: { authorization: token } });
+  const response = await axios.get(url, { params: {filter:filter}, headers: { authorization: token } });
   return response;
 }
 

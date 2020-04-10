@@ -13,7 +13,10 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import UsersList from './UsersList.jsx';
-
+import UsersFilter from './UsersFilter.jsx'
+import clsx from 'clsx';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   container: {
@@ -52,7 +55,7 @@ function Users() {
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState('');
   const [page] = useState();
   useEffect(() => {
     dispatch(getUsers(filter, page));
@@ -86,6 +89,7 @@ function Users() {
           Add user
         </Button>
       </div>
+        <UsersFilter />
       <Grid container style={{ marginBottom: 15 }} spacing={1}>
         <Grid item>
           <Button
@@ -94,7 +98,7 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: 'Developers' });
+              setFilter('Developers' );
               dispatch(getUsers(filter));
             }}
           >
@@ -108,7 +112,7 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: 'manager' });
+              setFilter('manager');
               dispatch(getUsers(filter));
             }}
           >
@@ -122,7 +126,7 @@ function Users() {
             size="large"
             className={classes.button}
             onClick={() => {
-              setFilter({ filter: '' });
+              setFilter('');
               dispatch(getUsers(filter));
             }}
           >

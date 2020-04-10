@@ -5,15 +5,14 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
-import EditSharpIcon from '@material-ui/icons/EditSharp';
-import { Button, TextField } from '@material-ui/core';
-import Input from '@material-ui/core/Input';
+import { TextField } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-
 import { userRoles } from '../../constants/constants';
-import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { findUser, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
+import './style.css';
 
 const useStyles = makeStyles({
   table: {
@@ -26,8 +25,18 @@ const useStyles = makeStyles({
   editButton: {
     color: '#777777',
     fontSize: '10px',
+    // display: 'none',
+  },
+  cell: {
+    '&:hover .editButton': {
+      backgroundColor: '#000',
+      // display: 'inline',
+      // color: '#777777',
+      // fontSize: '10px',
+    },
   },
 });
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -51,79 +60,124 @@ const UserTableRow = ({ user }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const [role, setRole] = useState(true);
+  const [userRole, setUserRole] = useState(true);
   const [percent, setPercent] = useState(true);
   const [fullName, setFullName] = useState(true);
+  const [curTask, setCurTask] = useState(true);
   const [changedFields, setChangedFields] = useState(user);
 
-  function handleClick(id) {
+  const handleClick = (id) => {
     dispatch(findUser(id));
     history.push(`/user/${id}`);
-  }
-
-  const handleChange = (e) => {
-    // setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  console.log(user)
+  const handleCancel = (e) => {
+    e.stopPropagation();
+    setChangedFields(user);
+    setFullName(!fullName);
+  };
+
+  // const [editableFields, setEditableFields] = useState({
+  //   firstName: '',
+  //   lastName: '',
+  //   project_ready: '',
+  //   role: '',
+  // });
+
+  const handleChange = (e) => {
+    setChangedFields({ ...changedFields, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.stopPropagation();
+    console.log('changedFields', changedFields);
+    dispatch(updateUser(changedFields));
+    dispatch(getUser(user.uuid));
+    setFullName(!fullName);
+  };
+
+  console.log(user);
   return (
     <>
       <StyledTableRow
-        onClick={()=>handleClick(user.id)}
+        // onClick={() => handleClick(user.id)}
         style={{ cursor: 'pointer' }}
       >
-        <StyledTableCell component="th" scope="row">
+        <StyledTableCell component="th" scope="row" className={classes.cell}>
 
           {fullName
-            ? `${changedFields.fName} ${changedFields.lName}`
+            ? `${changedFields.firstName} ${changedFields.lastName}`
             : (
               <>
                 <TextField
-                  value={changedFields.fName || ''}
+                  label="First name"
+                  value={changedFields.firstName || ''}
                   placeholder="First name"
                   style={{ width: '150px' }}
-                  name='fName'
+                  name='firstName'
                   onChange={handleChange}
                   inputProps={{ 'aria-label': 'description' }}
                 />
                 <TextField
-                  value={changedFields.lName || ''}
+                  label="Last name"
+                  value={changedFields.lastName || ''}
                   placeholder="Last name"
                   style={{ width: '150px' }}
-                  name='lName'
-                  onChange={handleChange}
+                  name='lastName'
                   onChange={handleChange}
                   inputProps={{ 'aria-label': 'description' }}
                 />
               </>
             )}
-          {/* <Button
-            className={classes.editButton}
-            onClick={(e) => { e.stopPropagation(); setFullName(!fullName); }}
-          >
-            <EditSharpIcon />
-          </Button> */}
+          <UserTableRowButtons
+            changedFields={changedFields}
+            state={fullName}
+            setState={setFullName}
+            setChangedFields={setChangedFields}
+            user={user}
+          />
         </StyledTableCell>
         <StyledTableCell align="right">
-          {user.currentTask}
+
+          { curTask ? changedFields.current_task
+            : (
+              <TextField
+                style={{ width: '100%' }}
+                value={changedFields.current_task || ''}
+                // variant="outlined"
+                label="Current Task"
+                multiline
+                name='current_task'
+                onChange={handleChange}
+              />
+            )}
+          <UserTableRowButtons
+            changedFields={changedFields}
+            state={curTask}
+            setState={setCurTask}
+            setChangedFields={setChangedFields}
+            user={user}
+          />
+
         </StyledTableCell>
         <StyledTableCell align="right">
           {user.milestons.map((item) => (
             <p key={Math.random()}>
-            {item.Projects.name}
+              {item.Projects.name}
             </p>
           ))}
         </StyledTableCell>
         <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
-        <StyledTableCell align="right">
-          {role ? changedFields.role
+        <StyledTableCell align="right" justify="space-between">
+          {userRole ? changedFields.role
             : (
               <FormControl
                 placeholder='Role'
               >
                 <InputLabel>Role</InputLabel>
                 <Select
-                  style={{ width: '250px' }}
+                  onChange={handleChange}
+                  style={{ width: '200px' }}
                   labelWidth={47}
                   name='role'
                   value={changedFields.role || ''}
@@ -139,29 +193,34 @@ const UserTableRow = ({ user }) => {
                 </Select>
               </FormControl>
             )}
-          {/* <Button
-            className={classes.editButton}
-            onClick={(e) => { e.stopPropagation(); setRole(!role); }}
-          >
-            <EditSharpIcon />
-          </Button> */}
+          <UserTableRowButtons
+            changedFields={changedFields}
+            state={userRole}
+            setState={setUserRole}
+            setChangedFields={setChangedFields}
+            user={user}
+          />
         </StyledTableCell>
         <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
         <StyledTableCell align="right">
-          {percent ? `${changedFields.projectReady}%` : (
-            <Input
+          {/* // eslint-disable-next-line no-nested-ternary */}
+          {percent ? changedFields.projectReady ? (`${changedFields.projectReady}%`) : ('-') : (
+            <TextField
+              type="number"
               value={changedFields.projectReady || ''}
               placeholder="Project ready"
-              style={{ width: '150px' }}
-              inputProps={{ 'aria-label': 'description' }}
+              style={{ width: '100px' }}
+              name='projectReady'
+              onChange={handleChange}
             />
           )}
-          {/* <Button
-            className={classes.editButton}
-            onClick={(e) => { e.stopPropagation(); setPercent(!percent); }}
-          >
-            <EditSharpIcon />
-          </Button> */}
+          <UserTableRowButtons
+            changedFields={changedFields}
+            state={percent}
+            setState={setPercent}
+            setChangedFields={setChangedFields}
+            user={user}
+          />
         </StyledTableCell>
 
         <StyledTableCell align="right">{user.seniority}</StyledTableCell>

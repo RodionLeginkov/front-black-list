@@ -21,17 +21,25 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
-    },
-  },
-}))(TableRow);
-
-function createData(fName, lName, milestons, seniority, role, id, projectReady, currentTask) {
+function createData(firstName,
+  lastName,
+  milestons,
+  seniority,
+  roleForFront,
+  role,
+  uuid,
+  projectReady,
+  current_task) {
   return {
-    fName, lName, milestons, seniority, role, id, projectReady, currentTask,
+    firstName,
+    lastName,
+    milestons,
+    seniority,
+    roleForFront,
+    role,
+    uuid,
+    projectReady,
+    current_task,
   };
 }
 
@@ -74,6 +82,7 @@ export default function UsersList(props) {
   const classes = useStyles();
   const { users } = props;
   const rows = users.map((user) => {
+    console.log('USER', user);
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
@@ -83,6 +92,7 @@ export default function UsersList(props) {
       user.Users_Milestones,
       difDates(startDate, curDate),
       role,
+      user.role,
       user.uuid,
       user.project_ready,
       user.current_task,

@@ -58,6 +58,8 @@ const UsersFilter = () => {
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('');
   const [page] = useState();
+  const [sort, setSort] = useState('');
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     dispatch(getUsers(filter,page));
   }, [dispatch],filter);
@@ -67,15 +69,14 @@ const handleChangeName = (e) => {
   e.preventDefault();
   console.log(e.target.value)
     setFilter(e.target.value)
-    console.log("filter",filter)
-    dispatch(getUsers(e.target.value));
+    console.log("filter",filter,sort)
+    dispatch(getUsers(e.target.value,sort));
 };
 ////////
-const [sort, setSort] = useState('');
-const [open, setOpen] = useState(false);
 
 const handleChange = (event) => {
   setSort(event.target.value);
+  dispatch(getUsers(filter,sort));
 };
 
 const handleClose = () => {

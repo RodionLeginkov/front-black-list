@@ -57,8 +57,9 @@ function Users() {
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filter, setFilter] = useState('');
   const [page] = useState();
+  const [sort, setSort] = useState('');
   useEffect(() => {
-    dispatch(getUsers(filter, page));
+    dispatch(getUsers(filter, page,sort));
     //dispatch(getProjects());
     // eslint-disable-next-line
   }, [dispatch, filter]);
@@ -99,7 +100,7 @@ function Users() {
             className={classes.button}
             onClick={() => {
               setFilter('Developers' );
-              dispatch(getUsers(filter));
+              dispatch(getUsers(filter,sort));
             }}
           >
             Developers
@@ -113,7 +114,7 @@ function Users() {
             className={classes.button}
             onClick={() => {
               setFilter('manager');
-              dispatch(getUsers(filter));
+              dispatch(getUsers(filter,sort));
             }}
           >
             Managers
@@ -127,7 +128,7 @@ function Users() {
             className={classes.button}
             onClick={() => {
               setFilter('');
-              dispatch(getUsers(filter));
+              dispatch(getUsers(filter,sort));
             }}
           >
             All

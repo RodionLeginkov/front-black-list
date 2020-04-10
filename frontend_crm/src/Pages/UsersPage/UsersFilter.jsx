@@ -9,8 +9,13 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginRight: 20,
     marginBottom: 20,
@@ -38,6 +43,14 @@ const useStyles = makeStyles(() => ({
   searchField: {
     width: '100%',
   },
+  button: {
+    display: 'block',
+   marginTop: theme.spacing(2),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
 const UsersFilter = () => {
@@ -57,6 +70,22 @@ const handleChangeName = (e) => {
     console.log("filter",filter)
     dispatch(getUsers(e.target.value));
 };
+////////
+const [sort, setSort] = useState('');
+const [open, setOpen] = useState(false);
+
+const handleChange = (event) => {
+  setSort(event.target.value);
+};
+
+const handleClose = () => {
+  setOpen(false);
+};
+
+const handleOpen = () => {
+  setOpen(true);
+};
+console.log(sort)
 //   const handleChangeStatus = ((event, values) => {
 //     dispatch(filteredProjectStatus(values));
 //   });
@@ -84,14 +113,30 @@ const handleChangeName = (e) => {
               variant="outlined"
               value={filter}
               onChange={handleChangeName}
-              // onChange={(e) => {
-              //   //console.log(e.target.value)
-              //   setFilter(e.target.value)
-              //   dispatch(getUsers(filter,page));
-              // }}
               size='small'
               className={classes.searchField}
             />
+          </Grid>
+          <Grid>
+          <FormControl className={classes.formControl}>
+        <InputLabel id="demo-controlled-open-select-label">Filters</InputLabel>
+        <Select
+          labelId="demo-controlled-open-select-label"
+          id="demo-controlled-open-select"
+          open={open}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          value={sort}
+          onChange={handleChange}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={'Name'}>Name</MenuItem>
+          <MenuItem value={'Senioiry'}>Senioiry</MenuItem>
+          <MenuItem value={'Role'}>Role</MenuItem>
+        </Select>
+      </FormControl>
           </Grid>
           {/* <Grid item xs={12} lg={6}>
             <Autocomplete

@@ -18,7 +18,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
-
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -75,6 +75,7 @@ const CurrentProject = ({ match }) => {
 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
+    dispatch(getUsers('','',''));
     if (!project || !project.Projects_Milestones) {
       dispatch(getProject(projectId));
     }

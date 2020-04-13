@@ -136,7 +136,7 @@ const EditUserPage = ({ match }) => {
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers(''));
+      dispatch(getUsers('','',''));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line

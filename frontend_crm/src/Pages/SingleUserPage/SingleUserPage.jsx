@@ -158,7 +158,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   useEffect(() => {
     if (!user || !user.Users_Milestones) {
-      dispatch(getUsers(''));
+      dispatch(getUsers('','',''));
       dispatch(getUser(userId));
     }
   }, [dispatch, userId, user]);

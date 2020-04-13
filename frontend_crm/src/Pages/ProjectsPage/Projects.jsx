@@ -50,7 +50,6 @@ export default function StickyHeadTable() {
   const projects = useSelector((state) => getFilteredProjects(state));
   // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
-  const [filter] = useState('');
   useEffect(() => {
     dispatch(getProjects());
 

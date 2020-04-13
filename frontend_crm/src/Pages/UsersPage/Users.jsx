@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
 import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import UsersList from './UsersList.jsx';
 import UsersFilter from './UsersFilter.jsx'
@@ -47,19 +46,14 @@ function Users() {
   const classes = useStyles();
 
   const history = useHistory();
-  const dispatch = useDispatch();
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
-  const [filterRole, setFilterRole] = useState('');
-  const [filterBar, setFilterBar] = useState('');
-  const [page] = useState();
-  const [sort, setSort] = useState('');
-  useEffect(() => {
-    dispatch(getUsers(filterRole,filterBar,sort));
-    //dispatch(getProjects());
-    // eslint-disable-next-line
-  }, [dispatch,filterRole,filterBar,sort]);;
+  // useEffect(() => {
+  //   dispatch(getUsers(filterRole,filterBar,sort));
+  //   //dispatch(getProjects());
+  //   // eslint-disable-next-line
+  // }, [dispatch,filterRole,filterBar,sort]);
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);

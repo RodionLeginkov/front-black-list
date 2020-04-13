@@ -128,7 +128,7 @@ const AddProjectPage = (props) => {
       dispatch(getProjects());
       dispatch(getProject(projectId));
     }
-    dispatch(getUsers(''));
+    dispatch(getUsers('','',''));
     // eslint-disable-next-line
   }, [dispatch]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
@@ -33,14 +33,12 @@ const CustomProjectIcon = ({
   const history = useHistory();
   const dispatch = useDispatch();
 
-  //const projects = useSelector((state) => state.projects.projects);
-  //const users = useSelector((state)=>state.users.users)
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
     history.push(`/projects/${projectId}`);
   };
- 
+
   const projectsList = user.Users_Milestones.map((milestone) => {
     return (
           <Tooltip className={classes.avatar} title={milestone.Projects.name} key={Math.random()}>

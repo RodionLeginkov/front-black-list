@@ -6,12 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import StackIcon from '../StackIcon/StackIcon.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import CustomProjectIcon from '../CustomProjectIcon/CustomProjectIcon.jsx';
 import { findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import AddProjectModal from '../AddProjectModal/AddProjectModal.jsx';
-import { stackList, userRoles } from '../../constants/constants';
+import { userRoles } from '../../constants/constants';
 
 
 const useStyles = makeStyles({

@@ -88,7 +88,6 @@ const EditUserPage = ({ match }) => {
   const projects = useSelector((state) => state.projects.projects);
 
   const [isError, setIsError] = useState(false);
-  const [setOpenStartDatePicker] = useState(false);
 
 
   const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
@@ -128,7 +127,7 @@ const EditUserPage = ({ match }) => {
 
 
   const startDateChange = (dataofJoining) => {
-     setUser({ ...user, hiredAt: dataofJoining });
+    setUser({ ...user, hiredAt: dataofJoining });
   };
 
   const onSubmit = (e) => {

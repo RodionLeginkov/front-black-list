@@ -15,8 +15,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Tooltip from '@material-ui/core/Tooltip';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 
@@ -81,8 +80,8 @@ const CurrentProject = ({ match }) => {
     }
   }, [dispatch, projectId, project]);
 
-  if (!project || !project.Projects_Milestones){
-     return (<Loading />);
+  if (!project || !project.Projects_Milestones) {
+    return (<Loading />);
   }
   return (
     <div style={{ marginLeft: '85px' }}>

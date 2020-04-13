@@ -13,11 +13,13 @@ import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import { Tooltip } from '@material-ui/core';
+import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
+import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 import Loading from '../../components/Loading/index.jsx';
-import { getUser, deleteUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { getUser, deleteUser, getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
-
+import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -122,7 +124,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [openPopUp, setOpenPopUp] = useState(false);
-
+  const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const handleClickOpenPopUp = () => {
     setOpenPopUp(true);
   };
@@ -148,12 +150,17 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     dispatch(inviteUsers(userId));
   };
 
+  const handleCloseTaskTable = () => {
+    setTaskHistoryTable(!taskHistoryTable);
+  };
+
   const user = useSelector((state) => state.users.currentUser);
 
-
-
   useEffect(() => {
-    if (!user || !user.Users_Milestones) dispatch(getUser(userId));
+    if (!user || !user.Users_Milestones) {
+      dispatch(getUsers(''));
+      dispatch(getUser(userId));
+    }
   }, [dispatch, userId, user]);
 
   if (!user) return (<Loading />);
@@ -211,31 +218,31 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Email: </span>
                 <div className={classes.fieldValue}>
-                  {user.email}
+                  {user.email || '―'}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Phone: </span>
                 <div className={classes.fieldValue}>
-                  {user.phone1}
+                  {user.phone1 || '―'}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Second Phone: </span>
                 <div className={classes.fieldValue}>
-                  {user.phone2}
+                  {user.phone2 || '―'}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
-                  {user.role}
+                  {user.role || '―'}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Project Ready </span>
                 <div className={classes.fieldValue}>
-                  {user.project_ready}
+                  {user.project_ready || '―'}
                   %
                 </div>
               </div>
@@ -243,15 +250,36 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 <span className={classes.fieldTitle}>Current Task: </span>
                 <div className={classes.fieldValue}>
 
-                  {user.current_task}
+                  {user.current_task || '―'}
                 </div>
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Current Occupation: </span>
                 <div className={classes.fieldValue}>
-                  {user.current_occupation}
+                  {user.current_occupation || '―'}
                 </div>
               </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Task History: </span>
+                {taskHistoryTable
+                  ? (
+                    <Button onClick={handleCloseTaskTable} className={classes.deleteButton}>
+                      <KeyboardArrowRightSharpIcon />
+                    </Button>
+                  )
+                  : (
+                    <Button onClick={handleCloseTaskTable} className={classes.deleteButton}>
+                      <KeyboardArrowDownSharpIcon />
+                    </Button>
+                  )}
+              </div>
+              {taskHistoryTable ? ''
+                : (
+                  <TasksTable
+                    userName={user.fullName}
+                    tasks={user.UsersTasks}
+                  />
+                ) }
             </div>
           </div>
         </div>

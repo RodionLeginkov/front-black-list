@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import DevelopersChooseForm from '../../components/DevelopersChooseForm/index.jsx';
 import StackForm from '../../components/Form/StackForm.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddProjectForm(props) {
   const {
-    project, projectChange, stackChange, developersChange, submit,
+    project, projectChange, stackChange, submit,
   } = props;
   const classes = useStyles();
 

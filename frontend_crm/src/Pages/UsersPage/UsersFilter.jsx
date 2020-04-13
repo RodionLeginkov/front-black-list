@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -6,7 +6,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -64,6 +63,7 @@ const UsersFilter = () => {
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
   useEffect(() => {
+
     dispatch(getUsers(filterRole,filterBar,sort));
   }, [dispatch,filterRole,filterBar,sort]);
 //   const [searchName, setSearchName] = useState('');
@@ -89,9 +89,10 @@ const handleOpen = () => {
 //   });
 
 
-//   const onChangeSearchName = (event) => {
-//     setSearchName(event.target.value);
-//     dispatch(filteredProjectName(event.target.value));
+
+  //   const onChangeSearchName = (event) => {
+  //     setSearchName(event.target.value);
+  //     dispatch(filteredProjectName(event.target.value));
   // };
 
   return (

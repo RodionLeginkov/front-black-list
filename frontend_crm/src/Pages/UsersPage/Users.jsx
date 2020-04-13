@@ -55,14 +55,15 @@ function Users() {
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
-  const [filter, setFilter] = useState('');
+  const [filterRole, setFilterRole] = useState('');
+  const [filterBar, setFilterBar] = useState('');
   const [page] = useState();
   const [sort, setSort] = useState('');
   useEffect(() => {
-    dispatch(getUsers(filter, page,sort));
+    dispatch(getUsers(filterRole,filterBar,sort));
     //dispatch(getProjects());
     // eslint-disable-next-line
-  }, [dispatch, filter]);
+  }, [dispatch,filterRole,filterBar,sort]);;
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
@@ -90,51 +91,8 @@ function Users() {
           Add user
         </Button>
       </div>
-        <UsersFilter filter={filter} setFilter={setFilter}/>
-      <Grid container style={{ marginBottom: 15 }} spacing={1}>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            onClick={() => {
-              setFilter('Developers' );
-              dispatch(getUsers(filter,sort));
-            }}
-          >
-            Developers
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            onClick={() => {
-              setFilter('manager');
-              dispatch(getUsers(filter,sort));
-            }}
-          >
-            Managers
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-            onClick={() => {
-              setFilter('');
-              dispatch(getUsers(filter,sort));
-            }}
-          >
-            All
-          </Button>
-        </Grid>
-      </Grid>
+
+        <UsersFilter/>
       <Pagination count={10} color="primary" />
       <Grid
         className={classes.usersWrapper}

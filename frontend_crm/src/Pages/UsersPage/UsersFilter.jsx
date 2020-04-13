@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,33 +54,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsersFilter = (props) => {
+const UsersFilter = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   //const [filter, setFilter] = useState('');
-  const {filter, setFilter} = props
+  const [filterRole, setFilterRole] = useState('');
+  const [filterBar, setFilterBar] = useState('');
   const [page] = useState();
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    dispatch(getUsers(filter,page));
-  }, [dispatch],filter);
+    dispatch(getUsers(filterRole,filterBar,sort));
+  }, [dispatch,filterRole,filterBar,sort]);
 //   const [searchName, setSearchName] = useState('');
-console.log("props",filter);
+console.log(sort)
 const handleChangeName = (e) => {
   e.preventDefault();
-  console.log(e.target.value)
-    setFilter(e.target.value)
-    console.log("filter",filter,sort)
-    dispatch(getUsers(e.target.value,sort));
+  setFilterBar(e.target.value)
 };
 ////////
 
 const handleChange = (event) => {
   setSort(event.target.value);
-  console.log("stot",sort)
-  console.log("",event.target.value)
-  dispatch(getUsers(filter,event.target.value));
 };
 
 const handleClose = () => {
@@ -89,7 +85,6 @@ const handleClose = () => {
 const handleOpen = () => {
   setOpen(true);
 };
-console.log(sort)
 //   const handleChangeStatus = ((event, values) => {
 //     dispatch(filteredProjectStatus(values));
 //   });
@@ -115,7 +110,7 @@ console.log(sort)
             <TextField
               label="Name or Surname"
               variant="outlined"
-              value={filter}
+              value={filterBar}
               onChange={handleChangeName}
               size='small'
               className={classes.searchField}
@@ -137,11 +132,56 @@ console.log(sort)
             <em>None</em>
           </MenuItem>
           <MenuItem value={'Name'}>Name</MenuItem>
-          <MenuItem value={'Senioiry'}>Senioiry</MenuItem>
+          {/* <MenuItem value={'Senioiry'}>Senioiry</MenuItem> */}
           <MenuItem value={'Role'}>Role</MenuItem>
         </Select>
       </FormControl>
           </Grid>
+          
+      <Grid container style={{ marginBottom: 15 }} spacing={1}>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            onClick={() => {
+              setFilterRole('Developers' );
+             // dispatch(getUsers(filter,sort));
+            }}
+          >
+            Developers
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            onClick={() => {
+              setFilterRole('manager');
+              //dispatch(getUsers(filter,sort));
+            }}
+          >
+            Managers
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            className={classes.button}
+            onClick={() => {
+              setFilterRole('');
+              //dispatch(getUsers(filter,sort));
+            }}
+          >
+            All
+          </Button>
+        </Grid>
+      </Grid>
           {/* <Grid item xs={12} lg={6}>
             <Autocomplete
               multiple

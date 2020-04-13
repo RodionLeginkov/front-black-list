@@ -17,13 +17,13 @@ import {
   ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filter,sort) => async (dispatch) => {
+export const getUsers = (filterRole,filterBar,sort) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
-    console.log("dispatch",filter)
+    console.log("dispatch",filterRole,filterBar)
     
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filter,sort, loginToken);
+    const { data } = await loadAllUsers(filterRole,filterBar,sort, loginToken);
     console.log("DATA",data)
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {

@@ -67,7 +67,6 @@ const UsersFilter = () => {
     dispatch(getUsers(filterRole,filterBar,sort));
   }, [dispatch,filterRole,filterBar,sort]);
 //   const [searchName, setSearchName] = useState('');
-console.log(sort)
 const handleChangeName = (e) => {
   e.preventDefault();
   setFilterBar(e.target.value)

@@ -35,12 +35,12 @@ const CustomProjectIcon = ({
 
   //const projects = useSelector((state) => state.projects.projects);
   //const users = useSelector((state)=>state.users.users)
- // console.log("CUSTOm",users)
+
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
     history.push(`/projects/${projectId}`);
   };
-  // console.log(milestones)
+ 
   const projectsList = user.Users_Milestones.map((milestone) => {
     return (
           <Tooltip className={classes.avatar} title={milestone.Projects.name} key={Math.random()}>

@@ -127,7 +127,7 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const startDate = new Date(card.start_date);
   const curDate = new Date();
-
+ 
   return (
     <>
       <Card className={classes.root}>

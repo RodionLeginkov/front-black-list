@@ -53,7 +53,7 @@ export default function StickyHeadTable() {
   const [filter, setFilter] = useState('');
   useEffect(() => {
     dispatch(getProjects());
-    dispatch(getUsers(filter));
+    dispatch(getUsers('','',''));
   }, [dispatch]);
 
   const handleChange = () => {

@@ -30,7 +30,7 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function createData(name, description, customer, id) {
-  // console.log(customer)
+
   return {
     name, description, customer, id,
   };

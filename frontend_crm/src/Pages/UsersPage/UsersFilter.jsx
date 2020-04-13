@@ -132,7 +132,7 @@ const handleOpen = () => {
             <em>None</em>
           </MenuItem>
           <MenuItem value={'Name'}>Name</MenuItem>
-          {/* <MenuItem value={'Senioiry'}>Senioiry</MenuItem> */}
+          <MenuItem value={'Senioiry'}>Senioiry</MenuItem>
           <MenuItem value={'Role'}>Role</MenuItem>
         </Select>
       </FormControl>

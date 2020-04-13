@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +10,6 @@ import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
-import { useScrollTrigger } from '@material-ui/core';
 
 const ITEM_HEIGHT = 48;
 
@@ -22,7 +21,6 @@ export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
-  const user = useSelector((state) => state.users.currentUser)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

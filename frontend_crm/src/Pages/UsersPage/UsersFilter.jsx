@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -6,7 +6,6 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
@@ -46,25 +45,26 @@ const UsersFilter = () => {
   const [filter, setFilter] = useState('');
   const [page] = useState();
   useEffect(() => {
-    dispatch(getUsers(filter,page));
-  }, [dispatch],filter);
-//   const [searchName, setSearchName] = useState('');
+    dispatch(getUsers(filter, page));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch], filter);
+  //   const [searchName, setSearchName] = useState('');
 
-const handleChangeName = (e) => {
-  e.preventDefault();
-  console.log(e.target.value)
-    setFilter(e.target.value)
-    console.log("filter",filter)
+  const handleChangeName = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    setFilter(e.target.value);
+    console.log('filter', filter);
     dispatch(getUsers(e.target.value));
-};
-//   const handleChangeStatus = ((event, values) => {
-//     dispatch(filteredProjectStatus(values));
-//   });
+  };
+  //   const handleChangeStatus = ((event, values) => {
+  //     dispatch(filteredProjectStatus(values));
+  //   });
 
 
-//   const onChangeSearchName = (event) => {
-//     setSearchName(event.target.value);
-//     dispatch(filteredProjectName(event.target.value));
+  //   const onChangeSearchName = (event) => {
+  //     setSearchName(event.target.value);
+  //     dispatch(filteredProjectName(event.target.value));
   // };
 
   return (

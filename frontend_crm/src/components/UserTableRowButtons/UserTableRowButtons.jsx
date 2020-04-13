@@ -3,9 +3,9 @@ import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { useDispatch } from 'react-redux';
-import { Button, TextField } from '@material-ui/core';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { findUser, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles({
   table: {
@@ -27,7 +27,6 @@ function UserTableRowButtons(props) {
   const dispatch = useDispatch();
 
   const {
-    className,
     state,
     setState,
     changedFields,

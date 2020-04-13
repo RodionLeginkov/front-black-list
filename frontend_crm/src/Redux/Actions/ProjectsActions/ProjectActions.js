@@ -39,9 +39,7 @@ export const getProjects = () => async (dispatch) => {
     // console.log("DADADADADAD")
     dispatch({ type: LOAD_RPOJECT });
     const loginToken = localStorage.getItem('token');
-
     const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}projects`, { headers: { authorization: loginToken } });
-    console.log("PROJECTS",data)
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     // console.log("ERROR")

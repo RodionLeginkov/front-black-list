@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -10,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { userRoles } from '../../constants/constants';
-import { findUser, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
 import './style.css';
 
@@ -25,14 +22,10 @@ const useStyles = makeStyles({
   editButton: {
     color: '#777777',
     fontSize: '10px',
-    // display: 'none',
   },
   cell: {
     '&:hover .editButton': {
       backgroundColor: '#000',
-      // display: 'inline',
-      // color: '#777777',
-      // fontSize: '10px',
     },
   },
 });
@@ -58,42 +51,17 @@ const StyledTableRow = withStyles((theme) => ({
 
 const UserTableRow = ({ user }) => {
   const classes = useStyles();
-  const history = useHistory();
-  const dispatch = useDispatch();
   const [userRole, setUserRole] = useState(true);
   const [percent, setPercent] = useState(true);
   const [fullName, setFullName] = useState(true);
   const [curTask, setCurTask] = useState(true);
   const [changedFields, setChangedFields] = useState(user);
 
-  const handleClick = (id) => {
-    dispatch(findUser(id));
-    history.push(`/user/${id}`);
-  };
-
-  const handleCancel = (e) => {
-    e.stopPropagation();
-    setChangedFields(user);
-    setFullName(!fullName);
-  };
-
-  // const [editableFields, setEditableFields] = useState({
-  //   firstName: '',
-  //   lastName: '',
-  //   project_ready: '',
-  //   role: '',
-  // });
-
   const handleChange = (e) => {
     setChangedFields({ ...changedFields, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.stopPropagation();
-    dispatch(updateUser(changedFields));
-    dispatch(getUser(user.uuid));
-    setFullName(!fullName);
-  };
+  const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
   return (
     <>
@@ -169,7 +137,7 @@ const UserTableRow = ({ user }) => {
         <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
         <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.load}</p>)}</StyledTableCell>
         <StyledTableCell align="right" justify="space-between">
-          {userRole ? changedFields.role
+          {userRole ? devRole
             : (
               <FormControl
                 placeholder='Role'

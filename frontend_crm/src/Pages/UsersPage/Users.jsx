@@ -10,13 +10,9 @@ import Pagination from '@material-ui/lab/Pagination';
 import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import UsersList from './UsersList.jsx';
 import UsersFilter from './UsersFilter.jsx'
-import clsx from 'clsx';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   container: {

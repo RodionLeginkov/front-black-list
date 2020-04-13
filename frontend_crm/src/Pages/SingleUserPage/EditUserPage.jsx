@@ -24,6 +24,7 @@ import {
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles } from '../../constants/constants';
+import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputForm: {
     width: '100%',
-    margin: '5px 0',
   },
   descriptionForm: {
     maxHeight: '200px',
@@ -126,18 +126,21 @@ const EditUserPage = ({ match }) => {
     'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
+  const [usersTasks, setUsersTasks] = useState(user.UsersTasks);
+
   useEffect(() => {
     setUser(initialValue);
+    setUsersTasks(user.UsersTasks);
     // eslint-disable-next-line
-  }, [loading]);
+  }, [loading, user.UsersTasks]);
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers());
+      dispatch(getUsers(''));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line
-  }, [curUser, dispatch, userId]);
+  }, [curUser, dispatch, userId, user.UsersTasks]);
 
   if (loading) {
     return (<Loading />);
@@ -167,7 +170,6 @@ const EditUserPage = ({ match }) => {
   for (const index in user.currentProject) {
     filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
-
 
   return (
     <>
@@ -218,7 +220,7 @@ const EditUserPage = ({ match }) => {
                   <TextField
                     style={{ marginBottom: 10 }}
                     value={user.lastName}
-                    label="User name"
+                    label="User surname"
                     error={!user.lastName && isError}
                     helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
                     variant="outlined"
@@ -261,6 +263,7 @@ const EditUserPage = ({ match }) => {
 
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    className={clsx(classes.formControl, classes.inputForm)}
                     error={!validateEmail(user.email) && Boolean(user.email) && isError}
                     helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
                     style={{ width: '100%' }}
@@ -319,7 +322,7 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} >
+                {/* <Grid item xs={12}>
                   <TextField
                     style={{ width: '100%' }}
                     value={user.current_task || ''}
@@ -329,15 +332,20 @@ const EditUserPage = ({ match }) => {
                     name='current_task'
                     onChange={handleChange}
                   />
+                </Grid> */}
+                <Grid item xs={12}>
+                  {user.uuid && (
+                  <AddTaskHistory
+                    user={user}
+                    setUsersTasks={setUsersTasks}
+                    usersTasks={usersTasks}
+                  />
+                  )}
                 </Grid>
-
-
-
-
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', marginTop: 0 }}
                       inputVariant="outlined"
                       error={!user.hiredAt && isError}
                       helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
@@ -355,7 +363,7 @@ const EditUserPage = ({ match }) => {
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
-                      style={{ width: '100%' }}
+                      style={{ width: '100%', marginTop: 0 }}
                       inputVariant="outlined"
                       disableToolbar
                       variant="inline"

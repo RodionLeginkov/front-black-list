@@ -50,10 +50,11 @@ export default function StickyHeadTable() {
   const projects = useSelector((state) => getFilteredProjects(state));
   // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
-  const [filter, setFilter] = useState('');
+  const [filter] = useState('');
   useEffect(() => {
     dispatch(getProjects());
     dispatch(getUsers(filter));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   const handleChange = () => {

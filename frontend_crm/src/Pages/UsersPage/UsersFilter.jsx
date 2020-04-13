@@ -53,10 +53,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsersFilter = () => {
+const UsersFilter = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [filter, setFilter] = useState('');
+  //const [filter, setFilter] = useState('');
+  const {filter, setFilter} = props
   const [page] = useState();
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
@@ -64,7 +65,7 @@ const UsersFilter = () => {
     dispatch(getUsers(filter,page));
   }, [dispatch],filter);
 //   const [searchName, setSearchName] = useState('');
-
+console.log("props",filter);
 const handleChangeName = (e) => {
   e.preventDefault();
   console.log(e.target.value)
@@ -76,7 +77,9 @@ const handleChangeName = (e) => {
 
 const handleChange = (event) => {
   setSort(event.target.value);
-  dispatch(getUsers(filter,sort));
+  console.log("stot",sort)
+  console.log("",event.target.value)
+  dispatch(getUsers(filter,event.target.value));
 };
 
 const handleClose = () => {

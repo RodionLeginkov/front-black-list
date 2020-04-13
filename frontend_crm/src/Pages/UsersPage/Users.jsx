@@ -90,7 +90,7 @@ function Users() {
           Add user
         </Button>
       </div>
-        <UsersFilter />
+        <UsersFilter filter={filter} setFilter={setFilter}/>
       <Grid container style={{ marginBottom: 15 }} spacing={1}>
         <Grid item>
           <Button

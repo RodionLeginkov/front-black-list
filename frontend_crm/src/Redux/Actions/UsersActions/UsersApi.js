@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-async function getData(url, filter, token) {
-  const response = await axios.get(url, { params: {filter:filter}, headers: { authorization: token } });
+async function getData(url, filterRole,filterBar,sort, token) {
+  const response = await axios.get(url, { params: {filterRole:filterRole,filterBar,sort:sort},headers: { authorization: token } });
   return response;
 }
 
@@ -23,7 +23,7 @@ async function postData(url, data, token) {
 // eslint-disable-next-line import/prefer-default-export
 export const postUser = (data, token) => postData(`${process.env.REACT_APP_BASE_API}user`, data, token);
 
-export const loadAllUsers = (filter, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filter, token);
+export const loadAllUsers = (filterRole,filterBar,sort, token) => getData(`${process.env.REACT_APP_BASE_API}users/`, filterRole,filterBar,sort, token);
 
 export const loadUser = (token, userId) => getData(`${process.env.REACT_APP_BASE_API}user/${userId}`, token);
 

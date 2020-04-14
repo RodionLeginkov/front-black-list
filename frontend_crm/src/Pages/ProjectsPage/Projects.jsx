@@ -53,8 +53,9 @@ export default function StickyHeadTable() {
   const [filter] = useState('');
   useEffect(() => {
     dispatch(getProjects());
-    dispatch(getUsers(filter));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    dispatch(getUsers('','',''));
+
   }, [dispatch]);
 
   const handleChange = () => {

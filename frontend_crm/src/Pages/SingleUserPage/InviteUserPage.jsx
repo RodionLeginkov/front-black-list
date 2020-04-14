@@ -113,7 +113,7 @@ const EditUserPage = ({ match }) => {
   }, [loading]);
 
   useEffect(() => {
-    dispatch(getUsers('','',''));
+    dispatch(getUsers('', '', '', true));
     // eslint-disable-next-line
   }, [curUser, dispatch, userId]);
 
@@ -144,7 +144,7 @@ const EditUserPage = ({ match }) => {
         hiredAt: user.hiredAt,
       };
       dispatch(AddUser(login));
-      dispatch(getUsers('','',''));
+      dispatch(getUsers('', '', '', true));
       history.push('/users');
     } else setIsError(true);
   };

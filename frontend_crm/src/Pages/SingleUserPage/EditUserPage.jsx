@@ -136,7 +136,7 @@ const EditUserPage = ({ match }) => {
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers('','',''));
+      dispatch(getUsers('', '', '', true));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line
@@ -150,7 +150,7 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleChangeCurrentTask = (taskId) => {setUser({...user, current_task: taskId})}
+  const handleChangeCurrentTask = (taskId) => { setUser({ ...user, current_task: taskId }); };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
 

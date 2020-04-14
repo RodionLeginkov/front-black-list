@@ -98,18 +98,16 @@ function AddMilestonesForm(props) {
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
 
-  const users = useSelector((state) => state.users.users);
-
-
   const handleClick = () => {
     setAddUserModalOpen(true);
   };
 
 
-  if (!users.length) return '';
 
   const milestones = projectMilestones.map((milestone) => {
-    const user = users.find((elem) => elem.uuid === milestone.user_uuid);
+    // const user = users.find((elem) => elem.uuid === milestone.user_uuid);
+    console.log('USER',milestone)
+    const user = milestone.Users;
     const userName = `${user.firstName} ${user.lastName}`;
     const start = new Date(milestone.start_date);
     const end = new Date(milestone.end_date);

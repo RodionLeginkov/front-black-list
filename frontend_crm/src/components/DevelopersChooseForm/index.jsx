@@ -1,9 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 export default function DevelopersChooseForm(props) {
+  const dispatch = useDispatch();
   const {
     name, userChange, developersValue, isError,
   } = props;
@@ -13,6 +15,11 @@ export default function DevelopersChooseForm(props) {
   };
 
   const users = useSelector((state) => state.users.users);
+
+  useEffect(() =>{
+    if (!users.length) dispatch(getUsers('', ''))
+  })
+
   const filteredUsers = users; let
     curUser;
 

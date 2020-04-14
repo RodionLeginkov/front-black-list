@@ -173,7 +173,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>
+        <Typography color="textPrimary" onClick={() => history.push(`/user/${user.uuid}`)}>
           {' '}
           {user.firstName}
           {' '}

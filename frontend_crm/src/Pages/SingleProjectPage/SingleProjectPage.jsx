@@ -108,7 +108,7 @@ const CurrentProject = ({ match }) => {
           </div>
         </div>
         <div className={classes.stackAndEnglish}>
-          <h2>Milestones: </h2>
+          <h2>Resources: </h2>
 
           <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
 

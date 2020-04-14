@@ -7,8 +7,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { TableSortLabel, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { TextField } from '@material-ui/core';
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -84,7 +85,11 @@ export default function TasksTable(props) {
                 />
               </StyledTableCell>
               <StyledTableCell align="right">{row.authorName}</StyledTableCell>
-              <StyledTableCell align="right">{row.createDate}</StyledTableCell>
+              <StyledTableCell align="right">
+                {' '}
+                <TableSortLabel direction="asc" />
+                {row.createDate}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

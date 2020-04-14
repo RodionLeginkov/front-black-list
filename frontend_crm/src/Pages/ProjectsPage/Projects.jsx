@@ -10,7 +10,6 @@ import Switch from '@material-ui/core/Switch';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import ProjectFilterPanel from '../../components/ProjectFilterPanel/index.jsx';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
 import ProjectsList from './ProjectsList.jsx';
@@ -52,9 +51,6 @@ export default function StickyHeadTable() {
   const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
     dispatch(getProjects());
-
-    dispatch(getUsers('','',''));
-
   }, [dispatch]);
 
   const handleChange = () => {

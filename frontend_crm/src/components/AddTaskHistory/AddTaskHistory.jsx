@@ -33,7 +33,8 @@ function AddTaskHistory(props) {
   const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
 
   const handleAddTask = async () => {
-    await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    const taskId = response.data.uuid
     // dispatch(getUser(user.uuid));
     setUsersTasks([...usersTasks, newTask]);
     setNewTask({
@@ -80,7 +81,7 @@ function AddTaskHistory(props) {
 
           <Grid item xs={4}>
             <TextField
-              value={createDate}
+              value={`${createDate}`}
               variant="outlined"
               label="Date"
               multiline

@@ -8,7 +8,6 @@ import { TextField, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
@@ -18,7 +17,6 @@ import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
@@ -128,7 +126,7 @@ const AddProjectPage = (props) => {
       dispatch(getProjects());
       dispatch(getProject(projectId));
     }
-    dispatch(getUsers('','',''));
+
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -170,20 +168,14 @@ const AddProjectPage = (props) => {
       {!projectId
         ? (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Link color="inherit" href='/projects'>
-              Projects
-            </Link>
+            <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
             <Typography color="textPrimary" onClick={() => history.push('/projects/addproject')}>Add new project</Typography>
           </Breadcrumbs>
         )
         : (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Link color="inherit" href='/projects'>
-              Projects
-            </Link>
-            <Link color="inherit" href={`/projects/${project.uuid}`}>
-              {project.name}
-            </Link>
+            <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
+            <Typography color="textPrimary" onClick={() => history.push(`/projects/${project.uuid}`)}>{project.name}</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project.uuid}`)}>Edit project</Typography>
           </Breadcrumbs>
         )}

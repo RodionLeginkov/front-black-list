@@ -25,8 +25,6 @@ export default function DevAvatars(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const { milestones, setAddUserModalOpen } = props;
-  const users = useSelector((state) => state.users.users);
- 
 
   function handleClick(userId) {
     dispatch(findUser(userId));
@@ -34,7 +32,7 @@ export default function DevAvatars(props) {
   }
 
   const devList = milestones.map((milestone) => {
-    const user = users.find((item) => item.uuid === milestone.user_uuid);
+    const user = milestone.Users;
     if (user) {
       const userName = `${user.firstName} ${user.lastName}`;
       return (

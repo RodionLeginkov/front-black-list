@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import clsx from 'clsx';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +59,6 @@ const UsersFilter = () => {
   //const [filter, setFilter] = useState('');
   const [filterRole, setFilterRole] = useState('');
   const [filterBar, setFilterBar] = useState('');
-  const [page] = useState();
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -132,7 +131,7 @@ const handleOpen = () => {
             <em>None</em>
           </MenuItem>
           <MenuItem value={'Name'}>Name</MenuItem>
-          {/* <MenuItem value={'Senioiry'}>Senioiry</MenuItem> */}
+          <MenuItem value={'Senioiry'}>Senioiry</MenuItem>
           <MenuItem value={'Role'}>Role</MenuItem>
         </Select>
       </FormControl>

@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddUserModal(props) {
   const {
+    forRead,
     addUserModalOpen,
     setAddUserModalOpen,
     curProject,
@@ -159,6 +160,7 @@ export default function AddUserModal(props) {
                 userChange={userChange}
                 developersValue={project.user_uuid}
                 isEdit
+                forRead={forRead}
                 isError={isError}
               />
               <Grid container spacing={1}>

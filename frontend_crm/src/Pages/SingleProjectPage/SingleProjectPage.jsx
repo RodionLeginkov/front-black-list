@@ -19,7 +19,6 @@ import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 
-
 const useStyles = makeStyles(() => ({
   footerIcons: {
     display: 'flex',
@@ -107,9 +106,13 @@ const CurrentProject = ({ match }) => {
           </div>
         </div>
         <div className={classes.stackAndEnglish}>
-          <h2>Milestones: </h2>
+          <h2>Resources: </h2>
 
-          <AddMilestonesForm project={project} projectMilestones={project.Projects_Milestones} />
+          <AddMilestonesForm
+            forRead={true}
+            project={project}
+            projectMilestones={project.Projects_Milestones}
+          />
 
         </div>
 

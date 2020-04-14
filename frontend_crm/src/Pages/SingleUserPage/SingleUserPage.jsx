@@ -159,7 +159,9 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   useEffect(() => {
     if (!user || !user.Users_Milestones) {
+
       dispatch(getUsers('', '', ''));
+
       dispatch(getUser(userId));
     }
   }, [dispatch, userId, user]);
@@ -184,7 +186,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
         </Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/users/${user.uuid}`)}>
+        <Typography color="textPrimary" onClick={() => history.push(`/user/${user.uuid}`)}>
           {' '}
           {user.firstName}
           {' '}

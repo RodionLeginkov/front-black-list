@@ -109,7 +109,6 @@ const CurrentProject = ({ match }) => {
           <h2>Resources: </h2>
 
           <AddMilestonesForm
-            forRead={true}
             project={project}
             projectMilestones={project.Projects_Milestones}
           />

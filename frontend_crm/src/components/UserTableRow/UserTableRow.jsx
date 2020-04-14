@@ -7,6 +7,7 @@ import { TextField } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 import { userRoles } from '../../constants/constants';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
 import './style.css';
@@ -29,6 +30,12 @@ const useStyles = makeStyles({
       backgroundColor: '#000',
     },
   },
+  raw: {
+    '&:hover': {
+      backgroundColor: '#DEDEDE',
+      boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+    },
+  },
 });
 
 
@@ -45,7 +52,7 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
+      // backgroundColor: theme.palette.background.default,
     },
   },
 }))(TableRow);
@@ -67,6 +74,7 @@ const UserTableRow = ({ user }) => {
   return (
     <>
       <StyledTableRow
+        className={classes.raw}
         // onClick={() => handleClick(user.id)}
         style={{ cursor: 'pointer' }}
       >
@@ -104,37 +112,32 @@ const UserTableRow = ({ user }) => {
           /> */}
 
         </StyledTableCell>
-        <StyledTableCell align="center">
-          <TextField
-            value={changedFields.current_task}
-                  // variant="Standard"
-            multiline
-            rowsMax="5"
-            style={{ width: '100%' }}
-            InputProps={{
-              disableUnderline: true,
-            }}
-          />
-          {/* { curTask ? changedFields.current_task
-            : (
-              <TextField
-                style={{ width: '100%' }}
-                value={changedFields.current_task || ''}
+        <StyledTableCell align="inherit">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            { curTask ? (
+              <Typography variant="inherit">
+                {changedFields.current_task.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+              </Typography>
+            )
+              : (
+                <TextField
+                  style={{ width: '100%' }}
+                  value={changedFields.current_task || ''}
                 // variant="outlined"
-                label="Current Task"
-                multiline
-                name='current_task'
-                onChange={handleChange}
-              />
-            )}
-          <UserTableRowButtons
-            changedFields={changedFields}
-            state={curTask}
-            setState={setCurTask}
-            setChangedFields={setChangedFields}
-            user={user}
-          /> */}
-
+                  label="Current Task"
+                  multiline
+                  name='current_task'
+                  // onChange={handleChange}
+                />
+              )}
+            <UserTableRowButtons
+              changedFields={changedFields}
+              state={curTask}
+              setState={setCurTask}
+              setChangedFields={setChangedFields}
+              user={user}
+            />
+          </div>
         </StyledTableCell>
         <StyledTableCell align="center">
           {user.milestons.map((item) => (

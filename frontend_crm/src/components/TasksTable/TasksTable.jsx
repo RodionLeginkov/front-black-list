@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { TableSortLabel, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-
+import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -72,17 +72,9 @@ export default function TasksTable(props) {
           {rows.map((row) => (
             <StyledTableRow key={Math.random()}>
               <StyledTableCell component="th" scope="row">
-                {/* {row.text} */}
-                <TextField
-                  value={row.text}
-                  // variant="Standard"
-                  multiline
-                  rowsMax="5"
-                  style={{ width: '100%' }}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                />
+                <Typography variant="inherit">
+                  {row.text.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                </Typography>
               </StyledTableCell>
               <StyledTableCell align="right">{row.authorName}</StyledTableCell>
               <StyledTableCell align="right">

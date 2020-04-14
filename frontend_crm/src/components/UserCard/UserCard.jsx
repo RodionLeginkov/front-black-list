@@ -94,7 +94,7 @@ function difDates(startDate, curDate) {
     difMonth = curDate.getMonth() - startDate.getMonth();
   const difYear = curDate.getFullYear() - startDate.getFullYear();
   const difDay = curDate.getDate() - startDate.getDate();
-  if (curDate - startDate) return 'Not started';
+  if (curDate - startDate < 0) return 'Not started';
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
     return `${difYear} year(s) ${difMonth} month(s)`;
   }

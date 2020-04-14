@@ -12,12 +12,13 @@ const useStyles = makeStyles({
     minWidth: 700,
     marginRight: 20,
   },
-  button: {
-    color: '#777777',
-  },
   editButton: {
+    // position: 'absolute',
     color: '#777777',
     fontSize: '10px',
+  },
+  buttons: {
+    // position: 'absolute',
   },
 });
 
@@ -58,20 +59,20 @@ function UserTableRowButtons(props) {
             <EditSharpIcon />
           </Button>
         ) : (
-          <>
+          <div className={classes.buttons}>
             <Button
-              className={classes.editButton}
+              // className={classes.button}
               onClick={handleSubmit}
             >
               <CheckSharpIcon />
             </Button>
             <Button
-              className={classes.editButton}
+              // className={classes.button}
               onClick={handleCancel}
             >
               <CloseSharpIcon />
             </Button>
-          </>
+          </div>
         )}
     </>
   );

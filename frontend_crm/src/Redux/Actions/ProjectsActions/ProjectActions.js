@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 import { patchProject, loadProject, addNewProject } from './ProjectsApi';
 import {
 
@@ -24,8 +25,7 @@ export const addProject = (project) => async (dispatch) => {
     const loginToken = localStorage.getItem('token');
 
     const { data } = await addNewProject(project, loginToken);
-
-
+    NotificationManager.success('The project was added');
     dispatch({ type: ADD_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: ADD_RPOJECT_ERROR, payload: error });
@@ -64,6 +64,7 @@ export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { authorization: loginToken } });
+    NotificationManager.success('The project was deleted');
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {
     dispatch({ type: DELETE_PROJECT_ERROR, payload: error });
@@ -74,6 +75,7 @@ export const updateProject = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchProject(project, loginToken);
+    NotificationManager.success('The project was updated');
     dispatch({ type: EDIT_PROJECT, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_PROJECT_ERROR, payload: error });

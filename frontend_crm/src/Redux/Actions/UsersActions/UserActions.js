@@ -1,3 +1,4 @@
+import { NotificationManager } from 'react-notifications';
 import {
   loadAllUsers, loadUser, deletedUser, patchUser, postUser,
 } from './UsersApi';
@@ -17,11 +18,11 @@ import {
   ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filterRole,filterBar,sort) => async (dispatch) => {
+export const getUsers = (filterRole, filterBar, sort) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filterRole,filterBar,sort, loginToken);
+    const { data } = await loadAllUsers(filterRole, filterBar, sort, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
@@ -45,6 +46,7 @@ export const deleteUser = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     await deletedUser(loginToken, id);
+    NotificationManager.success('The user was deleted');
     dispatch({ type: DELETE_USER, payload: id });
   } catch (error) {
     dispatch({ type: DELETE_USER_ERROR, payload: error });
@@ -55,7 +57,7 @@ export const updateUser = (userData) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
-    console.log("UPDATE DATA", data)
+    NotificationManager.success('The user was updated');
     dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_USER_ERROR, payload: error });
@@ -87,6 +89,7 @@ export const AddUser = (user) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await postUser(user, loginToken);
+    NotificationManager.success('The user was added');
     dispatch({ type: ADD_USER, payload: data });
   } catch (error) {
     dispatch({ type: ADD_USER_ERROR, payload: error });

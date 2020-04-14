@@ -61,6 +61,7 @@ function difDates(startDate, curDate) {
     difMonth = curDate.getMonth() - startDate.getMonth();
   const difYear = curDate.getFullYear() - startDate.getFullYear();
   const difDay = curDate.getDate() - startDate.getDate();
+  if (curDate - startDate < 0) return 'Not started';
   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
     return `${difYear} year(s) ${difMonth} month(s)`;
   }
@@ -104,15 +105,15 @@ export default function UsersList(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead color='primary'>
           <TableRow>
-            <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell align="right">Current Task</StyledTableCell>
-            <StyledTableCell align="right">Current project</StyledTableCell>
-            <StyledTableCell align="right">Role in the project</StyledTableCell>
-            <StyledTableCell align="right">Current rate</StyledTableCell>
-            <StyledTableCell align="right">Load(h/weak)</StyledTableCell>
-            <StyledTableCell align="right">Role</StyledTableCell>
-            <StyledTableCell align="right">Project Ready</StyledTableCell>
-            <StyledTableCell align="right">Seniority</StyledTableCell>
+            <StyledTableCell align="center">Name</StyledTableCell>
+            <StyledTableCell align="center">Current Task</StyledTableCell>
+            <StyledTableCell align="center">Current project</StyledTableCell>
+            <StyledTableCell align="center">Role in the project</StyledTableCell>
+            <StyledTableCell align="center">Current rate</StyledTableCell>
+            <StyledTableCell align="center">Load(h/weak)</StyledTableCell>
+            <StyledTableCell align="center">Role</StyledTableCell>
+            <StyledTableCell align="center">Project Ready</StyledTableCell>
+            <StyledTableCell align="center">Seniority</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -91,6 +91,7 @@ export default function AddUserModal(props) {
     load: null,
     start_date: null,
     end_date: null,
+    Users: {},
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
@@ -119,10 +120,11 @@ export default function AddUserModal(props) {
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       setIsError(false);
-      if (isEdit) dispatch(addMilestone(project));
-      else if (initialMilestone) {
+      if (isEdit) {
+        dispatch(addMilestone(project));
+      } else if (initialMilestone) {
         dispatch(updateMilestone(project));
-        dispatch(getProject(curProject.uuid));
+        // dispatch(getProject(curProject.uuid));
       } else milestonesChange(project);
       setProject(initialValue);
       setIsError(false);
@@ -131,7 +133,7 @@ export default function AddUserModal(props) {
   };
 
 
-  const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '' }); };
+  const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
 
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };

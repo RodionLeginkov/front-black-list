@@ -74,7 +74,7 @@ const useStyles = makeStyles(() => ({
   },
   fieldTitle: {
     display: 'block;',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   field: {
@@ -84,7 +84,7 @@ const useStyles = makeStyles(() => ({
   },
   fieldValue: {
     fontSize: 16,
-    margin: '10px',
+    margin: '5px',
     display: 'flex',
   },
   stackAndDuration: {
@@ -168,8 +168,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   if (!user) return (<Loading />);
 
-  console.log(user.UsersTasks);
-
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
   let userCurrentTask;
 
@@ -177,8 +175,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
-
-  console.log('userCurrentTask', userCurrentTask);
 
   return (
     <div className={classes.container}>
@@ -210,7 +206,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 size="large"
                 className={classes.inviteButton}
               >
-                Invite User
+                Reset password
               </Button>
             </span>
             {/* </div> */}

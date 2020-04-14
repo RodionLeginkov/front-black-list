@@ -1,3 +1,4 @@
+import { NotificationManager } from 'react-notifications';
 import { signUpNewUser, loginUser, inviteUser } from './AuthApi';
 import {
   SIGNUP_LOADING, SIGNUP_SUCCESS, SIGNUP_ERROR,
@@ -36,24 +37,12 @@ export const signIn = (user) => async (dispatch) => {
 };
 
 export const inviteUsers = (id) => async (dispatch) => {
-    // dispatch({ type: INVITE_LOADING });
-    // const { data,error } = await inviteUser(user);
-    // console.log(error)
-    // if (data) {
-    //   dispatch({ type: INVITE_SUCCESS, payload: data });
-    //   window.location = '/users';
-    // }
-    // else {
-    //   dispatch({ type: INVITE_ERROR, payload: data });
-    // }
-    try{
-      // console.log('History1', useHistory())
-      // const history = useHistory();
+  try {
     dispatch({ type: INVITE_LOADING });
     const { data } = await inviteUser(id);
+    NotificationManager.success('The message was sent');
     dispatch({ type: INVITE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: INVITE_ERROR, payload: error });
   }
-  catch(error) {
-      dispatch({ type: INVITE_ERROR, payload: error });
-    }
 };

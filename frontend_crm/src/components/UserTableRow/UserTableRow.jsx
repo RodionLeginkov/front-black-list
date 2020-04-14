@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     fontSize: '10px',
   },
   cell: {
+    padding: 4,
     '&:hover .editButton': {
       backgroundColor: '#000',
     },
@@ -69,8 +70,7 @@ const UserTableRow = ({ user }) => {
         // onClick={() => handleClick(user.id)}
         style={{ cursor: 'pointer' }}
       >
-        <StyledTableCell component="th" scope="row" className={classes.cell}>
-
+        <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
           {fullName
             ? `${changedFields.firstName} ${changedFields.lastName}`
             : (
@@ -95,17 +95,27 @@ const UserTableRow = ({ user }) => {
                 />
               </>
             )}
-          <UserTableRowButtons
+          {/* <UserTableRowButtons
             changedFields={changedFields}
             state={fullName}
             setState={setFullName}
             setChangedFields={setChangedFields}
             user={user}
-          />
-        </StyledTableCell>
-        <StyledTableCell align="right">
+          /> */}
 
-          { curTask ? changedFields.current_task
+        </StyledTableCell>
+        <StyledTableCell align="center">
+          <TextField
+            value={changedFields.current_task}
+                  // variant="Standard"
+            multiline
+            rowsMax="5"
+            style={{ width: '100%' }}
+            InputProps={{
+              disableUnderline: true,
+            }}
+          />
+          {/* { curTask ? changedFields.current_task
             : (
               <TextField
                 style={{ width: '100%' }}
@@ -123,20 +133,20 @@ const UserTableRow = ({ user }) => {
             setState={setCurTask}
             setChangedFields={setChangedFields}
             user={user}
-          />
+          /> */}
 
         </StyledTableCell>
-        <StyledTableCell align="right">
+        <StyledTableCell align="center">
           {user.milestons.map((item) => (
             <p key={Math.random()}>
               {item.Projects.name}
             </p>
           ))}
         </StyledTableCell>
-        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
-        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
-        <StyledTableCell align="right">{user.milestons.map((item) => <p key={Math.random()}>{item.load}</p>)}</StyledTableCell>
-        <StyledTableCell align="right" justify="space-between">
+        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
+        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
+        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.load}</p>)}</StyledTableCell>
+        <StyledTableCell align="center" justify="space-between">
           {userRole ? devRole
             : (
               <FormControl
@@ -161,15 +171,15 @@ const UserTableRow = ({ user }) => {
                 </Select>
               </FormControl>
             )}
-          <UserTableRowButtons
+          {/* <UserTableRowButtons
             changedFields={changedFields}
             state={userRole}
             setState={setUserRole}
             setChangedFields={setChangedFields}
             user={user}
-          />
+          /> */}
         </StyledTableCell>
-        <StyledTableCell align="right">
+        <StyledTableCell align="center">
           {/* // eslint-disable-next-line no-nested-ternary */}
           {percent ? changedFields.projectReady ? (`${changedFields.projectReady}%`) : ('-') : (
             <TextField
@@ -181,13 +191,13 @@ const UserTableRow = ({ user }) => {
               onChange={handleChange}
             />
           )}
-          <UserTableRowButtons
+          {/* <UserTableRowButtons
             changedFields={changedFields}
             state={percent}
             setState={setPercent}
             setChangedFields={setChangedFields}
             user={user}
-          />
+          /> */}
         </StyledTableCell>
 
         <StyledTableCell align="right">{user.seniority}</StyledTableCell>

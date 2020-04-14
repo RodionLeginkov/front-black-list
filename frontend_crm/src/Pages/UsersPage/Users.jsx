@@ -11,7 +11,7 @@ import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import UsersList from './UsersList.jsx';
-import UsersFilter from './UsersFilter.jsx'
+import UsersFilter from './UsersFilter.jsx';
 
 const useStyles = makeStyles({
   container: {
@@ -82,8 +82,8 @@ function Users() {
         </Button>
       </div>
 
-        <UsersFilter/>
-      <Pagination count={10} color="primary" />
+      <UsersFilter />
+      {/* <Pagination count={10} color="primary" /> */}
       <Grid
         className={classes.usersWrapper}
         container

@@ -159,7 +159,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   useEffect(() => {
     if (!user || !user.Users_Milestones) {
-
       dispatch(getUsers('', '', ''));
 
       dispatch(getUser(userId));
@@ -175,7 +174,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
-
   return (
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -266,6 +264,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 <span className={classes.fieldTitle}>Current Occupation: </span>
                 <div className={classes.fieldValue}>
                   {user.current_occupation || '―'}
+                </div>
+              </div>
+              <div className={classes.field}>
+                <span className={classes.fieldTitle}>Total load: </span>
+                <div className={classes.fieldValue}>
+                  {user.total_load || '―'}
                 </div>
               </div>
               <div className={classes.field}>

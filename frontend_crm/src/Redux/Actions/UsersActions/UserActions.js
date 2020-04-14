@@ -17,11 +17,15 @@ import {
   ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filter) => async (dispatch) => {
+
+export const getUsers = (filterRole, filterBar, sort) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
+
+
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filter, loginToken);
+    const { data } = await loadAllUsers(filterRole, filterBar, sort, loginToken);
+
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
@@ -33,7 +37,7 @@ export const getUser = (userId) => async (dispatch) => {
     dispatch({ type: LOAD_CURRENT_USER });
     const loginToken = localStorage.getItem('token');
     const { data } = await loadUser(loginToken, userId);
-    console.log('DATA', data)
+    console.log('DATA', data);
     dispatch({ type: LOAD_CURRENT_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
@@ -56,6 +60,7 @@ export const updateUser = (userData) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
+    console.log("UPDATE DATA", data)
     dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {
     dispatch({ type: EDIT_USER_ERROR, payload: error });

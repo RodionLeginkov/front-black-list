@@ -150,6 +150,7 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const handleChangeCurrentTask = (taskId) => {setUser({...user, current_task: taskId})}
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
 
@@ -336,6 +337,7 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12}>
                   {user.uuid && (
                   <AddTaskHistory
+                    handleChangeCurrentTask={handleChangeCurrentTask}
                     user={user}
                     setUsersTasks={setUsersTasks}
                     usersTasks={usersTasks}

@@ -117,6 +117,7 @@ const UserCard = ({ user }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  console.log('user', user)
 
   const handleClickCard = () => {
     dispatch(findUser(user.uuid));

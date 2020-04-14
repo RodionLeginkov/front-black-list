@@ -13,7 +13,7 @@ import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownShar
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 
 function AddTaskHistory(props) {
-  const { user, setUsersTasks, usersTasks } = props;
+  const { user, setUsersTasks, usersTasks, handleChangeCurrentTask } = props;
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [newTask, setNewTask] = useState(user ? {
     user_uuid: user.uuid,
@@ -33,8 +33,11 @@ function AddTaskHistory(props) {
   const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
 
   const handleAddTask = async () => {
-    await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    console.log(response)
+    const taskId = response.data.uuid
     // dispatch(getUser(user.uuid));
+    handleChangeCurrentTask(taskId)
     setUsersTasks([...usersTasks, newTask]);
     setNewTask({
       user_uuid: user.uuid,

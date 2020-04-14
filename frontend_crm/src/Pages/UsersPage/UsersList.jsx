@@ -84,6 +84,8 @@ export default function UsersList(props) {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
+    let userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
+    userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
     return createData(
       user.firstName,
       user.lastName,
@@ -93,10 +95,9 @@ export default function UsersList(props) {
       user.role,
       user.uuid,
       user.project_ready,
-      user.current_task,
+      userCurrentTask,
     );
   });
-
 
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>

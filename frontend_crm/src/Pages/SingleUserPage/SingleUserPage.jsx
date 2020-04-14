@@ -156,16 +156,29 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   const user = useSelector((state) => state.users.currentUser);
 
+
   useEffect(() => {
     if (!user || !user.Users_Milestones) {
-      dispatch(getUsers('','',''));
+
+      dispatch(getUsers('', '', ''));
+
       dispatch(getUser(userId));
     }
   }, [dispatch, userId, user]);
 
   if (!user) return (<Loading />);
 
+  console.log(user.UsersTasks);
+
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+  let userCurrentTask;
+
+  if (user.UsersTasks !== undefined) {
+    userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
+    userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
+  }
+
+  console.log('userCurrentTask', userCurrentTask);
 
   return (
     <div className={classes.container}>
@@ -250,7 +263,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 <span className={classes.fieldTitle}>Current Task: </span>
                 <div className={classes.fieldValue}>
 
-                  {user.current_task || '―'}
+                  {userCurrentTask || '―'}
                 </div>
               </div>
               <div className={classes.field}>

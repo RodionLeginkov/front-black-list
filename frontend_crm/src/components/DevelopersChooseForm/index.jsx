@@ -7,6 +7,7 @@ import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
+    forRead,
     name, userChange, developersValue, isError,
   } = props;
 
@@ -16,9 +17,9 @@ export default function DevelopersChooseForm(props) {
 
   const users = useSelector((state) => state.users.users);
 
-  useEffect(() =>{
-    if (!users.length) dispatch(getUsers('', ''))
-  })
+  useEffect(() => {
+    if (!users.length && !forRead) dispatch(getUsers('', ''));
+  });
 
   const filteredUsers = users; let
     curUser;

@@ -8,7 +8,6 @@ import { TextField, Tooltip } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
@@ -18,7 +17,6 @@ import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';

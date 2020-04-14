@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { useSelector } from 'react-redux';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from './MenuBotton.jsx';
@@ -94,7 +93,13 @@ const useStyles = makeStyles((theme) => ({
 function AddMilestonesForm(props) {
   const classes = useStyles();
   const {
-    setProject, project, projectMilestones, milestonesChange, isEdit, setProjectMilestones,
+    forRead,
+    setProject,
+    project,
+    projectMilestones,
+    milestonesChange,
+    isEdit,
+    setProjectMilestones,
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
 
@@ -103,10 +108,8 @@ function AddMilestonesForm(props) {
   };
 
 
-
   const milestones = projectMilestones.map((milestone) => {
     // const user = users.find((elem) => elem.uuid === milestone.user_uuid);
-    console.log('USER',milestone)
     const user = milestone.Users;
     const userName = `${user.firstName} ${user.lastName}`;
     const start = new Date(milestone.start_date);
@@ -174,6 +177,7 @@ function AddMilestonesForm(props) {
       </Grid>
       {isEdit ? (
         <AddUserModal
+          forRead={forRead}
           projectMilestones={projectMilestones}
           addUserModalOpen={addUserModalOpen}
           setAddUserModalOpen={setAddUserModalOpen}

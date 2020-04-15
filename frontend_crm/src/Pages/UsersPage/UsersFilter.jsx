@@ -191,7 +191,6 @@ const UsersFilter = (props) => {
                   variant="contained"
                   color="primary"
                   size="medium"
-                  className={classes.button}
                   onClick={() => {
                     setOrder(!order);
                   // dispatch(getUsers(filter,sort));
@@ -205,7 +204,6 @@ const UsersFilter = (props) => {
                   variant="contained"
                   color="primary"
                   size="medium"
-                  className={classes.button}
                   onClick={() => {
                     setOrder(!order);
                   // dispatch(getUsers(filter,sort));

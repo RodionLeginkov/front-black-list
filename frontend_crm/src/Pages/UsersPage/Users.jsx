@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,8 @@ import Loading from '../../components/Loading/index.jsx';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 import UsersList from './UsersList.jsx';
 import UsersFilter from './UsersFilter.jsx';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+
 
 const useStyles = makeStyles({
   container: {
@@ -49,11 +51,18 @@ function Users() {
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
-  // useEffect(() => {
-  //   dispatch(getUsers(filterRole,filterBar,sort));
-  //   //dispatch(getProjects());
-  //   // eslint-disable-next-line
-  // }, [dispatch,filterRole,filterBar,sort]);
+  // //////////////////////////////////
+  const [filterRole, setFilterRole] = useState('');
+  const [filterBar, setFilterBar] = useState('');
+  const [sort, setSort] = useState('');
+  const [open, setOpen] = useState(false);
+  const [order, setOrder] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers(filterRole, filterBar, sort, order));
+  }, [dispatch, filterRole, filterBar, sort, order]);
+
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
@@ -82,7 +91,18 @@ function Users() {
         </Button>
       </div>
 
-      <UsersFilter />
+      <UsersFilter
+        filterRole={filterRole}
+        setFilterRole={setFilterRole}
+        filterBar={filterBar}
+        setFilterBar={setFilterBar}
+        sort={sort}
+        setSort={setSort}
+        open={open}
+        setOpen={setOpen}
+        order={order}
+        setOrder={setOrder}
+      />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid
         className={classes.usersWrapper}
@@ -93,7 +113,15 @@ function Users() {
         {/* eslint-disable-next-line no-nested-ternary */}
         {loading ? <Loading />
           : widgetView ? <UsersCards users={users} />
-            : <UsersList users={users} />}
+            : (
+              <UsersList
+                users={users}
+                sort={sort}
+                setSort={setSort}
+                order={order}
+                setOrder={setOrder}
+              />
+            )}
 
       </Grid>
     </div>

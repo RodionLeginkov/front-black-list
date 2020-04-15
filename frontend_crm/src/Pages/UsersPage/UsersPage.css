@@ -1,6 +1,6 @@
-.orderButton {
+/* .orderButton {
     visibility: hidden ;
-}
+} */
 
 .cell:focus .orderButton {
     visibility: visible;

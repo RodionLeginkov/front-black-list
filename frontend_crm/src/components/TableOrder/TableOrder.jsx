@@ -15,14 +15,42 @@ const useStyles = makeStyles(() => ({
 }));
 
 function TableOrder(props) {
-  const { order, isSelected } = props;
+  const {
+    order, setOrder, cell, sort,
+  } = props;
 
+  console.log('cell', cell);
+  console.log('sort', sort);
   const classes = useStyles();
   return (
     <>
-      <IconButton className="orderButton">
-        <ArrowDownwardSharpIcon />
-      </IconButton>
+      { (cell === sort)
+        ? (order
+          ? (
+            <IconButton
+              variant="contained"
+              color="inherit"
+              size="medium"
+              onClick={() => {
+                setOrder(!order);
+              }}
+            >
+              <ArrowUpwardSharpIcon />
+            </IconButton>
+          ) : (
+            <IconButton
+              variant="contained"
+              color="inherit"
+              size="medium"
+              onClick={() => {
+                setOrder(!order);
+              }}
+            >
+              <ArrowDownwardSharpIcon />
+            </IconButton>
+          )
+        ) : false}
+
     </>
   );
 }

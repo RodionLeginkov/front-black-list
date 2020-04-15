@@ -82,8 +82,11 @@ function difDates(startDate, curDate) {
 }
 
 export default function UsersList(props) {
+  // ///////////////////////////////////
   const classes = useStyles();
-  const { users } = props;
+  const {
+    users, sort, setSort, order, setOrder,
+  } = props;
   const [selectedOrder, setSelectedOrder] = useState(false);
 
   const rows = users.map((user) => {
@@ -105,30 +108,78 @@ export default function UsersList(props) {
     );
   });
 
+
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead color='primary'>
           <TableRow>
             <StyledTableCell
-              scope
-              className='cell'
               align="center"
-              onClick={()=>console.log('hello')}
+              onClick={() => setSort('Name')}
             >
-              <div className='orderButton'>
-                <TableOrder order="Name" />
+              <div>
+                <TableOrder
+                  order={order}
+                  setOrder={setOrder}
+                  cell="Name"
+                  sort={sort}
+                />
               </div>
               Name
             </StyledTableCell>
-            <StyledTableCell align="center">Current Task</StyledTableCell>
+            <StyledTableCell align="center" onClick={() => setSort('current_task')}>
+              {' '}
+              <div>
+                <TableOrder
+                  order={order}
+                  setOrder={setOrder}
+                  cell="current_task"
+                  sort={sort}
+                />
+              </div>
+              Current Task
+            </StyledTableCell>
             <StyledTableCell align="center">Current project</StyledTableCell>
             <StyledTableCell align="center">Role in the project</StyledTableCell>
             <StyledTableCell align="center">Current rate</StyledTableCell>
             <StyledTableCell align="center">Load(h/weak)</StyledTableCell>
-            <StyledTableCell align="center">Role</StyledTableCell>
-            <StyledTableCell align="center">Project Ready</StyledTableCell>
-            <StyledTableCell align="center">Seniority</StyledTableCell>
+            <StyledTableCell align="center" onClick={() => setSort('Role')}>
+              {' '}
+              <div>
+                <TableOrder
+                  order={order}
+                  setOrder={setOrder}
+                  cell="Role"
+                  sort={sort}
+                />
+              </div>
+              Role
+            </StyledTableCell>
+            <StyledTableCell align="center" onClick={() => setSort('project_ready')}>
+              {' '}
+              <div>
+                <TableOrder
+                  order={order}
+                  setOrder={setOrder}
+                  cell="project_ready"
+                  sort={sort}
+                />
+              </div>
+              Project Ready
+            </StyledTableCell>
+            <StyledTableCell align="center" onClick={() => setSort('Senioiry')}>
+              {' '}
+              <div>
+                <TableOrder
+                  order={order}
+                  setOrder={setOrder}
+                  cell="Senioiry"
+                  sort={sort}
+                />
+              </div>
+              Seniority
+            </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>

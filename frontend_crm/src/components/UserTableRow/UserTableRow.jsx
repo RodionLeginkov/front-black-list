@@ -92,17 +92,14 @@ const UserTableRow = ({ user }) => {
     text: '',
   } : '');
   const handleChange = (e) => {
-    e.stopPropagation();
     setChangedFields({ ...changedFields, [e.target.name]: e.target.value });
   };
 
   const handleTaskChange = (e) => {
-    e.stopPropagation();
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
   const handleAddTask = async (e) => {
-    e.stopPropagation();
     const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
@@ -126,7 +123,7 @@ const UserTableRow = ({ user }) => {
         style={{ cursor: 'pointer' }}
 
       >
-        <StyledTableCell  align="center" component="th" scope="row" className={classes.cell}>
+        <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
           {changedFields.firstName}
           {' '}
           {changedFields.lastName}
@@ -175,7 +172,7 @@ const UserTableRow = ({ user }) => {
               : (
                 <div>
                   <TextField
-                    onChange={(e) => { e.stopPropagation(); handleTaskChange(); }}
+                    onChange={handleTaskChange}
                     value={newTask.text || ''}
                     variant="outlined"
                     label="New task"

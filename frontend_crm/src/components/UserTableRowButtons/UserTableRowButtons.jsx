@@ -37,7 +37,6 @@ function UserTableRowButtons(props) {
   } = props;
 
   const handleCancel = (e) => {
-    e.stopPropagation();
     setChangedFields(user);
     setState(!state);
   };
@@ -48,7 +47,7 @@ function UserTableRowButtons(props) {
         ? (
           <Button
             className={classes.editButton}
-            onClick={(e) => { e.stopPropagation(); setState(!state); }}
+            onClick={(e) => { setState(!state); }}
           >
             <EditSharpIcon />
           </Button>

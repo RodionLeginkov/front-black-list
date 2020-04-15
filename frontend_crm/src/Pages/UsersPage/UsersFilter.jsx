@@ -17,12 +17,13 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowUpwardSharpIcon from '@material-ui/icons/ArrowUpwardSharp';
 import ArrowDownwardSharpIcon from '@material-ui/icons/ArrowDownwardSharp';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import './UserFilter.css';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     marginRight: 20,
-    marginBottom: 20,
+    marginBottom: '10px',
   },
   panel: {
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -41,23 +42,29 @@ const useStyles = makeStyles((theme) => ({
     width: 20,
   },
   filtersBlock: {
-    maxWidth: 800,
+    maxWidth: '100%',
     padding: '0 20px 20px 20px',
+    display: 'flex',
+    flexFlow: 'no-wrap',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   searchField: {
-    width: '100%',
+    width: '250px',
   },
   button: {
+    '&:focus': { backgroundColor: '#964994' },
     display: 'block',
     marginTop: theme.spacing(2),
   },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
+    flexDerection: 'row',
   },
   order: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -103,80 +110,29 @@ const UsersFilter = () => {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel className={classes.panel}>
+      {/* <ExpansionPanel className={classes.panel}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
-        >
-          <Typography className={classes.heading}>Search</Typography>
-        </ExpansionPanelSummary>
-        <Grid spacing={2} container className={classes.filtersBlock}>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              label="Name or Surname"
-              variant="outlined"
-              value={filterBar}
-              onChange={handleChangeName}
-              size='small'
-              className={classes.searchField}
-            />
-          </Grid>
-          <Grid className={classes.order}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-controlled-open-select-label">Order</InputLabel>
-              <Select
-                labelId="demo-controlled-open-select-label"
-                id="demo-controlled-open-select"
-                open={open}
-                onClose={handleClose}
-                onOpen={handleOpen}
-                value={sort}
-                onChange={handleChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="Name">Name</MenuItem>
-                <MenuItem value="Senioiry">Senioiry</MenuItem>
-                <MenuItem value="Role">Role</MenuItem>
-                <MenuItem value="Loads">Loads</MenuItem>
-              </Select>
-            </FormControl>
-            <Grid item>
-              {order
-                ? (
-                  <IconButton
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    className={classes.button}
-                    onClick={() => {
-                      setOrder(!order);
-                      // dispatch(getUsers(filter,sort));
-                    }}
-                  >
-                    <ArrowUpwardSharpIcon />
-                  </IconButton>
-                )
-                : (
-                  <IconButton
-                    variant="contained"
-                    color="primary"
-                    size="medium"
-                    className={classes.button}
-                    onClick={() => {
-                      setOrder(!order);
-                      // dispatch(getUsers(filter,sort));
-                    }}
-                  >
-                    <ArrowDownwardSharpIcon />
-                  </IconButton>
-                )}
-            </Grid>
-          </Grid>
+        /> */}
+      <Grid spacing={2} container className={classes.filtersBlock}>
 
-          <Grid container style={{ marginBottom: 15 }} spacing={1}>
+        <Grid item style={{ padding: 0 }}>
+          <TextField
+
+            label="Search by Name or Surname"
+            variant="outlined"
+            value={filterBar}
+            onChange={handleChangeName}
+            size='small'
+            className={classes.searchField}
+          />
+        </Grid>
+
+
+        <div>
+          <Grid container spacing={1}>
             <Grid item>
               <Button
                 variant="contained"
@@ -220,7 +176,66 @@ const UsersFilter = () => {
               </Button>
             </Grid>
           </Grid>
-          {/* <Grid item xs={12} lg={6}>
+        </div>
+
+        <Grid className={classes.order}>
+          <Grid item>
+            {order
+              ? (
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  className={classes.button}
+                  onClick={() => {
+                    setOrder(!order);
+                  // dispatch(getUsers(filter,sort));
+                  }}
+                >
+                  <ArrowUpwardSharpIcon />
+                </IconButton>
+              )
+              : (
+                <IconButton
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  className={classes.button}
+                  onClick={() => {
+                    setOrder(!order);
+                  // dispatch(getUsers(filter,sort));
+                  }}
+                >
+                  <ArrowDownwardSharpIcon />
+                </IconButton>
+              )}
+          </Grid>
+          <Grid item>
+            <FormControl className={classes.formControl} size='small' style={{ margin: 0 }}>
+
+              <InputLabel id="demo-controlled-open-select-label">Order</InputLabel>
+              <Select
+
+                open={open}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                value={sort}
+                onChange={handleChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="Name">Name</MenuItem>
+                <MenuItem value="Senioiry">Senioiry</MenuItem>
+                <MenuItem value="Role">Role</MenuItem>
+                <MenuItem value="Loads">Loads</MenuItem>
+              </Select>
+            </FormControl>
+
+          </Grid>
+        </Grid>
+
+        {/* <Grid item xs={12} lg={6}>
             <Autocomplete
               multiple
               options={stackList}
@@ -237,7 +252,7 @@ const UsersFilter = () => {
               size="small"
             />
           </Grid> */}
-          {/* <Grid item xs={12} lg={6}>
+        {/* <Grid item xs={12} lg={6}>
             <Autocomplete
               multiple
               options={projectsStatus}
@@ -254,8 +269,8 @@ const UsersFilter = () => {
               size="small"
             />
           </Grid> */}
-        </Grid>
-      </ExpansionPanel>
+      </Grid>
+      {/* </ExpansionPanel> */}
     </div>
   );
 };

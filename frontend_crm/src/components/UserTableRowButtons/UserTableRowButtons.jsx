@@ -42,13 +42,6 @@ function UserTableRowButtons(props) {
     setState(!state);
   };
 
-  const handleSubmit = (e) => {
-    e.stopPropagation();
-    dispatch(updateUser(changedFields));
-    dispatch(getUser(user.uuid));
-    setState(!state);
-  };
-
   return (
     <>
       {state

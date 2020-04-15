@@ -4,22 +4,19 @@ import TableCell from '@material-ui/core/TableCell';
 import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  TextField,
-} from '@material-ui/core';
-
+import { TextField, Button } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+
 import { userRoles } from '../../constants/constants';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { updateUser, findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 const useStyles = makeStyles({
@@ -82,6 +79,7 @@ const StyledTableRow = withStyles((theme) => ({
 const UserTableRow = ({ user }) => {
   // console.log(user)
   const classes = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [userRole, setUserRole] = useState(true);
   const [percent, setPercent] = useState(true);
@@ -94,14 +92,17 @@ const UserTableRow = ({ user }) => {
     text: '',
   } : '');
   const handleChange = (e) => {
+    e.stopPropagation();
     setChangedFields({ ...changedFields, [e.target.name]: e.target.value });
   };
 
   const handleTaskChange = (e) => {
+    e.stopPropagation();
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
-  const handleAddTask = async () => {
+  const handleAddTask = async (e) => {
+    e.stopPropagation();
     const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
@@ -113,15 +114,26 @@ const UserTableRow = ({ user }) => {
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
+  function handleClick(id) {
+    dispatch(findUser(id));
+    history.push(`/user/${id}`);
+  }
+
   return (
     <>
       <StyledTableRow
         className="raw"
         style={{ cursor: 'pointer' }}
+
       >
         <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
-          {fullName
-            ? `${changedFields.firstName} ${changedFields.lastName}`
+          {changedFields.firstName}
+          {' '}
+          {changedFields.lastName}
+          <Button className={classes.button}>
+            <AssignmentIndIcon className="buttons" onClick={() => handleClick(changedFields.uuid)} />
+          </Button>
+          {/* {fullName
             : (
               <>
                 <TextField
@@ -143,7 +155,7 @@ const UserTableRow = ({ user }) => {
                   inputProps={{ 'aria-label': 'description' }}
                 />
               </>
-            )}
+            )} */}
           {/* <UserTableRowButtons
             changedFields={changedFields}
             state={fullName}
@@ -163,7 +175,7 @@ const UserTableRow = ({ user }) => {
               : (
                 <div>
                   <TextField
-                    onChange={handleTaskChange}
+                    onChange={(e) => { e.stopPropagation(); handleTaskChange(); }}
                     value={newTask.text || ''}
                     variant="outlined"
                     label="New task"

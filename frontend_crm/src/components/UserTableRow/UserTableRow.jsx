@@ -40,15 +40,15 @@ const useStyles = makeStyles({
       backgroundColor: '#000',
     },
   },
-  raw: {
-    '&:hover': {
-      boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
-    },
-    '&:hover .button': {
-      backgroundColor: '#DEDEDE',
-      color: 'blue',
-    },
-  },
+  // raw: {
+  //   '&:hover': {
+  //     boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+  //   },
+  //   '&:hover .button': {
+  //     backgroundColor: '#DEDEDE',
+  //     color: 'blue',
+  //   },
+  // },
   listItemSecondaryAction: {
     visibility: 'hidden',
   },
@@ -116,7 +116,7 @@ const UserTableRow = ({ user }) => {
   return (
     <>
       <StyledTableRow
-        className={classes.raw}
+        className="raw"
         style={{ cursor: 'pointer' }}
       >
         <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
@@ -180,7 +180,7 @@ const UserTableRow = ({ user }) => {
                   />
                 </div>
               )}
-            <div className={classes.button}>
+            <div className="buttons">
               <UserTableRowButtons
                 handleAddTask={handleAddTask}
                 changedFields={changedFields}

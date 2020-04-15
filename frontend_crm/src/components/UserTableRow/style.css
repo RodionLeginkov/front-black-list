@@ -1,12 +1,7 @@
-.editButton {
-    color: '#777777';
-    font-size: '10px';
-    display: 'none';
-  }
+.buttons{
+  visibility: hidden;
+}
 
-
-  .cell:hover .editButton {
-        display: 'inline';
-        color: '#777777';
-        font-size: '10px';
-      }
+.raw:hover .buttons{
+  visibility: visible;
+}

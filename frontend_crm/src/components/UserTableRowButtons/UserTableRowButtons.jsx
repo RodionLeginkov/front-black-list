@@ -28,6 +28,7 @@ function UserTableRowButtons(props) {
   const dispatch = useDispatch();
 
   const {
+    handleAddTask,
     state,
     setState,
     changedFields,
@@ -62,7 +63,7 @@ function UserTableRowButtons(props) {
           <div className={classes.buttons}>
             <Button
               // className={classes.button}
-              onClick={handleSubmit}
+              onClick={handleAddTask}
             >
               <CheckSharpIcon />
             </Button>

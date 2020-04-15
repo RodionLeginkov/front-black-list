@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
+import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
-import { TextField } from '@material-ui/core';
+import List, {
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  TextField,
+} from '@material-ui/core';
+
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 import { userRoles } from '../../constants/constants';
+import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
+import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 const useStyles = makeStyles({
@@ -32,8 +42,20 @@ const useStyles = makeStyles({
   },
   raw: {
     '&:hover': {
-      backgroundColor: '#DEDEDE',
       boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
+    },
+    '&:hover .button': {
+      backgroundColor: '#DEDEDE',
+      color: 'blue',
+    },
+  },
+  listItemSecondaryAction: {
+    visibility: 'hidden',
+  },
+  listItem: {
+    border: '1px solid blue',
+    '&:hover $listItemSecondaryAction': {
+      visibility: 'inherit',
     },
   },
 });
@@ -58,16 +80,36 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const UserTableRow = ({ user }) => {
+  // console.log(user)
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [userRole, setUserRole] = useState(true);
   const [percent, setPercent] = useState(true);
   const [fullName, setFullName] = useState(true);
   const [curTask, setCurTask] = useState(true);
   const [changedFields, setChangedFields] = useState(user);
-
+  const [newTask, setNewTask] = useState(user ? {
+    user_uuid: user.uuid,
+    creator_uuid: '',
+    text: '',
+  } : '');
   const handleChange = (e) => {
     setChangedFields({ ...changedFields, [e.target.name]: e.target.value });
   };
+
+  const handleTaskChange = (e) => {
+    setNewTask({ ...newTask, [e.target.name]: e.target.value });
+  };
+
+  const handleAddTask = async () => {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    const taskId = response.data.uuid;
+    dispatch(updateUser({ ...changedFields, current_task: taskId }));
+    setChangedFields({ ...changedFields, current_task: response.data.text });
+    setCurTask(!curTask);
+  };
+
+  const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
@@ -75,7 +117,6 @@ const UserTableRow = ({ user }) => {
     <>
       <StyledTableRow
         className={classes.raw}
-        // onClick={() => handleClick(user.id)}
         style={{ cursor: 'pointer' }}
       >
         <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
@@ -120,23 +161,35 @@ const UserTableRow = ({ user }) => {
               </Typography>
             )
               : (
-                <TextField
-                  style={{ width: '100%' }}
-                  value={changedFields.current_task || ''}
-                // variant="outlined"
-                  label="Current Task"
-                  multiline
-                  name='current_task'
-                  // onChange={handleChange}
-                />
+                <div>
+                  <TextField
+                    onChange={handleTaskChange}
+                    value={newTask.text || ''}
+                    variant="outlined"
+                    label="New task"
+                    multiline
+                    rowsMax="5"
+                    name='text'
+                    style={{ width: '100%', marginBottom: 5 }}
+                  />
+                  <DevelopersChooseForm
+                    name='Author'
+                    userChange={authorChange}
+                    developersValue={newTask.creator_uuid}
+                    isEdit
+                  />
+                </div>
               )}
-            <UserTableRowButtons
-              changedFields={changedFields}
-              state={curTask}
-              setState={setCurTask}
-              setChangedFields={setChangedFields}
-              user={user}
-            />
+            <div className={classes.button}>
+              <UserTableRowButtons
+                handleAddTask={handleAddTask}
+                changedFields={changedFields}
+                state={curTask}
+                setState={setCurTask}
+                setChangedFields={setChangedFields}
+                user={user}
+              />
+            </div>
           </div>
         </StyledTableCell>
         <StyledTableCell align="center">

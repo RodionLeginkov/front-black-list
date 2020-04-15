@@ -14,6 +14,8 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import HeightSharpIcon from '@material-ui/icons/HeightSharp';
 import IconButton from '@material-ui/core/IconButton';
+import ArrowUpwardSharpIcon from '@material-ui/icons/ArrowUpwardSharp';
+import ArrowDownwardSharpIcon from '@material-ui/icons/ArrowDownwardSharp';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 
@@ -142,19 +144,35 @@ const UsersFilter = () => {
               </Select>
             </FormControl>
             <Grid item>
-              <IconButton
-                variant="contained"
-                color="primary"
-                size="medium"
-                className={classes.button}
-                onClick={() => {
-                  setOrder(!order);
-                  // dispatch(getUsers(filter,sort));
-                }}
-              >
-                <HeightSharpIcon />
-              </IconButton>
-
+              {order
+                ? (
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    className={classes.button}
+                    onClick={() => {
+                      setOrder(!order);
+                      // dispatch(getUsers(filter,sort));
+                    }}
+                  >
+                    <ArrowUpwardSharpIcon />
+                  </IconButton>
+                )
+                : (
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    size="medium"
+                    className={classes.button}
+                    onClick={() => {
+                      setOrder(!order);
+                      // dispatch(getUsers(filter,sort));
+                    }}
+                  >
+                    <ArrowDownwardSharpIcon />
+                  </IconButton>
+                )}
             </Grid>
           </Grid>
 

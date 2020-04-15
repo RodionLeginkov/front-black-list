@@ -28,6 +28,7 @@ function UserTableRowButtons(props) {
   const dispatch = useDispatch();
 
   const {
+    handleAddTask,
     state,
     setState,
     changedFields,
@@ -36,15 +37,7 @@ function UserTableRowButtons(props) {
   } = props;
 
   const handleCancel = (e) => {
-    e.stopPropagation();
     setChangedFields(user);
-    setState(!state);
-  };
-
-  const handleSubmit = (e) => {
-    e.stopPropagation();
-    dispatch(updateUser(changedFields));
-    dispatch(getUser(user.uuid));
     setState(!state);
   };
 
@@ -54,7 +47,7 @@ function UserTableRowButtons(props) {
         ? (
           <Button
             className={classes.editButton}
-            onClick={(e) => { e.stopPropagation(); setState(!state); }}
+            onClick={(e) => { setState(!state); }}
           >
             <EditSharpIcon />
           </Button>
@@ -62,7 +55,7 @@ function UserTableRowButtons(props) {
           <div className={classes.buttons}>
             <Button
               // className={classes.button}
-              onClick={handleSubmit}
+              onClick={handleAddTask}
             >
               <CheckSharpIcon />
             </Button>

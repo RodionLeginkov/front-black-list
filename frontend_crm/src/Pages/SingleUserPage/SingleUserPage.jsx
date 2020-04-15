@@ -78,13 +78,14 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold',
   },
   field: {
+    margin: 5,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
   },
   fieldValue: {
     fontSize: 16,
-    margin: '5px',
+    paddingLeft: '5px',
     display: 'flex',
   },
   stackAndDuration: {
@@ -276,12 +277,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 <span className={classes.fieldTitle}>Task History: </span>
                 {taskHistoryTable
                   ? (
-                    <Button onClick={handleCloseTaskTable} className={classes.deleteButton}>
+                    <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
                       <KeyboardArrowRightSharpIcon />
                     </Button>
                   )
                   : (
-                    <Button onClick={handleCloseTaskTable} className={classes.deleteButton}>
+                    <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
                       <KeyboardArrowDownSharpIcon />
                     </Button>
                   )}

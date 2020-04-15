@@ -1,0 +1,12 @@
+/* .orderButton {
+    visibility: hidden ;
+} */
+
+.cell:focus .orderButton {
+    visibility: visible;
+}
+
+
+/* .cell {
+    background-color: burlywood !important;
+} */

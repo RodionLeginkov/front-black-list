@@ -68,18 +68,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsersFilter = () => {
+const UsersFilter = (props) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const {
+    filterRole, setFilterRole, filterBar, setFilterBar, sort,
+    setSort, open, setOpen, order, setOrder,
+  } = props;
+  // const dispatch = useDispatch();
   // const [filter, setFilter] = useState('');
-  const [filterRole, setFilterRole] = useState('');
-  const [filterBar, setFilterBar] = useState('');
-  const [sort, setSort] = useState('');
-  const [open, setOpen] = useState(false);
-  const [order, setOrder] = useState(true);
-  useEffect(() => {
-    dispatch(getUsers(filterRole, filterBar, sort, order));
-  }, [dispatch, filterRole, filterBar, sort, order]);
+  // const [filterRole, setFilterRole] = useState('');
+  // const [filterBar, setFilterBar] = useState('');
+  // const [sort, setSort] = useState('');
+  // const [open, setOpen] = useState(false);
+  // const [order, setOrder] = useState(true);
+  // useEffect(() => {
+  //   dispatch(getUsers(filterRole, filterBar, sort, order));
+  // }, [dispatch, filterRole, filterBar, sort, order]);
   //   const [searchName, setSearchName] = useState('');
   const handleChangeName = (e) => {
     e.preventDefault();
@@ -115,6 +119,7 @@ const UsersFilter = () => {
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1c-content"
           id="panel1c-header"
+
         /> */}
       <Grid spacing={2} container className={classes.filtersBlock}>
 

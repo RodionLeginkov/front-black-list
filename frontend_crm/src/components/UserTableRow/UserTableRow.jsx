@@ -126,7 +126,7 @@ const UserTableRow = ({ user }) => {
         style={{ cursor: 'pointer' }}
 
       >
-        <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
+        <StyledTableCell  align="center" component="th" scope="row" className={classes.cell}>
           {changedFields.firstName}
           {' '}
           {changedFields.lastName}
@@ -165,7 +165,7 @@ const UserTableRow = ({ user }) => {
           /> */}
 
         </StyledTableCell>
-        <StyledTableCell align="inherit">
+        <StyledTableCell sortDirection align="inherit">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             { curTask ? (
               <Typography variant="inherit">

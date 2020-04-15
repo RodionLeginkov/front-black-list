@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +9,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { userRoles } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
+import TableOrder from '../../components/TableOrder/TableOrder.jsx';
+import './UsersPage.css';
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -81,6 +84,8 @@ function difDates(startDate, curDate) {
 export default function UsersList(props) {
   const classes = useStyles();
   const { users } = props;
+  const [selectedOrder, setSelectedOrder] = useState(false);
+
   const rows = users.map((user) => {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
@@ -105,7 +110,17 @@ export default function UsersList(props) {
       <Table className={classes.table} aria-label="customized table">
         <TableHead color='primary'>
           <TableRow>
-            <StyledTableCell align="center">Name</StyledTableCell>
+            <StyledTableCell
+              scope
+              className='cell'
+              align="center"
+              onClick={()=>console.log('hello')}
+            >
+              <div className='orderButton'>
+                <TableOrder order="Name" />
+              </div>
+              Name
+            </StyledTableCell>
             <StyledTableCell align="center">Current Task</StyledTableCell>
             <StyledTableCell align="center">Current project</StyledTableCell>
             <StyledTableCell align="center">Role in the project</StyledTableCell>

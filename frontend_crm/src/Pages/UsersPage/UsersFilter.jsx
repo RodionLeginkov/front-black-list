@@ -121,12 +121,13 @@ const UsersFilter = () => {
             />
           </Grid>
           <Grid className={classes.order}>
-            <FormControl className={classes.formControl}>
+            <FormControl size='small' className={classes.formControl}>
               <InputLabel id="demo-controlled-open-select-label">Order</InputLabel>
               <Select
                 labelId="demo-controlled-open-select-label"
                 id="demo-controlled-open-select"
                 open={open}
+                variant='outlined'
                 onClose={handleClose}
                 onOpen={handleOpen}
                 value={sort}

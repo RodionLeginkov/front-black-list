@@ -107,8 +107,6 @@ function AddMilestonesForm(props) {
     setAddUserModalOpen(true);
   };
 
-  console.log(project)
-
   const milestones = projectMilestones.map((milestone) => {
     // const user = users.find((elem) => elem.uuid === milestone.user_uuid);
     const user = milestone.Users;

@@ -87,7 +87,6 @@ function difDates(startDate, curDate) {
 }
 
 export default function UsersList(props) {
-  // ///////////////////////////////////
   const classes = useStyles();
   const {
     users, sort, setSort, order, setOrder,
@@ -123,6 +122,7 @@ export default function UsersList(props) {
               align="center"
               onClick={() => setSort('Name')}
             >
+
               Name
               <TableOrder
                 order={order}
@@ -130,6 +130,7 @@ export default function UsersList(props) {
                 cell="Name"
                 sort={sort}
               />
+
 
 
             </StyledTableCell>

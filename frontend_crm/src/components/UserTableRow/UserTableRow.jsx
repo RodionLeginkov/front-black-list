@@ -16,7 +16,7 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { userRoles } from '../../constants/constants';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser, findUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { updateUser, findUser,getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 const useStyles = makeStyles({
@@ -103,6 +103,7 @@ const UserTableRow = ({ user }) => {
     const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
+ 
     setChangedFields({ ...changedFields, current_task: response.data.text });
     setCurTask(!curTask);
   };
@@ -112,6 +113,7 @@ const UserTableRow = ({ user }) => {
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
   function handleClick(id) {
+    dispatch(getUser(user.uuid));
     dispatch(findUser(id));
     history.push(`/user/${id}`);
   }

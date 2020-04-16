@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import ArrowDownwardSharpIcon from '@material-ui/icons/ArrowDownwardSharp';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,8 +20,6 @@ function TableOrder(props) {
     order, setOrder, cell, sort,
   } = props;
 
-  console.log('cell', cell);
-  console.log('sort', sort);
   const classes = useStyles();
   return (
     <>

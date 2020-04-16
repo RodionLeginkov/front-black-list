@@ -119,6 +119,7 @@ export default function UsersList(props) {
         <TableHead color='primary'>
           <TableRow>
             <StyledTableCell
+              className='cell-pointer cell'
               align="center"
               onClick={() => setSort('Name')}
             >
@@ -134,7 +135,10 @@ export default function UsersList(props) {
 
 
             </StyledTableCell>
-            <StyledTableCell align="center" onClick={() => setSort('current_task')}>
+            <StyledTableCell 
+              className='cell-pointer cell'
+               align="center" 
+               onClick={() => setSort('current_task')}>
               Current Task
               <TableOrder
                 order={order}
@@ -143,19 +147,25 @@ export default function UsersList(props) {
                 sort={sort}
               />
             </StyledTableCell>
-            <StyledTableCell align="center">Current project</StyledTableCell>
-            <StyledTableCell align="center">Role in the project</StyledTableCell>
-            <StyledTableCell align="center">Current rate</StyledTableCell>
-            <StyledTableCell align="center" onClick={() => setSort('Loads')}>
-              Load(h/weak)
-              <TableOrder
+
+            <StyledTableCell className='cell' align="center">Current project</StyledTableCell>
+            <StyledTableCell className='cell' align="center">Role in the project</StyledTableCell>
+            <StyledTableCell className='cell' align="center">Current rate</StyledTableCell>
+            <StyledTableCell 
+              className='cell-pointer cell'
+              align="center"
+              onClick={() => setSort('Loads')}
+             >Load(h/weak)              <TableOrder
                 order={order}
                 setOrder={setOrder}
                 cell="Loads"
                 sort={sort}
-              />
-            </StyledTableCell>
-            <StyledTableCell align="center" onClick={() => setSort('Role')}>
+              /></StyledTableCell>
+            <StyledTableCell 
+            className='cell-pointer cell'
+            align="center" 
+            onClick={() => setSort('Role')}>
+
               Role
               <TableOrder
                 order={order}
@@ -165,7 +175,10 @@ export default function UsersList(props) {
               />
 
             </StyledTableCell>
-            <StyledTableCell align="center" onClick={() => setSort('project_ready')}>
+            <StyledTableCell 
+              align="center"
+              className='cell-pointer cell'
+              onClick={() => setSort('project_ready')}>
               Project Ready
               <TableOrder
                 order={order}
@@ -176,7 +189,10 @@ export default function UsersList(props) {
 
 
             </StyledTableCell>
-            <StyledTableCell align="center" onClick={() => setSort('Senioiry')}>
+            <StyledTableCell
+            className='cell-pointer cell' 
+            align="center" 
+            onClick={() => setSort('Senioiry')}>
               Seniority
               <TableOrder
                 order={order}

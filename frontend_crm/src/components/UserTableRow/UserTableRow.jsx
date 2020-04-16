@@ -9,14 +9,14 @@ import { useHistory } from 'react-router-dom';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-
 import { userRoles } from '../../constants/constants';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser, findUser,getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { updateUser, findUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 const useStyles = makeStyles({
@@ -103,7 +103,6 @@ const UserTableRow = ({ user }) => {
     const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
- 
     setChangedFields({ ...changedFields, current_task: response.data.text });
     setCurTask(!curTask);
   };
@@ -113,7 +112,6 @@ const UserTableRow = ({ user }) => {
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
   function handleClick(id) {
-    dispatch(getUser(user.uuid));
     dispatch(findUser(id));
     history.push(`/user/${id}`);
   }
@@ -164,7 +162,7 @@ const UserTableRow = ({ user }) => {
           /> */}
 
         </StyledTableCell>
-        <StyledTableCell sortDirection align="inherit">
+        <StyledTableCell align="center">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             { curTask ? (
               <Typography variant="inherit">
@@ -203,16 +201,40 @@ const UserTableRow = ({ user }) => {
             </div>
           </div>
         </StyledTableCell>
-        <StyledTableCell align="center">
+        <StyledTableCell style={{ paddingRight: 0 }} align="center">
           {user.milestons.map((item) => (
-            <p key={Math.random()}>
-              {item.Projects.name}
-            </p>
+            <>
+              <Typography style={{ paddingTop: 5 }} key={Math.random()}>
+                {item.Projects.name}
+              </Typography>
+              {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+            </>
           ))}
         </StyledTableCell>
-        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.role}</p>)}</StyledTableCell>
-        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.rate}</p>)}</StyledTableCell>
-        <StyledTableCell align="center">{user.milestons.map((item) => <p key={Math.random()}>{item.load}</p>)}</StyledTableCell>
+        <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+          {user.milestons.map((item) => (
+            <>
+              <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.role}</Typography>
+              {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+            </>
+          ))}
+        </StyledTableCell>
+        <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+          {user.milestons.map((item) => (
+            <>
+              <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.rate}</Typography>
+              {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+            </>
+          ))}
+        </StyledTableCell>
+        <StyledTableCell style={{ paddingLeft: 0 }} align="center">
+          {user.milestons.map((item) => (
+            <>
+              <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.load}</Typography>
+              {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+            </>
+          ))}
+        </StyledTableCell>
         <StyledTableCell align="center" justify="space-between">
           {userRole ? devRole
             : (

@@ -147,17 +147,25 @@ export default function UsersList(props) {
                 sort={sort}
               />
             </StyledTableCell>
+
             <StyledTableCell className='cell' align="center">Current project</StyledTableCell>
             <StyledTableCell className='cell' align="center">Role in the project</StyledTableCell>
             <StyledTableCell className='cell' align="center">Current rate</StyledTableCell>
             <StyledTableCell 
               className='cell-pointer cell'
               align="center"
-             >Load(h/weak)</StyledTableCell>
+              onClick={() => setSort('Loads')}
+             >Load(h/weak)              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="Loads"
+                sort={sort}
+              /></StyledTableCell>
             <StyledTableCell 
             className='cell-pointer cell'
             align="center" 
             onClick={() => setSort('Role')}>
+
               Role
               <TableOrder
                 order={order}

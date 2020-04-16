@@ -18,10 +18,10 @@ import ArrowUpwardSharpIcon from '@material-ui/icons/ArrowUpwardSharp';
 import ArrowDownwardSharpIcon from '@material-ui/icons/ArrowDownwardSharp';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import './UserFilter.css';
-
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  roots: {
     marginRight: 20,
     marginBottom: '10px',
   },
@@ -53,9 +53,10 @@ const useStyles = makeStyles((theme) => ({
     width: '250px',
   },
   button: {
-    '&:focus': { backgroundColor: '#964994' },
-    display: 'block',
-    marginTop: theme.spacing(2),
+    backgroundColor: '#deedff',
+  },
+  buttonOf: {
+    backgroundColor: '#fff',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -66,13 +67,21 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 const UsersFilter = (props) => {
   const classes = useStyles();
   const {
     filterRole, setFilterRole, filterBar, setFilterBar, sort,
-    setSort, open, setOpen, order, setOrder,
+    setSort, open, setOpen, order, setOrder, selectButton, setSelectButton,
   } = props;
   // const dispatch = useDispatch();
   // const [filter, setFilter] = useState('');
@@ -113,7 +122,7 @@ const UsersFilter = (props) => {
   // };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.roots}>
       {/* <ExpansionPanel className={classes.panel}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
@@ -134,9 +143,39 @@ const UsersFilter = (props) => {
             className={classes.searchField}
           />
         </Grid>
+        <div className={classes.root}>
+          <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <Button
+              onClick={() => {
+                setFilterRole('Developers');
+                setSelectButton('Developers');
+              }}
+              className={(selectButton === 'Developers') ? classes.button : classes.buttonOf}
+            >
+              Developers
+            </Button>
+            <Button
+              onClick={() => {
+                setFilterRole('manager');
+                setSelectButton('manager');
+              }}
+              className={(selectButton === 'manager') ? classes.button : classes.buttonOf}
+            >
+              Managers
+            </Button>
+            <Button
+              onClick={() => {
+                setFilterRole('');
+                setSelectButton('');
+              }}
+              className={(selectButton === '') ? classes.button : classes.buttonOf}
+            >
+              All
+            </Button>
+          </ButtonGroup>
+        </div>
 
-
-        <div>
+        {/* <div>
           <Grid container spacing={1}>
             <Grid item>
               <Button
@@ -181,7 +220,7 @@ const UsersFilter = (props) => {
               </Button>
             </Grid>
           </Grid>
-        </div>
+        </div> */}
 
         <Grid className={classes.order}>
           <Grid item>

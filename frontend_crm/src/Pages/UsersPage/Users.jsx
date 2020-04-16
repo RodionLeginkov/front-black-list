@@ -57,6 +57,7 @@ function Users() {
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(true);
+  const [selectButton, setSelectButton] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -102,6 +103,8 @@ function Users() {
         setOpen={setOpen}
         order={order}
         setOrder={setOrder}
+        selectButton={selectButton}
+        setSelectButton={setSelectButton}
       />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid

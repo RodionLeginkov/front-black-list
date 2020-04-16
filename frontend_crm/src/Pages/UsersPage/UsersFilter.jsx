@@ -232,6 +232,8 @@ const UsersFilter = (props) => {
                 <MenuItem value="Senioiry">Senioiry</MenuItem>
                 <MenuItem value="Role">Role</MenuItem>
                 <MenuItem value="Loads">Loads</MenuItem>
+                <MenuItem value="current_task">Current Task</MenuItem>
+                <MenuItem value="project_ready">Project Ready</MenuItem>
               </Select>
             </FormControl>
 

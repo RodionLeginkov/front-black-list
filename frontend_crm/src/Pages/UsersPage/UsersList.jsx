@@ -57,6 +57,11 @@ const useStyles = makeStyles({
     color: '#777777',
     fontSize: '10px',
   },
+  listComponent: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexFlow: 'nowrap',
+  },
 });
 
 function difDates(startDate, curDate) {
@@ -118,67 +123,60 @@ export default function UsersList(props) {
               align="center"
               onClick={() => setSort('Name')}
             >
-              <div>
-                <TableOrder
-                  order={order}
-                  setOrder={setOrder}
-                  cell="Name"
-                  sort={sort}
-                />
-              </div>
               Name
+              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="Name"
+                sort={sort}
+              />
+
+
             </StyledTableCell>
             <StyledTableCell align="center" onClick={() => setSort('current_task')}>
-              {' '}
-              <div>
-                <TableOrder
-                  order={order}
-                  setOrder={setOrder}
-                  cell="current_task"
-                  sort={sort}
-                />
-              </div>
               Current Task
+              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="current_task"
+                sort={sort}
+              />
             </StyledTableCell>
             <StyledTableCell align="center">Current project</StyledTableCell>
             <StyledTableCell align="center">Role in the project</StyledTableCell>
             <StyledTableCell align="center">Current rate</StyledTableCell>
             <StyledTableCell align="center">Load(h/weak)</StyledTableCell>
             <StyledTableCell align="center" onClick={() => setSort('Role')}>
-              {' '}
-              <div>
-                <TableOrder
-                  order={order}
-                  setOrder={setOrder}
-                  cell="Role"
-                  sort={sort}
-                />
-              </div>
               Role
+              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="Role"
+                sort={sort}
+              />
+
             </StyledTableCell>
             <StyledTableCell align="center" onClick={() => setSort('project_ready')}>
-              {' '}
-              <div>
-                <TableOrder
-                  order={order}
-                  setOrder={setOrder}
-                  cell="project_ready"
-                  sort={sort}
-                />
-              </div>
               Project Ready
+              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="project_ready"
+                sort={sort}
+              />
+
+
             </StyledTableCell>
             <StyledTableCell align="center" onClick={() => setSort('Senioiry')}>
-              {' '}
-              <div>
-                <TableOrder
-                  order={order}
-                  setOrder={setOrder}
-                  cell="Senioiry"
-                  sort={sort}
-                />
-              </div>
               Seniority
+              <TableOrder
+                order={order}
+                setOrder={setOrder}
+                cell="Senioiry"
+                sort={sort}
+              />
+
+
             </StyledTableCell>
           </TableRow>
         </TableHead>

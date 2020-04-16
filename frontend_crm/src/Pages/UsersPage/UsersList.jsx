@@ -82,7 +82,6 @@ function difDates(startDate, curDate) {
 }
 
 export default function UsersList(props) {
-  // ///////////////////////////////////
   const classes = useStyles();
   const {
     users, sort, setSort, order, setOrder,
@@ -118,15 +117,15 @@ export default function UsersList(props) {
               align="center"
               onClick={() => setSort('Name')}
             >
-              <div>
+              {/* <div> */}
+                Name
                 <TableOrder
                   order={order}
                   setOrder={setOrder}
                   cell="Name"
                   sort={sort}
                 />
-              </div>
-              Name
+              {/* </div> */}
             </StyledTableCell>
             <StyledTableCell align="center" onClick={() => setSort('current_task')}>
               {' '}

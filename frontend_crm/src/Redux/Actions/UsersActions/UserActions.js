@@ -56,9 +56,7 @@ export const deleteUser = (id) => async (dispatch) => {
 export const updateUser = (userData) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    console.log('REQ', userData)
     const { data } = await patchUser(loginToken, userData.uuid, userData);
-    console.log('DATA', data)
     NotificationManager.success('The user was updated');
     dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {

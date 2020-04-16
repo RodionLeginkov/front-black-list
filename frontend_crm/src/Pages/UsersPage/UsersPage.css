@@ -6,7 +6,10 @@
     visibility: visible;
 }
 
+.cell {
+    padding: 6px !important;
+}
 
-/* .cell {
-    background-color: burlywood !important;
-} */
+.cell-pointer {
+    cursor: pointer !important ;
+}

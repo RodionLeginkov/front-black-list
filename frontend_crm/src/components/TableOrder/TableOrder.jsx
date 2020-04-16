@@ -7,12 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import '../../Pages/UsersPage/UsersPage.css';
 
 const useStyles = makeStyles(() => ({
-//   orderButton: {
-//     visibility: 'hidden',
-//     '&:focus': {
-//       visibility: 'visible',
-//     },
-//   },
+  button:{
+    padding: '0px 0px',
+    marginLeft: '6px',
+  },
 }));
 
 function TableOrder(props) {
@@ -27,6 +25,7 @@ function TableOrder(props) {
         ? (order
           ? (
             <IconButton
+              className={classes.button}
               variant="contained"
               color="inherit"
               size="medium"
@@ -38,6 +37,7 @@ function TableOrder(props) {
             </IconButton>
           ) : (
             <IconButton
+              className={classes.button}
               variant="contained"
               color="inherit"
               size="medium"

@@ -5,11 +5,19 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
+import Select from '@material-ui/core/Select';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { userRoles } from '../../constants/constants';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import FormControl from '@material-ui/core/FormControl';
+import { userRoles, userTableCells } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
 import TableOrder from '../../components/TableOrder/TableOrder.jsx';
+import UserTableCell from '../../components/UserTableCell/UserTableCell.jsx';
 import './UsersPage.css';
 
 
@@ -89,10 +97,15 @@ function difDates(startDate, curDate) {
 export default function UsersList(props) {
   const classes = useStyles();
   const {
-    users, sort, setSort, order, setOrder,
+    users,
+    sort,
+    setSort,
+    order,
+    setOrder,
+    setVisibeCells,
+    visibeCells,
   } = props;
   const [selectedOrder, setSelectedOrder] = useState(false);
-
   const rows = users.map((user) => {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
@@ -112,103 +125,63 @@ export default function UsersList(props) {
     );
   });
 
+  const handleChange = (e) => {
+    setVisibeCells(e.target.value);
+  };
 
   return (
-    <TableContainer component={Paper} style={{ marginRight: 20 }}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead color='primary'>
-          <TableRow>
-            <StyledTableCell
-              className='cell-pointer cell'
-              align="center"
-              onClick={() => setSort('Name')}
-            >
-
-              Name
-              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="Name"
-                sort={sort}
+    <>
+      <FormControl className='form-control'>
+        <InputLabel>Cells</InputLabel>
+        <Select
+          name="visibeCells"
+          multiple
+          value={visibeCells}
+          onChange={handleChange}
+          input={<Input />}
+          renderValue={(selected) => selected.join(', ')}
+        >
+          {userTableCells.map((cellName) => (
+            <MenuItem key={cellName.label} value={cellName.label}>
+              <Checkbox checked={visibeCells.indexOf(cellName.label) > -1} />
+              <ListItemText primary={cellName.label} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <TableContainer component={Paper} style={{ marginRight: 20 }}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead color='primary'>
+            <TableRow>
+              {
+            userTableCells.map((cell) => {
+              if (visibeCells.includes(cell.label)) {
+                return (
+                  <UserTableCell
+                    order={order}
+                    setOrder={setOrder}
+                    sort={sort}
+                    setSort={setSort}
+                    cell={cell}
+                  />
+                );
+              }
+              return false;
+            })
+          }
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((user) => (
+              <UserTableRow
+                key={Math.random()}
+                visibeCells={visibeCells}
+                user={user}
               />
-
-
-
-            </StyledTableCell>
-            <StyledTableCell 
-              className='cell-pointer cell'
-               align="center" 
-               onClick={() => setSort('current_task')}>
-              Current Task
-              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="current_task"
-                sort={sort}
-              />
-            </StyledTableCell>
-
-            <StyledTableCell className='cell' align="center">Current project</StyledTableCell>
-            <StyledTableCell className='cell' align="center">Role in the project</StyledTableCell>
-            <StyledTableCell className='cell' align="center">Current rate</StyledTableCell>
-            <StyledTableCell 
-              className='cell-pointer cell'
-              align="center"
-              onClick={() => setSort('Loads')}
-             >Load(h/weak)              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="Loads"
-                sort={sort}
-              /></StyledTableCell>
-            <StyledTableCell 
-            className='cell-pointer cell'
-            align="center" 
-            onClick={() => setSort('Role')}>
-
-              Role
-              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="Role"
-                sort={sort}
-              />
-
-            </StyledTableCell>
-            <StyledTableCell 
-              align="center"
-              className='cell-pointer cell'
-              onClick={() => setSort('project_ready')}>
-              Project Ready
-              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="project_ready"
-                sort={sort}
-              />
-
-
-            </StyledTableCell>
-            <StyledTableCell
-            className='cell-pointer cell' 
-            align="center" 
-            onClick={() => setSort('Senioiry')}>
-              Seniority
-              <TableOrder
-                order={order}
-                setOrder={setOrder}
-                cell="Senioiry"
-                sort={sort}
-              />
-
-
-            </StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((user) => (<UserTableRow key={Math.random()} user={user} />))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }

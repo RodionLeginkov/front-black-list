@@ -77,9 +77,11 @@ const UserTableRow = (props) => {
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
+
   function handleClick() {
     dispatch(getUser(user.uuid));
     history.push(`/user/${user.uuid}`);
+
   }
 
   return (
@@ -168,6 +170,9 @@ const UserTableRow = (props) => {
             ))}
           </StyledTableCell>
         )
+        : false }
+      {visibeCells.includes('Total Load')
+        ? <StyledTableCell align="center">{user.total_load}</StyledTableCell>
         : false }
       {visibeCells.includes('Role')
         ? (

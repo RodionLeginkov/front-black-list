@@ -37,7 +37,8 @@ function createData(firstName,
   role,
   uuid,
   projectReady,
-  current_task) {
+  current_task,
+  total_load) {
   return {
     firstName,
     lastName,
@@ -48,6 +49,7 @@ function createData(firstName,
     uuid,
     projectReady,
     current_task,
+    total_load,
   };
 }
 
@@ -92,6 +94,7 @@ function difDates(startDate, curDate) {
   return `${difDay} day(s)`;
 }
 
+
 export default function UsersList(props) {
   const classes = useStyles();
   const {
@@ -120,13 +123,13 @@ export default function UsersList(props) {
       user.uuid,
       user.project_ready,
       userCurrentTask,
+      user.total_load,
     );
   });
 
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-
   return (
     <>
       <FormControl className='form-control'>
@@ -140,6 +143,7 @@ export default function UsersList(props) {
           renderValue={(selected) => selected.join(', ')}
         >
           {userTableCells.map((cellName) => (
+
             <MenuItem key={cellName.label} value={cellName.label}>
               <Checkbox color='primary' checked={visibeCells.indexOf(cellName.label) > -1} />
               <ListItemText primary={cellName.label} />

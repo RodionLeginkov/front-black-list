@@ -65,6 +65,7 @@ function Users() {
     'Role',
     'Project Ready',
     'Seniority',
+    'Total Load',
   ]);
   const [selectButton, setSelectButton] = useState('');
   const dispatch = useDispatch();

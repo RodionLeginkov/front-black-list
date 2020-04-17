@@ -1,8 +1,10 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+
 import TableCell from '@material-ui/core/TableCell';
 import TableOrder from '../TableOrder/TableOrder.jsx';
 import '../../Pages/UsersPage/UsersPage.css';
+
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -20,22 +22,30 @@ function UserTableCell(props) {
   } = props;
   return (
     <>
-      <StyledTableCell
-        className='cell-pointer cell'
-        align="center"
-        onClick={() => setSort(cell.value)}
-      >
+      {(cell.value !== '') ? (
+        <StyledTableCell
+          align="center"
+          onClick={() => {
+            setSort(cell.value);
+            setOrder(!order);
+          }}
+        >
 
-        {cell.label}
-        <TableOrder
-          order={order}
-          setOrder={setOrder}
-          cell={cell.value}
-          sort={sort}
-        />
-
-
-      </StyledTableCell>
+          {cell.label}
+          <TableOrder
+            order={order}
+            setOrder={setOrder}
+            cell={cell.value}
+            sort={sort}
+          />
+        </StyledTableCell>
+      ) : (
+        <StyledTableCell
+          align="center"
+        >
+          {cell.label}
+        </StyledTableCell>
+      )}
     </>
   );
 }

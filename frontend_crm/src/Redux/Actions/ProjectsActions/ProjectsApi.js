@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 async function postData(url, data, token) {
-  const response = await axios.post(url, data, { headers: { authorization: token } });
+  const response = await axios.post(url, data);
   return response;
 }
 

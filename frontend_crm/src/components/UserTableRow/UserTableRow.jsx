@@ -4,17 +4,13 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
-import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import { userRoles } from '../../constants/constants';
-import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
-import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser, findUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
+import CurrentTaskField from './CurrentTaskField.jsx';
 
 const useStyles = makeStyles({
   table: {
@@ -22,7 +18,9 @@ const useStyles = makeStyles({
     marginRight: 20,
   },
   button: {
+    position: 'absolute',
     color: '#777777',
+    top: '-6px',
   },
   editButton: {
     color: '#777777',
@@ -34,15 +32,6 @@ const useStyles = makeStyles({
       backgroundColor: '#000',
     },
   },
-  // raw: {
-  //   '&:hover': {
-  //     boxShadow: '0px 10px 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
-  //   },
-  //   '&:hover .button': {
-  //     backgroundColor: '#DEDEDE',
-  //     color: 'blue',
-  //   },
-  // },
   listItemSecondaryAction: {
     visibility: 'hidden',
   },
@@ -79,7 +68,6 @@ const UserTableRow = (props) => {
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
   const { user, visibeCells } = props;
-  const [curTask, setCurTask] = useState(true);
   const [changedFields, setChangedFields] = useState(user);
   const [newTask, setNewTask] = useState(user ? {
     user_uuid: user.uuid,
@@ -87,24 +75,10 @@ const UserTableRow = (props) => {
     text: '',
   } : '');
 
-  const handleTaskChange = (e) => {
-    setNewTask({ ...newTask, [e.target.name]: e.target.value });
-  };
-
-  const handleAddTask = async (e) => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
-    const taskId = response.data.uuid;
-    dispatch(updateUser({ ...changedFields, current_task: taskId }));
-    setChangedFields({ ...changedFields, current_task: response.data.text });
-    setCurTask(!curTask);
-  };
-
-  const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
-
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
   function handleClick(id) {
-    dispatch(findUser(id));
+    getUser(id)
     history.push(`/user/${id}`);
   }
 
@@ -116,56 +90,28 @@ const UserTableRow = (props) => {
     >
       {visibeCells.includes('Name')
         ? (
-          <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
-            {changedFields.firstName}
-            {' '}
-            {changedFields.lastName}
-            <Button className={classes.button}>
-              <AssignmentIndIcon className="buttons" onClick={() => handleClick(changedFields.uuid)} />
-            </Button>
+          <StyledTableCell
+            align="center"
+            component="th"
+            cope="row"
+            className={classes.cell}
+          >
+            <div style={{ cursor: 'pointer' }} onClick={() => handleClick(changedFields.uuid)}>
+              {changedFields.firstName}
+              {' '}
+              {changedFields.lastName}
+            </div>
           </StyledTableCell>
         )
         : false}
       {visibeCells.includes('Current Task')
         ? (
-          <StyledTableCell align="center">
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              { curTask ? (
-                <Typography variant="inherit">
-                  {changedFields.current_task.split('\n').map((i, key) => <div key={key}>{i}</div>)}
-                </Typography>
-              )
-                : (
-                  <div>
-                    <TextField
-                      onChange={handleTaskChange}
-                      value={newTask.text || ''}
-                      variant="outlined"
-                      label="New task"
-                      multiline
-                      rowsMax="5"
-                      name='text'
-                      style={{ width: '100%', marginBottom: 5 }}
-                    />
-                    <DevelopersChooseForm
-                      name='Author'
-                      userChange={authorChange}
-                      developersValue={newTask.creator_uuid}
-                      isEdit
-                    />
-                  </div>
-                )}
-              <div className="buttons">
-                <UserTableRowButtons
-                  handleAddTask={handleAddTask}
-                  changedFields={changedFields}
-                  state={curTask}
-                  setState={setCurTask}
-                  setChangedFields={setChangedFields}
-                  user={user}
-                />
-              </div>
-            </div>
+          <StyledTableCell align="left">
+            <CurrentTaskField
+              user={user}
+              changedFields={changedFields}
+              setChangedFields={setChangedFields}
+            />
           </StyledTableCell>
         )
         : false}
@@ -174,7 +120,11 @@ const UserTableRow = (props) => {
           <StyledTableCell style={{ paddingRight: 0 }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>
+                <Typography
+                  style={{ cursor: 'pointer', paddingTop: 5 }}
+                  onClick={() => history.push(`/projects/${item.project_uuid}`)}
+                  key={Math.random()}
+                >
                   {item.Projects.name}
                 </Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
@@ -207,7 +157,7 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false }
-      {visibeCells.includes('Load(h/weak)')
+      {visibeCells.includes('Load(h/week)')
         ? (
           <StyledTableCell style={{ paddingLeft: 0 }} align="center">
             {user.milestons.map((item) => (
@@ -234,7 +184,7 @@ const UserTableRow = (props) => {
         )
         : false }
       {visibeCells.includes('Seniority')
-        ? <StyledTableCell align="right">{user.seniority}</StyledTableCell>
+        ? <StyledTableCell align="center">{user.seniority}</StyledTableCell>
         : false }
     </StyledTableRow>
 

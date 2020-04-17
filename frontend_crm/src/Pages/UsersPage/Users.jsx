@@ -61,7 +61,7 @@ function Users() {
     'Current project',
     'Role in the project',
     'Current rate',
-    'Load(h/weak)',
+    'Load(h/week)',
     'Role',
     'Project Ready',
     'Seniority',

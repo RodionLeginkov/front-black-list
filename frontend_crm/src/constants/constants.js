@@ -16,7 +16,7 @@ export const userTableCells = [
   { label: 'Current project', value: '' },
   { label: 'Role in the project', value: '' },
   { label: 'Current rate', value: '' },
-  { label: 'Load(h/weak)', value: 'Loads' },
+  { label: 'Load(h/week)', value: 'Loads' },
   { label: 'Role', value: 'Role' },
   { label: 'Project Ready', value: 'project_ready' },
   { label: 'Seniority', value: 'Seniority' },

@@ -103,6 +103,7 @@ export default function UsersList(props) {
     setVisibeCells,
     visibeCells,
   } = props;
+
   const rows = users.map((user) => {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
@@ -155,6 +156,7 @@ export default function UsersList(props) {
               if (visibeCells.includes(cell.label)) {
                 return (
                   <UserTableCell
+                    key={Math.random()}
                     order={order}
                     setOrder={setOrder}
                     sort={sort}

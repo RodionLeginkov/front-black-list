@@ -108,134 +108,135 @@ const UserTableRow = (props) => {
   }
 
   return (
-    <>
-      <StyledTableRow
-        className="raw"
-      >
-        {visibeCells.includes('Name')
-          ? (
-            <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
-              {changedFields.firstName}
-              {' '}
-              {changedFields.lastName}
-              <Button className={classes.button}>
-                <AssignmentIndIcon className="buttons" onClick={() => handleClick(changedFields.uuid)} />
-              </Button>
-            </StyledTableCell>
-          )
-          : false}
-        {visibeCells.includes('Current Task')
-          ? (
-            <StyledTableCell align="center">
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                { curTask ? (
-                  <Typography variant="inherit">
-                    {changedFields.current_task.split('\n').map((i, key) => <div key={key}>{i}</div>)}
-                  </Typography>
-                )
-                  : (
-                    <div>
-                      <TextField
-                        onChange={handleTaskChange}
-                        value={newTask.text || ''}
-                        variant="outlined"
-                        label="New task"
-                        multiline
-                        rowsMax="5"
-                        name='text'
-                        style={{ width: '100%', marginBottom: 5 }}
-                      />
-                      <DevelopersChooseForm
-                        name='Author'
-                        userChange={authorChange}
-                        developersValue={newTask.creator_uuid}
-                        isEdit
-                      />
-                    </div>
-                  )}
-                <div className="buttons">
-                  <UserTableRowButtons
-                    handleAddTask={handleAddTask}
-                    changedFields={changedFields}
-                    state={curTask}
-                    setState={setCurTask}
-                    setChangedFields={setChangedFields}
-                    user={user}
-                  />
-                </div>
+
+    <StyledTableRow
+      key={Math.random()}
+      className="raw"
+    >
+      {visibeCells.includes('Name')
+        ? (
+          <StyledTableCell align="center" component="th" scope="row" className={classes.cell}>
+            {changedFields.firstName}
+            {' '}
+            {changedFields.lastName}
+            <Button className={classes.button}>
+              <AssignmentIndIcon className="buttons" onClick={() => handleClick(changedFields.uuid)} />
+            </Button>
+          </StyledTableCell>
+        )
+        : false}
+      {visibeCells.includes('Current Task')
+        ? (
+          <StyledTableCell align="center">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              { curTask ? (
+                <Typography variant="inherit">
+                  {changedFields.current_task.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                </Typography>
+              )
+                : (
+                  <div>
+                    <TextField
+                      onChange={handleTaskChange}
+                      value={newTask.text || ''}
+                      variant="outlined"
+                      label="New task"
+                      multiline
+                      rowsMax="5"
+                      name='text'
+                      style={{ width: '100%', marginBottom: 5 }}
+                    />
+                    <DevelopersChooseForm
+                      name='Author'
+                      userChange={authorChange}
+                      developersValue={newTask.creator_uuid}
+                      isEdit
+                    />
+                  </div>
+                )}
+              <div className="buttons">
+                <UserTableRowButtons
+                  handleAddTask={handleAddTask}
+                  changedFields={changedFields}
+                  state={curTask}
+                  setState={setCurTask}
+                  setChangedFields={setChangedFields}
+                  user={user}
+                />
               </div>
-            </StyledTableCell>
-          )
-          : false}
-        {visibeCells.includes('Current project')
-          ? (
-            <StyledTableCell style={{ paddingRight: 0 }} align="center">
-              {user.milestons.map((item) => (
-                <>
-                  <Typography style={{ paddingTop: 5 }} key={Math.random()}>
-                    {item.Projects.name}
-                  </Typography>
-                  {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
-                </>
-              ))}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Role in the project')
-          ? (
-            <StyledTableCell style={{ padding: '16px 0px' }} align="center">
-              {user.milestons.map((item) => (
-                <>
-                  <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.role}</Typography>
-                  {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
-                </>
-              ))}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Current rate')
-          ? (
-            <StyledTableCell style={{ padding: '16px 0px' }} align="center">
-              {user.milestons.map((item) => (
-                <>
-                  <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.rate}</Typography>
-                  {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
-                </>
-              ))}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Load(h/weak)')
-          ? (
-            <StyledTableCell style={{ paddingLeft: 0 }} align="center">
-              {user.milestons.map((item) => (
-                <>
-                  <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.load}</Typography>
-                  {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
-                </>
-              ))}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Role')
-          ? (
-            <StyledTableCell align="center" justify="space-between">
-              {devRole}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Project Ready')
-          ? (
-            <StyledTableCell align="center">
-              {changedFields.projectReady}
-            </StyledTableCell>
-          )
-          : false }
-        {visibeCells.includes('Seniority')
-          ? <StyledTableCell align="right">{user.seniority}</StyledTableCell>
-          : false }
-      </StyledTableRow>
-    </>
+            </div>
+          </StyledTableCell>
+        )
+        : false}
+      {visibeCells.includes('Current project')
+        ? (
+          <StyledTableCell style={{ paddingRight: 0 }} align="center">
+            {user.milestons.map((item) => (
+              <div key={Math.random()}>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>
+                  {item.Projects.name}
+                </Typography>
+                {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+              </div>
+            ))}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Role in the project')
+        ? (
+          <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+            {user.milestons.map((item) => (
+              <div key={Math.random()}>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.role}</Typography>
+                {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+              </div>
+            ))}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Current rate')
+        ? (
+          <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+            {user.milestons.map((item) => (
+              <div key={Math.random()}>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.rate}</Typography>
+                {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+              </div>
+            ))}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Load(h/weak)')
+        ? (
+          <StyledTableCell style={{ paddingLeft: 0 }} align="center">
+            {user.milestons.map((item) => (
+              <div key={Math.random()}>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.load}</Typography>
+                {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
+              </div>
+            ))}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Role')
+        ? (
+          <StyledTableCell align="center" justify="space-between">
+            {devRole}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Project Ready')
+        ? (
+          <StyledTableCell align="center">
+            {changedFields.projectReady}
+          </StyledTableCell>
+        )
+        : false }
+      {visibeCells.includes('Seniority')
+        ? <StyledTableCell align="right">{user.seniority}</StyledTableCell>
+        : false }
+    </StyledTableRow>
+
   );
 };
 

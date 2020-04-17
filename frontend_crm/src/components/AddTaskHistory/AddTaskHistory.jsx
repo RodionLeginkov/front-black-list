@@ -17,6 +17,7 @@ function AddTaskHistory(props) {
     user, setUsersTasks, usersTasks, handleChangeCurrentTask,
   } = props;
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
+  const token = localStorage.getItem('token');
   const [newTask, setNewTask] = useState(user ? {
     user_uuid: user.uuid,
     creator_uuid: '',
@@ -34,10 +35,11 @@ function AddTaskHistory(props) {
 
   const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
 
-  const handleAddTask = async () => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
 
-    const taskId = response.data.uuid
+  const handleAddTask = async () => {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+
+    const taskId = response.data.uuid;
 
     // dispatch(getUser(user.uuid));
     handleChangeCurrentTask(taskId);

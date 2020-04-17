@@ -141,19 +141,19 @@ export default function MiniDrawer() {
             Exceed
           </Typography>
           <div className={classes.iconGroup}>
-            <IconButton
+            {/* <IconButton
               color="inherit"
               aria-label="open drawer"
               className={clsx(classes.topProfileIcons)}
             >
               <EmailIcon />
-            </IconButton>
-            <IconButton
+            </IconButton> */}
+            {/* <IconButton
               color="inherit"
               className={clsx(classes.topProfileIcons)}
             >
               <NotificationsIcon />
-            </IconButton>
+            </IconButton> */}
             <FadeMenu className={classes.topProfileIcons} />
           </div>
         </Toolbar>

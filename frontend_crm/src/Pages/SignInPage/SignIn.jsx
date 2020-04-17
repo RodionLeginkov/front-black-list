@@ -161,10 +161,10 @@ export default function SignUp() {
           >
             <Typography className={classes.typography}>Password or email is wrong</Typography>
           </Popover>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth

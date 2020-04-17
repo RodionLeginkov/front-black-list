@@ -66,6 +66,7 @@ const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
   const { user, visibeCells } = props;
   const [changedFields, setChangedFields] = useState(user);
   const [newTask, setNewTask] = useState(user ? {
@@ -73,7 +74,6 @@ const UserTableRow = (props) => {
     creator_uuid: '',
     text: '',
   } : '');
-
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 

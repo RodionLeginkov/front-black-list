@@ -143,7 +143,7 @@ export default function UsersList(props) {
         >
           {userTableCells.map((cellName) => (
             <MenuItem key={cellName.label} value={cellName.label}>
-              <Checkbox checked={visibeCells.indexOf(cellName.label) > -1} />
+              <Checkbox color='primary' checked={visibeCells.indexOf(cellName.label) > -1} />
               <ListItemText primary={cellName.label} />
             </MenuItem>
           ))}

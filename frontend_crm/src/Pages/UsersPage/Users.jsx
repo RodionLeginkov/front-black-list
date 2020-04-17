@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
-import Pagination from '@material-ui/lab/Pagination';
 import UsersCards from './UsersCards.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';

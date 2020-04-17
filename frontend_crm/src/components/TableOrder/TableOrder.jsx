@@ -7,51 +7,77 @@ import IconButton from '@material-ui/core/IconButton';
 import '../../Pages/UsersPage/UsersPage.css';
 
 const useStyles = makeStyles(() => ({
-  button:{
+  button: {
     padding: '0px 0px',
-    marginLeft: '6px',
+    marginLeft: '8px',
+    marginBottom: '-8px',
   },
 }));
 
 function TableOrder(props) {
   const {
-    order, setOrder, cell, sort,
+    order, cell, sort,
   } = props;
 
   const classes = useStyles();
+  //   return (
+  //     <>
+  //       { (cell === sort && cell !== '')
+  //         ? (order
+  //           ? (
+  //             <IconButton
+  //               className={classes.button}
+  //               variant="contained"
+  //               color="inherit"
+  //               size="medium"
+  //               onClick={() => {
+  //                 // setOrder(!order);
+  //               }}
+  //             >
+  //               <ArrowUpwardSharpIcon />
+  //             </IconButton>
+  //           ) : (
+  //             <IconButton
+  //               className={classes.button}
+  //               variant="contained"
+  //               color="inherit"
+  //               size="medium"
+  //               onClick={() => {
+  //                 // setOrder(!order);
+  //               }}
+  //             >
+  //               <ArrowDownwardSharpIcon />
+  //             </IconButton>
+  //           )
+  //         ) : false}
+
+  //     </>
+  //   );
+  // }
   return (
     <>
       { (cell === sort && cell !== '')
         ? (order
           ? (
-            <IconButton
+            <ArrowUpwardSharpIcon
               className={classes.button}
               variant="contained"
               color="inherit"
               size="medium"
-              onClick={() => {
-                setOrder(!order);
-              }}
-            >
-              <ArrowUpwardSharpIcon />
-            </IconButton>
+            />
           ) : (
-            <IconButton
+            <ArrowDownwardSharpIcon
               className={classes.button}
               variant="contained"
               color="inherit"
               size="medium"
-              onClick={() => {
-                setOrder(!order);
-              }}
-            >
-              <ArrowDownwardSharpIcon />
-            </IconButton>
+            />
           )
         ) : false}
 
     </>
   );
 }
+
 
 export default TableOrder;

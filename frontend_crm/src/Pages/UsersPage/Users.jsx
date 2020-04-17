@@ -51,12 +51,22 @@ function Users() {
   const users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
-  // //////////////////////////////////
   const [filterRole, setFilterRole] = useState('');
   const [filterBar, setFilterBar] = useState('');
   const [sort, setSort] = useState('');
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(true);
+  const [visibeCells, setVisibeCells] = useState([
+    'Name',
+    'Current Task',
+    'Current project',
+    'Role in the project',
+    'Current rate',
+    'Load(h/weak)',
+    'Role',
+    'Project Ready',
+    'Seniority',
+  ]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -115,6 +125,8 @@ function Users() {
           : widgetView ? <UsersCards users={users} />
             : (
               <UsersList
+                setVisibeCells={setVisibeCells}
+                visibeCells={visibeCells}
                 users={users}
                 sort={sort}
                 setSort={setSort}

@@ -10,6 +10,18 @@ export const stackList = [
   'Node',
 ];
 
+export const userTableCells = [
+  { label: 'Name', value: 'Name' },
+  { label: 'Current Task', value: 'current_task' },
+  { label: 'Current project', value: '' },
+  { label: 'Role in the project', value: '' },
+  { label: 'Current rate', value: '' },
+  { label: 'Load(h/weak)', value: 'loads' },
+  { label: 'Role', value: 'Role' },
+  { label: 'Project Ready', value: 'project_ready' },
+  { label: 'Seniority', value: 'Seniority' },
+];
+
 export const userRoles = [
   { label: 'CEO', value: 'ceo' },
   { label: 'CTO', value: 'cto' },
@@ -37,30 +49,30 @@ export const projectsStatus = [
   'active',
   'completed',
   'pending',
-]
+];
 
 export const projectsDuration = [
   '1-3 months',
   '3-6 months',
   '6-12 months',
   'Unexpected',
-]
+];
 
 export const paymentTypes = [
   { label: 'Hourly', value: 'hourly' },
   { label: 'Flat rate', value: 'flat_rate' },
   { label: 'Fixed', value: 'fixed' },
   { label: 'Weekly', value: 'weekly' },
-]
+];
 
 export const messengers = [
   'Slack',
   'Skype',
   'Whatsapp',
-]
+];
 
 export const projectFormatOfCommunication = [
   'Only written',
   'Calls',
   'Video calls',
-]
+];

@@ -13,3 +13,7 @@
 .cell-pointer {
     cursor: pointer !important ;
 }
+
+.form-control { 
+    margin-bottom: 5px !important;
+}

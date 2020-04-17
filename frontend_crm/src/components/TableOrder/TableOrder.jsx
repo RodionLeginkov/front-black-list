@@ -21,7 +21,7 @@ function TableOrder(props) {
   const classes = useStyles();
   return (
     <>
-      { (cell === sort)
+      { (cell === sort && cell !== '')
         ? (order
           ? (
             <IconButton

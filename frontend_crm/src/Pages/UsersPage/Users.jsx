@@ -67,6 +67,7 @@ function Users() {
     'Project Ready',
     'Seniority',
   ]);
+  const [selectButton, setSelectButton] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -112,6 +113,8 @@ function Users() {
         setOpen={setOpen}
         order={order}
         setOrder={setOrder}
+        selectButton={selectButton}
+        setSelectButton={setSelectButton}
       />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid

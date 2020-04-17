@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#32418C',
     color: theme.palette.common.white,
   },
   body: {
@@ -60,12 +60,11 @@ export default function TasksTable(props) {
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
-        <TableHead>
+        <TableHead color='#32418C'>
           <TableRow>
             <StyledTableCell>Task</StyledTableCell>
             <StyledTableCell align="right">Author</StyledTableCell>
             <StyledTableCell align="right">Date of creation</StyledTableCell>
-
           </TableRow>
         </TableHead>
         <TableBody>

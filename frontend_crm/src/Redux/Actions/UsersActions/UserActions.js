@@ -57,6 +57,7 @@ export const updateUser = (userData) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
     const { data } = await patchUser(loginToken, userData.uuid, userData);
+    console.log('data', data)
     NotificationManager.success('The user was updated');
     dispatch({ type: EDIT_USER, payload: data });
   } catch (error) {

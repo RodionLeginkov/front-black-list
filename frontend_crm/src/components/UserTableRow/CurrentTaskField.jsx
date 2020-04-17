@@ -29,11 +29,8 @@ function CurrentTaskField(props) {
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
     setChangedFields({ ...changedFields, current_task: response.data.text });
-    dispatch(getUser(user.uuid));
     setCurTask(!curTask);
   };
-
-  const authorChange = (author) => { setNewTask({ ...newTask, creator_uuid: author ? author.uuid : '' }); };
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -54,12 +51,6 @@ function CurrentTaskField(props) {
               name='text'
               style={{ width: '100%', marginBottom: 5 }}
             />
-            {/* <DevelopersChooseForm
-              name='Author'
-              userChange={authorChange}
-              developersValue={newTask.creator_uuid}
-              isEdit
-            /> */}
           </div>
         )}
       <div className="buttons">

@@ -77,9 +77,9 @@ const UserTableRow = (props) => {
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
 
-  function handleClick(id) {
-    getUser(id)
-    history.push(`/user/${id}`);
+  function handleClick() {
+    dispatch(getUser(user.uuid));
+    history.push(`/user/${user.uuid}`);
   }
 
   return (
@@ -96,7 +96,7 @@ const UserTableRow = (props) => {
             cope="row"
             className={classes.cell}
           >
-            <div style={{ cursor: 'pointer' }} onClick={() => handleClick(changedFields.uuid)}>
+            <div style={{ cursor: 'pointer' }} onClick={() => handleClick()}>
               {changedFields.firstName}
               {' '}
               {changedFields.lastName}

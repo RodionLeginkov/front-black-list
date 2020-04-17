@@ -6,19 +6,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { TextField, Tooltip } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
-import { Tooltip } from '@material-ui/core';
+import axios from 'axios';
 import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
+import UserTableRowButtons from '../../components/UserTableRowButtons/UserTableRowButtons.jsx';
 import Loading from '../../components/Loading/index.jsx';
-import { getUser, deleteUser, getUsers } from '../../Redux/Actions/UsersActions/UserActions';
+import {
+  getUser, deleteUser, getUsers, updateUser,
+} from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
+import '../../components/UserTableRow/style.css';
 import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 
 const useStyles = makeStyles(() => ({
@@ -123,9 +128,14 @@ const useStyles = makeStyles(() => ({
 const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
+  const [curTask, setCurTask] = useState(true);
   const dispatch = useDispatch();
   const [openPopUp, setOpenPopUp] = useState(false);
+  const token = localStorage.getItem('token');
+
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
+
+
   const handleClickOpenPopUp = () => {
     setOpenPopUp(true);
   };
@@ -154,16 +164,35 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const handleCloseTaskTable = () => {
     setTaskHistoryTable(!taskHistoryTable);
   };
-
   const user = useSelector((state) => state.users.currentUser);
 
+  const [changedFields, setChangedFields] = useState(user);
+  const [newTask, setNewTask] = useState(user ? {
+    user_uuid: user.uuid,
+    creator_uuid: '',
+    text: '',
+  } : '');
+
+  const handleTaskChange = (e) => {
+    setNewTask({ ...newTask, [e.target.name]: e.target.value });
+  };
+
+  const handleAddTask = async (e) => {
+    console.log('changedFields', changedFields);
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, { ...newTask, user_uuid: user.uuid }, { headers: { authorization: token } });
+    const taskId = response.data.uuid;
+    dispatch(updateUser({ ...changedFields, current_task: taskId }));
+    dispatch(getUser(user.uuid));
+    // setChangedFields({ ...changedFields, current_task: response.data.text });
+    setCurTask(!curTask);
+  };
 
   useEffect(() => {
-    if (!user || !user.Users_Milestones) {
+    if (!user || !user.Users_Milestones || !user.UsersTasks) {
       dispatch(getUsers('', '', '', true));
-
       dispatch(getUser(userId));
     }
+    setChangedFields(user);
   }, [dispatch, userId, user]);
 
   if (!user) return (<Loading />);
@@ -175,6 +204,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
+
   return (
     <div className={classes.container}>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -256,9 +286,36 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Current Task: </span>
-                <div className={classes.fieldValue}>
-
-                  {userCurrentTask || '―'}
+                <div className="raw" style={{ display: 'flex', alignItems: 'center' }}>
+                  { userCurrentTask !== undefined && curTask ? (
+                    <Typography variant="inherit">
+                      {userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                    </Typography>
+                  )
+                    : (
+                      <div>
+                        <TextField
+                          onChange={handleTaskChange}
+                          value={newTask.text || ''}
+                          variant="outlined"
+                          label="New task"
+                          multiline
+                          rowsMax="5"
+                          name='text'
+                          style={{ width: '100%', marginBottom: 5 }}
+                        />
+                      </div>
+                    )}
+                  <div className="buttons">
+                    <UserTableRowButtons
+                      handleAddTask={handleAddTask}
+                      changedFields={changedFields}
+                      state={curTask}
+                      setState={setCurTask}
+                      setChangedFields={setChangedFields}
+                      user={user}
+                    />
+                  </div>
                 </div>
               </div>
               <div className={classes.field}>
@@ -287,9 +344,10 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                     </Button>
                   )}
               </div>
-              {taskHistoryTable ? ''
+              {taskHistoryTable || user.UsersTasks === undefined ? ''
                 : (
                   <TasksTable
+                    user={user}
                     userName={user.fullName}
                     tasks={user.UsersTasks}
                   />

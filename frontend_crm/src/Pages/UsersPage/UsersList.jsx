@@ -148,7 +148,7 @@ export default function UsersList(props) {
         </Select>
       </FormControl>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table}>
           <TableHead color='primary'>
             <TableRow>
               {

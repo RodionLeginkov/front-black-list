@@ -62,7 +62,7 @@ function AddTaskHistory(props) {
     tasksList = (usersTasks.map((task) => {
       let createDate = new Date(task.createdAt);
       createDate = createDate.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-      const authorName = users.find((elem) => task.creator_uuid === elem.uuid).fullName;
+      // const authorName = users.find((elem) => task.creator_uuid === elem.uuid).fullName;
       return (
         <Grid key={Math.random()} item container style={{ alignItems: 'center' }} spacing={2}>
           <Grid item xs={4}>
@@ -75,7 +75,7 @@ function AddTaskHistory(props) {
               style={{ width: '100%' }}
             />
           </Grid>
-          <Grid item xs={4}>
+          {/* <Grid item xs={4}>
             <TextField
               value={authorName}
               variant="outlined"
@@ -84,7 +84,7 @@ function AddTaskHistory(props) {
               rowsMax="5"
               style={{ width: '100%' }}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={4}>
             <TextField
@@ -117,14 +117,14 @@ function AddTaskHistory(props) {
             style={{ width: '100%' }}
           />
         </Grid>
-        <Grid item xs={4}>
+        {/* <Grid item xs={4}>
           <DevelopersChooseForm
             name='Author'
             userChange={authorChange}
             developersValue={newTask.creator_uuid}
             isEdit
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={1}>
           <div style={{ display: 'flex' }}>
             <Tooltip title="Set task">

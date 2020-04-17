@@ -54,12 +54,12 @@ function CurrentTaskField(props) {
               name='text'
               style={{ width: '100%', marginBottom: 5 }}
             />
-            <DevelopersChooseForm
+            {/* <DevelopersChooseForm
               name='Author'
               userChange={authorChange}
               developersValue={newTask.creator_uuid}
               isEdit
-            />
+            /> */}
           </div>
         )}
       <div className="buttons">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import { useHistory } from 'react-router-dom';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';

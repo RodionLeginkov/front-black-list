@@ -21,7 +21,6 @@ import {
 } from '@material-ui/pickers';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { paymentTypes } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({

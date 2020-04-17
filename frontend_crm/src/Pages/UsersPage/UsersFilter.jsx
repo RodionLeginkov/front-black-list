@@ -1,10 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,11 +7,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
-import HeightSharpIcon from '@material-ui/icons/HeightSharp';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowUpwardSharpIcon from '@material-ui/icons/ArrowUpwardSharp';
 import ArrowDownwardSharpIcon from '@material-ui/icons/ArrowDownwardSharp';
-import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import './UserFilter.css';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
@@ -80,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 const UsersFilter = (props) => {
   const classes = useStyles();
   const {
-    filterRole, setFilterRole, filterBar, setFilterBar, sort,
+    setFilterRole, filterBar, setFilterBar, sort,
     setSort, open, setOpen, order, setOrder, selectButton, setSelectButton,
   } = props;
   // const dispatch = useDispatch();

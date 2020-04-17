@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import Select from '@material-ui/core/Select';
@@ -16,20 +15,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
 import { userRoles, userTableCells } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
-import TableOrder from '../../components/TableOrder/TableOrder.jsx';
 import UserTableCell from '../../components/UserTableCell/UserTableCell.jsx';
 import './UsersPage.css';
 
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: '#32418c',
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
+// const StyledTableCell = withStyles((theme) => ({
+//   head: {
+//     backgroundColor: '#32418c',
+//     color: theme.palette.common.white,
+//   },
+//   body: {
+//     fontSize: 14,
+//   },
+// }))(TableCell);
 
 function createData(firstName,
   lastName,
@@ -143,7 +141,7 @@ export default function UsersList(props) {
         >
           {userTableCells.map((cellName) => (
             <MenuItem key={cellName.label} value={cellName.label}>
-              <Checkbox checked={visibeCells.indexOf(cellName.label) > -1} />
+              <Checkbox color='primary' checked={visibeCells.indexOf(cellName.label) > -1} />
               <ListItemText primary={cellName.label} />
             </MenuItem>
           ))}

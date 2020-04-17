@@ -77,6 +77,7 @@ const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
+  const token = localStorage.getItem('token');
   const { user, visibeCells } = props;
   const [curTask, setCurTask] = useState(true);
   const [changedFields, setChangedFields] = useState(user);
@@ -91,7 +92,7 @@ const UserTableRow = (props) => {
   };
 
   const handleAddTask = async (e) => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask);
+    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));
     setChangedFields({ ...changedFields, current_task: response.data.text });

@@ -57,7 +57,7 @@ export default function StickyHeadTable() {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };
-  
+
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
@@ -79,7 +79,7 @@ export default function StickyHeadTable() {
           Add project
         </Button>
       </div>
-      <ProjectFilterPanel />
+      {/* <ProjectFilterPanel /> */}
       <div className={classes.tableWrapper}>
         <Grid container>
 

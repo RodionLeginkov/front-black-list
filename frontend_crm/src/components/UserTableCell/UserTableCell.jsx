@@ -24,6 +24,7 @@ function UserTableCell(props) {
     <>
       {(cell.value !== '') ? (
         <StyledTableCell
+          className='cell-pointer cell'
           align="center"
           onClick={() => {
             setSort(cell.value);

@@ -165,6 +165,24 @@ const UsersFilter = (props) => {
             >
               All
             </Button>
+            <Button
+              onClick={() => {
+                setFilterRole('Profitable');
+                setSelectButton('Profitable');
+              }}
+              className={(selectButton === 'Profitable') ? classes.button : classes.buttonOf}
+            >
+              Profitable
+            </Button>
+            <Button
+              onClick={() => {
+                setFilterRole('No Profitable');
+                setSelectButton('No Profitable');
+              }}
+              className={(selectButton === 'No Profitable') ? classes.button : classes.buttonOf}
+            >
+              Not Profitable
+            </Button>
           </ButtonGroup>
         </div>
 

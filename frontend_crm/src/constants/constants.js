@@ -36,12 +36,16 @@ export const userRoles = [
   { label: 'Intern', value: 'intern' },
 ];
 export const englishLevels = [
-  'No knowledge of English',
-  'Elementary',
-  'Low intermediate',
-  'High intermediate',
-  'Advanced',
-  'Proficient',
+  { label: 'Beginner', value: 'beginner' },
+  { label: 'Elementary', value: 'elementary' },
+  { label: 'Pre-intermediate', value: 'pre_intermediate' },
+  { label: 'Low Intermediate', value: 'low_intermediate' },
+  { label: 'Intermediate', value: 'intermediate' },
+  { label: 'Upper Intermediate', value: 'upper_intermediate' },
+  { label: 'Junior Developer', value: 'junior_developer' },
+  { label: 'Pre-advanced', value: 'pre_advanced' },
+  { label: 'Advanced', value: 'advanced' },
+  { label: 'Very Advanced', value: 'very_advanced' },
 ];
 
 export const projectsStatus = [

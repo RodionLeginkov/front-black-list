@@ -23,7 +23,7 @@ import {
 } from '@material-ui/pickers';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { userRoles } from '../../constants/constants';
+import { userRoles, englishLevels } from '../../constants/constants';
 import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -172,6 +172,7 @@ const EditUserPage = ({ match }) => {
     filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
 
+  console.log(user);
   return (
     <>
       {!userId
@@ -262,6 +263,36 @@ const EditUserPage = ({ match }) => {
                   </FormControl>
                 </Grid>
 
+
+                <Grid item xs={12} sm={6}>
+                  <FormControl
+
+                    // error={!user.english_skill && isError}
+                    // helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
+
+                    placeholder='English'
+                    variant="outlined"
+                    className={clsx(classes.formControl, classes.inputForm)}
+                  >
+                    <InputLabel>English</InputLabel>
+                    <Select
+                      labelWidth={47}
+                      name='english_skill'
+                      value={user.english_skill || ''}
+                      onChange={handleChange}
+                    >
+                      {englishLevels.map((english_skill) => (
+                        <MenuItem
+                          value={english_skill.value}
+                          key={english_skill.label}
+                        >
+                          {english_skill.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -334,16 +365,6 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid> */}
-                <Grid item xs={12}>
-                  {user.uuid && (
-                  <AddTaskHistory
-                    handleChangeCurrentTask={handleChangeCurrentTask}
-                    user={user}
-                    setUsersTasks={setUsersTasks}
-                    usersTasks={usersTasks}
-                  />
-                  )}
-                </Grid>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
@@ -380,6 +401,17 @@ const EditUserPage = ({ match }) => {
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>
+                <Grid item xs={12}>
+                  {user.uuid && (
+                  <AddTaskHistory
+                    handleChangeCurrentTask={handleChangeCurrentTask}
+                    user={user}
+                    setUsersTasks={setUsersTasks}
+                    usersTasks={usersTasks}
+                  />
+                  )}
+                </Grid>
+
               </Grid>
               <div className={classes.button}>
                 <Button

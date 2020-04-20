@@ -193,9 +193,6 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false }
-      {visibeCells.includes('Seniority')
-        ? <StyledTableCell align="center">{user.seniority}</StyledTableCell>
-        : false }
       {visibeCells.includes('English Skill')
         ? (
           <StyledTableCell align="center" justify="space-between">
@@ -203,6 +200,10 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false }
+      {visibeCells.includes('Seniority')
+        ? <StyledTableCell align="center">{user.seniority}</StyledTableCell>
+        : false }
+
     </StyledTableRow>
 
   );

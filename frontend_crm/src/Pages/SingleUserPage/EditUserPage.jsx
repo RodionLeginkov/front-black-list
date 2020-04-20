@@ -293,7 +293,7 @@ const EditUserPage = ({ match }) => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     className={clsx(classes.formControl, classes.inputForm)}
                     error={!validateEmail(user.email) && Boolean(user.email) && isError}

@@ -21,6 +21,7 @@ export const userTableCells = [
   { label: 'Role', value: 'Role' },
   { label: 'Project Ready', value: 'project_ready' },
   { label: 'Seniority', value: 'Senioiry' },
+  { label: 'English Skill', value: 'english_skill' },
 ];
 
 export const userRoles = [

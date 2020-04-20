@@ -271,6 +271,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 </div>
               </div>
               <div className={classes.field}>
+                <span className={classes.fieldTitle}>English: </span>
+                <div className={classes.fieldValue}>
+                  {user.english_skill || '―'}
+                </div>
+              </div>
+              <div className={classes.field}>
                 <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
                   {user.role || '―'}

@@ -61,7 +61,7 @@ function AddTaskHistory(props) {
   if (user !== undefined && usersTasks !== undefined && users.length) {
     tasksList = (usersTasks.map((task) => {
       let createDate = new Date(task.createdAt);
-      createDate = createDate.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      createDate = createDate.toLocaleString('en-US', { hour12: false });
       // const authorName = users.find((elem) => task.creator_uuid === elem.uuid).fullName;
       return (
         <Grid key={Math.random()} item container style={{ alignItems: 'center' }} spacing={2}>

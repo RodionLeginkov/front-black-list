@@ -51,11 +51,10 @@ export default function TasksTable(props) {
 
   const rows = tasks.map((task) => {
     let createDate = new Date(task.createdAt);
-    createDate = createDate.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    createDate = createDate.toLocaleString('en-US', { hour12: false });
     const authorName = users.find((user) => task.creator_uuid === user.uuid).fullName;
     return createData(createDate, authorName, task.text);
   });
-
 
   return (
     <TableContainer component={Paper}>

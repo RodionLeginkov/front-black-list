@@ -4,7 +4,7 @@ import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import '../UserTableRow/style.css'
+import '../UserTableRow/style.css';
 
 const useStyles = makeStyles({
   table: {
@@ -28,13 +28,16 @@ function UserTableRowButtons(props) {
   const {
     handleAddTask,
     state,
+    newTask,
+    setNewTask,
+    changedFields,
     setState,
     setChangedFields,
-    user,
   } = props;
 
-  const handleCancel = (e) => {
-    setChangedFields(user);
+  const handleCancel = () => {
+    setChangedFields(changedFields);
+    setNewTask({ ...newTask, text: changedFields.current_task });
     setState(!state);
   };
 
@@ -51,12 +54,13 @@ function UserTableRowButtons(props) {
         ) : (
           <div className={classes.buttons}>
             <Button
-              onClick={handleAddTask}
+              onMouseDown={handleAddTask}
             >
               <CheckSharpIcon />
             </Button>
             <Button
-              onClick={handleCancel}
+              name="closeButton"
+              onMouseDown={handleCancel}
             >
               <CloseSharpIcon />
             </Button>

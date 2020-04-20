@@ -72,7 +72,7 @@ export default function TasksTable(props) {
             <StyledTableRow key={Math.random()}>
               <StyledTableCell component="th" scope="row">
                 <Typography variant="inherit">
-                  {row.text.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                  {row.text === null || row.text.split('\n').map((i, key) => <div key={key}>{i}</div>)}
                 </Typography>
               </StyledTableCell>
               <StyledTableCell align="right">{row.authorName}</StyledTableCell>

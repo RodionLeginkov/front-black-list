@@ -97,7 +97,7 @@ const EditUserPage = ({ match }) => {
     firstName: '',
     lastName: '',
     phone1: '',
-    hiredAt: null,
+    hiredAt: new Date(),
   };
 
   const reqFields = [

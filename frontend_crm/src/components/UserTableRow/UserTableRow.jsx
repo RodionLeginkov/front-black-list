@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import { userRoles } from '../../constants/constants';
+import { userRoles, englishLevels } from '../../constants/constants';
 import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import './style.css';
@@ -77,12 +77,14 @@ const UserTableRow = (props) => {
   } : '');
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
-
-
+  let engSkill = englishLevels.find((item) => item.value === changedFields.english_skill);
   function handleClick() {
     dispatch(getUser(user.uuid));
     history.push(`/user/${user.uuid}`);
   }
+
+  if (engSkill !== undefined) engSkill = engSkill.label;
+
 
   return (
 
@@ -191,9 +193,17 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false }
+      {visibeCells.includes('English Skill')
+        ? (
+          <StyledTableCell align="center" justify="space-between">
+            {engSkill}
+          </StyledTableCell>
+        )
+        : false }
       {visibeCells.includes('Seniority')
         ? <StyledTableCell align="center">{user.seniority}</StyledTableCell>
         : false }
+
     </StyledTableRow>
 
   );

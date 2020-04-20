@@ -67,6 +67,7 @@ function Users() {
     'Project Ready',
     'Seniority',
     'Total Load',
+    'English Skill',
   ]);
   const [selectButton, setSelectButton] = useState('');
   const [profitButton, setProfitButton] = useState('');

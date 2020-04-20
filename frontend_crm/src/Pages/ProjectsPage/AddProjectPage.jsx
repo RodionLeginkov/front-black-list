@@ -99,7 +99,7 @@ const AddProjectPage = (props) => {
     name: '',
     communication: '',
     source: '',
-    start_date: null,
+    start_date: new Date(),
     end_date: null,
     type: '',
     withdrawal_of_funds: '',

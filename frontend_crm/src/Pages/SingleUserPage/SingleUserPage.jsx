@@ -178,7 +178,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleAddTask = async (e) => {
-    console.log('changedFields', changedFields);
     const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, { ...newTask, user_uuid: user.uuid }, { headers: { authorization: token } });
     const taskId = response.data.uuid;
     dispatch(updateUser({ ...changedFields, current_task: taskId }));

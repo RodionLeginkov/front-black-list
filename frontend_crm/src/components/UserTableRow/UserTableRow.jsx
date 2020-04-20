@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { userRoles } from '../../constants/constants';
 import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import './style.css';
 import CurrentTaskField from './CurrentTaskField.jsx';
 
@@ -81,7 +82,6 @@ const UserTableRow = (props) => {
   function handleClick() {
     dispatch(getUser(user.uuid));
     history.push(`/user/${user.uuid}`);
-
   }
 
   return (
@@ -124,7 +124,10 @@ const UserTableRow = (props) => {
               <div key={Math.random()}>
                 <Typography
                   style={{ cursor: 'pointer', paddingTop: 5 }}
-                  onClick={() => history.push(`/projects/${item.project_uuid}`)}
+                  onClick={() => {
+                    // dispatch(getProject(item.project_uuid));
+                    history.push(`/projects/${item.project_uuid}`);
+                  }}
                   key={Math.random()}
                 >
                   {item.Projects.name}

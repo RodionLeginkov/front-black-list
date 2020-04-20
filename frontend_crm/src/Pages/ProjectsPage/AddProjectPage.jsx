@@ -142,7 +142,8 @@ const AddProjectPage = (props) => {
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
 
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {

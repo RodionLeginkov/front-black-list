@@ -74,7 +74,7 @@ const CurrentProject = ({ match }) => {
 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    if (!project || !project.Projects_Milestones) {
+    if (!project || !project.Projects_Milestones || project.uuid !== projectId) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);

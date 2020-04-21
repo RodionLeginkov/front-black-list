@@ -18,14 +18,9 @@ export const signUp = (user) => async (dispatch) => {
 
 export const signIn = (user) => async (dispatch) => {
   try {
-    // console.log('Login', login, 'password', password);
     dispatch({ type: SIGNIN_LOADING });
-
-    // console.log('user', user);
     const { data } = await loginUser(user);
-    // console.log(data);
     dispatch({ type: SIGNIN_SUCCESS, payload: data });
-    // console.log(data.token.accessToken);
     localStorage.setItem('token', data.token.accessToken);
     localStorage.setItem('user', JSON.stringify(data.user));
     localStorage.setItem('userWidgetView', false);

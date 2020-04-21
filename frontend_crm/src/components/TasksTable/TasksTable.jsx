@@ -48,11 +48,11 @@ export default function TasksTable(props) {
   const classes = useStyles();
 
   const users = useSelector((state) => state.users.users);
-
   const rows = tasks.map((task) => {
     let createDate = new Date(task.createdAt);
     createDate = createDate.toLocaleString('en-US', { hour12: false });
-    const authorName = users.find((user) => task.creator_uuid === user.uuid).fullName;
+    const authorName = !users.length || users.find((user) => task.creator_uuid === user.uuid).fullName;
+
     return createData(createDate, authorName, task.text);
   });
 
@@ -71,7 +71,7 @@ export default function TasksTable(props) {
             <StyledTableRow key={Math.random()}>
               <StyledTableCell component="th" scope="row">
                 <Typography variant="inherit">
-                  {row.text.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                  {row.text === null || row.text.split('\n').map((i, key) => <div key={key}>{i}</div>)}
                 </Typography>
               </StyledTableCell>
               <StyledTableCell align="right">{row.authorName}</StyledTableCell>

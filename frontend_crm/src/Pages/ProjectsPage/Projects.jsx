@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +11,6 @@ import Switch from '@material-ui/core/Switch';
 import ProjectCards from './ProjectsCards.jsx';
 import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import ProjectFilterPanel from '../../components/ProjectFilterPanel/index.jsx';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
 import ProjectsList from './ProjectsList.jsx';
 

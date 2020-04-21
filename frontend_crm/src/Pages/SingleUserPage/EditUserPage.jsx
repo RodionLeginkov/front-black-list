@@ -375,6 +375,7 @@ const EditUserPage = ({ match }) => {
                       disableToolbar
                       variant="inline"
                       format="dd/MM/yyyy"
+                      autoOk
                       margin="normal"
                       label="Date of joining"
                       value={new Date(user.hiredAt) || ''}
@@ -389,6 +390,7 @@ const EditUserPage = ({ match }) => {
                       style={{ width: '100%', marginTop: 0 }}
                       inputVariant="outlined"
                       disableToolbar
+                      autoOk
                       variant="inline"
                       format="dd/MM/yyyy"
                       margin="normal"

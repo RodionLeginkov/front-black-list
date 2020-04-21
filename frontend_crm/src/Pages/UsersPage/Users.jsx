@@ -82,7 +82,6 @@ function Users() {
     localStorage.setItem('userWidgetView', !widgetView);
   };
 
-
   return (
     <div className={classes.container}>
       <div className={classes.usersHeader}>

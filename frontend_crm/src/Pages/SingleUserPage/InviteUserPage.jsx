@@ -279,6 +279,7 @@ const EditUserPage = ({ match }) => {
                     inputVariant="outlined"
                     disableToolbar
                     variant="inline"
+                    autoOk
                     format="dd/MM/yyyy"
                     margin="normal"
                     label="Date of joining"

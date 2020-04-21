@@ -77,12 +77,10 @@ function Users() {
     dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
   }, [dispatch, filterRole, filterBar, sort, order, profitable]);
 
-
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
-
 
   return (
     <div className={classes.container}>

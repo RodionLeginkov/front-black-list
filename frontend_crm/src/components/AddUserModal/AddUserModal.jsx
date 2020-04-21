@@ -261,6 +261,7 @@ export default function AddUserModal(props) {
                   disableToolbar
                   variant="inline"
                   format="dd/MM/yyyy"
+                  autoOk
                   margin="normal"
                   value={project.start_date}
                   label="Start Date"
@@ -274,6 +275,7 @@ export default function AddUserModal(props) {
                   variant="inline"
                   format="dd/MM/yyyy"
                   margin="normal"
+                  autoOk
                   label="End date"
                   className={clsx(classes.formControl, classes.inputForm)}
                   onChange={endDateChange}

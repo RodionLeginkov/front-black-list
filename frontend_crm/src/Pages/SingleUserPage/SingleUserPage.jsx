@@ -204,14 +204,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
   const handleAddTask = async () => {
-    if (userCurrentTask !== newTask.text) {
+    if (userCurrentTask !== newTask.text && newTask.text !== '') {
       const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
       const taskId = response.data.uuid;
       dispatch(updateUser({ ...user, current_task: taskId }));
-      // dispatch(getUser(userId));
       setNewTask({ ...newTask, text: response.data.text });
       setCurTask(!curTask);
-      // setChangedFields({ ...changedFields, current_task: response.data.text });
     } else { setCurTask(!curTask); }
   };
   const handleOnBlur = () => {

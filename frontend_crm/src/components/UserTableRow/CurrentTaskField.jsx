@@ -30,7 +30,7 @@ function CurrentTaskField(props) {
   };
 
   const handleAddTask = async () => {
-    if (changedFields.current_task !== newTask.text) {
+    if (changedFields.current_task !== newTask.text && newTask.text !== '') {
       const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
       if (_isMounted.current) {
         const taskId = response.data.uuid;
@@ -42,7 +42,8 @@ function CurrentTaskField(props) {
   };
 
   const handleCancel = () => {
-    setChangedFields(user);
+    setChangedFields(changedFields);
+    setNewTask({ ...newTask, text: changedFields.current_task });
     setCurTask(!curTask);
   };
   const handleKeyPress = (e) => {

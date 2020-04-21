@@ -71,7 +71,9 @@ function Users() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers(filterRole, filterBar, sort, order));
+    if (!users.length) {
+      dispatch(getUsers(filterRole, filterBar, sort, order));
+    }
   }, [dispatch, filterRole, filterBar, sort, order]);
 
   const handleChange = () => {

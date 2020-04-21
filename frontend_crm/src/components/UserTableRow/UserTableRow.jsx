@@ -73,7 +73,7 @@ const UserTableRow = (props) => {
 
 
   function handleClick() {
-    dispatch(getUser(user.uuid));
+    // dispatch(getUser(user.uuid));
     history.push(`/user/${user.uuid}`);
   }
 

@@ -6,19 +6,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, TextField } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import CloseSharpIcon from '@material-ui/icons/CloseSharp';
+import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
+import axios from 'axios';
+import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import Loading from '../../components/Loading/index.jsx';
 import {
-  getUser, deleteUser, getUsers,
+  getUser, deleteUser, getUsers, updateUser,
 } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
@@ -128,7 +132,9 @@ const useStyles = makeStyles(() => ({
 const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
+  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
+  const [curTask, setCurTask] = useState(true);
   const [openPopUp, setOpenPopUp] = useState(false);
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
@@ -163,25 +169,81 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     setTaskHistoryTable(!taskHistoryTable);
   };
   const user = useSelector((state) => state.users.currentUser);
+  const users = useSelector((state) => getFilteredUsers(state));
 
-  // let userCurrentTask;
+  let userCurrentTask;
 
-  // if (user !== null && user.UsersTasks !== undefined) {
-  //   userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
-  //   userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
-  // }
+  if (user !== null && user.UsersTasks !== undefined) {
+    userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
+    userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
+  }
 
   useEffect(() => {
-    if (!user || !user.Users_Milestones || !user.UsersTasks) {
-      dispatch(getUsers('', '', '', true));
+    if (!user || !user.Users_Milestones || !user.UsersTasks || userId !== user.uuid) {
       dispatch(getUser(userId));
+    }
+    if (!users.length) {
+      dispatch(getUsers('', '', '', true));
     }
   }, [dispatch, userId, user]);
 
+  // //////////////////////////////////////////////////////////////////////////
+  const [newTask, setNewTask] = useState(user ? {
+    user_uuid: user.uuid,
+    creator_uuid: '',
+    text: '',
+  } : '');
+  // console.log('NEWTASK', newTask);
+  useEffect(() => {
+    if (user) {
+      setNewTask({ ...newTask, user_uuid: user.uuid, text: userCurrentTask });
+    }
+  }, [userCurrentTask]);
+  const handleTaskChange = (e) => {
+    setNewTask({ ...newTask, [e.target.name]: e.target.value });
+  };
+
+  const handleAddTask = async () => {
+    if (userCurrentTask !== newTask.text) {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+      const taskId = response.data.uuid;
+      dispatch(updateUser({ ...user, current_task: taskId }));
+      // dispatch(getUser(userId));
+      setNewTask({ ...newTask, text: response.data.text });
+      setCurTask(!curTask)
+      // setChangedFields({ ...changedFields, current_task: response.data.text });
+    } else { setCurTask(!curTask); }
+  };
+  const handleOnBlur = () => {
+    if (userCurrentTask !== newTask.text) {
+      handleAddTask();
+    }
+    setCurTask(!curTask);
+  };
+  const handleCancel = () => {
+    // setChangedFields(user);
+    setNewTask({ ...newTask, text: userCurrentTask });
+    setCurTask(!curTask);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Escape') {
+      handleCancel();
+    } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
+      e.preventDefault();
+      handleAddTask();
+    } else if (e.ctrlKey && e.key === 'Enter') {
+      e.target.value += '\n';
+    }
+  };
+
+
+  // //////////////////////////////////////////////////////////////////////
   if (!user) {
     return (<Loading />);
   }
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+
 
   return (
     <div className={classes.container}>
@@ -264,12 +326,53 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               </div>
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Current Task: </span>
-                <div className="raw" style={{ display: 'flex', alignItems: 'center' }}>
-                  {/* <CurrentTaskField
-                    user={user}
-                    changedFields={{ ...user, current_task: userCurrentTask }}
-                    setChangedFields={setChangedFields}
-                  /> */}
+                <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
+                  { curTask ? (
+                    <Typography variant="inherit">
+                      {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                    </Typography>
+                  )
+                    : (
+                      <div>
+                        <TextField
+                          autoFocus
+                          onChange={handleTaskChange}
+                          value={newTask.text || ''}
+                          variant="outlined"
+                          label="New task"
+                          multiline
+                          rowsMax="5"
+                          name='text'
+                          style={{ width: '100%', marginBottom: 5 }}
+                          onKeyUp={handleKeyPress}
+                        />
+                      </div>
+                    )}
+                  <div className="buttons" >
+                    {curTask
+                      ? (
+                        <Button
+                          className={classes.editButton}
+                          onClick={() => { setCurTask(!curTask); }}
+                        >
+                          <EditSharpIcon />
+                        </Button>
+                      ) : (
+                        <div className={classes.buttons}>
+                          <Button
+                            // onMouseDown={handleAddTask}
+                          >
+                            <CheckSharpIcon />
+                          </Button>
+                          <Button
+                            name="closeButton"
+                            onMouseDown={handleCancel}
+                          >
+                            <CloseSharpIcon />
+                          </Button>
+                        </div>
+                      )}
+                  </div>
                 </div>
               </div>
               <div className={classes.field}>

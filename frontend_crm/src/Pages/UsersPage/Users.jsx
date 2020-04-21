@@ -74,8 +74,11 @@ function Users() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
+    if (!users.length) {
+      dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
+    }
   }, [dispatch, filterRole, filterBar, sort, order, profitable]);
+
 
   const handleChange = () => {
     setWidgetView(!widgetView);

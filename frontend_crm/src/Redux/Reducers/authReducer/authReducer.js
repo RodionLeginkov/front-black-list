@@ -43,7 +43,6 @@ const authReducer = (state = intitialState, action) => {
         errorMessage: null,
       };
     case SIGNIN_ERROR:
-      // console.log('ERROR', action.payload.message);
       return {
         ...state,
         error: true,

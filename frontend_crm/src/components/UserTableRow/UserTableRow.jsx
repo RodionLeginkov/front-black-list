@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+
 import { userRoles, englishLevels } from '../../constants/constants';
 import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -55,7 +56,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
+const StyledTableRow = withStyles(() => ({
   root: {
     '&:nth-of-type(odd)': {
       // backgroundColor: theme.palette.background.default,
@@ -67,19 +68,13 @@ const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
   const { user, visibeCells } = props;
   const [changedFields, setChangedFields] = useState(user);
-  const [newTask, setNewTask] = useState(user ? {
-    user_uuid: user.uuid,
-    creator_uuid: '',
-    text: '',
-  } : '');
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
   let engSkill = englishLevels.find((item) => item.value === changedFields.english_skill);
   function handleClick() {
-    dispatch(getUser(user.uuid));
+    // dispatch(getUser(user.uuid));
     history.push(`/user/${user.uuid}`);
   }
 
@@ -87,7 +82,6 @@ const UserTableRow = (props) => {
 
 
   return (
-
     <StyledTableRow
       key={Math.random()}
       className="raw"

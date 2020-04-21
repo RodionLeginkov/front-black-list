@@ -15,7 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
 import { userRoles, userTableCells } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
-import UserTableCell from '../../components/UserTableCell/UserTableCell.jsx';
+import UserTableHeaderCell from '../../components/UserTableHeaderCell/UserTableHeaderCell.jsx';
 import './UsersPage.css';
 
 
@@ -164,7 +164,7 @@ export default function UsersList(props) {
             userTableCells.map((cell) => {
               if (visibeCells.includes(cell.label)) {
                 return (
-                  <UserTableCell
+                  <UserTableHeaderCell
                     key={Math.random()}
                     order={order}
                     setOrder={setOrder}

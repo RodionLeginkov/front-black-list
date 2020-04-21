@@ -202,7 +202,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const handleTaskChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
-
   const handleAddTask = async () => {
     if (userCurrentTask !== newTask.text) {
       const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });

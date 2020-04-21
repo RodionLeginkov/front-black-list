@@ -37,9 +37,8 @@ function CurrentTaskField(props) {
         dispatch(updateUser({ ...changedFields, current_task: taskId }));
         setNewTask({ ...newTask, text: response.data.text });
         setChangedFields({ ...changedFields, current_task: response.data.text });
-        // setCurTask(!curTask);
       }
-    }
+    } else { setCurTask(!curTask); }
   };
 
   const handleCancel = () => {
@@ -47,8 +46,9 @@ function CurrentTaskField(props) {
     setCurTask(!curTask);
   };
   const handleKeyPress = (e) => {
-    if (e.key === 'Escape') handleCancel();
-    else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
+    if (e.key === 'Escape') {
+      handleCancel();
+    } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
       e.preventDefault();
       handleAddTask();
     }
@@ -83,7 +83,7 @@ function CurrentTaskField(props) {
               rowsMax="5"
               name='text'
               style={{ width: '100%', marginBottom: 5 }}
-              onKeyPress={handleKeyPress}
+              onKeyUp={handleKeyPress}
             />
           </div>
         )}

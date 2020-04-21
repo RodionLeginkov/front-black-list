@@ -18,6 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 import axios from 'axios';
+import { userRoles } from '../../constants/constants';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import Loading from '../../components/Loading/index.jsx';
@@ -241,6 +242,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   }
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
 
+  const devRole = userRoles.find((item) => item.value === user.role).label;
 
   return (
     <div className={classes.container}>
@@ -317,7 +319,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
-                  {user.role || '―'}
+                  {devRole || '―'}
                 </div>
               </div>
               <div className={classes.field}>

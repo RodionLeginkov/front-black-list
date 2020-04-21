@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Tooltip } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -124,7 +125,11 @@ const EditUserPage = ({ match }) => {
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
+  const handleChangeRole = (e, values) => {
+    if (values !== null) {
+      setUser({ ...user, role: values.value || '' });
+    }
+  };
 
   const startDateChange = (dataofJoining) => {
     setUser({ ...user, hiredAt: dataofJoining });
@@ -156,7 +161,6 @@ const EditUserPage = ({ match }) => {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== user.currentProject[index].name));
   }
-
   return (
     <>
       {!userId
@@ -222,7 +226,7 @@ const EditUserPage = ({ match }) => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <FormControl
+                  {/* <FormControl
                     error={!user.role && isError}
                     helpertext={(!user.role && isError) ? 'Empty field.' : ''}
                     placeholder='Role'
@@ -245,7 +249,22 @@ const EditUserPage = ({ match }) => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
+                  <Autocomplete
+                    options={userRoles}
+                    onChange={handleChangeRole}
+                    getOptionLabel={(option) => `${option.label}`}
+                    // value={user.role || null}
+                    renderInput={(params) => (
+                      <TextField
+                        error={!user.role && isError}
+                        helpertext={(!user.role && isError) ? 'Empty field.' : ''}
+                        {...params}
+                        label='Role'
+                        variant="outlined"
+                      />
+                    )}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField

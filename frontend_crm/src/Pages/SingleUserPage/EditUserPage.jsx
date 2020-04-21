@@ -15,6 +15,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -150,6 +151,12 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const handleChangeRole = (e, values) => {
+    if (values !== null) {
+      setUser({ ...user, role: values.value || '' });
+    }
+  };
+
   const handleChangeCurrentTask = (taskId) => { setUser({ ...user, current_task: taskId }); };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
@@ -235,8 +242,7 @@ const EditUserPage = ({ match }) => {
               </Grid>
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
-                  <FormControl
-
+                  {/* <FormControl
                     error={!user.role && isError}
                     helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
 
@@ -260,10 +266,23 @@ const EditUserPage = ({ match }) => {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
+                  <Autocomplete
+                    options={userRoles}
+                    onChange={handleChangeRole}
+                    getOptionLabel={(option) => `${option.label}`}
+                    // value={user.role || null}
+                    renderInput={(params) => (
+                      <TextField
+                        error={!user.role && isError}
+                        helpertext={(!user.role && isError) ? 'Empty field.' : ''}
+                        {...params}
+                        label='Role'
+                        variant="outlined"
+                      />
+                    )}
+                  />
                 </Grid>
-
-
                 <Grid item xs={12} sm={6}>
                   <FormControl
 

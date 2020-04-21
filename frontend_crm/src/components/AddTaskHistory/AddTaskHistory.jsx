@@ -37,17 +37,19 @@ function AddTaskHistory(props) {
   };
 
   const handleAddTask = async () => {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+    if (newTask.text !== '') {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
 
-    const taskId = response.data.uuid;
-    if (_isMounted.current) {
-      handleChangeCurrentTask(taskId);
-      setUsersTasks([...usersTasks, newTask]);
-      setNewTask({
-        user_uuid: user.uuid,
-        creator_uuid: '',
-        text: '',
-      });
+      const taskId = response.data.uuid;
+      if (_isMounted.current) {
+        handleChangeCurrentTask(taskId);
+        setUsersTasks([...usersTasks, newTask]);
+        setNewTask({
+          user_uuid: user.uuid,
+          creator_uuid: '',
+          text: '',
+        });
+      }
     }
   };
 

@@ -74,9 +74,7 @@ function Users() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!users.length) {
-      dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
-    }
+    dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
   }, [dispatch, filterRole, filterBar, sort, order, profitable]);
 
 

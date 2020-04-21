@@ -232,8 +232,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
       e.preventDefault();
       handleAddTask();
-    } else if (e.ctrlKey && e.key === 'Enter') {
-      e.target.value += '\n';
     }
   };
 
@@ -350,7 +348,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                           rowsMax="5"
                           name='text'
                           style={{ width: '100%', marginBottom: 5 }}
-                          onKeyUp={handleKeyPress}
+                          onKeyDown={handleKeyPress}
                         />
                       </div>
                     )}

@@ -49,7 +49,7 @@ function CurrentTaskField(props) {
     if (e.key === 'Escape') {
       handleCancel();
     } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
-      e.preventDefault();
+      // e.preventDefault();
       handleAddTask();
     }
     // else if (e.ctrlKey && e.key === 'Enter') {
@@ -83,7 +83,7 @@ function CurrentTaskField(props) {
               rowsMax="5"
               name='text'
               style={{ width: '100%', marginBottom: 5 }}
-              onKeyUp={handleKeyPress}
+              onKeyDown={handleKeyPress}
             />
           </div>
         )}

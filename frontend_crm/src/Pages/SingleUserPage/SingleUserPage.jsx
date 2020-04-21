@@ -210,7 +210,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       dispatch(updateUser({ ...user, current_task: taskId }));
       // dispatch(getUser(userId));
       setNewTask({ ...newTask, text: response.data.text });
-      setCurTask(!curTask)
+      setCurTask(!curTask);
       // setChangedFields({ ...changedFields, current_task: response.data.text });
     } else { setCurTask(!curTask); }
   };
@@ -312,6 +312,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                 </div>
               </div>
               <div className={classes.field}>
+                <span className={classes.fieldTitle}>English: </span>
+                <div className={classes.fieldValue}>
+                  {user.english_skill || '―'}
+                </div>
+              </div>
+              <div className={classes.field}>
                 <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
                   {user.role || '―'}
@@ -348,7 +354,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                         />
                       </div>
                     )}
-                  <div className="buttons" >
+                  <div className="buttons">
                     {curTask
                       ? (
                         <Button
@@ -359,9 +365,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                         </Button>
                       ) : (
                         <div className={classes.buttons}>
-                          <Button
-                            // onMouseDown={handleAddTask}
-                          >
+                          <Button>
                             <CheckSharpIcon />
                           </Button>
                           <Button

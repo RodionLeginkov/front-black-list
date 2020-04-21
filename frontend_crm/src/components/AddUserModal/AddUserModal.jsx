@@ -88,7 +88,7 @@ export default function AddUserModal(props) {
     rate: null,
     rate_type: '',
     load: null,
-    start_date: null,
+    start_date: new Date(),
     end_date: null,
     Users: {},
   };

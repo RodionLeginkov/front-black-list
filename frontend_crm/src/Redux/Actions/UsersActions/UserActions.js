@@ -18,11 +18,11 @@ import {
   ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filterRole, filterBar, sort, order) => async (dispatch) => {
+export const getUsers = (filterRole, filterBar, sort, order, profitable) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filterRole, filterBar, sort, order, loginToken);
+    const { data } = await loadAllUsers(filterRole, filterBar, sort, order, profitable, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });

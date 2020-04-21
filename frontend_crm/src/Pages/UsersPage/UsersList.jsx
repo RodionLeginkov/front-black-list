@@ -38,7 +38,8 @@ function createData(firstName,
   uuid,
   projectReady,
   current_task,
-  total_load) {
+  total_load,
+  english_skill) {
   return {
     firstName,
     lastName,
@@ -50,6 +51,7 @@ function createData(firstName,
     projectReady,
     current_task,
     total_load,
+    english_skill,
   };
 }
 
@@ -70,6 +72,7 @@ const useStyles = makeStyles({
     flexDirection: 'row',
     flexFlow: 'nowrap',
   },
+
 });
 
 function difDates(startDate, curDate) {
@@ -124,12 +127,14 @@ export default function UsersList(props) {
       user.project_ready,
       userCurrentTask,
       user.total_load,
+      user.english_skill,
     );
   });
 
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
+  console.log('rows', rows);
   return (
     <>
       <FormControl className='form-control'>

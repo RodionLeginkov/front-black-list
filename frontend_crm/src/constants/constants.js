@@ -20,6 +20,7 @@ export const userTableCells = [
   { label: 'Total Load', value: 'Loads' },
   { label: 'Role', value: 'Role' },
   { label: 'Project Ready', value: 'project_ready' },
+  { label: 'English Skill', value: 'english_skill' },
   { label: 'Seniority', value: 'Senioiry' },
 ];
 
@@ -36,12 +37,15 @@ export const userRoles = [
   { label: 'Intern', value: 'intern' },
 ];
 export const englishLevels = [
-  'No knowledge of English',
-  'Elementary',
-  'Low intermediate',
-  'High intermediate',
-  'Advanced',
-  'Proficient',
+  { label: 'Beginner', value: 'beginner' },
+  { label: 'Elementary', value: 'elementary' },
+  { label: 'Pre-intermediate', value: 'pre_intermediate' },
+  { label: 'Low Intermediate', value: 'low_intermediate' },
+  { label: 'Intermediate', value: 'intermediate' },
+  { label: 'Upper Intermediate', value: 'upper_intermediate' },
+  { label: 'Pre-advanced', value: 'pre_advanced' },
+  { label: 'Advanced', value: 'advanced' },
+  { label: 'Very Advanced', value: 'very_advanced' },
 ];
 
 export const projectsStatus = [

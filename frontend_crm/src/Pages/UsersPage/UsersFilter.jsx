@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     '& > *': {
       margin: theme.spacing(1),
@@ -73,9 +73,11 @@ const useStyles = makeStyles((theme) => ({
 const UsersFilter = (props) => {
   const classes = useStyles();
   const {
-    setFilterRole, filterBar, setFilterBar, sort,
+    filterRole, setFilterRole, filterBar, setFilterBar, sort,
     setSort, open, setOpen, order, setOrder, selectButton, setSelectButton,
+    profitable, setProfitable, profitButton, setProfitButton,
   } = props;
+
   // const dispatch = useDispatch();
   // const [filter, setFilter] = useState('');
   // const [filterRole, setFilterRole] = useState('');
@@ -140,8 +142,13 @@ const UsersFilter = (props) => {
           <ButtonGroup color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
-                setFilterRole('Developers');
-                setSelectButton('Developers');
+                if (filterRole === 'Developers') {
+                  setFilterRole('');
+                  setSelectButton('');
+                } else {
+                  setFilterRole('Developers');
+                  setSelectButton('Developers');
+                }
               }}
               className={(selectButton === 'Developers') ? classes.button : classes.buttonOf}
             >
@@ -149,8 +156,13 @@ const UsersFilter = (props) => {
             </Button>
             <Button
               onClick={() => {
-                setFilterRole('manager');
-                setSelectButton('manager');
+                if (filterRole === 'manager') {
+                  setFilterRole('');
+                  setSelectButton('');
+                } else {
+                  setFilterRole('manager');
+                  setSelectButton('manager');
+                }
               }}
               className={(selectButton === 'manager') ? classes.button : classes.buttonOf}
             >
@@ -163,7 +175,38 @@ const UsersFilter = (props) => {
               }}
               className={(selectButton === '') ? classes.button : classes.buttonOf}
             >
-              All
+              All Roles
+            </Button>
+
+          </ButtonGroup>
+          <ButtonGroup color="primary" aria-label="outlined primary button group">
+            <Button
+              onClick={() => {
+                if (profitable === 'Profitable') {
+                  setProfitable('');
+                  setProfitButton('');
+                } else {
+                  setProfitable('Profitable');
+                  setProfitButton('Profitable');
+                }
+              }}
+              className={(profitButton === 'Profitable') ? classes.button : classes.buttonOf}
+            >
+              Profitable
+            </Button>
+            <Button
+              onClick={() => {
+                if (profitable === 'No Profitable') {
+                  setProfitable('');
+                  setProfitButton('');
+                } else {
+                  setProfitable('No Profitable');
+                  setProfitButton('No Profitable');
+                }
+              }}
+              className={(profitButton === 'No Profitable') ? classes.button : classes.buttonOf}
+            >
+              Not Profitable
             </Button>
           </ButtonGroup>
         </div>
@@ -266,6 +309,7 @@ const UsersFilter = (props) => {
                 <MenuItem value="Loads">Loads</MenuItem>
                 <MenuItem value="current_task">Current Task</MenuItem>
                 <MenuItem value="project_ready">Project Ready</MenuItem>
+                <MenuItem value="english_skill">English Skill</MenuItem>
               </Select>
             </FormControl>
 

@@ -99,7 +99,7 @@ const AddProjectPage = (props) => {
     name: '',
     communication: '',
     source: '',
-    start_date: null,
+    start_date: new Date(),
     end_date: null,
     type: '',
     withdrawal_of_funds: '',
@@ -142,7 +142,8 @@ const AddProjectPage = (props) => {
   const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
 
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {

@@ -134,7 +134,7 @@ export default function UsersList(props) {
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-  console.log('rows', rows);
+
   return (
     <>
       <FormControl className='form-control'>

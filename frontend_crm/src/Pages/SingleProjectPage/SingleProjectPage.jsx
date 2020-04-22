@@ -66,7 +66,7 @@ const CurrentProject = ({ match }) => {
   const history = useHistory();
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
 
-  const handleClick = () => history.push('/projects');
+  const handleClick = () => history.push('/customers');
 
   const { projectId } = match.params;
 
@@ -86,8 +86,8 @@ const CurrentProject = ({ match }) => {
     <div style={{ marginLeft: '85px' }}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project.uuid}`)}>{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push('/customers')}>Projects</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -128,7 +128,7 @@ const CurrentProject = ({ match }) => {
           </Button>
           <Button
             className={classes.button}
-            onClick={() => history.push(`/project/${project.uuid}`)}
+            onClick={() => history.push(`/customer/${project.uuid}`)}
           >
             <EditSharpIcon />
           </Button>

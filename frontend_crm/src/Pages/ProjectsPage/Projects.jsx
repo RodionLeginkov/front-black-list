@@ -62,7 +62,7 @@ export default function StickyHeadTable() {
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <h1>Projects</h1>
+          <h1>Customers</h1>
           <FormControlLabel
             style={{ marginLeft: '10px' }}
             control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
@@ -74,7 +74,7 @@ export default function StickyHeadTable() {
           color="primary"
           size="large"
           className={classes.button}
-          onClick={() => history.push('/projects/addproject')}
+          onClick={() => history.push('/customers/addproject')}
         >
           Add project
         </Button>

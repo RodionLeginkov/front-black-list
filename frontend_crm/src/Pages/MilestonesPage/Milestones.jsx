@@ -58,7 +58,7 @@ export default function StickyHeadTable() {
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
-        <h1>Leads</h1>
+        <h1>Projects</h1>
       </div>
       <Grid
         className={classes.usersWrapper}

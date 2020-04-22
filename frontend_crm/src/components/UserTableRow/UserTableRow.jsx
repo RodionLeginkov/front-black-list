@@ -122,7 +122,7 @@ const UserTableRow = (props) => {
                   style={{ cursor: 'pointer', paddingTop: 5 }}
                   onClick={() => {
                     // dispatch(getProject(item.project_uuid));
-                    history.push(`/projects/${item.project_uuid}`);
+                    history.push(`/customers/${item.project_uuid}`);
                   }}
                   key={Math.random()}
                 >

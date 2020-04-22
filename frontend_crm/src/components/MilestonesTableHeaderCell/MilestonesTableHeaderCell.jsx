@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
-import TableOrder from '../TableOrder/TableOrder.jsx';
 import '../../Pages/UsersPage/UsersPage.css';
 
 
@@ -15,14 +14,11 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-function UserTableCell(props) {
-  const {
-    order, setOrder, sort, setSort, cell,
-  } = props;
-  // console.log('cell', cell);
+const MilestonesTableHeaderCell = (props) => {
+  const { cell } = props;
   return (
     <>
-      {(cell.value !== '') ? (
+      {/* {(cell.value !== '') ? (
         <StyledTableCell
           className='cell-pointer cell'
           align="center"
@@ -46,9 +42,14 @@ function UserTableCell(props) {
         >
           {cell.label}
         </StyledTableCell>
-      )}
+      )} */}
+      <StyledTableCell
+        align="center"
+      >
+        {cell.label}
+      </StyledTableCell>
     </>
   );
-}
+};
 
-export default UserTableCell;
+export default MilestonesTableHeaderCell;

@@ -21,7 +21,7 @@ function CurrentTaskField(props) {
     text: changedFields.current_task,
   } : '');
 
-  useEffect(() => () => { // ComponentWillUnmount in Class Component
+  useEffect(() => { // ComponentWillUnmount in Class Component
     _isMounted.current = false;
   }, []);
 

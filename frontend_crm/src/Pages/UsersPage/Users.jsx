@@ -81,11 +81,10 @@ function Users() {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
-
   if (profitable === 'No Profitable') {
-    users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0)
-    );
+    users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0));
   }
+  console.log('USERS', users)
 
   return (
     <div className={classes.container}>

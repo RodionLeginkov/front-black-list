@@ -10,7 +10,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
 import Projects from './Pages/ProjectsPage/Projects.jsx';
-import Leads from './Pages/LeadsPage/Leads.jsx';
+import Milestones from './Pages/MilestonesPage/Milestones.jsx';
 import Home from './Pages/HomePage/Home.jsx';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
@@ -62,7 +62,7 @@ function App() {
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/users" component={Users} />
               <PrivateRoute exact path="/projects" component={Projects} />
-              <PrivateRoute exact path="/leads" component={Leads} />
+              <PrivateRoute exact path="/leads" component={Milestones} />
               <Route path="/projects/addproject" component={AddProjectPage} />
               <Route path="/users/inviteuser" component={InviteUserPage} />
               <Route path="/project/:projectId" component={AddProjectPage} />

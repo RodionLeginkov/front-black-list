@@ -10,6 +10,19 @@ export const stackList = [
   'Node',
 ];
 
+export const milestonesTableCells = [
+  { label: 'Name', value: 'name' },
+  { label: 'User', value: 'user' },
+  { label: 'Participants', value: 'participants' },
+  { label: 'Rate', value: 'rate' },
+  { label: 'RPD', value: 'rpd' },
+  { label: 'Load', value: 'load' },
+  { label: 'Withdraw', value: 'withdraw' },
+  { label: 'Platform', value: 'platform' },
+  { label: 'Comments', value: 'comment' },
+  { label: 'Start Date', value: 'startDate' },
+];
+
 export const userTableCells = [
   { label: 'Name', value: 'Name' },
   { label: 'Current Task', value: 'current_task' },

@@ -47,7 +47,7 @@ function Users() {
   const classes = useStyles();
 
   const history = useHistory();
-  const users = useSelector((state) => getFilteredUsers(state));
+  let users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filterRole, setFilterRole] = useState('');
@@ -81,6 +81,11 @@ function Users() {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
+
+  if (profitable === 'No Profitable') {
+    users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0)
+    );
+  }
 
   return (
     <div className={classes.container}>

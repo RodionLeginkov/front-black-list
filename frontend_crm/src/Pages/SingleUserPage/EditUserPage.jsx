@@ -179,7 +179,6 @@ const EditUserPage = ({ match }) => {
     filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
 
-  console.log(user);
   return (
     <>
       {!userId

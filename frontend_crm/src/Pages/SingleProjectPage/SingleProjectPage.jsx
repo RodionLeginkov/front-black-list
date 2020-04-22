@@ -86,7 +86,7 @@ const CurrentProject = ({ match }) => {
     <div style={{ marginLeft: '85px' }}>
 
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Typography color="textPrimary" onClick={() => history.push('/customers')}>Projects</Typography>
+        <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
         <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>

@@ -51,7 +51,7 @@ function createData(name,
   load,
   withdraw,
   platform,
-  comment,
+  comments,
   startDate) {
   return {
     name,
@@ -62,7 +62,7 @@ function createData(name,
     load,
     withdraw,
     platform,
-    comment,
+    comments,
     startDate,
   };
 }
@@ -70,7 +70,6 @@ function createData(name,
 const MilestonesList = (props) => {
   const classes = useStyles();
   const { milestones, setVisibeCells, visibeCells } = props;
-
   const rows = milestones.map((milestone) => {
     let startDate = new Date(milestone.start_date);
     startDate = startDate.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });

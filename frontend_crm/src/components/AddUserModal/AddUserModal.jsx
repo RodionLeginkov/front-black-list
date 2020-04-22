@@ -80,7 +80,6 @@ export default function AddUserModal(props) {
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const initialValue = initialMilestone || {
     user_uuid: '',
     project_uuid: curProject.uuid,
@@ -91,6 +90,9 @@ export default function AddUserModal(props) {
     start_date: new Date(),
     end_date: null,
     Users: {},
+    platform: '',
+    withdraw: '',
+    comment: '',
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
@@ -112,7 +114,6 @@ export default function AddUserModal(props) {
     'role',
     'load',
     'start_date',
-
   ];
   const handleAdd = (e) => {
     e.preventDefault();
@@ -120,11 +121,11 @@ export default function AddUserModal(props) {
     if (isEmpty === undefined) {
       setIsError(false);
       if (isEdit) {
-        dispatch(addMilestone(project));
+        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid }));
       } else if (initialMilestone) {
-        dispatch(updateMilestone(project));
+        dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid }));
         // dispatch(getProject(curProject.uuid));
-      } else milestonesChange(project);
+      } else milestonesChange({ ...project, project_uuid: curProject.uuid });
       setProject(initialValue);
       setIsError(false);
       setAddUserModalOpen(false);
@@ -248,6 +249,45 @@ export default function AddUserModal(props) {
                       ))}
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                  <TextField
+                    // error={!project.rate && isError}
+                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
+                    value={project.platform || ''}
+                    label="Platform"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='platform'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
+                  <TextField
+                    // error={!project.rate && isError}
+                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
+                    value={project.withdraw || ''}
+                    label="Withdraw"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='withdraw'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
+                  <TextField
+                    // error={!project.rate && isError}
+                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
+                    value={project.comment || ''}
+                    label="Comment"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='comment'
+                    onChange={handleChange}
+                  />
                 </Grid>
               </Grid>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>

@@ -42,7 +42,7 @@ export default function StickyHeadTable() {
     'Load',
     'Withdraw',
     'Platform',
-    'Comments',
+    'Comment',
     'Start Date',
   ]);
 

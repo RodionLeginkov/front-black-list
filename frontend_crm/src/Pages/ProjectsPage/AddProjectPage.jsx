@@ -147,6 +147,7 @@ const AddProjectPage = (props) => {
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {
+        console.log('helllo')
         // eslint-disable-next-line no-restricted-syntax
         for (const index in projectMilestones) {
           if (Number(index) + 1 > curProject.Projects_Milestones.length) {
@@ -169,13 +170,13 @@ const AddProjectPage = (props) => {
       {!projectId
         ? (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Projects</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
             <Typography color="textPrimary" onClick={() => history.push('/customers/addproject')}>Add new project</Typography>
           </Breadcrumbs>
         )
         : (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Projects</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/customers/editproject/${project.uuid}`)}>Edit project</Typography>
           </Breadcrumbs>

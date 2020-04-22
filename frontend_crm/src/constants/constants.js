@@ -19,7 +19,7 @@ export const milestonesTableCells = [
   { label: 'Load', value: 'load' },
   { label: 'Withdraw', value: 'withdraw' },
   { label: 'Platform', value: 'platform' },
-  { label: 'Comments', value: 'comment' },
+  { label: 'Comment', value: 'comment' },
   { label: 'Start Date', value: 'startDate' },
 ];
 

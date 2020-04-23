@@ -51,7 +51,7 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     const getResponse = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_API}milestones`,  {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API}milestones`, {
         params: {
           sort, order,
         },
@@ -61,8 +61,7 @@ export default function StickyHeadTable() {
       setMilestones(projectsResponse);
     };
     getResponse();
-  }, []);
-
+  }, [sort, order]);
   return (
     <div className={classes.container}>
       <div className={classes.projectsHeader}>
@@ -78,6 +77,10 @@ export default function StickyHeadTable() {
           milestones={milestones}
           visibeCells={visibeCells}
           setVisibeCells={setVisibeCells}
+          sort={sort}
+          setSort={setSort}
+          order={order}
+          setOrder={setOrder}
         />
       </Grid>
     </div>

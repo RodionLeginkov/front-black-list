@@ -52,7 +52,9 @@ function createData(name,
   withdraw,
   platform,
   comments,
-  startDate) {
+  startDate,
+  user_uuid,
+  project_uuid) {
   return {
     name,
     user,
@@ -64,12 +66,16 @@ function createData(name,
     platform,
     comments,
     startDate,
+    user_uuid,
+    project_uuid,
   };
 }
 
 const MilestonesList = (props) => {
   const classes = useStyles();
-  const { milestones, setVisibeCells, visibeCells } = props;
+  const {
+    milestones, setVisibeCells, visibeCells, sort, setSort, order, setOrder,
+  } = props;
   const rows = milestones.map((milestone) => {
     let startDate = new Date(milestone.start_date);
     startDate = startDate.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -85,6 +91,8 @@ const MilestonesList = (props) => {
       milestone.platform,
       milestone.comment,
       startDate,
+      milestone.user_uuid,
+      milestone.project_uuid,
     );
   });
   const handleChange = (e) => {
@@ -122,10 +130,10 @@ const MilestonesList = (props) => {
                     return (
                       <MilestonesTableHeaderCells
                         key={Math.random()}
-                        // order={order}
-                        // setOrder={setOrder}
-                        // sort={sort}
-                        // setSort={setSort}
+                        order={order}
+                        setOrder={setOrder}
+                        sort={sort}
+                        setSort={setSort}
                         cell={cell}
                       />
                     );

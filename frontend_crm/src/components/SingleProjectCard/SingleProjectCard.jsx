@@ -122,7 +122,7 @@ export default function RecipeReviewCard(props) {
 
   function handleClick() {
     dispatch(findProject(card.uuid));
-    history.push(`/projects/${card.uuid}`);
+    history.push(`/customers/${card.uuid}`);
   }
   const classes = useStyles();
   const startDate = new Date(card.start_date);

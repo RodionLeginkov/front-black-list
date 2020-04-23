@@ -36,7 +36,7 @@ const CustomProjectIcon = ({
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
-    history.push(`/projects/${projectId}`);
+    history.push(`/customers/${projectId}`);
   };
 
   const projectsList = user.Users_Milestones.map((milestone) => {

@@ -56,7 +56,7 @@ export default function DeleteModal(props) {
 
   function handleDelete() {
     dispatch(deleteProject(id));
-    history.push('/projects');
+    history.push('/customers');
   }
   const handleCancel = (e) => {
     e.preventDefault();

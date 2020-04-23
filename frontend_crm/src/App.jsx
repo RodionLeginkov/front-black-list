@@ -10,7 +10,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
 import Projects from './Pages/ProjectsPage/Projects.jsx';
-import Leads from './Pages/LeadsPage/Leads.jsx';
+import Milestones from './Pages/MilestonesPage/Milestones.jsx';
 import Home from './Pages/HomePage/Home.jsx';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
@@ -61,12 +61,12 @@ function App() {
             <Switch>
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/users" component={Users} />
-              <PrivateRoute exact path="/projects" component={Projects} />
-              <PrivateRoute exact path="/leads" component={Leads} />
-              <Route path="/projects/addproject" component={AddProjectPage} />
+              <PrivateRoute exact path="/customers" component={Projects} />
+              <PrivateRoute exact path="/projects" component={Milestones} />
+              <Route path="/customers/addproject" component={AddProjectPage} />
               <Route path="/users/inviteuser" component={InviteUserPage} />
-              <Route path="/project/:projectId" component={AddProjectPage} />
-              <Route exact path="/projects/:projectId" component={SingleProjectPage} />
+              <Route path="/customer/:projectId" component={AddProjectPage} />
+              <Route exact path="/customers/:projectId" component={SingleProjectPage} />
               <Route exact path="/user/:userId" component={SingleUserPage} />
               <Route exact path="/user/info/:userId" component={SingleUserPage} />
               <Route exact path="/user/edituser/:userId" component={EditUserPage} />

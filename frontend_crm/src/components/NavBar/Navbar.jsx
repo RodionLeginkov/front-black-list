@@ -16,6 +16,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import AssignmentIndSharpIcon from '@material-ui/icons/AssignmentIndSharp';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -203,7 +204,7 @@ export default function MiniDrawer() {
             </Tooltip>
           </Link>
 
-          <Link to="/projects" className={classes.link}>
+          <Link to="/customers" className={classes.link}>
             <Tooltip title='Projects'>
               <ListItem button key="Projects">
                 <ListItemIcon>
@@ -213,11 +214,11 @@ export default function MiniDrawer() {
               </ListItem>
             </Tooltip>
           </Link>
-          <Link to="/leads" className={classes.link}>
+          <Link to="/projects" className={classes.link}>
             <Tooltip title='Leads'>
               <ListItem button key="Leads">
                 <ListItemIcon>
-                  <AccessAlarmSharpIcon />
+                  <AssignmentIndSharpIcon />
                 </ListItemIcon>
                 <ListItemText primary="Leads" />
               </ListItem>

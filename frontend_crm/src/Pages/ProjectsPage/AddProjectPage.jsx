@@ -139,7 +139,7 @@ const AddProjectPage = (props) => {
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
   };
 
-  const handleClose = () => (projectId ? history.push(`/projects/${project.uuid}`) : history.push('/projects'));
+  const handleClose = () => (projectId ? history.push(`/customers/${project.uuid}`) : history.push('/customers'));
 
 
   const onSubmit = (e) => {
@@ -147,6 +147,7 @@ const AddProjectPage = (props) => {
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {
+        console.log('helllo')
         // eslint-disable-next-line no-restricted-syntax
         for (const index in projectMilestones) {
           if (Number(index) + 1 > curProject.Projects_Milestones.length) {
@@ -155,10 +156,10 @@ const AddProjectPage = (props) => {
         }
         dispatch(updateProject(project));
         dispatch(getProject(projectId));
-        history.push(`/projects/${project.uuid}`);
+        history.push(`/customers/${project.uuid}`);
       } else {
         dispatch(addProject(project));
-        history.push('/projects');
+        history.push('/customers');
       }
     } else setIsError(true);
   };
@@ -169,15 +170,15 @@ const AddProjectPage = (props) => {
       {!projectId
         ? (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
-            <Typography color="textPrimary" onClick={() => history.push('/projects/addproject')}>Add new project</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers/addproject')}>Add new project</Typography>
           </Breadcrumbs>
         )
         : (
           <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
-            <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
-            <Typography color="textPrimary" onClick={() => history.push(`/projects/${project.uuid}`)}>{project.name}</Typography>
-            <Typography color="textPrimary" onClick={() => history.push(`/projects/editproject/${project.uuid}`)}>Edit project</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
+            <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
+            <Typography color="textPrimary" onClick={() => history.push(`/customers/editproject/${project.uuid}`)}>Edit project</Typography>
           </Breadcrumbs>
         )}
       <div className={classes.position} style={{ marginLeft: '85px' }}>

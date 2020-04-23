@@ -147,7 +147,6 @@ const AddProjectPage = (props) => {
     const isEmpty = reqFields.find((field) => (!project[field]));
     if (isEmpty === undefined) {
       if (projectId) {
-        console.log('helllo')
         // eslint-disable-next-line no-restricted-syntax
         for (const index in projectMilestones) {
           if (Number(index) + 1 > curProject.Projects_Milestones.length) {

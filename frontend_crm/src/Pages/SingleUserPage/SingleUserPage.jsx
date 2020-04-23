@@ -194,7 +194,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     creator_uuid: '',
     text: '',
   } : '');
-  // console.log('NEWTASK', newTask);
+
   useEffect(() => {
     if (user) {
       setNewTask({ ...newTask, user_uuid: user.uuid, text: userCurrentTask });

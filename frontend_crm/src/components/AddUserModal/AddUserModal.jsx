@@ -20,6 +20,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
+import {getProject} from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -125,7 +126,7 @@ export default function AddUserModal(props) {
         dispatch(addMilestone({ ...project, project_uuid: curProject.uuid }));
       } else if (initialMilestone) {
         dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid }));
-        // dispatch(getProject(curProject.uuid));
+        dispatch(getProject(curProject.uuid));
       } else milestonesChange({ ...project, project_uuid: curProject.uuid });
       setProject(initialValue);
       setIsError(false);

@@ -93,6 +93,7 @@ export default function AddUserModal(props) {
     platform: '',
     withdraw: '',
     comment: '',
+    participants: '',
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
@@ -134,7 +135,7 @@ export default function AddUserModal(props) {
 
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
-
+  const participantsChange = (user) => { setProject({ ...project, participants: user.fullName }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
 
@@ -158,7 +159,7 @@ export default function AddUserModal(props) {
             <form className={classes.root} noValidate autoComplete="off">
               <h2 className={classes.header}>{project.name}</h2>
               <DevelopersChooseForm
-                name='developers'
+                name='Developers'
                 userChange={userChange}
                 developersValue={project.user_uuid}
                 isEdit
@@ -197,6 +198,18 @@ export default function AddUserModal(props) {
   </InputAdornment>,
 
                     }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <DevelopersChooseForm
+                    style={{ marginTop: '10px' }}
+                    name='Participants'
+                    userChange={participantsChange}
+                    developersValue={project.participants}
+                    isEdit
+                    forRead={forRead}
+                    isError={isError}
+                    participants
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>

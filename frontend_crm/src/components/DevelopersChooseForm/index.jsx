@@ -8,7 +8,7 @@ export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
     forRead,
-    name, userChange, developersValue, isError,
+    name, userChange, developersValue, isError, participants,
   } = props;
 
   const handleChange = (e, values) => {
@@ -24,11 +24,13 @@ export default function DevelopersChooseForm(props) {
   const filteredUsers = users; let
     curUser;
 
-  if (developersValue) curUser = filteredUsers.find((item) => item.uuid === developersValue);
+  if (developersValue && !participants) curUser = filteredUsers.find((item) => item.uuid === developersValue);
+  else if (developersValue && participants) curUser = filteredUsers.find((item) => item.fullName === developersValue);
 
   return (
     <>
       <Autocomplete
+        style={participants ? { marginTop: '10px' } : {}}
         options={filteredUsers}
         onChange={handleChange}
         getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}

@@ -73,9 +73,10 @@ const MilestonesList = (props) => {
   const rows = milestones.map((milestone) => {
     let startDate = new Date(milestone.start_date);
     startDate = startDate.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const fullName = `${milestone['Users.firstName']} ${milestone['Users.lastName']}`;
     return createData(
-      milestone.Projects.name,
-      milestone.Users.fullName,
+      milestone['Projects.name'],
+      fullName,
       milestone.participants,
       milestone.rate,
       milestone.rpd,

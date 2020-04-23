@@ -32,6 +32,9 @@ const useStyles = makeStyles({
 });
 export default function StickyHeadTable() {
   const classes = useStyles();
+  const token = localStorage.getItem('token');
+  const [sort, setSort] = useState('');
+  const [order, setOrder] = useState(true);
   const [milestones, setMilestones] = useState([]);
   const [visibeCells, setVisibeCells] = useState([
     'Name',
@@ -48,7 +51,12 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     const getResponse = async () => {
-      const response = await axios.get((`${process.env.REACT_APP_BASE_API}milestones`));
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API}milestones`,  {
+        params: {
+          sort, order,
+        },
+        headers: { authorization: token },
+      });
       const projectsResponse = response.data;
       setMilestones(projectsResponse);
     };

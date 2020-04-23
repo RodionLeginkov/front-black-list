@@ -114,7 +114,7 @@ export default function UsersList(props) {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
-    let userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
+    let userCurrentTask = user.UsersTasks[0];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
     return createData(
       user.firstName,

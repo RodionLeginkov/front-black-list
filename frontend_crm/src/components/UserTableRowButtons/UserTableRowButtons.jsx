@@ -54,7 +54,7 @@ function UserTableRowButtons(props) {
         ) : (
           <div className={classes.buttons}>
             <Button
-              onMouseDown={handleAddTask}
+              // onMouseDown={handleAddTask}
             >
               <CheckSharpIcon />
             </Button>

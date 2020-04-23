@@ -173,9 +173,9 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const users = useSelector((state) => getFilteredUsers(state));
 
   let userCurrentTask;
-
   if (user !== null && user.UsersTasks !== undefined) {
-    userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
+    // userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
+    userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1]
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 

@@ -5,7 +5,7 @@ import { TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 function CurrentTaskField(props) {
@@ -32,12 +32,10 @@ function CurrentTaskField(props) {
   const handleAddTask = async () => {
     if (changedFields.current_task !== newTask.text && newTask.text !== '') {
       const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
-      if (_isMounted.current) {
-        const taskId = response.data.uuid;
-        dispatch(updateUser({ ...changedFields, current_task: taskId }));
-        setNewTask({ ...newTask, text: response.data.text });
-        setChangedFields({ ...changedFields, current_task: response.data.text });
-      }
+      const taskId = response.data.uuid;
+      dispatch(updateUser({ ...changedFields, current_task: taskId }));
+      setNewTask({ ...newTask, text: response.data.text });
+      setChangedFields({ ...changedFields, current_task: response.data.text });
     } else { setCurTask(!curTask); }
   };
 

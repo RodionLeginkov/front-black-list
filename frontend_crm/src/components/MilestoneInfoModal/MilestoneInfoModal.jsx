@@ -73,8 +73,13 @@ const MilestoneInfoModal = (props) => {
     e.preventDefault();
     setOpenModal(false);
   };
-  let paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === project.rate_type) : '–'}`;
-  if (paymentType.label !== undefined) paymentType = paymentType.label;
+  let paymentType;
+  if (project.rate_type === 'hourly' || project.rate_type === 'flat_rate' || project.rate_type === 'fixed' || project.rate_type === 'weekly') {
+    paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === project.rate_type).label : '–'}`;
+  } else {
+    paymentType = '–';
+  }
+  console.log(paymentType )
   // const paymentType = paymentTypes.find((item) => item.value === project.rate_type).label;
   let createDate = new Date(project.start_date);
   let endDate = new Date(project.end_date);

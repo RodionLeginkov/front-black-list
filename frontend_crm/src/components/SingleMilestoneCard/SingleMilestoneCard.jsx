@@ -112,8 +112,13 @@ const SingleMilestoneCard = (props) => {
   const end = new Date(milestone.end_date);
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-  let paymentType = `${milestone.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type) : '–'}`;
-  if (paymentType.label !== undefined) paymentType = paymentType.label;
+  // let paymentType = `${milestone.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type) : '–'}`;
+  let paymentType;
+  if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
+    paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
+  } else {
+    paymentType = '–';
+  }
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
     [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),

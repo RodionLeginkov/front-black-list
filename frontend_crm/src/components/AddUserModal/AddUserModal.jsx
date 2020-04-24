@@ -122,13 +122,13 @@ export default function AddUserModal(props) {
     if (isEmpty === undefined) {
       setIsError(false);
       if (isEdit) {
-        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid }));
+        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
       } else if (initialMilestone) {
-        dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid }));
+        dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         dispatch(getProject(curProject.uuid));
       } else {
-        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid }));
-        milestonesChange({ ...project, project_uuid: curProject.uuid });
+        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+        milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
       }
       setProject(initialValue);
       setIsError(false);

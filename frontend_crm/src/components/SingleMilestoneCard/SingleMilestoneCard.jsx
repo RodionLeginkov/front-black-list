@@ -106,6 +106,7 @@ const SingleMilestoneCard = (props) => {
     projectMilestones,
     setProjectMilestones,
   } = props;
+  console.log('milestone', milestone);
   const user = milestone.Users;
   const userName = `${user.firstName} ${user.lastName}`;
   const start = new Date(milestone.start_date);

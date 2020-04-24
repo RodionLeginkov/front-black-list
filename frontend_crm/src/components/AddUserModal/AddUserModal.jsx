@@ -97,7 +97,7 @@ export default function AddUserModal(props) {
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
-
+  
   const handleCancel = (e) => {
     e.preventDefault();
     setIsError(false);
@@ -329,6 +329,7 @@ export default function AddUserModal(props) {
 
               </MuiPickersUtilsProvider>
               <div className={classes.buttons}>
+            
                 <Button
                   variant="contained"
                   color="primary"
@@ -338,6 +339,7 @@ export default function AddUserModal(props) {
                 >
                   Submit
                 </Button>
+            
                 <Button
                   variant="contained"
                   color="primary"

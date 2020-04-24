@@ -8,10 +8,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from './MenuBotton.jsx';
-
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 20,
     marginBottom: 20,
     background: '#F2F2F2',
+    // background: 'black',
     color: '#555',
     borderRadius: 2,
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -88,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     alignItems: 'center',
   },
+  cardColor: {
+    background: '#deedff',
+  },
 }));
 
 function AddMilestonesForm(props) {
@@ -115,10 +119,13 @@ function AddMilestonesForm(props) {
     const end = new Date(milestone.end_date);
     const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
     const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-
+    console.log(milestone);
+    const lightingMilestone = clsx(classes.root, {
+      [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
+    });
     return (
-      <Grid item container key={Math.random()} justify="flex-start" sm={12} md={6} lg={4}>
-        <Card className={classes.root}>
+      <Grid item container key={Math.random()} className={classes.projectWithRate} justify="flex-start" sm={12} md={6} lg={4}>
+        <Card className={lightingMilestone}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography style={{ marginLeft: '7px' }}>
               <b>{userName}</b>

@@ -23,6 +23,7 @@ export default function LongMenu(props) {
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
 
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 

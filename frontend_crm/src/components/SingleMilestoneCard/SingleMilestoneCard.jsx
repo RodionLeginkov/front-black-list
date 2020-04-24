@@ -8,11 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
-import MenuBotton from './MenuBotton.jsx';
+import MenuBotton from '../AddMilestonesForm/MenuBotton.jsx';
 import { paymentTypes } from '../../constants/constants';
-import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
+import MilestoneInfoModal from '../MilestoneInfoModal/MilestoneInfoModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -89,71 +90,92 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     alignItems: 'center',
   },
+  cardColor: {
+    background: '#deedff',
+  },
 }));
 
-function AddMilestonesForm(props) {
+const SingleMilestoneCard = (props) => {
   const classes = useStyles();
   const {
-    forRead,
-    setProject,
     showInfo,
-    project,
-    projectMilestones,
-    milestonesChange,
+    milestone,
     isEdit,
+    project,
+    setProject,
+    projectMilestones,
     setProjectMilestones,
   } = props;
-  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
-
+  const user = milestone.Users;
+  const userName = `${user.firstName} ${user.lastName}`;
+  const start = new Date(milestone.start_date);
+  const end = new Date(milestone.end_date);
+  const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
+  const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
+  const paymentType = milestone === undefined || paymentTypes.find((item) => item.value === milestone.rate_type).label;
+  const [openModal, setOpenModal] = useState(false);
+  const lightingMilestone = clsx(classes.root, {
+    [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
+  });
   const handleClick = () => {
-    setAddUserModalOpen(true);
+    setOpenModal(true);
   };
 
-  const milestones = projectMilestones.map((milestone) => (
-    <SingleMilestoneCard
-      showInfo={showInfo}
-      addUserModalOpen={addUserModalOpen}
-      setAddUserModalOpen={setAddUserModalOpen}
-      key={Math.random()}
-      milestone={milestone}
-      isEdit={isEdit}
-      project={project}
-      setProject={setProject}
-      projectMilestones={projectMilestones}
-      setProjectMilestones={setProjectMilestones}
-    />
-  ));
-
-
   return (
-    <>
-      <Grid container spacing={1} style={{ alignItems: 'center', marginTop: '5px' }}>
-
-        {milestones}
-        {isEdit
-          ? (
-            <Grid item xs={1}>
-              <Tooltip title="Set user">
-                <IconButton aria-label="delete" onClick={handleClick}>
-                  <AddCircleOutlineSharpIcon style={{ fontSize: '30px' }} />
-                </IconButton>
-              </Tooltip>
-            </Grid>
+    <Grid
+      item
+      container
+      key={Math.random()}
+      justify="flex-start"
+      sm={12}
+      md={6}
+      lg={4}
+    >
+      <Card className={lightingMilestone} onClick={handleClick}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Typography style={{ marginLeft: '7px' }}>
+            <b>{userName}</b>
+          </Typography>
+          {isEdit ? (
+            <MenuBotton
+              project={project}
+              setProject={setProject}
+              milestones={projectMilestones}
+              singleMilestone={milestone}
+              setProjectMilestones={setProjectMilestones}
+            />
           ) : ''}
-      </Grid>
-      {isEdit ? (
-        <AddUserModal
-          forRead={forRead}
-          projectMilestones={projectMilestones}
-          addUserModalOpen={addUserModalOpen}
-          setAddUserModalOpen={setAddUserModalOpen}
-          curProject={project}
-          milestonesChange={milestonesChange}
+        </div>
+        <CustomBage
+          text={milestone.role}
+          size="medium"
+          position={user.role}
+          currentProject
         />
-      )
-        : ''}
-    </>
+        <CardContent style={{ padding: '7px' }}>
+          <Typography>
+            {milestone.rate}
+            {' '}
+            {paymentType}
+          </Typography>
+          <Typography>
+            {startDate}
+          </Typography>
+          <Typography>
+            {endDate}
+          </Typography>
+        </CardContent>
+      </Card>
+      {!showInfo
+      || (
+      <MilestoneInfoModal
+        project={milestone}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+      />
+      )}
+    </Grid>
   );
-}
+};
 
-export default AddMilestonesForm;
+export default SingleMilestoneCard;

@@ -106,13 +106,14 @@ const SingleMilestoneCard = (props) => {
     projectMilestones,
     setProjectMilestones,
   } = props;
+  console.log('milestone', milestone);
   const user = milestone.Users;
   const userName = `${user.firstName} ${user.lastName}`;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-  const paymentType = milestone === undefined || paymentTypes.find((item) => item.value === milestone.rate_type).label;
+  const paymentType = `${milestone !== undefined ? paymentTypes.find((item) => item.value === milestone.rate_type).label : 'None'}`;
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
     [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),

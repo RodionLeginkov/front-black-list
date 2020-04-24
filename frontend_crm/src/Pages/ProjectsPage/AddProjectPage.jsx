@@ -158,6 +158,7 @@ const AddProjectPage = (props) => {
         history.push(`/customers/${project.uuid}`);
       } else {
         dispatch(addProject(project));
+        // dispatch(getProject(projectId));
         history.push('/customers');
       }
     } else setIsError(true);

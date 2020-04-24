@@ -20,7 +20,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import {getProject} from '../../Redux/Actions/ProjectsActions/ProjectActions'
+import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -94,7 +94,6 @@ export default function AddUserModal(props) {
     platform: '',
     withdraw: '',
     comment: '',
-    participants: '',
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
@@ -127,7 +126,10 @@ export default function AddUserModal(props) {
       } else if (initialMilestone) {
         dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid }));
         dispatch(getProject(curProject.uuid));
-      } else milestonesChange({ ...project, project_uuid: curProject.uuid });
+      } else {
+        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid }));
+        milestonesChange({ ...project, project_uuid: curProject.uuid });
+      }
       setProject(initialValue);
       setIsError(false);
       setAddUserModalOpen(false);
@@ -136,7 +138,6 @@ export default function AddUserModal(props) {
 
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
-  const participantsChange = (user) => { setProject({ ...project, participants: user.fullName }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
 
@@ -198,18 +199,6 @@ export default function AddUserModal(props) {
   </InputAdornment>,
 
                     }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <DevelopersChooseForm
-                    style={{ marginTop: '10px' }}
-                    name='Participants'
-                    userChange={participantsChange}
-                    developersValue={project.participants}
-                    isEdit
-                    forRead={forRead}
-                    isError={isError}
-                    participants
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>

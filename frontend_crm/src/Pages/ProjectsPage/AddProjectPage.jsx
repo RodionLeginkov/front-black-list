@@ -163,7 +163,6 @@ const AddProjectPage = (props) => {
     } else setIsError(true);
   };
 
-
   return (
     <>
       {!projectId

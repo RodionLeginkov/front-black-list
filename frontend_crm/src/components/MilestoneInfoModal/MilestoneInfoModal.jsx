@@ -73,7 +73,8 @@ const MilestoneInfoModal = (props) => {
     e.preventDefault();
     setOpenModal(false);
   };
-  const paymentType = paymentTypes.find((item) => item.value === project.rate_type).label;
+  const paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === project.rate_type).label : '–'}`;
+  // const paymentType = paymentTypes.find((item) => item.value === project.rate_type).label;
   let createDate = new Date(project.start_date);
   let endDate = new Date(project.end_date);
   createDate = createDate.toLocaleString('en-US', { hour12: false });

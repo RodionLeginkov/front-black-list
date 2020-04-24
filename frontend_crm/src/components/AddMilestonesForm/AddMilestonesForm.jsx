@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from './MenuBotton.jsx';
-
+import { paymentTypes } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -115,7 +115,8 @@ function AddMilestonesForm(props) {
     const end = new Date(milestone.end_date);
     const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
     const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-
+    const paymentType = paymentTypes.find((item) => item.value === milestone.rate_type).label;
+    console.log(paymentType)
     return (
       <Grid item container key={Math.random()} justify="flex-start" sm={12} md={6} lg={4}>
         <Card className={classes.root}>
@@ -143,7 +144,7 @@ function AddMilestonesForm(props) {
             <Typography>
               {milestone.rate}
               {' '}
-              {milestone.rate_type}
+              {paymentType}
             </Typography>
             <Typography>
               {startDate}

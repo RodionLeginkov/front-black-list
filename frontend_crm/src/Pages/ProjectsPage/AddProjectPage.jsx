@@ -148,11 +148,11 @@ const AddProjectPage = (props) => {
     if (isEmpty === undefined) {
       if (projectId) {
         // eslint-disable-next-line no-restricted-syntax
-        for (const index in projectMilestones) {
-          if (Number(index) + 1 > curProject.Projects_Milestones.length) {
-            dispatch(addMilestone(projectMilestones[index]));
-          }
-        }
+        // for (const index in projectMilestones) {
+        //   if (Number(index) + 1 > curProject.Projects_Milestones.length) {
+        //     dispatch(addMilestone(projectMilestones[index]));
+        //   }
+        // }
         dispatch(updateProject(project));
         dispatch(getProject(projectId));
         history.push(`/customers/${project.uuid}`);

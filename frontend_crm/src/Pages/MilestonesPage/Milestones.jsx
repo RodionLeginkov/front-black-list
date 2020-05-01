@@ -51,11 +51,10 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     const getResponse = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_API}milestones`, {
+      const response = await axios.get('/milestones', {
         params: {
           sort, order,
         },
-        headers: { authorization: token },
       });
       const projectsResponse = response.data;
       setMilestones(projectsResponse);

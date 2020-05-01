@@ -38,7 +38,7 @@ function AddTaskHistory(props) {
 
   const handleAddTask = async () => {
     if (newTask.text !== '') {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+      const response = await axios.post('/history-tasks', newTask);
 
       const taskId = response.data.uuid;
       if (_isMounted.current) {

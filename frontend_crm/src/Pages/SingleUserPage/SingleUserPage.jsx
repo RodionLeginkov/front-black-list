@@ -175,7 +175,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   let userCurrentTask;
   if (user !== null && user.UsersTasks !== undefined) {
     // userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
-    userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1]
+    userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 
@@ -205,7 +205,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
   const handleAddTask = async () => {
     if (userCurrentTask !== newTask.text && newTask.text !== '') {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+      const response = await axios.post('/history-tasks', newTask);
       const taskId = response.data.uuid;
       dispatch(updateUser({ ...user, current_task: taskId }));
       setNewTask({ ...newTask, text: response.data.text });

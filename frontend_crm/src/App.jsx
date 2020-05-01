@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import {
   Route, Switch, withRouter, BrowserRouter, useHistory,
 } from 'react-router-dom';
@@ -34,7 +34,12 @@ const theme = createMuiTheme({
 function App() {
   const history = useHistory();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const loginToken = localStorage.getItem('token');
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
+    // eslint-disable-next-line dot-notation
+    axios.defaults.headers.common['authorization'] = loginToken;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
@@ -47,7 +52,6 @@ function App() {
         return Promise.reject(error);
       },
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // localStorage.setItem('token', '');

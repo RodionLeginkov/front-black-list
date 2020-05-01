@@ -59,7 +59,7 @@ export default function Forgot() {
           showNullError: false,
         });
       } else {
-        await axios.post(`${process.env.REACT_APP_BASE_API}forgotPass`, { email: form.email });
+        await axios.post('/forgotPass', { email: form.email });
         history.push('/');
       }
     } catch (err) {

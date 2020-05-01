@@ -124,6 +124,7 @@ const EditUserPage = ({ match }) => {
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    console.log('newUser', user);
   };
   const handleChangeRole = (e, values) => {
     if (values !== null) {
@@ -144,6 +145,7 @@ const EditUserPage = ({ match }) => {
       const login = {
         email: user.email || undefined,
         role: user.role,
+        phone1: user.phone1,
         firstName: user.firstName,
         lastName: user.lastName,
         hiredAt: user.hiredAt,
@@ -161,6 +163,7 @@ const EditUserPage = ({ match }) => {
     filteredProjects = filteredProjects.filter((project) => (
       project.name !== user.currentProject[index].name));
   }
+  console.log('hello');
   return (
     <>
       {!userId

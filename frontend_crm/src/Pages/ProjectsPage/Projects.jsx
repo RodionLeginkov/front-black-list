@@ -14,14 +14,14 @@ import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
 import ProjectsList from './ProjectsList.jsx';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   button: {
     fontSize: '13 px',
     minHeight: '40px',
     padding: '0 10px',
   },
   container: {
-    paddingLeft: '100px',
+    paddingLeft: theme.spacing(3),
   },
   tableWrapper: {
     width: '100%',
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
     fontSize: '40px',
   },
 
-});
+}));
 export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();

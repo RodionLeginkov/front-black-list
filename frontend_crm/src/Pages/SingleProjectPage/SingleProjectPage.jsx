@@ -83,8 +83,7 @@ const CurrentProject = ({ match }) => {
     return (<Loading />);
   }
   return (
-    <div style={{ marginLeft: '85px' }}>
-
+    <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
         <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
@@ -109,6 +108,7 @@ const CurrentProject = ({ match }) => {
           <h2>Resources: </h2>
 
           <AddMilestonesForm
+            showInfo
             project={project}
             projectMilestones={project.Projects_Milestones}
           />

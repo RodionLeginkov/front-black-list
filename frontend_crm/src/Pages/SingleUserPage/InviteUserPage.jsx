@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '700px',
   },
   breadcrumbs: {
-    margin: '85px 20px 40px 0px',
+    margin: '85px 20px',
     color: '#777777',
   },
   link: {
@@ -167,7 +167,7 @@ const EditUserPage = ({ match }) => {
     <>
       {!userId
         ? (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -175,7 +175,7 @@ const EditUserPage = ({ match }) => {
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -202,6 +202,7 @@ const EditUserPage = ({ match }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoFocus
                     error={!user.firstName && isError}
                     helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
                     // style={{ marginBottom: 10 }}

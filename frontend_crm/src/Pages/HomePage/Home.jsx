@@ -12,6 +12,8 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'center',
     color: 'white',
     fontSize: '4rem',
+    marginLeft: 0,
+    padding: 0,
   },
 }));
 

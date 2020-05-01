@@ -33,7 +33,7 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
-    margin: '100px 10px 0 85px',
+    margin: '100px 10px 0 0',
   },
   footerIcons: {
     display: 'flex',
@@ -239,11 +239,16 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     return (<Loading />);
   }
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
-
   const devRole = userRoles.find((item) => item.value === user.role).label;
 
+
+  let createDate = new Date(user.hiredAt);
+  let firedDate = new Date(user.firedAt);
+  createDate = createDate.toLocaleString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' });
+  firedDate = user.firedAt !== null ? firedDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
+
   return (
-    <div className={classes.container}>
+    <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
@@ -257,10 +262,17 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
-          <h1>
+          <h1 style={{ display: 'flex', alignItems: 'center' }}>
             {user.firstName}
             {' '}
             {user.lastName}
+            <div style={{ fontSize: '15px', paddingLeft: '8px', color: '#adacac' }}>
+              (
+              {createDate}
+              {' : '}
+              {firedDate}
+              )
+            </div>
           </h1>
           <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
             <span>

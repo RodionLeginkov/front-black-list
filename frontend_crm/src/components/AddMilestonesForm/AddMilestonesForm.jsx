@@ -8,10 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
 import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from './MenuBotton.jsx';
+import { paymentTypes } from '../../constants/constants';
+import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -26,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 20,
     marginBottom: 20,
     background: '#F2F2F2',
-    // background: 'black',
     color: '#555',
     borderRadius: 2,
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -89,9 +89,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     alignItems: 'center',
   },
-  cardColor: {
-    background: '#deedff',
-  },
 }));
 
 function AddMilestonesForm(props) {
@@ -99,6 +96,7 @@ function AddMilestonesForm(props) {
   const {
     forRead,
     setProject,
+    showInfo,
     project,
     projectMilestones,
     milestonesChange,
@@ -111,57 +109,20 @@ function AddMilestonesForm(props) {
     setAddUserModalOpen(true);
   };
 
-  const milestones = projectMilestones.map((milestone) => {
-    // const user = users.find((elem) => elem.uuid === milestone.user_uuid);
-    const user = milestone.Users;
-    const userName = `${user.firstName} ${user.lastName}`;
-    const start = new Date(milestone.start_date);
-    const end = new Date(milestone.end_date);
-    const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
-    const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-    const lightingMilestone = clsx(classes.root, {
-      [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
-    });
-    return (
-      <Grid item container key={Math.random()} className={classes.projectWithRate} justify="flex-start" sm={12} md={6} lg={4}>
-        <Card className={lightingMilestone}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography style={{ marginLeft: '7px' }}>
-              <b>{userName}</b>
-            </Typography>
-            {isEdit ? (
-              <MenuBotton
-                project={project}
-                setProject={setProject}
-                milestones={projectMilestones}
-                singleMilestone={milestone}
-                setProjectMilestones={setProjectMilestones}
-              />
-            ) : ''}
-          </div>
-          <CustomBage
-            text={milestone.role}
-            size="medium"
-            position={user.role}
-            currentProject
-          />
-          <CardContent style={{ padding: '7px' }}>
-            <Typography>
-              {milestone.rate}
-              {' '}
-              {milestone.rate_type}
-            </Typography>
-            <Typography>
-              {startDate}
-            </Typography>
-            <Typography>
-              {endDate}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    );
-  });
+  const milestones = projectMilestones.map((milestone) => (
+    <SingleMilestoneCard
+      showInfo={showInfo}
+      addUserModalOpen={addUserModalOpen}
+      setAddUserModalOpen={setAddUserModalOpen}
+      key={Math.random()}
+      milestone={milestone}
+      isEdit={isEdit}
+      project={project}
+      setProject={setProject}
+      projectMilestones={projectMilestones}
+      setProjectMilestones={setProjectMilestones}
+    />
+  ));
 
 
   return (

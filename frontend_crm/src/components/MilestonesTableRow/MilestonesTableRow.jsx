@@ -37,7 +37,6 @@ const MilestonesTableRow = (props) => {
   const history = useHistory();
   const { visibeCells, milestone } = props;
   function handleClick(name, milestone) {
-    // console.log(name, milestone.user_uuid, '|', milestone.project_uuid);
     if (name === 'User') {
       history.push(`/user/${milestone.user_uuid}`);
     } else if (name === 'Name') {

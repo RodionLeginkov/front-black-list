@@ -81,7 +81,6 @@ const MilestoneInfoModal = (props) => {
   } else {
     paymentType = '―';
   }
-  console.log(paymentType);
   // const paymentType = paymentTypes.find((item) => item.value === project.rate_type).label;
   let createDate = new Date(project.start_date);
   let endDate = new Date(project.end_date);

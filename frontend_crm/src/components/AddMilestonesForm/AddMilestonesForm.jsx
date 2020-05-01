@@ -119,7 +119,6 @@ function AddMilestonesForm(props) {
     const end = new Date(milestone.end_date);
     const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
     const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-    console.log(milestone);
     const lightingMilestone = clsx(classes.root, {
       [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
     });

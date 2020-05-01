@@ -158,7 +158,7 @@ const AddProjectPage = (props) => {
         history.push(`/customers/${project.uuid}`);
       } else {
         dispatch(addProject(project));
-        // dispatch(getProject(projectId));
+        dispatch(getProjects());
         history.push('/customers');
       }
     } else setIsError(true);
@@ -195,6 +195,7 @@ const AddProjectPage = (props) => {
                 </Tooltip>
               </div>
               <TextField
+                autoFocus
                 required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}

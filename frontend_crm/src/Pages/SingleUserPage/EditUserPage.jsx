@@ -174,11 +174,10 @@ const EditUserPage = ({ match }) => {
   };
 
   let filteredProjects = projects;
-
+  const devRole = user.role !== '' ? userRoles.find((item) => item.value === user.role) : '';
   for (const index in user.currentProject) {
     filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
-
   return (
     <>
       {!userId
@@ -212,6 +211,7 @@ const EditUserPage = ({ match }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoFocus
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
                     error={!user.firstName && isError}
@@ -270,7 +270,7 @@ const EditUserPage = ({ match }) => {
                     options={userRoles}
                     onChange={handleChangeRole}
                     getOptionLabel={(option) => `${option.label}`}
-                    // value={user.role || null}
+                    value={devRole}
                     renderInput={(params) => (
                       <TextField
                         error={!user.role && isError}

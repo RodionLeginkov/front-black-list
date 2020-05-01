@@ -14,10 +14,10 @@ import UsersFilter from './UsersFilter.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    paddingLeft: '100px',
-    background: '#fff',
+    paddingLeft: theme.spacing(3),
+    // background: '#fff',
   },
   usersWrapper: {
     width: '100%',
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     minHeight: '40px',
     padding: '0 10px',
   },
-});
+}));
 
 function Users() {
   const classes = useStyles();
@@ -82,7 +82,6 @@ function Users() {
     localStorage.setItem('userWidgetView', !widgetView);
   };
   if (profitable === 'No Profitable') {
-
     users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
   }
 

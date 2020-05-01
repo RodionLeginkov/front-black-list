@@ -200,6 +200,7 @@ const EditUserPage = ({ match }) => {
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoFocus
                     error={!user.firstName && isError}
                     helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
                     // style={{ marginBottom: 10 }}

@@ -119,7 +119,7 @@ export default function AddUserModal(props) {
   const handleAdd = (e) => {
     e.preventDefault();
     const isEmpty = reqFields.find((field) => (!project[field]));
-    if (isEmpty === undefined) {
+    if (isEmpty === undefined && project.role.length <= 50) {
       setIsError(false);
       if (isEdit) {
         dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
@@ -142,7 +142,6 @@ export default function AddUserModal(props) {
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
-
   return (
     <div className={classes.position}>
       <Modal
@@ -172,7 +171,7 @@ export default function AddUserModal(props) {
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    error={!project.role && isError}
+                    error={(!project.role && isError) || project.role.length > 50}
                     helperText={(!project.role && isError) ? 'Empty field.' : ''}
                     value={project.role || ''}
                     label="Role"

@@ -4,15 +4,14 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import MilestonesList from './MilestonesList.jsx';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   button: {
     fontSize: '13 px',
     minHeight: '40px',
     padding: '0 10px',
   },
   container: {
-    paddingLeft: '100px',
-
+    paddingLeft: theme.spacing(3),
   },
   tableWrapper: {
     width: '100%',
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
   h1: {
     fontSize: '40px',
   },
-});
+}));
 export default function StickyHeadTable() {
   const classes = useStyles();
   const token = localStorage.getItem('token');
@@ -51,11 +50,10 @@ export default function StickyHeadTable() {
 
   useEffect(() => {
     const getResponse = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_API}milestones`, {
+      const response = await axios.get('/milestones', {
         params: {
           sort, order,
         },
-        headers: { authorization: token },
       });
       const projectsResponse = response.data;
       setMilestones(projectsResponse);

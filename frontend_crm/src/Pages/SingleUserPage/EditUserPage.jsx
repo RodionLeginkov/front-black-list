@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '700px',
   },
   breadcrumbs: {
-    margin: '85px 20px 40px 0px',
+    margin: '85px 20px',
     color: '#777777',
   },
   link: {
@@ -174,23 +174,22 @@ const EditUserPage = ({ match }) => {
   };
 
   let filteredProjects = projects;
-
+  const devRole = user.role !== '' ? userRoles.find((item) => item.value === user.role) : '';
   for (const index in user.currentProject) {
     filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
   }
-
   return (
     <>
       {!userId
         ? (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -204,7 +203,7 @@ const EditUserPage = ({ match }) => {
             </Typography>
           </Breadcrumbs>
         )}
-      <div className={classes.position} style={{ marginLeft: '85px' }}>
+      <div className={classes.position}>
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
@@ -212,6 +211,7 @@ const EditUserPage = ({ match }) => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    autoFocus
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
                     error={!user.firstName && isError}
@@ -270,7 +270,7 @@ const EditUserPage = ({ match }) => {
                     options={userRoles}
                     onChange={handleChangeRole}
                     getOptionLabel={(option) => `${option.label}`}
-                    // value={user.role || null}
+                    value={devRole}
                     renderInput={(params) => (
                       <TextField
                         error={!user.role && isError}

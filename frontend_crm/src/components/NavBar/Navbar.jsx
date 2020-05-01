@@ -99,11 +99,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = props;
 
   const handleDrawerOpen = () => {
     setOpen(true);

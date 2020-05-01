@@ -38,7 +38,7 @@ function AddTaskHistory(props) {
 
   const handleAddTask = async () => {
     if (newTask.text !== '') {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+      const response = await axios.post('/history-tasks', newTask);
 
       const taskId = response.data.uuid;
       if (_isMounted.current) {
@@ -63,7 +63,7 @@ function AddTaskHistory(props) {
   if (user !== undefined && usersTasks !== undefined && users.length) {
     tasksList = (usersTasks.map((task) => {
       let createDate = new Date(task.createdAt);
-      createDate = createDate.toLocaleString('en-US', { hour12: false });
+      createDate = createDate.toLocaleString('en-GB', { hour12: false });
       // const authorName = users.find((elem) => task.creator_uuid === elem.uuid).fullName;
       return (
         <Grid key={Math.random()} item container style={{ alignItems: 'center' }} spacing={2}>

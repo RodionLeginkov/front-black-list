@@ -9,7 +9,7 @@ export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
     forRead, show,
-    name, userChange, developersValue, isError, participants,
+    name, userChange, developersValue, isError, participants, disabled,
   } = props;
 
   const handleChange = (e, values) => {
@@ -39,6 +39,7 @@ export default function DevelopersChooseForm(props) {
             inputProps={{ 'aria-label': 'description' }}
             style={{ width: '100%' }}
             name='role'
+            disabled
           />
         )
         : (

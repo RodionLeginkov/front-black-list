@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '750px',
   },
   breadcrumbs: {
-    margin: '85px 20px 40px 0px',
+    margin: '85px 20px',
     color: '#777777',
     cursor: 'pointer',
   },
@@ -158,7 +158,7 @@ const AddProjectPage = (props) => {
         history.push(`/customers/${project.uuid}`);
       } else {
         dispatch(addProject(project));
-        // dispatch(getProject(projectId));
+        dispatch(getProjects());
         history.push('/customers');
       }
     } else setIsError(true);
@@ -168,19 +168,19 @@ const AddProjectPage = (props) => {
     <>
       {!projectId
         ? (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
             <Typography color="textPrimary" onClick={() => history.push('/customers/addproject')}>Add new project</Typography>
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs style={{ marginLeft: '85px' }} aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/customers/editproject/${project.uuid}`)}>Edit project</Typography>
           </Breadcrumbs>
         )}
-      <div className={classes.position} style={{ marginLeft: '85px' }}>
+      <div className={classes.position}>
         <Paper className={classes.root}>
           <div
             className={clsx(classes.content, classes.header)}
@@ -195,6 +195,7 @@ const AddProjectPage = (props) => {
                 </Tooltip>
               </div>
               <TextField
+                autoFocus
                 required
                 style={{ marginBottom: 10 }}
                 error={!project.name && isError}

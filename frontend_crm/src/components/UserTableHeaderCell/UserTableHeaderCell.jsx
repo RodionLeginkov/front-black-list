@@ -19,7 +19,6 @@ function UserTableCell(props) {
   const {
     order, setOrder, sort, setSort, cell,
   } = props;
-  // console.log('cell', cell);
   return (
     <>
       {(cell.value !== '') ? (

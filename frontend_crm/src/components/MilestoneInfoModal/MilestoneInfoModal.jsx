@@ -20,6 +20,7 @@ import {
 } from '@material-ui/pickers';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
+import './styles.css';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#777',
   },
   inputForm: {
+    color: 'black',
     width: '100%',
     marginTop: '10px',
     marginBottom: '0px',
@@ -75,16 +77,15 @@ const MilestoneInfoModal = (props) => {
   };
   let paymentType;
   if (project.rate_type === 'hourly' || project.rate_type === 'flat_rate' || project.rate_type === 'fixed' || project.rate_type === 'weekly') {
-    paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === project.rate_type).label : '–'}`;
+    paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === project.rate_type).label : '―'}`;
   } else {
-    paymentType = '–';
+    paymentType = '―';
   }
-  console.log(paymentType )
   // const paymentType = paymentTypes.find((item) => item.value === project.rate_type).label;
   let createDate = new Date(project.start_date);
   let endDate = new Date(project.end_date);
-  createDate = createDate.toLocaleString('en-US', { hour12: false });
-  endDate = endDate.toLocaleString('en-US', { hour12: false });
+  createDate = createDate.toLocaleString('en-GB', { hour12: false });
+  endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
   return (
     <div className={classes.position}>
       <Modal
@@ -110,23 +111,25 @@ const MilestoneInfoModal = (props) => {
                     name='Developers'
                     developersValue={project.user_uuid}
                     isEdit
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    value={project.role || ''}
+                    value={project.role || '―'}
                     label="Role"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
-                    className={classes.inputForm}
+                    className={`${classes.inputForm} disabled-color`}
                     name='role'
-
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
                     type="number"
-                    value={project.load || ''}
+                    disabled
+                    value={project.load || '―'}
                     label="Load"
                     variant="outlined"
                     className={classes.inputForm}
@@ -142,8 +145,8 @@ const MilestoneInfoModal = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    type="number"
-                    value={project.rate || ''}
+                    disabled
+                    value={project.rate || '―'}
                     label="Rate"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
@@ -155,6 +158,7 @@ const MilestoneInfoModal = (props) => {
                   <TextField
                     value={paymentType}
                     label="Rate type"
+                    disabled
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
@@ -163,9 +167,10 @@ const MilestoneInfoModal = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    value={project.platform || ''}
+                    value={project.platform || '―'}
                     label="Platform"
                     variant="outlined"
+                    disabled
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='platform'
@@ -173,8 +178,9 @@ const MilestoneInfoModal = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    value={project.withdraw || ''}
+                    value={project.withdraw || '―'}
                     label="Withdraw"
+                    disabled
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
@@ -183,9 +189,10 @@ const MilestoneInfoModal = (props) => {
                 </Grid>
                 <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                   <TextField
-                    value={project.comment || ''}
+                    value={project.comment || '―'}
                     label="Comment"
                     variant="outlined"
+                    disabled
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='comment'
@@ -195,8 +202,9 @@ const MilestoneInfoModal = (props) => {
               </Grid>
               <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                 <TextField
-                  value={createDate || ''}
-                  label="Comment"
+                  value={createDate || '―'}
+                  label="Start date"
+                  disabled
                   variant="outlined"
                   inputProps={{ 'aria-label': 'description' }}
                   className={classes.inputForm}
@@ -205,8 +213,9 @@ const MilestoneInfoModal = (props) => {
               </Grid>
               <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                 <TextField
-                  value={endDate || ''}
-                  label="Comment"
+                  value={endDate || '―'}
+                  label="End date"
+                  disabled
                   variant="outlined"
                   inputProps={{ 'aria-label': 'description' }}
                   className={classes.inputForm}

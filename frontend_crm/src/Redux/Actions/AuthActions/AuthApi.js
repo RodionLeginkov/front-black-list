@@ -16,8 +16,8 @@ async function invite(url, data) {
 }
 
 
-export const signUpNewUser = (data) => signUp(`${process.env.REACT_APP_BASE_API}signup/`, data);
+export const signUpNewUser = (data) => signUp('/signup', data);
 
-export const loginUser = (data) => signin(`${process.env.REACT_APP_BASE_API}signin/`, data);
+export const loginUser = (data) => signin('/signin', data);
 
-export const inviteUser = (id) => invite(`${process.env.REACT_APP_BASE_API}user/invitation/${id}`);
+export const inviteUser = (id) => invite('/user/invitation/' + `${id}`);

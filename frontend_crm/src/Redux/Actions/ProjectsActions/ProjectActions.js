@@ -37,8 +37,8 @@ export const getProjects = () => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
     dispatch({ type: LOAD_RPOJECT });
-    const loginToken = localStorage.getItem('token');
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API}projects`, { headers: { authorization: loginToken } });
+    // const loginToken = localStorage.getItem('token');
+    const { data } = await axios.get('/projects');
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
@@ -61,7 +61,7 @@ export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
 export const deleteProject = (id) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    await axios.delete(`${process.env.REACT_APP_BASE_API}project/${id}`, { headers: { authorization: loginToken } });
+    await axios.delete('/project/' + `${id}`);
     NotificationManager.success('The project was deleted');
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {

@@ -35,9 +35,10 @@ export const inviteUsers = (id) => async (dispatch) => {
   try {
     dispatch({ type: INVITE_LOADING });
     const { data } = await inviteUser(id);
-    NotificationManager.success('The message was sent');
     dispatch({ type: INVITE_SUCCESS, payload: data });
+    NotificationManager.success('The message was sent');
   } catch (error) {
     dispatch({ type: INVITE_ERROR, payload: error });
+    NotificationManager.error('The message wasn\'t sent');
   }
 };

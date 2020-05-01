@@ -31,7 +31,7 @@ function CurrentTaskField(props) {
 
   const handleAddTask = async () => {
     if (changedFields.current_task !== newTask.text && newTask.text !== '') {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+      const response = await axios.post('/history-tasks', newTask);
       const taskId = response.data.uuid;
       dispatch(updateUser({ ...changedFields, current_task: taskId }));
       setNewTask({ ...newTask, text: response.data.text });

@@ -33,7 +33,7 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
-    margin: '100px 10px 0 85px',
+    margin: '100px 10px 0 0',
   },
   footerIcons: {
     display: 'flex',
@@ -248,7 +248,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   firedDate = user.firedAt !== null ? firedDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
 
   return (
-    <div className={classes.container}>
+    <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users

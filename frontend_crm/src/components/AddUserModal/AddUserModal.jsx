@@ -7,6 +7,7 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch } from 'react-redux';
+import validator from 'validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
@@ -97,30 +98,45 @@ export default function AddUserModal(props) {
   };
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
-
+  const [errors, setErrors] = useState({
+    user_uuid: '',
+    load: '',
+    role: '',
+    // start_date: '',
+  });
   const handleCancel = (e) => {
     e.preventDefault();
+    setErrors({
+      user_uuid: '',
+      load: '',
+      role: '',
+      // start_date: '',
+    });
     setIsError(false);
     setProject(initialValue);
     setAddUserModalOpen(false);
   };
-
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
+  const validateMilestone = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
+    if (!project.load) fieldsErrors.load = 'First name is required field.';
+    if (validator.isEmpty(project.role)) fieldsErrors.role = 'Role is required field.';
+    else if (project.role.length > 50) fieldsErrors.role = 'Role field is too long.';
+    // if (validator.isEmpty(project.start_date)) fieldsErrors.start_date = 'Last name is required field.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
 
-  const reqFields = [
-    'user_uuid',
-    'role',
-    'load',
-    'start_date',
-  ];
   const handleAdd = (e) => {
     e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!project[field]));
-    if (isEmpty === undefined && project.role.length <= 50) {
-      setIsError(false);
+    const validateErrors = validateMilestone();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
       if (isEdit) {
         dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
       } else if (initialMilestone) {
@@ -132,10 +148,11 @@ export default function AddUserModal(props) {
           dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         }
       }
+
       setProject(initialValue);
       setIsError(false);
       setAddUserModalOpen(false);
-    } else setIsError(true);
+    }
   };
 
 
@@ -166,13 +183,13 @@ export default function AddUserModal(props) {
                 developersValue={project.user_uuid}
                 isEdit
                 forRead={forRead}
-                isError={isError}
+                isError={errors.user_uuid}
               />
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    error={(!project.role && isError) || project.role.length > 50}
-                    helperText={(!project.role && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.role)}
+                    helperText={errors.role}
                     value={project.role || ''}
                     label="Role"
                     variant="outlined"
@@ -184,8 +201,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    error={!project.load && isError}
-                    helperText={(!project.load && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.load)}
+                    helperText={errors.load}
                     type="number"
                     value={project.load || ''}
                     label="Load"

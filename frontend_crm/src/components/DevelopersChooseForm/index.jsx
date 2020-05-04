@@ -51,8 +51,8 @@ export default function DevelopersChooseForm(props) {
             value={curUser || null}
             renderInput={(params) => (
               <TextField
-                error={!developersValue && isError}
-                helperText={!developersValue && isError ? 'Empty field.' : ''}
+                error={Boolean(isError)}
+                helperText={isError}
                 {...params}
                 label={name}
                 variant="outlined"

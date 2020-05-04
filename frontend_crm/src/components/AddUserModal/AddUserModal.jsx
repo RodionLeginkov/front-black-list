@@ -124,7 +124,7 @@ export default function AddUserModal(props) {
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
-    if (!project.load) fieldsErrors.load = 'First name is required field.';
+    if (!project.load) fieldsErrors.load = 'Load is required field.';
     if (validator.isEmpty(project.role)) fieldsErrors.role = 'Role is required field.';
     else if (project.role.length > 50) fieldsErrors.role = 'Role field is too long.';
     // if (validator.isEmpty(project.start_date)) fieldsErrors.start_date = 'Last name is required field.';

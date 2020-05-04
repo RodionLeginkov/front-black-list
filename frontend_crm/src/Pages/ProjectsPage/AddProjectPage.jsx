@@ -11,9 +11,11 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import validator from 'validator';
+import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
+import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import {
   getProject, getProjects, addProject, updateProject,
@@ -21,6 +23,7 @@ import {
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
+import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,6 +97,7 @@ const AddProjectPage = (props) => {
   const { projectId } = props.match.params;
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
+  const [personModalOpen, setPersonModalOpen] = useState(false);
   const [errors, setErrors] = useState({
     name: '',
     description: '',
@@ -267,7 +271,16 @@ const AddProjectPage = (props) => {
                 name='description'
                 onChange={handleChange}
               />
-
+              {/* <Divider /> */}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setPersonModalOpen(true)}
+                className={classes.button}
+                endIcon={<PersonAddSharpIcon />}
+              >
+                Add Person
+              </Button>
               <Divider />
               <AddMilestonesForm
                 setProject={setProject}
@@ -293,6 +306,11 @@ const AddProjectPage = (props) => {
           </div>
         </Paper>
       </div>
+      <AddPersonModal
+        setPersonModalOpen={setPersonModalOpen}
+        personModalOpen={personModalOpen}
+        projectId={projectId}
+      />
     </>
   );
 };

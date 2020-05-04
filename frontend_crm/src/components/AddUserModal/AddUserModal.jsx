@@ -86,7 +86,7 @@ export default function AddUserModal(props) {
   const initialValue = initialMilestone || {
     user_uuid: '',
     project_uuid: curProject.uuid,
-    person_uuid: '',
+    person_uuid: null,
     role: '',
     rate: null,
     rate_type: '',
@@ -125,8 +125,8 @@ export default function AddUserModal(props) {
 
 
   const handlePersonChange = (e, values) => {
-    setProject({ ...project, person_uuid: values ? values.uuid : '' });
-
+    setProject({ ...project, person_uuid: values ? values.uuid : null });
+  }
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
@@ -169,7 +169,7 @@ export default function AddUserModal(props) {
   // console.log('tetetetete', curProject);
   let curPerson;
 
-  if (project.project_uuid !== undefined) curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
+  if (curProject.Person !== undefined) curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
   else curPerson = '';
   return (
     <div className={classes.position}>

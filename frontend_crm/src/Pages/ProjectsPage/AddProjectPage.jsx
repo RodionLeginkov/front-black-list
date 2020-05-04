@@ -130,7 +130,7 @@ const AddProjectPage = (props) => {
   }, [loading]);
 
   useEffect(() => {
-    if (projectId && !curProject) {
+    if ((projectId && !curProject) || !curProject.Persons) {
       dispatch(getProjects());
       dispatch(getProject(projectId));
     }
@@ -181,7 +181,9 @@ const AddProjectPage = (props) => {
       history.push('/customers');
     }
   };
-
+  if (loading) {
+    return '';
+  }
   return (
     <>
       {!projectId

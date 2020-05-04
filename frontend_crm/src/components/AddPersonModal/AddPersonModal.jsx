@@ -77,6 +77,7 @@ const AddPersonModal = (props) => {
     personModalOpen,
     projectId,
   } = props;
+  const dispatch = useDispatch();
   const classes = useStyles();
   const handleCancel = (e) => {
     e.preventDefault();
@@ -106,6 +107,7 @@ const AddPersonModal = (props) => {
         start_date: new Date(),
         end_date: null,
       });
+      dispatch(getProject(projectId));
       setPersonModalOpen(false);
     } catch (error) {
 

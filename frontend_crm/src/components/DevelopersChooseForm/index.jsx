@@ -9,7 +9,7 @@ export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
     forRead, show,
-    name, userChange, developersValue, isError, participants, disabled,
+    name, userChange, developersValue, isError, participants, disabled, isParticipent,
   } = props;
 
   const handleChange = (e, values) => {
@@ -25,8 +25,11 @@ export default function DevelopersChooseForm(props) {
   const filteredUsers = users; let
     curUser;
 
-  if (developersValue && !participants) curUser = filteredUsers.find((item) => item.uuid === developersValue);
-  else if (developersValue && participants) curUser = filteredUsers.find((item) => item.fullName === developersValue);
+  if (developersValue && !isParticipent) {
+    curUser = filteredUsers.find((item) => item.uuid === developersValue);
+  } else if (developersValue && isParticipent) {
+    curUser = filteredUsers.find((item) => item.fullName === developersValue);
+  }
   return (
     <>
       {
@@ -51,8 +54,8 @@ export default function DevelopersChooseForm(props) {
             value={curUser || null}
             renderInput={(params) => (
               <TextField
-                error={!developersValue && isError}
-                helperText={!developersValue && isError ? 'Empty field.' : ''}
+                error={Boolean(isError)}
+                helperText={isError}
                 {...params}
                 label={name}
                 variant="outlined"

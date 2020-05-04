@@ -10,9 +10,12 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
+import validator from 'validator';
+import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
+import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import {
   getProject, getProjects, addProject, updateProject,
@@ -20,6 +23,7 @@ import {
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
+import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -93,7 +97,12 @@ const AddProjectPage = (props) => {
   const { projectId } = props.match.params;
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
-
+  const [personModalOpen, setPersonModalOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    name: '',
+    description: '',
+    customer: '',
+  });
 
   const initialValue = (projectId && curProject) ? curProject : {
     name: '',
@@ -111,7 +120,6 @@ const AddProjectPage = (props) => {
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
 
 
-  const reqFields = ['name', 'customer', 'description'];
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
   const [isError, setIsError] = useState(false);
@@ -130,7 +138,17 @@ const AddProjectPage = (props) => {
     // eslint-disable-next-line
   }, [dispatch]);
 
+  const validateProject = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(project.name)) fieldsErrors.name = 'Name is required field.';
+    if (validator.isEmpty(project.customer)) fieldsErrors.customer = 'Customer is required field.';
+    if (validator.isEmpty(project.description)) fieldsErrors.description = 'Desctiption is required field.';
+
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
@@ -144,24 +162,24 @@ const AddProjectPage = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!project[field]));
-    if (isEmpty === undefined) {
-      if (projectId) {
-        // eslint-disable-next-line no-restricted-syntax
-        // for (const index in projectMilestones) {
-        //   if (Number(index) + 1 > curProject.Projects_Milestones.length) {
-        //     dispatch(addMilestone(projectMilestones[index]));
-        //   }
-        // }
-        dispatch(updateProject(project));
-        dispatch(getProject(projectId));
-        history.push(`/customers/${project.uuid}`);
-      } else {
-        dispatch(addProject(project));
-        dispatch(getProjects());
-        history.push('/customers');
-      }
-    } else setIsError(true);
+    const validateErrors = validateProject();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else if (projectId) {
+      // eslint-disable-next-line no-restricted-syntax
+      // for (const index in projectMilestones) {
+      //   if (Number(index) + 1 > curProject.Projects_Milestones.length) {
+      //     dispatch(addMilestone(projectMilestones[index]));
+      //   }
+      // }
+      dispatch(updateProject(project));
+      dispatch(getProject(projectId));
+      history.push(`/customers/${project.uuid}`);
+    } else {
+      dispatch(addProject(project));
+      dispatch(getProjects());
+      history.push('/customers');
+    }
   };
 
   return (
@@ -198,8 +216,8 @@ const AddProjectPage = (props) => {
                 autoFocus
                 required
                 style={{ marginBottom: 10 }}
-                error={!project.name && isError}
-                helperText={(!project.name.length && isError) ? 'Empty field.' : ''}
+                error={Boolean(errors.name)}
+                helperText={errors.name}
                 value={project.name || ''}
                 label="Project Name"
                 className={classes.inputForm}
@@ -223,8 +241,8 @@ const AddProjectPage = (props) => {
 
                 <Grid item xs={12}>
                   <TextField
-                    error={!project.customer && isError}
-                    helperText={(!project.customer && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.customer)}
+                    helperText={errors.customer}
                     style={{ width: '100%' }}
                     value={project.customer}
                     variant="outlined"
@@ -240,8 +258,8 @@ const AddProjectPage = (props) => {
               </Grid>
 
               <TextField
-                error={!project.description && isError}
-                helperText={(!project.description && isError) ? 'Empty field.' : ''}
+                error={Boolean(errors.description)}
+                helperText={errors.description}
                 style={{ marginBottom: '10px' }}
                 value={project.description}
                 variant="outlined"
@@ -253,7 +271,16 @@ const AddProjectPage = (props) => {
                 name='description'
                 onChange={handleChange}
               />
-
+              {/* <Divider /> */}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setPersonModalOpen(true)}
+                className={classes.button}
+                endIcon={<PersonAddSharpIcon />}
+              >
+                Add Person
+              </Button>
               <Divider />
               <AddMilestonesForm
                 setProject={setProject}
@@ -279,6 +306,11 @@ const AddProjectPage = (props) => {
           </div>
         </Paper>
       </div>
+      <AddPersonModal
+        setPersonModalOpen={setPersonModalOpen}
+        personModalOpen={personModalOpen}
+        projectId={projectId}
+      />
     </>
   );
 };

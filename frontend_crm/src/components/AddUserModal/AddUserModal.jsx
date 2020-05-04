@@ -19,6 +19,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
@@ -84,6 +85,7 @@ export default function AddUserModal(props) {
   const initialValue = initialMilestone || {
     user_uuid: '',
     project_uuid: curProject.uuid,
+    person_uuid: '',
     role: '',
     rate: null,
     rate_type: '',
@@ -109,6 +111,9 @@ export default function AddUserModal(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
+  const handlePersonChange = (e, values) => {
+    setProject({ ...project, person_uuid: values ? values.uuid : '' });
+  };
 
   const reqFields = [
     'user_uuid',
@@ -142,6 +147,11 @@ export default function AddUserModal(props) {
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
+  // console.log('tetetetete', curProject);
+  let curPerson;
+
+  if (project.project_uuid !== undefined) curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
+  else curPerson = '';
   return (
     <div className={classes.position}>
       <Modal
@@ -168,6 +178,24 @@ export default function AddUserModal(props) {
                 forRead={forRead}
                 isError={isError}
               />
+              <Autocomplete
+                style={{ paddingTop: '5px' }}
+                options={curProject.Person}
+                onChange={handlePersonChange}
+                getOptionLabel={(option) => `${option.name}`}
+                renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                value={curPerson || null}
+                // renderInput={(params) => (
+                //   <TextField
+                //     error={!developersValue && isError}
+                //     helperText={!developersValue && isError ? 'Empty field.' : ''}
+                //     {...params}
+                //     label={name}
+                //     variant="outlined"
+                //   />
+                // )}
+              />
+
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField

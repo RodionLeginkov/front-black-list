@@ -83,7 +83,7 @@ const MilestonesList = (props) => {
     return createData(
       milestone['Projects.name'],
       fullName,
-      milestone.participants,
+      milestone['Person.name'],
       milestone.rate,
       milestone.rpd,
       milestone.load,
@@ -98,7 +98,7 @@ const MilestonesList = (props) => {
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-
+  console.log('MILESTONE LIST', milestones);
   return (
     <>
       <FormControl className='form-control'>

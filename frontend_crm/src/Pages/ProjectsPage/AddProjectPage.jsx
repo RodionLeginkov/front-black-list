@@ -130,7 +130,7 @@ const AddProjectPage = (props) => {
   }, [loading]);
 
   useEffect(() => {
-    if ((projectId && !curProject) || !curProject.Persons) {
+    if (projectId && (!curProject || !curProject.Persons)) {
       dispatch(getProjects());
       dispatch(getProject(projectId));
     }
@@ -183,6 +183,7 @@ const AddProjectPage = (props) => {
   if (loading) {
     return '';
   }
+  console.log('PERSON', project)
   return (
     <>
       {!projectId
@@ -274,7 +275,7 @@ const AddProjectPage = (props) => {
               />
               <Divider />
               <PersonsList
-                projectPerons={project.Person}
+                projectPersons={project.Person}
                 projectId={projectId}
               />
               <Button

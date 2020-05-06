@@ -19,52 +19,16 @@ import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import { paymentTypes } from '../../constants/constants';
 import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import PersonListItem from '../PersonListItem/PersonListItem.jsx';
 
 const PersonsList = (props) => {
-  const { projectPerons, projectId } = props;
-  const dispatch = useDispatch();
-  const [personModalOpen, setPersonModalOpen] = useState(false);
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/person/${id}`);
-      dispatch(getProject(projectId));
-    } catch (error) {
-
-    }
-  };
-  const persons = projectPerons ? projectPerons.map((item) => (
+  const { projectPersons, projectId } = props;
+  const persons = projectPersons ? projectPersons.map((item) => (
     <Grid item container sm={12} spacing={1} key={Math.random()} alignItems="center">
-      <Grid item sm={3}>
-        <TextField
-          value={item.name}
-          variant="outlined"
-          id="standard-multiline-flexible"
-          label="Name"
-          style={{ width: '100%' }}
-        //   name='customer'
-          disabled
-        />
-      </Grid>
-      <Grid item sm={7}>
-        <TextField
-          value={item.description}
-          variant="outlined"
-          style={{ width: '100%' }}
-          id="standard-multiline-flexible"
-          label="Description"
-        //   name='customer'
-          disabled
-        />
-      </Grid>
-      <Grid item sm={1}>
-        <DeleteSharpIcon
-          onClick={() => handleDelete(item.uuid)}
-        />
-      </Grid>
-      <Grid item sm={1}>
-        <CreateSharpIcon />
-      </Grid>
+      <PersonListItem
+        person={item}
+        projectId={projectId}
+      />
     </Grid>
   )) : '';
   return (
@@ -72,11 +36,6 @@ const PersonsList = (props) => {
       <Grid container spacing={1} style={{ padding: '10px 0px 5px' }}>
         {persons}
       </Grid>
-      <AddPersonModal
-        setPersonModalOpen={setPersonModalOpen}
-        personModalOpen={personModalOpen}
-        projectId={projectId}
-      />
     </>
   );
 };

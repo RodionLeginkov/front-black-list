@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddPersonModal = (props) => {
   const {
+    initialPerson,
     setPersonModalOpen,
     personModalOpen,
     projectId,
@@ -83,13 +84,15 @@ const AddPersonModal = (props) => {
     e.preventDefault();
     setPersonModalOpen(false);
   };
-  const [person, setPerson] = useState({
+  const [person, setPerson] = useState(initialPerson || {
     project_uuid: projectId,
     name: '',
     description: '',
     start_date: new Date(),
     end_date: null,
   });
+
+  console.log(person.uuid)
 
   const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
@@ -114,6 +117,16 @@ const AddPersonModal = (props) => {
     }
   };
 
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`/person/${person.uuid}`, person);
+      dispatch(getProject(projectId));
+      setPersonModalOpen(false);
+    } catch (error) {
+
+    }
+  };
 
   return (
     <div className={classes.position}>
@@ -190,7 +203,7 @@ const AddPersonModal = (props) => {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  onClick={handleAdd}
+                  onClick={person.uuid ? handleEdit : handleAdd}
                   className={classes.submitButton}
                 >
                   Submit

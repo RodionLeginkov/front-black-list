@@ -24,7 +24,7 @@ import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesF
 import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
 import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
-
+import PersonsList from '../../components/PersonsList/PersonsList.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -137,7 +137,6 @@ const AddProjectPage = (props) => {
 
     // eslint-disable-next-line
   }, [dispatch]);
-
   const validateProject = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.name)) fieldsErrors.name = 'Name is required field.';
@@ -273,8 +272,13 @@ const AddProjectPage = (props) => {
                 name='description'
                 onChange={handleChange}
               />
-              {/* <Divider /> */}
+              <Divider />
+              <PersonsList
+                projectPerons={project.Person}
+                projectId={projectId}
+              />
               <Button
+                style={{marginBotton: 5}}
                 variant="contained"
                 color="primary"
                 onClick={() => setPersonModalOpen(true)}

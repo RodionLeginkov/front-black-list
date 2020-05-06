@@ -116,12 +116,13 @@ const AddProjectPage = (props) => {
     description: '',
     history: '',
     Projects_Milestones: [],
+    Person: [],
   };
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
-
-
+  
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
+  console.log(project)
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
@@ -156,6 +157,10 @@ const AddProjectPage = (props) => {
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
   };
 
+  const personChange = (newPerson) => {
+    setProject({ ...project, Person: [...project.Person, newPerson] });
+  }
+
   const handleClose = () => (projectId ? history.push(`/customers/${project.uuid}`) : history.push('/customers'));
 
 
@@ -183,7 +188,6 @@ const AddProjectPage = (props) => {
   if (loading) {
     return '';
   }
-  console.log('PERSON', project)
   return (
     <>
       {!projectId
@@ -317,6 +321,7 @@ const AddProjectPage = (props) => {
         setPersonModalOpen={setPersonModalOpen}
         personModalOpen={personModalOpen}
         projectId={projectId}
+        personChange={personChange}
       />
     </>
   );

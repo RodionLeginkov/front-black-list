@@ -77,6 +77,7 @@ const AddPersonModal = (props) => {
     setPersonModalOpen,
     personModalOpen,
     projectId,
+    personChange,
   } = props;
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -92,7 +93,7 @@ const AddPersonModal = (props) => {
     end_date: null,
   });
 
-  console.log(person.uuid)
+  console.log(person.uuid);
 
   const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
@@ -101,8 +102,23 @@ const AddPersonModal = (props) => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post('/person', person);
+    if (projectId) {
+      try {
+        await axios.post('/person', person);
+        setPerson({
+          project_uuid: projectId,
+          name: '',
+          description: '',
+          start_date: new Date(),
+          end_date: null,
+        });
+        dispatch(getProject(projectId));
+        setPersonModalOpen(false);
+      } catch (error) {
+
+      }
+    } else {
+      personChange(person);
       setPerson({
         project_uuid: projectId,
         name: '',
@@ -110,10 +126,7 @@ const AddPersonModal = (props) => {
         start_date: new Date(),
         end_date: null,
       });
-      dispatch(getProject(projectId));
       setPersonModalOpen(false);
-    } catch (error) {
-
     }
   };
 

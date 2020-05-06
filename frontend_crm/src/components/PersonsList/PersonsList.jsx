@@ -22,12 +22,19 @@ import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import PersonListItem from '../PersonListItem/PersonListItem.jsx';
 
 const PersonsList = (props) => {
-  const { projectPersons, projectId } = props;
+  const {
+    projectPersons,
+    projectId,
+    personDelete,
+    personChange,
+  } = props;
   const persons = projectPersons ? projectPersons.map((item) => (
     <Grid item container sm={12} spacing={1} key={Math.random()} alignItems="center">
       <PersonListItem
         person={item}
         projectId={projectId}
+        personChange={personChange}
+        personDelete={personDelete}
       />
     </Grid>
   )) : '';

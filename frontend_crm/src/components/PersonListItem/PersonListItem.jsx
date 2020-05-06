@@ -21,15 +21,24 @@ import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx'
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const PersonListItem = (props) => {
-  const { projectId, person } = props;
+  const {
+    projectId,
+    person,
+    personDelete,
+    personChange,
+  } = props;
   const dispatch = useDispatch();
   const [personModalOpen, setPersonModalOpen] = useState(false);
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`/person/${id}`);
-      dispatch(getProject(projectId));
-    } catch (error) {
+    if (projectId) {
+      try {
+        await axios.delete(`/person/${id}`);
+        dispatch(getProject(projectId));
+      } catch (error) {
 
+      }
+    } else {
+      personDelete(person);
     }
   };
 
@@ -72,6 +81,7 @@ const PersonListItem = (props) => {
         personModalOpen={personModalOpen}
         projectId={projectId}
         initialPerson={person}
+        personChange={personChange}
       />
     </>
 

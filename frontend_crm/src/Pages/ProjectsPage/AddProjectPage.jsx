@@ -119,10 +119,10 @@ const AddProjectPage = (props) => {
     Person: [],
   };
   const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
-  
+
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
-  console.log(project)
+  console.log(project);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
@@ -157,9 +157,20 @@ const AddProjectPage = (props) => {
     setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
   };
 
-  const personChange = (newPerson) => {
+  const personAdd = (newPerson) => {
     setProject({ ...project, Person: [...project.Person, newPerson] });
-  }
+  };
+
+  const personDelete = (deletedPerson) => {
+    const filteredPersons = project.Person.filter((person) => person !== deletedPerson);
+    setProject({ ...project, Person: filteredPersons });
+  };
+
+  const personChange = (initialPerson, changedPerson) => {
+    const changedPersons = project.Person;
+    changedPersons.splice(project.Person.indexOf(initialPerson), 1, changedPerson)
+    setProject({ ...project, Person: changedPersons });
+  };
 
   const handleClose = () => (projectId ? history.push(`/customers/${project.uuid}`) : history.push('/customers'));
 
@@ -279,11 +290,13 @@ const AddProjectPage = (props) => {
               />
               <Divider />
               <PersonsList
+                personDelete={personDelete}
+                personChange={personChange}
                 projectPersons={project.Person}
                 projectId={projectId}
               />
               <Button
-                style={{marginBotton: 5}}
+                style={{ marginBotton: 5 }}
                 variant="contained"
                 color="primary"
                 onClick={() => setPersonModalOpen(true)}
@@ -321,7 +334,7 @@ const AddProjectPage = (props) => {
         setPersonModalOpen={setPersonModalOpen}
         personModalOpen={personModalOpen}
         projectId={projectId}
-        personChange={personChange}
+        personAdd={personAdd}
       />
     </>
   );

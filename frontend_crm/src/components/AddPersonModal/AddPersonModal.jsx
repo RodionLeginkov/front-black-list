@@ -76,8 +76,9 @@ const AddPersonModal = (props) => {
     initialPerson,
     setPersonModalOpen,
     personModalOpen,
-    projectId,
     personChange,
+    projectId,
+    personAdd,
   } = props;
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -92,9 +93,6 @@ const AddPersonModal = (props) => {
     start_date: new Date(),
     end_date: null,
   });
-
-  console.log(person.uuid);
-
   const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
@@ -118,7 +116,7 @@ const AddPersonModal = (props) => {
 
       }
     } else {
-      personChange(person);
+      personAdd(person);
       setPerson({
         project_uuid: projectId,
         name: '',
@@ -132,15 +130,26 @@ const AddPersonModal = (props) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(`/person/${person.uuid}`, person);
-      dispatch(getProject(projectId));
-      setPersonModalOpen(false);
-    } catch (error) {
+    if (projectId) {
+      try {
+        await axios.put(`/person/${person.uuid}`, person);
+        dispatch(getProject(projectId));
+        setPersonModalOpen(false);
+      } catch (error) {
 
+      }
+    } else {
+      personChange(initialPerson, person);
+      setPerson({
+        project_uuid: projectId,
+        name: '',
+        description: '',
+        start_date: new Date(),
+        end_date: null,
+      });
+      setPersonModalOpen(false);
     }
   };
-
   return (
     <div className={classes.position}>
       <Modal
@@ -216,7 +225,7 @@ const AddPersonModal = (props) => {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  onClick={person.uuid ? handleEdit : handleAdd}
+                  onClick={initialPerson === undefined ? handleAdd : handleEdit}
                   className={classes.submitButton}
                 >
                   Submit

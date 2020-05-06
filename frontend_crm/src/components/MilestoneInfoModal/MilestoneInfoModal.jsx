@@ -91,7 +91,7 @@ const MilestoneInfoModal = (props) => {
   console.log('LEROOOOY', project);
   let curPerson;
 
-  if (person.Person.length !== 0 && project.person_uuid !== null) {
+  if (project.person_uuid !== null && person.Person.length !== 0) {
     curPerson = person.Person.find((item) => item.uuid === project.person_uuid);
     curPerson = curPerson.name;
   } else curPerson = '―';

@@ -191,6 +191,7 @@ const AddProjectPage = (props) => {
       dispatch(getProject(projectId));
       history.push(`/customers/${project.uuid}`);
     } else {
+      console.log(project)
       dispatch(addProject(project));
       dispatch(getProjects());
       history.push('/customers');

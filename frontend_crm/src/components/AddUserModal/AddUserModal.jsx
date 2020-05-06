@@ -98,6 +98,7 @@ export default function AddUserModal(props) {
     withdraw: '',
     comment: '',
   };
+  console.log(curProject);
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
   const [errors, setErrors] = useState({
@@ -126,7 +127,7 @@ export default function AddUserModal(props) {
 
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
-  }
+  };
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
@@ -135,7 +136,6 @@ export default function AddUserModal(props) {
     else if (project.role.length > 50) fieldsErrors.role = 'Role field is too long.';
     // if (validator.isEmpty(project.start_date)) fieldsErrors.start_date = 'Last name is required field.';
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
-
   };
 
   const handleAdd = (e) => {
@@ -146,7 +146,7 @@ export default function AddUserModal(props) {
     } else {
       if (isEdit) {
         dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-      } else if (initialMilestone) {
+      } else if (initialMilestone && curProject.uuid) {
         dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         dispatch(getProject(curProject.uuid));
       } else {

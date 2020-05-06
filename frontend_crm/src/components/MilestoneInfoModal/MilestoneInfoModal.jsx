@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MilestoneInfoModal = (props) => {
-  const { project, openModal, setOpenModal } = props;
+  const {
+    project, openModal, setOpenModal, person,
+  } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
     e.preventDefault();
@@ -86,6 +88,14 @@ const MilestoneInfoModal = (props) => {
   let endDate = new Date(project.end_date);
   createDate = createDate.toLocaleString('en-GB', { hour12: false });
   endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
+  console.log('LEROOOOY', project);
+  let curPerson;
+
+  if (person.Person.length !== 0 && project.person_uuid !== null) {
+    curPerson = person.Person.find((item) => item.uuid === project.person_uuid);
+    curPerson = curPerson.name;
+  } else curPerson = '―';
+
   return (
     <div className={classes.position}>
       <Modal
@@ -111,6 +121,19 @@ const MilestoneInfoModal = (props) => {
                     name='Developers'
                     developersValue={project.user_uuid}
                     isEdit
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    show
+                    name='Person'
+                    variant="outlined"
+                    label="Person"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    value={curPerson}
+
                     disabled
                   />
                 </Grid>

@@ -21,7 +21,6 @@ import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import AccessAlarmSharpIcon from '@material-ui/icons/AccessAlarmSharp';
 import FadeMenu from '../ProfileButton/ProfileButton.jsx';
 
 const drawerWidth = 240;

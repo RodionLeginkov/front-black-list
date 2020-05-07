@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 import './styles.css';
@@ -69,7 +60,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MilestoneInfoModal = (props) => {
-  const { project, openModal, setOpenModal } = props;
+  const {
+    project, openModal, setOpenModal, customer,
+  } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
     e.preventDefault();
@@ -86,6 +79,14 @@ const MilestoneInfoModal = (props) => {
   let endDate = new Date(project.end_date);
   createDate = createDate.toLocaleString('en-GB', { hour12: false });
   endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
+
+  let curPerson;
+
+  if (project.person_uuid !== null) {
+    curPerson = customer.Person.find((item) => item.uuid === project.person_uuid);
+    curPerson = curPerson.name;
+  } else curPerson = '―';
+
   return (
     <div className={classes.position}>
       <Modal
@@ -111,6 +112,19 @@ const MilestoneInfoModal = (props) => {
                     name='Developers'
                     developersValue={project.user_uuid}
                     isEdit
+                    disabled
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    show
+                    name='Person'
+                    variant="outlined"
+                    label="Person"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    value={curPerson}
+
                     disabled
                   />
                 </Grid>

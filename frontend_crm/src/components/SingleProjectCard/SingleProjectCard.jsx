@@ -127,7 +127,7 @@ export default function RecipeReviewCard(props) {
   const classes = useStyles();
   const startDate = new Date(card.start_date);
   const curDate = new Date();
- 
+
   return (
     <>
       <Card className={classes.root}>
@@ -167,10 +167,10 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
+          <Tooltip title={card.ProjectMilestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
-                disabled={card.Projects_Milestones.length !== 0}
+                disabled={card.ProjectMilestones.length !== 0}
                 className={classes.button}
                 onClick={() => setdeleteModalIsOpen(true)}
               >
@@ -179,7 +179,7 @@ export default function RecipeReviewCard(props) {
             </span>
           </Tooltip>
           <DevAvatars
-            milestones={card.Projects_Milestones}
+            milestones={card.ProjectMilestones}
             addUserModalOpen={addUserModalOpen}
             setAddUserModalOpen={setAddUserModalOpen}
           />
@@ -187,7 +187,7 @@ export default function RecipeReviewCard(props) {
         </div>
       </Card>
       <DeleteModal
-        milestones={card.Projects_Milestones}
+        milestones={card.ProjectMilestones}
         deleteModalIsOpen={deleteModalIsOpen}
         setdeleteModalIsOpen={setdeleteModalIsOpen}
         id={card.uuid}

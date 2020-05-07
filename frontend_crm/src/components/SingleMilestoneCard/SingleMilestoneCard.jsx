@@ -2,14 +2,10 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
-import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from '../AddMilestonesForm/MenuBotton.jsx';
 import { paymentTypes } from '../../constants/constants';
@@ -112,7 +108,6 @@ const SingleMilestoneCard = (props) => {
   const end = new Date(milestone.end_date);
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-  // let paymentType = `${milestone.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type) : '–'}`;
   let paymentType;
   if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
     paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
@@ -178,6 +173,7 @@ const SingleMilestoneCard = (props) => {
         project={milestone}
         openModal={openModal}
         setOpenModal={setOpenModal}
+        customer={project}
       />
       )}
     </Grid>

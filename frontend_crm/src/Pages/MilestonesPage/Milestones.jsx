@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function StickyHeadTable() {
   const classes = useStyles();
-  const token = localStorage.getItem('token');
   const [sort, setSort] = useState('');
   const [order, setOrder] = useState(true);
   const [milestones, setMilestones] = useState([]);

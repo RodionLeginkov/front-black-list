@@ -74,12 +74,12 @@ const CurrentProject = ({ match }) => {
 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    if (!project || !project.Projects_Milestones || project.uuid !== projectId) {
+    if (!project || !project.ProjectMilestones || project.uuid !== projectId) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
 
-  if (!project || !project.Projects_Milestones) {
+  if (!project || !project.ProjectMilestones) {
     return (<Loading />);
   }
   return (
@@ -110,7 +110,7 @@ const CurrentProject = ({ match }) => {
           <AddMilestonesForm
             showInfo
             project={project}
-            projectMilestones={project.Projects_Milestones}
+            projectMilestones={project.ProjectMilestones}
           />
 
         </div>
@@ -132,10 +132,10 @@ const CurrentProject = ({ match }) => {
           >
             <EditSharpIcon />
           </Button>
-          <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
+          <Tooltip title={project.ProjectMilestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
-                disabled={project.Projects_Milestones.length !== 0}
+                disabled={project.ProjectMilestones.length !== 0}
                 className={classes.button}
                 onClick={() => setdeleteModalIsOpen(true)}
               >

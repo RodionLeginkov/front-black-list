@@ -20,4 +20,4 @@ export const signUpNewUser = (data) => signUp('/signup', data);
 
 export const loginUser = (data) => signin('/signin', data);
 
-export const inviteUser = (id) => invite('/user/invitation/' + `${id}`);
+export const inviteUser = (id) => invite(`/user/invitation/${id}`);

@@ -26,7 +26,6 @@ function UserTableRowButtons(props) {
   const classes = useStyles();
 
   const {
-    handleAddTask,
     state,
     newTask,
     setNewTask,
@@ -53,9 +52,7 @@ function UserTableRowButtons(props) {
           </Button>
         ) : (
           <div className={classes.buttons}>
-            <Button
-              // onMouseDown={handleAddTask}
-            >
+            <Button>
               <CheckSharpIcon />
             </Button>
             <Button

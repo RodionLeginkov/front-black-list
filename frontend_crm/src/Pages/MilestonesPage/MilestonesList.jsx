@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import Select from '@material-ui/core/Select';
 import TableContainer from '@material-ui/core/TableContainer';
 import Input from '@material-ui/core/Input';
@@ -17,24 +17,6 @@ import Paper from '@material-ui/core/Paper';
 import { milestonesTableCells } from '../../constants/constants';
 import MilestonesTableHeaderCells from '../../components/MilestonesTableHeaderCell/MilestonesTableHeaderCell.jsx';
 import MilestonesTableRow from '../../components/MilestonesTableRow/MilestonesTableRow.jsx';
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: '#32418c',
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
-    },
-  },
-}))(TableRow);
 
 
 const useStyles = makeStyles({
@@ -83,7 +65,7 @@ const MilestonesList = (props) => {
     return createData(
       milestone['Projects.name'],
       fullName,
-      milestone.participants,
+      milestone['Person.name'],
       milestone.rate,
       milestone.rpd,
       milestone.load,

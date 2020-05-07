@@ -112,7 +112,7 @@ export default function UsersList(props) {
     return createData(
       user.firstName,
       user.lastName,
-      user.Users_Milestones,
+      user.UserMilestones,
       difDates(startDate, curDate),
       role,
       user.role,

@@ -80,6 +80,7 @@ const AddPersonModal = (props) => {
     projectId,
     personAdd,
   } = props;
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -102,7 +103,7 @@ const AddPersonModal = (props) => {
     e.preventDefault();
     if (projectId) {
       try {
-        await axios.post('/person', person);
+        const response = await axios.post('/person', { ...person, project_uuid: projectId });
         setPerson({
           project_uuid: projectId,
           name: '',
@@ -110,7 +111,8 @@ const AddPersonModal = (props) => {
           start_date: new Date(),
           end_date: null,
         });
-        dispatch(getProject(projectId));
+        personAdd(response.data);
+        // dispatch(getProject(projectId));
         setPersonModalOpen(false);
       } catch (error) {
 
@@ -150,6 +152,8 @@ const AddPersonModal = (props) => {
       setPersonModalOpen(false);
     }
   };
+
+
   return (
     <div className={classes.position}>
       <Modal

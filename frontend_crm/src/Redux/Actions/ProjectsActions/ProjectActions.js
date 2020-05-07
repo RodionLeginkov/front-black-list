@@ -23,7 +23,6 @@ export const addProject = (project) => async (dispatch) => {
   try {
     dispatch({ type: ADD_PROJECT_BEGIN });
     const loginToken = localStorage.getItem('token');
-
     const { data } = await addNewProject(project, loginToken);
     NotificationManager.success('The project was added');
     dispatch({ type: ADD_PROJECT, payload: data });

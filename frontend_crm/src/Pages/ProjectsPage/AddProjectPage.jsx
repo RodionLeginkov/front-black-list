@@ -17,6 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
+import axios from 'axios';
 import {
   getProject, getProjects, addProject, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -122,7 +123,7 @@ const AddProjectPage = (props) => {
 
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
-  console.log(project);
+
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
@@ -168,19 +169,19 @@ const AddProjectPage = (props) => {
 
   const personChange = (initialPerson, changedPerson) => {
     const changedPersons = project.Person;
-    changedPersons.splice(project.Person.indexOf(initialPerson), 1, changedPerson)
+    changedPersons.splice(project.Person.indexOf(initialPerson), 1, changedPerson);
     setProject({ ...project, Person: changedPersons });
   };
 
   const handleClose = () => (projectId ? history.push(`/customers/${project.uuid}`) : history.push('/customers'));
 
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateProject();
     if (validateErrors) {
       setErrors(validateErrors);
-    } else if (projectId) {
+    } else if (project.uuid) {
       // eslint-disable-next-line no-restricted-syntax
       // for (const index in projectMilestones) {
       //   if (Number(index) + 1 > curProject.Projects_Milestones.length) {
@@ -188,13 +189,12 @@ const AddProjectPage = (props) => {
       //   }
       // }
       dispatch(updateProject(project));
-      dispatch(getProject(projectId));
+      dispatch(getProject(project.uuid));
       history.push(`/customers/${project.uuid}`);
     } else {
-      console.log(project)
-      dispatch(addProject(project));
-      dispatch(getProjects());
-      history.push('/customers');
+      const response = await axios.post('/project', project);
+      setProject({ ...project, uuid: response.data.uuid });
+      // history.push('/customers');
     }
   };
   if (loading) {
@@ -290,33 +290,40 @@ const AddProjectPage = (props) => {
                 onChange={handleChange}
               />
               <Divider />
-              <PersonsList
-                personDelete={personDelete}
-                personChange={personChange}
-                projectPersons={project.Person}
-                projectId={projectId}
-              />
-              <Button
-                style={{ marginBotton: 5 }}
-                variant="contained"
-                color="primary"
-                onClick={() => setPersonModalOpen(true)}
-                className={classes.button}
-                endIcon={<PersonAddSharpIcon />}
-              >
-                Add Person
-              </Button>
-              <Divider />
-              <AddMilestonesForm
-                setProject={setProject}
-                project={project}
-                projectMilestones={projectMilestones}
-                milestonesChange={milestonesChange}
-                isError={isError}
-                setProjectMilestones={setProjectMilestones}
-                isEdit
-              />
-              <Divider />
+              { project.uuid ? (
+                <>
+                  <PersonsList
+                    personDelete={personDelete}
+                    personChange={personChange}
+                    projectPersons={project.Person}
+                    projectId={project.uuid}
+                  />
+                  <Button
+                    style={{ marginBotton: 5 }}
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setPersonModalOpen(true)}
+                    className={classes.button}
+                    endIcon={<PersonAddSharpIcon />}
+                  >
+                    Add Person
+                  </Button>
+                  <Divider />
+                  <AddMilestonesForm
+                    setProject={setProject}
+                    project={project}
+                    projectMilestones={projectMilestones}
+                    milestonesChange={milestonesChange}
+                    isError={isError}
+                    setProjectMilestones={setProjectMilestones}
+                    isEdit
+                  />
+                  <Divider />
+                </>
+              ) : (
+                ''
+              )}
+
               <div className={classes.button}>
                 <Button
                   variant="contained"
@@ -324,7 +331,7 @@ const AddProjectPage = (props) => {
                   type="submit"
                   className={classes.submitButton}
                 >
-                  Submit
+                  {project.uuid ? 'Submit' : 'Add project'}
                 </Button>
               </div>
             </form>
@@ -334,7 +341,7 @@ const AddProjectPage = (props) => {
       <AddPersonModal
         setPersonModalOpen={setPersonModalOpen}
         personModalOpen={personModalOpen}
-        projectId={projectId}
+        projectId={project.uuid}
         personAdd={personAdd}
       />
     </>

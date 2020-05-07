@@ -98,7 +98,7 @@ export default function AddUserModal(props) {
     withdraw: '',
     comment: '',
   };
-  console.log(curProject);
+
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
   const [errors, setErrors] = useState({

@@ -98,7 +98,7 @@ const MilestonesList = (props) => {
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-  console.log('MILESTONE LIST', milestones);
+
   return (
     <>
       <FormControl className='form-control'>

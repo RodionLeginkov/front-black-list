@@ -88,7 +88,7 @@ const MilestoneInfoModal = (props) => {
   let endDate = new Date(project.end_date);
   createDate = createDate.toLocaleString('en-GB', { hour12: false });
   endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
-  console.log('LEROOOOY', project);
+
   let curPerson;
 
   if (project.person_uuid !== null && person.Person.length !== 0) {

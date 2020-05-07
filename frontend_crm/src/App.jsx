@@ -1,14 +1,13 @@
 
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import {
   Route, Switch, withRouter, BrowserRouter, useHistory,
 } from 'react-router-dom';
 import {
-  ThemeProvider, createMuiTheme, makeStyles, useTheme,
+  ThemeProvider, createMuiTheme, makeStyles,
 } from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import clsx from 'clsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';

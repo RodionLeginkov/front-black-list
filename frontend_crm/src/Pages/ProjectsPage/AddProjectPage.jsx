@@ -11,7 +11,6 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import validator from 'validator';
-import Icon from '@material-ui/core/Icon';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
@@ -19,10 +18,9 @@ import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import axios from 'axios';
 import {
-  getProject, getProjects, addProject, updateProject,
+  getProject, getProjects, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
-import { addMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import './ProjectStyles.css';
 import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
 import PersonsList from '../../components/PersonsList/PersonsList.jsx';
@@ -124,7 +122,7 @@ const AddProjectPage = (props) => {
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
 
-  const [isError, setIsError] = useState(false);
+  const [isError] = useState(false);
   useEffect(() => {
     setProject(initialValue);
     setProjectMilestones(initialMilestones);

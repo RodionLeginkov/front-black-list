@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 import './styles.css';
@@ -70,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MilestoneInfoModal = (props) => {
   const {
-    project, openModal, setOpenModal, person,
+    project, openModal, setOpenModal,
   } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -90,9 +81,8 @@ const MilestoneInfoModal = (props) => {
   endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
 
   let curPerson;
-
-  if (project.person_uuid !== null && person.Person.length !== 0) {
-    curPerson = person.Person.find((item) => item.uuid === project.person_uuid);
+  if (project.person_uuid !== null && project.Person) {
+    curPerson = project.Person.find((item) => item.uuid === project.person_uuid);
     curPerson = curPerson.name;
   } else curPerson = '―';
 

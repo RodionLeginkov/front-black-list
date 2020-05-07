@@ -5,7 +5,7 @@ import { TextField } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
-import { updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
+import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
 import './style.css';
 
 function CurrentTaskField(props) {
@@ -13,7 +13,6 @@ function CurrentTaskField(props) {
   const _isMounted = useRef(true);
   const { user, changedFields, setChangedFields } = props;
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
   const [curTask, setCurTask] = useState(true);
   const [newTask, setNewTask] = useState(user && changedFields.current_task !== undefined ? {
     user_uuid: user.uuid,

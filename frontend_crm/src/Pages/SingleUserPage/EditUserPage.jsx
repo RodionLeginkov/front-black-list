@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -101,7 +103,7 @@ const EditUserPage = ({ match }) => {
     hiredAt: '',
     email: '',
   });
-  const [isError, setIsError] = useState(false);
+  const [isError] = useState(false);
 
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
@@ -125,13 +127,6 @@ const EditUserPage = ({ match }) => {
     hiredAt: null,
     Skills: [],
   };
-
-
-  const reqFields = [
-    'role',
-    'firstName',
-    'lastName',
-    'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
   const [usersTasks, setUsersTasks] = useState(user.UsersTasks);
@@ -164,7 +159,6 @@ const EditUserPage = ({ match }) => {
   if (loading) {
     return (<Loading />);
   }
-  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -197,7 +191,8 @@ const EditUserPage = ({ match }) => {
   let filteredProjects = projects;
   const devRole = user.role !== '' ? userRoles.find((item) => item.value === user.role) : '';
   for (const index in user.currentProject) {
-    filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
+    // eslint-disable-next-line max-len
+    filteredProjects = filteredProjects.filter((project) => project.name !== user.currentProject[index].name);
   }
   return (
     <>
@@ -320,12 +315,12 @@ const EditUserPage = ({ match }) => {
                       value={user.english_skill || ''}
                       onChange={handleChange}
                     >
-                      {englishLevels.map((english_skill) => (
+                      {englishLevels.map((englishSkill) => (
                         <MenuItem
-                          value={english_skill.value}
-                          key={english_skill.label}
+                          value={englishSkill.value}
+                          key={englishSkill.label}
                         >
-                          {english_skill.label}
+                          {englishSkill.label}
                         </MenuItem>
                       ))}
                     </Select>

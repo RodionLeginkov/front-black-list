@@ -2,14 +2,11 @@
 import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
-import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import { userRoles, englishLevels } from '../../constants/constants';
-import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import './style.css';
 import CurrentTaskField from './CurrentTaskField.jsx';
 
@@ -66,7 +63,6 @@ const StyledTableRow = withStyles(() => ({
 const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
   const { user, visibeCells } = props;
   const [changedFields, setChangedFields] = useState(user);
 

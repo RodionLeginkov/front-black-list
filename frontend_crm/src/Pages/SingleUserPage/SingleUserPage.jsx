@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -133,7 +134,6 @@ const useStyles = makeStyles(() => ({
 const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
-  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const [curTask, setCurTask] = useState(true);
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -186,6 +186,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     if (!users.length) {
       dispatch(getUsers('', '', '', true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
 
   // //////////////////////////////////////////////////////////////////////////
@@ -199,6 +200,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     if (user) {
       setNewTask({ ...newTask, user_uuid: user.uuid, text: userCurrentTask });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCurrentTask]);
   const handleTaskChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });

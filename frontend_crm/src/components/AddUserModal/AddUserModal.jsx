@@ -134,7 +134,6 @@ export default function AddUserModal(props) {
     if (!project.load) fieldsErrors.load = 'Load is required field.';
     if (validator.isEmpty(project.role)) fieldsErrors.role = 'Role is required field.';
     else if (project.role.length > 50) fieldsErrors.role = 'Role field is too long.';
-    // if (validator.isEmpty(project.start_date)) fieldsErrors.start_date = 'Last name is required field.';
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
@@ -169,8 +168,9 @@ export default function AddUserModal(props) {
   // console.log('tetetetete', curProject);
   let curPerson;
 
-  if (curProject.Person !== undefined) curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
-  else curPerson = '';
+  if (curProject.Person !== undefined) {
+    curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
+  } else curPerson = '';
   return (
     <div className={classes.position}>
       <Modal
@@ -202,7 +202,7 @@ export default function AddUserModal(props) {
                 options={curProject.Person}
                 onChange={handlePersonChange}
                 getOptionLabel={(option) => `${option.name}`}
-                renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                renderInput={(params) => <TextField {...params} label="Person" variant="outlined" />}
                 value={curPerson || null}
                 // renderInput={(params) => (
                 //   <TextField

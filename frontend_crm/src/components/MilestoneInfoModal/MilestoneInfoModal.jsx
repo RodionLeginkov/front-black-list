@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MilestoneInfoModal = (props) => {
   const {
-    project, openModal, setOpenModal,
+    project, openModal, setOpenModal, customer,
   } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -81,8 +81,9 @@ const MilestoneInfoModal = (props) => {
   endDate = project.end_date !== null ? endDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
 
   let curPerson;
-  if (project.person_uuid !== null && project.Person) {
-    curPerson = project.Person.find((item) => item.uuid === project.person_uuid);
+
+  if (project.person_uuid !== null) {
+    curPerson = customer.Person.find((item) => item.uuid === project.person_uuid);
     curPerson = curPerson.name;
   } else curPerson = '―';
 

@@ -173,7 +173,7 @@ const SingleMilestoneCard = (props) => {
         project={milestone}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        person={project}
+        customer={project}
       />
       )}
     </Grid>

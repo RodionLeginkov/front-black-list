@@ -165,7 +165,6 @@ export default function AddUserModal(props) {
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
   const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
-  // console.log('tetetetete', curProject);
   let curPerson;
 
   if (curProject.Person !== undefined) {

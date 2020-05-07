@@ -180,7 +180,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   }
 
   useEffect(() => {
-    if (!user || !user.Users_Milestones || !user.UsersTasks || userId !== user.uuid) {
+    if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
       dispatch(getUser(userId));
     }
     if (!users.length) {

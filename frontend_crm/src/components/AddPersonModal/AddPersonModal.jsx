@@ -6,25 +6,17 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import axios from 'axios';
-import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch } from 'react-redux';
-import validator from 'validator';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
-import { paymentTypes } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   modal: {

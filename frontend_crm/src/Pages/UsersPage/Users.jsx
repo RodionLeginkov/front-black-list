@@ -82,7 +82,7 @@ function Users() {
     localStorage.setItem('userWidgetView', !widgetView);
   };
   if (profitable === 'No Profitable') {
-    users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
+    users = users.filter((user) => user.UserMilestones.length === 0 || !user.UserMilestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
   }
 
   return (

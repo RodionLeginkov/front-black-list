@@ -59,8 +59,7 @@ export const findProject = (id) => ({ type: FIND_PROJECT, payload: id });
 
 export const deleteProject = (id) => async (dispatch) => {
   try {
-    const loginToken = localStorage.getItem('token');
-    await axios.delete('/project/' + `${id}`);
+    await axios.delete(`/project/${id}`);
     NotificationManager.success('The project was deleted');
     dispatch({ type: DELETE_PROJECT, payload: id });
   } catch (error) {

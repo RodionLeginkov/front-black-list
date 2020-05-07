@@ -114,10 +114,10 @@ const AddProjectPage = (props) => {
     customer: '',
     description: '',
     history: '',
-    Projects_Milestones: [],
+    ProjectMilestones: [],
     Person: [],
   };
-  const initialMilestones = (projectId && curProject) ? curProject.Projects_Milestones : [];
+  const initialMilestones = (projectId && curProject) ? curProject.ProjectMilestones : [];
 
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
@@ -153,7 +153,7 @@ const AddProjectPage = (props) => {
 
   const milestonesChange = (newMilestone) => {
     setProjectMilestones([...projectMilestones, newMilestone]);
-    setProject({ ...project, Projects_Milestones: [...project.Projects_Milestones, newMilestone] });
+    setProject({ ...project, ProjectMilestones: [...project.ProjectMilestones, newMilestone] });
   };
 
   const personAdd = (newPerson) => {
@@ -182,7 +182,7 @@ const AddProjectPage = (props) => {
     } else if (project.uuid) {
       // eslint-disable-next-line no-restricted-syntax
       // for (const index in projectMilestones) {
-      //   if (Number(index) + 1 > curProject.Projects_Milestones.length) {
+      //   if (Number(index) + 1 > curProject.ProjectMilestones.length) {
       //     dispatch(addMilestone(projectMilestones[index]));
       //   }
       // }

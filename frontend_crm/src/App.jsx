@@ -57,7 +57,6 @@ function App() {
     axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
     // eslint-disable-next-line dot-notation
     axios.defaults.headers.common['authorization'] = loginToken;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
@@ -70,6 +69,7 @@ function App() {
         return Promise.reject(error);
       },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // localStorage.setItem('token', '');

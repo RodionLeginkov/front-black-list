@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Grid from '@material-ui/core/Grid';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
     forRead, show,
-    name, userChange, developersValue, isError, participants, disabled, isParticipent,
+    name, userChange, developersValue, isError, participants, isParticipent,
   } = props;
 
   const handleChange = (e, values) => {

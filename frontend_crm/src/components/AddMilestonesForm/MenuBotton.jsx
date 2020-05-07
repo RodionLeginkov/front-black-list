@@ -38,7 +38,7 @@ export default function LongMenu(props) {
   const handleDelete = () => {
     // eslint-disable-next-line max-len
     const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
-    setProject({ ...project, Projects_Milestones: filteredMilestones });
+    setProject({ ...project, ProjectMilestones: filteredMilestones });
     setProjectMilestones(filteredMilestones);
     dispatch(deleteMilestone(singleMilestone.uuid));
     dispatch(getProject(project.uuid));

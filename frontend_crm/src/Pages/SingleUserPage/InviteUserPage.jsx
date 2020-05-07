@@ -84,7 +84,7 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
-  const [isError, setIsError] = useState(false);
+  const [isError] = useState(false);
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',

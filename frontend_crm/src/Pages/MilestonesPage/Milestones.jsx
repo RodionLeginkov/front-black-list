@@ -38,6 +38,7 @@ export default function StickyHeadTable() {
     'Name',
     'User',
     'Person',
+    'Participant',
     'Rate',
     'RPD',
     'Load',

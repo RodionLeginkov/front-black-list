@@ -14,6 +14,7 @@ export const milestonesTableCells = [
   { label: 'Name', value: 'name' },
   { label: 'User', value: 'user' },
   { label: 'Person', value: 'person' },
+  { label: 'Participant', value: 'participant' },
   { label: 'Rate', value: 'rate' },
   { label: 'RPD', value: 'rpd' },
   { label: 'Load', value: 'load' },

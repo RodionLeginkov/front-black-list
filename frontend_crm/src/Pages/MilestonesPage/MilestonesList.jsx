@@ -28,6 +28,7 @@ const useStyles = makeStyles({
 function createData(name,
   user,
   person,
+  participant,
   rate,
   rpd,
   load,
@@ -41,6 +42,7 @@ function createData(name,
     name,
     user,
     person,
+    participant,
     rate,
     rpd,
     load,
@@ -58,6 +60,7 @@ const MilestonesList = (props) => {
   const {
     milestones, setVisibeCells, visibeCells, sort, setSort, order, setOrder,
   } = props;
+  console.log(milestones);
   const rows = milestones.map((milestone) => {
     let startDate = new Date(milestone.start_date);
     startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });

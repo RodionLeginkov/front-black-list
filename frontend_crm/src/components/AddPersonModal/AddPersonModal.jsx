@@ -94,6 +94,19 @@ const AddPersonModal = (props) => {
   const handleChange = (e) => setPerson({ ...person, [e.target.name]: e.target.value });
   const addParticipant = (participant) => setPerson({ ...person, Participants: [...person.Participants, participant] });
 
+  const participantDelete = (deletedParticipant) => {
+    const filteredParticipants = person.Participants.filter((participant) => participant !== deletedParticipant);
+    setPerson({ ...person, Participants: filteredParticipants });
+  };
+
+  const participantChange = (initialParticipant, changedParticipant) => {
+    console.log(person.Participants.indexOf(initialParticipant))
+
+    const changedParticipants = person.Participants;
+    changedParticipants.splice(person.Participants.indexOf(initialParticipant), 1, changedParticipant);
+    setPerson({ ...person, Person: changedParticipants });
+  };
+
   const handleAdd = async (e) => {
     e.preventDefault();
     if (projectId) {
@@ -175,8 +188,11 @@ const AddPersonModal = (props) => {
                 isParticipent
               />
               <ParticipantsList
+                participantDelete={participantDelete}
+                personId={person.uuid}
                 participants={person.Participants}
                 addParticipant={addParticipant}
+                participantChange={participantChange}
               />
               <Grid container spacing={1}>
                 <Grid item xs={12} style={{ paddingBottom: 0 }}>

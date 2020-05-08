@@ -17,13 +17,15 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import validator from 'validator';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
+import ParticipantsListItem from '../ParticipantsListItem/ParticipantsListItem.jsx';
 
 const useStyles = makeStyles(() => ({
   inputForm: {
     width: '100%',
-    marginTop: '10px',
+    // marginTop: '10px',
     marginBottom: '0px',
     paddingBottom: '0px',
   },
@@ -35,37 +37,64 @@ const ParticipantsList = (props) => {
     name: '',
     role: '',
   });
+  const [errors, setErrors] = useState({
+    name: '',
+    role: '',
+  });
   const { participants, addParticipant } = props;
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setNewParticipant({ ...newParticipant, [e.target.name]: e.target.value });
   };
-  const userChange = (user) => { setNewParticipant({ ...newParticipant, name: user.fullName }); };
-  const addNewParticipant = () => {
-    console.log(newParticipant);
-    addParticipant(newParticipant);
-    setNewParticipant({ name: '', role: '' });
+  const userChange = (user) => {
+    setErrors({ ...errors, name: '' });
+    setNewParticipant({ ...newParticipant, name: user.fullName });
   };
+
+  const validateParticipants = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(newParticipant.name)) fieldsErrors.name = 'Name is required field.';
+    if (validator.isEmpty(newParticipant.role)) fieldsErrors.role = 'Customer is required field.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
+  const addNewParticipant = () => {
+    const validateErrors = validateParticipants();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
+      addParticipant(newParticipant);
+      setNewParticipant({ name: '', role: '' });
+    }
+  };
+
+  const participantsList = participants.map((item, index) => <ParticipantsListItem key={index} participant={item} />);
 
   return (
     <>
-      <Grid container item spacing={1} alignItems="center">
+      <Grid container item spacing={1} alignItems="center" style={{ paddingTop: '10px' }}>
+        {participantsList}
         <Grid item xs={5}>
           <DevelopersChooseForm
             name='Person'
             userChange={userChange}
             developersValue={newParticipant.name}
             isParticipent
+            isError={errors.name}
           />
         </Grid>
 
         <Grid item xs={5}>
           <TextField
+            error={Boolean(errors.role)}
+            helperText={errors.role}
             label="Role"
             variant="outlined"
             inputProps={{ 'aria-label': 'description' }}
             className={classes.inputForm}
             name='role'
             onChange={handleChange}
+            value={newParticipant.role}
           />
         </Grid>
         <Grid item xs={1}>

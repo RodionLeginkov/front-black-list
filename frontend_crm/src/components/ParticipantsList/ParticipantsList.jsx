@@ -40,6 +40,11 @@ const ParticipantsList = (props) => {
     setNewParticipant({ ...newParticipant, [e.target.name]: e.target.value });
   };
   const userChange = (user) => { setNewParticipant({ ...newParticipant, name: user.fullName }); };
+  const addNewParticipant = () => {
+    console.log(newParticipant);
+    addParticipant(newParticipant);
+    setNewParticipant({ name: '', role: '' });
+  };
 
   return (
     <>
@@ -65,7 +70,7 @@ const ParticipantsList = (props) => {
         </Grid>
         <Grid item xs={1}>
           <IconButton
-            onClick={() => addParticipant(newParticipant)}
+            onClick={addNewParticipant}
           >
             <AddCircleOutlineSharpIcon style={{ fontSize: '25px' }} />
           </IconButton>

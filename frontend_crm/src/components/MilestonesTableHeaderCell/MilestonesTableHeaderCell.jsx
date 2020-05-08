@@ -19,7 +19,7 @@ const MilestonesTableHeaderCell = (props) => {
   } = props;
   return (
     <>
-      {(cell.value !== 'name' && cell.value !== 'user' && cell.value !== 'participants') ? (
+      {(cell.value !== 'name' && cell.value !== 'user' && cell.value !== 'person') ? (
         <StyledTableCell
           className='cell-pointer cell'
           align="center"

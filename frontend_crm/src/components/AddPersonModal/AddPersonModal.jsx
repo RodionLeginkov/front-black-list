@@ -86,17 +86,19 @@ const AddPersonModal = (props) => {
     description: '',
     start_date: new Date(),
     end_date: null,
+    Participants: [],
   });
   const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
   const handleChange = (e) => setPerson({ ...person, [e.target.name]: e.target.value });
-  const addParticipant = (participant) => setPerson({ ...person, Participants: participant });
+  const addParticipant = (participant) => setPerson({ ...person, Participants: [...person.Participants, participant] });
 
   const handleAdd = async (e) => {
     e.preventDefault();
     if (projectId) {
       try {
+        console.log('person,', person);
         const response = await axios.post('/person', { ...person, project_uuid: projectId });
         setPerson({
           project_uuid: projectId,
@@ -146,7 +148,6 @@ const AddPersonModal = (props) => {
       setPersonModalOpen(false);
     }
   };
-
 
   return (
     <div className={classes.position}>

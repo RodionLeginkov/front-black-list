@@ -13,7 +13,7 @@ export const stackList = [
 export const milestonesTableCells = [
   { label: 'Name', value: 'name' },
   { label: 'User', value: 'user' },
-  { label: 'Participants', value: 'participants' },
+  { label: 'Person', value: 'person' },
   { label: 'Rate', value: 'rate' },
   { label: 'RPD', value: 'rpd' },
   { label: 'Load', value: 'load' },

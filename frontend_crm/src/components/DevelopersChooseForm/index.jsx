@@ -8,7 +8,7 @@ export default function DevelopersChooseForm(props) {
   const dispatch = useDispatch();
   const {
     forRead, show,
-    name, userChange, developersValue, isError, participants, isParticipent,
+    name, userChange, developersValue, isError, person, isParticipent,
   } = props;
 
   const handleChange = (e, values) => {
@@ -46,7 +46,7 @@ export default function DevelopersChooseForm(props) {
         )
         : (
           <Autocomplete
-            style={participants ? { marginTop: '10px' } : {}}
+            style={person ? { marginTop: '10px' } : {}}
             options={filteredUsers}
             onChange={handleChange}
             getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}

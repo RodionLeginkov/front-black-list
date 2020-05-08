@@ -37,7 +37,7 @@ export default function StickyHeadTable() {
   const [visibeCells, setVisibeCells] = useState([
     'Name',
     'User',
-    'Participants',
+    'Person',
     'Rate',
     'RPD',
     'Load',

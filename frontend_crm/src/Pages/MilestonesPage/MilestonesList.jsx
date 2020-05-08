@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 function createData(name,
   user,
-  participants,
+  person,
   rate,
   rpd,
   load,
@@ -40,7 +40,7 @@ function createData(name,
   return {
     name,
     user,
-    participants,
+    person,
     rate,
     rpd,
     load,

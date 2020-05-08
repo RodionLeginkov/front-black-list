@@ -98,7 +98,6 @@ const AddPersonModal = (props) => {
     e.preventDefault();
     if (projectId) {
       try {
-        console.log('person,', person);
         const response = await axios.post('/person', { ...person, project_uuid: projectId });
         setPerson({
           project_uuid: projectId,
@@ -106,6 +105,7 @@ const AddPersonModal = (props) => {
           description: '',
           start_date: new Date(),
           end_date: null,
+          Participants: [],
         });
         personAdd(response.data);
         // dispatch(getProject(projectId));
@@ -121,6 +121,7 @@ const AddPersonModal = (props) => {
         description: '',
         start_date: new Date(),
         end_date: null,
+        Participants: [],
       });
       setPersonModalOpen(false);
     }
@@ -149,6 +150,7 @@ const AddPersonModal = (props) => {
     }
   };
 
+  console.log('person,', person);
   return (
     <div className={classes.position}>
       <Modal

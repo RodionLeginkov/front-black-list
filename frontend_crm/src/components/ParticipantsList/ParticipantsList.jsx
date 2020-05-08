@@ -68,7 +68,7 @@ const ParticipantsList = (props) => {
     }
   };
 
-  const participantsList = participants.map((item, index) => <ParticipantsListItem key={index} participant={item} />);
+  const participantsList = (participants !== undefined) ? (participants.map((item, index) => <ParticipantsListItem key={index} participant={item} />)) : '';
 
   return (
     <>

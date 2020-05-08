@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 import IconButton from '@material-ui/core/IconButton';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
 
 function AddMilestonesForm(props) {
@@ -57,7 +57,7 @@ function AddMilestonesForm(props) {
           ) : ''}
       </Grid>
       {isEdit ? (
-        <AddUserModal
+        <AddNewMilestoneModal
           forRead={forRead}
           projectMilestones={projectMilestones}
           addUserModalOpen={addUserModalOpen}

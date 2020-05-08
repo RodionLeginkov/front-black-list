@@ -15,7 +15,7 @@ import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -194,7 +194,7 @@ export default function RecipeReviewCard(props) {
         name={card.name}
       />
 
-      <AddUserModal
+      <AddNewMilestoneModal
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}
         curProject={{ ...card }}

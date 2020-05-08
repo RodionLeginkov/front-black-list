@@ -17,6 +17,7 @@ import {
 } from '@material-ui/pickers';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
+import ParticipantsList from '../ParticipantsList/ParticipantsList.jsx';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -90,6 +91,7 @@ const AddPersonModal = (props) => {
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
   const handleChange = (e) => setPerson({ ...person, [e.target.name]: e.target.value });
+  const addParticipant = (participant) => setPerson({ ...person, Participants: participant });
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -168,6 +170,10 @@ const AddPersonModal = (props) => {
                 userChange={userChange}
                 developersValue={person.name}
                 isParticipent
+              />
+              <ParticipantsList
+                participants={person.Participants}
+                addParticipant={addParticipant}
               />
               <Grid container spacing={1}>
                 <Grid item xs={12} style={{ paddingBottom: 0 }}>

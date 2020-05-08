@@ -9,7 +9,7 @@ import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 
 const ITEM_HEIGHT = 48;
 
@@ -86,7 +86,7 @@ export default function LongMenu(props) {
           </MenuItem>
         </div>
       </Menu>
-      <AddUserModal
+      <AddNewMilestoneModal
         projectMilestones={project.projectMilestones}
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}

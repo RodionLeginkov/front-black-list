@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddUserModal(props) {
+export default function AddNewMilestoneModal(props) {
   const {
     forRead,
     addUserModalOpen,

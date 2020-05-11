@@ -17,6 +17,8 @@ import HelpOutlineSharpIcon from '@material-ui/icons/HelpOutlineSharp';
 import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import CloseSharpIcon from '@material-ui/icons/CloseSharp';
 import axios from 'axios';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import {
   getProject, getProjects, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -24,6 +26,7 @@ import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesF
 import './ProjectStyles.css';
 import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
 import PersonsList from '../../components/PersonsList/PersonsList.jsx';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -89,6 +92,36 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '30px',
   },
 }));
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function TabPanel(props) {
+  const {
+    children, value, index, ...other
+  } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 const AddProjectPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -97,6 +130,7 @@ const AddProjectPage = (props) => {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
   const [personModalOpen, setPersonModalOpen] = useState(false);
+  const [value, setValue] = React.useState(0);
   const [errors, setErrors] = useState({
     name: '',
     description: '',
@@ -173,6 +207,9 @@ const AddProjectPage = (props) => {
 
   const handleClose = () => (projectId ? history.push(`/customers/${project.uuid}`) : history.push('/customers'));
 
+  const handleChangeTab = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -290,33 +327,49 @@ const AddProjectPage = (props) => {
               <Divider />
               { project.uuid ? (
                 <>
-                  <PersonsList
-                    personDelete={personDelete}
-                    personChange={personChange}
-                    projectPersons={project.Person}
-                    projectId={project.uuid}
-                  />
-                  <Button
-                    style={{ marginBotton: 5 }}
-                    variant="contained"
-                    color="primary"
-                    onClick={() => setPersonModalOpen(true)}
-                    className={classes.button}
-                    endIcon={<PersonAddSharpIcon />}
+                  <Tabs
+                    indicatorColor="primary"
+                    textColor="primary"
+                    variant="fullWidth"
+                    aria-label="simple tabs example"
+                    value={value}
+                    onChange={handleChangeTab}
                   >
-                    Add Person
-                  </Button>
-                  <Divider />
-                  <AddMilestonesForm
-                    setProject={setProject}
-                    project={project}
-                    projectMilestones={projectMilestones}
-                    milestonesChange={milestonesChange}
-                    isError={isError}
-                    setProjectMilestones={setProjectMilestones}
-                    isEdit
-                  />
-                  <Divider />
+                    <Tab label="Resources" {...a11yProps(0)} />
+                    <Tab label="Persons" {...a11yProps(1)} />
+                  </Tabs>
+
+                  <TabPanel value={value} index={0}>
+                    <AddMilestonesForm
+                      setProject={setProject}
+                      project={project}
+                      projectMilestones={projectMilestones}
+                      milestonesChange={milestonesChange}
+                      isError={isError}
+                      setProjectMilestones={setProjectMilestones}
+                      isEdit
+                    />
+                  </TabPanel>
+
+                  <TabPanel value={value} index={1}>
+                    <PersonsList
+                      personDelete={personDelete}
+                      personChange={personChange}
+                      projectPersons={project.Person}
+                      projectId={project.uuid}
+                    />
+                    <Button
+                      style={{ marginBotton: 5 }}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => setPersonModalOpen(true)}
+                      className={classes.button}
+                      endIcon={<PersonAddSharpIcon />}
+                    >
+                      Add Person
+                    </Button>
+                  </TabPanel>
+
                 </>
               ) : (
                 ''

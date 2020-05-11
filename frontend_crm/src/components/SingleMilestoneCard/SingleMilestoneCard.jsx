@@ -103,11 +103,11 @@ const SingleMilestoneCard = (props) => {
     setProjectMilestones,
   } = props;
   const user = milestone.Users;
-  const userName = `${user.firstName} ${user.lastName}`;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
+  const personName = milestone.person_uuid ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
   let paymentType;
   if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
     paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
@@ -121,7 +121,7 @@ const SingleMilestoneCard = (props) => {
   const handleClick = () => {
     setOpenModal(true);
   };
-
+  console.log(project);
   return (
     <Grid
       item
@@ -135,7 +135,13 @@ const SingleMilestoneCard = (props) => {
       <Card className={lightingMilestone} onClick={handleClick}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography style={{ marginLeft: '7px' }}>
-            <b>{userName}</b>
+            <b>
+              {user.fullName}
+              {' '}
+              (
+              {personName}
+              )
+            </b>
           </Typography>
           {isEdit ? (
             <MenuBotton

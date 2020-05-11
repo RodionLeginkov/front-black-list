@@ -55,7 +55,7 @@ const ParticipantsList = (props) => {
   };
   const userChange = (user) => {
     setErrors({ ...errors, name: '' });
-    setNewParticipant({ ...newParticipant, name: user.fullName });
+    setNewParticipant({ ...newParticipant, name: user !== null ? user.fullName : '' });
   };
 
   const validateParticipants = () => {

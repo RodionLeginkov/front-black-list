@@ -33,6 +33,13 @@ const useStyles = makeStyles(() => ({
 
 const ParticipantsList = (props) => {
   const classes = useStyles();
+  const {
+    participants,
+    addParticipant,
+    personId,
+    participantDelete,
+    participantChange,
+  } = props;
   const [newParticipant, setNewParticipant] = useState({
     name: '',
     role: '',
@@ -41,7 +48,7 @@ const ParticipantsList = (props) => {
     name: '',
     role: '',
   });
-  const { participants, addParticipant } = props;
+  const [editedParticipents, setEditedParticipents] = useState('');
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setNewParticipant({ ...newParticipant, [e.target.name]: e.target.value });
@@ -58,17 +65,30 @@ const ParticipantsList = (props) => {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
-  const addNewParticipant = () => {
+  const addNewParticipant = async () => {
     const validateErrors = validateParticipants();
     if (validateErrors) {
       setErrors(validateErrors);
+    } else if (personId) {
+      const response = await axios.post('/participant', { ...newParticipant, person_uuid: personId });
+      addParticipant(response.data);
+      setNewParticipant({ name: '', role: '' });
     } else {
       addParticipant(newParticipant);
       setNewParticipant({ name: '', role: '' });
     }
   };
 
-  const participantsList = (participants !== undefined) ? (participants.map((item, index) => <ParticipantsListItem key={index} participant={item} />)) : '';
+  const participantsList = (participants !== undefined) ? (participants.map((item, index) => (
+    <ParticipantsListItem
+      key={index}
+      participant={item}
+      participantDelete={participantDelete}
+      participantChange={participantChange}
+      editedParticipents={editedParticipents}
+      setEditedParticipents={setEditedParticipents}
+    />
+  ))) : '';
 
   return (
     <>

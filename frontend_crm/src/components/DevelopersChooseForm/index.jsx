@@ -49,7 +49,7 @@ export default function DevelopersChooseForm(props) {
             style={person ? { marginTop: '10px' } : {}}
             options={filteredUsers}
             onChange={handleChange}
-            getOptionLabel={(option) => `${option.lastName} ${option.firstName}`}
+            getOptionLabel={(option) => `${option.fullName}`}
             value={curUser || null}
             renderInput={(params) => (
               <TextField

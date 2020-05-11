@@ -99,11 +99,10 @@ const AddPersonModal = (props) => {
     setPerson({ ...person, Participants: filteredParticipants });
   };
 
-  const participantChange = (initialParticipant, changedParticipant) => {
-    console.log(person.Participants.indexOf(initialParticipant))
-
-    const changedParticipants = person.Participants;
-    changedParticipants.splice(person.Participants.indexOf(initialParticipant), 1, changedParticipant);
+  const participantChange = (changedParticipant) => {
+    const changedParticipants = person.Participants.map((item) => {
+      return item.uuid === changedParticipant.uuid ? changedParticipant : item;
+    });
     setPerson({ ...person, Person: changedParticipants });
   };
 
@@ -163,7 +162,7 @@ const AddPersonModal = (props) => {
     }
   };
 
-  console.log('person,', person);
+
   return (
     <div className={classes.position}>
       <Modal

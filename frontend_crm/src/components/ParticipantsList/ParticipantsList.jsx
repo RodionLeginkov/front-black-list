@@ -48,6 +48,7 @@ const ParticipantsList = (props) => {
     name: '',
     role: '',
   });
+  const [editedParticipents, setEditedParticipents] = useState('');
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setNewParticipant({ ...newParticipant, [e.target.name]: e.target.value });
@@ -84,6 +85,8 @@ const ParticipantsList = (props) => {
       participant={item}
       participantDelete={participantDelete}
       participantChange={participantChange}
+      editedParticipents={editedParticipents}
+      setEditedParticipents={setEditedParticipents}
     />
   ))) : '';
 

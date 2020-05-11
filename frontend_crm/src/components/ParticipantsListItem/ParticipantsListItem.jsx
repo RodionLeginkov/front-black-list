@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -39,9 +39,15 @@ const ParticipantsListItem = (props) => {
     participant,
     participantDelete,
     participantChange,
+    editedParticipents,
+    setEditedParticipents,
   } = props;
   const [curParicipant, setCurParicipant] = useState(participant);
-  const [edit, setEdit] = useState(true);
+
+  useEffect(() => {
+    if (editedParticipents !== curParicipant.uuid) setCurParicipant(participant);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editedParticipents]);
   const handleDelete = async () => {
     if (curParicipant.uuid) {
       await axios.delete(`/participant/${participant.uuid}`);
@@ -51,16 +57,16 @@ const ParticipantsListItem = (props) => {
     }
   };
   const handleChangeParticipant = async () => {
-    setEdit(true);
+    setEditedParticipents('');
     if (curParicipant.uuid) {
       await axios.put(`/participant/${participant.uuid}`, curParicipant);
-      participantChange(participant, curParicipant);
+      participantChange(curParicipant);
     } else {
-      participantChange(participant, curParicipant);
+      participantChange(curParicipant);
     }
   };
   const handleCloseEdit = () => {
-    setEdit(true);
+    setEditedParticipents('');
     setCurParicipant(participant);
   };
 
@@ -83,7 +89,7 @@ const ParticipantsListItem = (props) => {
             userChange={userChange}
             developersValue={curParicipant.name}
             isParticipent
-            show={edit}
+            show={editedParticipents !== curParicipant.uuid}
           />
         </Grid>
 
@@ -95,15 +101,15 @@ const ParticipantsListItem = (props) => {
             className={classes.inputForm}
             name='role'
             value={curParicipant.role}
-            disabled={edit}
+            disabled={editedParticipents !== curParicipant.uuid}
             onChange={handleChange}
           />
         </Grid>
-        {edit
+        {editedParticipents !== curParicipant.uuid
           ? (
             <>
               <Grid item sm={1}>
-                <IconButton onClick={() => setEdit(false)}>
+                <IconButton onClick={() => setEditedParticipents(curParicipant.uuid)}>
                   <CreateSharpIcon />
                 </IconButton>
               </Grid>

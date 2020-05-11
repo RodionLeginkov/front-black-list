@@ -4,6 +4,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import { milestonesTableCells } from '../../constants/constants';
 
 const useStyles = makeStyles({
@@ -44,6 +46,12 @@ const MilestonesTableRow = (props) => {
     }
   }
 
+  // if (visibeCells.includes('Participant')) {
+  //   console.log(milestone);
+  //   return (
+  //     <></>
+  //   );
+  // }
 
   return (
     <StyledTableRow key={Math.random()}>
@@ -52,7 +60,8 @@ const MilestonesTableRow = (props) => {
                   const milestoneClassName = clsx({
                     [classes.redirect]: (cell.label === 'Name' || cell.label === 'User'),
                   });
-                  if (visibeCells.includes(cell.label)) {
+                  if (visibeCells.includes(cell.label) && cell.label !== 'Participants') {
+                    // console.log(milestone[cell.value]);
                     return (
                       <StyledTableCell
                         key={Math.random()}
@@ -61,6 +70,52 @@ const MilestonesTableRow = (props) => {
                         onClick={() => handleClick(cell.label, milestone)}
                       >
                         {milestone[cell.value]}
+                      </StyledTableCell>
+                    );
+                  }
+                  if (visibeCells.includes(cell.label) && cell.label === 'Participants') {
+                    if (milestone[cell.value].length !== 0) {
+                      // console.log(milestone[cell.value]);
+
+                      return (
+                        <StyledTableCell
+                          key={Math.random()}
+                          align="center"
+                          className={milestoneClassName}
+                          onClick={() => handleClick(cell.label, milestone)}
+                        >
+                          <div key={Math.random()}>
+                            <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
+                              {`${milestone.user} - ${milestone.role}`}
+                            </Typography>
+                            <Divider />
+                          </div>
+
+                          { milestone[cell.value].map((item) => (
+                            <div key={Math.random()}>
+                              <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
+                                {`${item.name} - ${item.role}`}
+                              </Typography>
+                              <Divider />
+                            </div>
+                          ))}
+                        </StyledTableCell>
+                      );
+                    }
+                    return (
+                      <StyledTableCell
+                        key={Math.random()}
+                        align="center"
+                        className={milestoneClassName}
+                        onClick={() => handleClick(cell.label, milestone)}
+
+                      >
+                        <div key={Math.random()}>
+                          <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
+                            {`${milestone.user} - ${milestone.role}`}
+                          </Typography>
+
+                        </div>
                       </StyledTableCell>
                     );
                   }

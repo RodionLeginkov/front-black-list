@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import validator from 'validator';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -86,7 +87,17 @@ const AddPersonModal = (props) => {
     Participants: [],
   });
 
-  const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
+  const [errors, setErrors] = useState({
+    name: '',
+  });
+
+  const validateProject = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(person.name)) fieldsErrors.name = 'Name is required field.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
+  const userChange = (user) => { setPerson({ ...person, name: user !== null ? user.fullName : '' }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
   const handleChange = (e) => setPerson({ ...person, [e.target.name]: e.target.value });
@@ -121,7 +132,9 @@ const AddPersonModal = (props) => {
 
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (projectId) {
+    const validateErrors = validateProject();
+    if (validateErrors) setErrors(validateErrors);
+    else if (projectId) {
       try {
         const response = await axios.post('/person', { ...person, project_uuid: projectId });
         setPerson({
@@ -154,7 +167,9 @@ const AddPersonModal = (props) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    if (projectId) {
+    const validateErrors = validateProject();
+    if (validateErrors) setErrors(validateErrors);
+    else if (projectId) {
       try {
         await axios.put(`/person/${person.uuid}`, person);
         dispatch(getProject(projectId));
@@ -198,6 +213,7 @@ const AddPersonModal = (props) => {
                 userChange={userChange}
                 developersValue={person.name}
                 isParticipent
+                isError={errors.name}
               />
               <ParticipantsList
                 participantDelete={participantDelete}
@@ -260,6 +276,8 @@ const AddPersonModal = (props) => {
                   type="submit"
                   onClick={initialPerson === undefined ? handleAdd : handleEdit}
                   className={classes.submitButton}
+                  error={Boolean(errors.name)}
+                  helperText={errors.name}
                 >
                   Submit
                 </Button>

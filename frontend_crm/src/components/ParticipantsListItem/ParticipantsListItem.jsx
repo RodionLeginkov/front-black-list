@@ -81,7 +81,8 @@ const ParticipantsListItem = (props) => {
   };
   const userChange = (user) => {
     // setErrors({ ...errors, name: '' });
-    setCurParicipant({ ...curParicipant, name: user.fullName });
+
+    setCurParicipant({ ...curParicipant, name: user !== null ? user.fullName : '' });
   };
 
 
@@ -90,7 +91,7 @@ const ParticipantsListItem = (props) => {
       <Grid container item spacing={1} alignItems="center" style={{ paddingTop: '10px' }}>
         <Grid item xs={5}>
           <DevelopersChooseForm
-            name='Person'
+            name='User name'
             userChange={userChange}
             developersValue={curParicipant.name}
             isParticipent

@@ -211,6 +211,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     if (userCurrentTask !== newTask.text && newTask.text !== '') {
       const response = await axios.post('/history-tasks', newTask);
       const taskId = response.data.uuid;
+      console.log('update', user);
       dispatch(updateUser({ ...user, current_task: taskId }));
       setNewTask({ ...newTask, text: response.data.text });
       setCurTask(!curTask);

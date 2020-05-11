@@ -204,22 +204,22 @@ export default function MiniDrawer(props) {
           </Link>
 
           <Link to="/customers" className={classes.link}>
-            <Tooltip title='Projects'>
-              <ListItem button key="Projects">
+            <Tooltip title='Customers'>
+              <ListItem button key="Customers">
                 <ListItemIcon>
                   <DeveloperBoardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Projects" />
+                <ListItemText primary="Customers" />
               </ListItem>
             </Tooltip>
           </Link>
           <Link to="/projects" className={classes.link}>
-            <Tooltip title='Leads'>
-              <ListItem button key="Leads">
+            <Tooltip title='Projects'>
+              <ListItem button key="Projects">
                 <ListItemIcon>
                   <AssignmentIndSharpIcon />
                 </ListItemIcon>
-                <ListItemText primary="Leads" />
+                <ListItemText primary="Projects" />
               </ListItem>
             </Tooltip>
           </Link>

@@ -76,10 +76,7 @@ const AddPersonModal = (props) => {
 
   const dispatch = useDispatch();
   const classes = useStyles();
-  const handleCancel = (e) => {
-    e.preventDefault();
-    setPersonModalOpen(false);
-  };
+
   const [person, setPerson] = useState(initialPerson || {
     project_uuid: projectId,
     name: '',
@@ -88,6 +85,7 @@ const AddPersonModal = (props) => {
     end_date: null,
     Participants: [],
   });
+
   const userChange = (user) => { setPerson({ ...person, name: user.fullName }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
@@ -99,10 +97,25 @@ const AddPersonModal = (props) => {
     setPerson({ ...person, Participants: filteredParticipants });
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+    if (initialPerson === undefined) {
+      setPerson({
+        project_uuid: projectId,
+        name: '',
+        description: '',
+        start_date: new Date(),
+        end_date: null,
+        Participants: [],
+      });
+    } else {
+      setPerson(initialPerson);
+    }
+    setPersonModalOpen(false);
+  };
+
   const participantChange = (changedParticipant) => {
-    const changedParticipants = person.Participants.map((item) => {
-      return item.uuid === changedParticipant.uuid ? changedParticipant : item;
-    });
+    const changedParticipants = person.Participants.map((item) => (item.uuid === changedParticipant.uuid ? changedParticipant : item));
     setPerson({ ...person, Person: changedParticipants });
   };
 

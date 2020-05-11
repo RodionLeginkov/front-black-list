@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import axios from 'axios';
@@ -9,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import CreateSharpIcon from '@material-ui/icons/CreateSharp';
 import AddPersonModal from '../AddPersonModal/AddPersonModal.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import TableRow from '@material-ui/core/TableRow';
 
 const PersonListItem = (props) => {
   const {
@@ -28,9 +33,49 @@ const PersonListItem = (props) => {
     }
   };
 
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: '#32418C',
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
+  }))(TableRow);
+
   return (
     <>
-      <Grid item sm={3}>
+      <StyledTableRow key={person.name}>
+        <StyledTableCell align="center" component="th" scope="row">
+          {person.name}
+        </StyledTableCell>
+        <StyledTableCell align="center">{person.description}</StyledTableCell>
+        <StyledTableCell align="center">
+          <IconButton onClick={() => setPersonModalOpen(true)}>
+            <CreateSharpIcon />
+          </IconButton>
+
+          <IconButton onClick={() => handleDelete(person.uuid)}>
+            <DeleteSharpIcon />
+          </IconButton>
+        </StyledTableCell>
+      </StyledTableRow>
+      <AddPersonModal
+        setPersonModalOpen={setPersonModalOpen}
+        personModalOpen={personModalOpen}
+        projectId={projectId}
+        initialPerson={person}
+        personChange={personChange}
+      />
+      {/* <Grid item sm={3}>
         <TextField
           value={person.name}
           variant="outlined"
@@ -68,7 +113,7 @@ const PersonListItem = (props) => {
         projectId={projectId}
         initialPerson={person}
         personChange={personChange}
-      />
+      /> */}
     </>
 
   );

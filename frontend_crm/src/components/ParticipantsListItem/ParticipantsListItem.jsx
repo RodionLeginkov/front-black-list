@@ -43,11 +43,13 @@ const ParticipantsListItem = (props) => {
     setEditedParticipents,
   } = props;
   const [curParicipant, setCurParicipant] = useState(participant);
+  const [isEdited, setIsEdited] = useState(false);
 
   useEffect(() => {
-    if (editedParticipents !== curParicipant.uuid) setCurParicipant(participant);
+    if (editedParticipents !== curParicipant.uuid && !isEdited) setCurParicipant(participant);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editedParticipents]);
+
   const handleDelete = async () => {
     if (curParicipant.uuid) {
       await axios.delete(`/participant/${participant.uuid}`);
@@ -56,7 +58,9 @@ const ParticipantsListItem = (props) => {
       participantDelete(curParicipant);
     }
   };
+
   const handleChangeParticipant = async () => {
+    setIsEdited(true);
     setEditedParticipents('');
     if (curParicipant.uuid) {
       await axios.put(`/participant/${participant.uuid}`, curParicipant);
@@ -65,6 +69,7 @@ const ParticipantsListItem = (props) => {
       participantChange(curParicipant);
     }
   };
+
   const handleCloseEdit = () => {
     setEditedParticipents('');
     setCurParicipant(participant);
@@ -109,7 +114,7 @@ const ParticipantsListItem = (props) => {
           ? (
             <>
               <Grid item sm={1}>
-                <IconButton onClick={() => setEditedParticipents(curParicipant.uuid)}>
+                <IconButton onClick={() => { setEditedParticipents(curParicipant.uuid); setIsEdited(false); }}>
                   <CreateSharpIcon />
                 </IconButton>
               </Grid>

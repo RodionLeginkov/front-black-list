@@ -175,7 +175,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   let userCurrentTask;
 
-  if (user !== null && user !== undefined) {
+  if (user && user.UsersTasks) {
     // userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
     userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;

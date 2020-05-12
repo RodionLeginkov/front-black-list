@@ -77,7 +77,7 @@ export default function ResetPassword(props) {
     e.preventDefault();
     if (form.password.length > 6 && (form.password === form.confirmPassword)) {
       try {
-        const response = await axios.put(`${process.env.REACT_APP_BASE_API}users/updatePassword`, {
+        const response = await axios.put('/users/updatePassword', {
           password: form.password,
           token: tokenId,
         });

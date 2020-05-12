@@ -57,7 +57,7 @@ export default function ProjectsList(props) {
   });
   function handleClick(id) {
     dispatch(findProject(id));
-    history.push(`/projects/${id}`);
+    history.push(`/customers/${id}`);
   }
 
   return (

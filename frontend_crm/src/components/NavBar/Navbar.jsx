@@ -16,11 +16,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import AssignmentIndSharpIcon from '@material-ui/icons/AssignmentIndSharp';
 import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import AccessAlarmSharpIcon from '@material-ui/icons/AccessAlarmSharp';
 import FadeMenu from '../ProfileButton/ProfileButton.jsx';
 
 const drawerWidth = 240;
@@ -98,11 +98,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = props;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -203,23 +203,23 @@ export default function MiniDrawer() {
             </Tooltip>
           </Link>
 
+          <Link to="/customers" className={classes.link}>
+            <Tooltip title='Customers'>
+              <ListItem button key="Customers">
+                <ListItemIcon>
+                  <DeveloperBoardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Customers" />
+              </ListItem>
+            </Tooltip>
+          </Link>
           <Link to="/projects" className={classes.link}>
             <Tooltip title='Projects'>
               <ListItem button key="Projects">
                 <ListItemIcon>
-                  <DeveloperBoardIcon />
+                  <AssignmentIndSharpIcon />
                 </ListItemIcon>
                 <ListItemText primary="Projects" />
-              </ListItem>
-            </Tooltip>
-          </Link>
-          <Link to="/leads" className={classes.link}>
-            <Tooltip title='Leads'>
-              <ListItem button key="Leads">
-                <ListItemIcon>
-                  <AccessAlarmSharpIcon />
-                </ListItemIcon>
-                <ListItemText primary="Leads" />
               </ListItem>
             </Tooltip>
           </Link>

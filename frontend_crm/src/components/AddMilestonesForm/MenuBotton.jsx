@@ -9,7 +9,7 @@ import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 
 const ITEM_HEIGHT = 48;
 
@@ -23,6 +23,7 @@ export default function LongMenu(props) {
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
 
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
@@ -37,7 +38,7 @@ export default function LongMenu(props) {
   const handleDelete = () => {
     // eslint-disable-next-line max-len
     const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
-    setProject({ ...project, Projects_Milestones: filteredMilestones });
+    setProject({ ...project, ProjectMilestones: filteredMilestones });
     setProjectMilestones(filteredMilestones);
     dispatch(deleteMilestone(singleMilestone.uuid));
     dispatch(getProject(project.uuid));
@@ -85,7 +86,7 @@ export default function LongMenu(props) {
           </MenuItem>
         </div>
       </Menu>
-      <AddUserModal
+      <AddNewMilestoneModal
         projectMilestones={project.projectMilestones}
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}

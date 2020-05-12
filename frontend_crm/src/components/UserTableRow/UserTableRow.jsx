@@ -2,15 +2,11 @@
 import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
-import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-
 import { userRoles, englishLevels } from '../../constants/constants';
-import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import './style.css';
 import CurrentTaskField from './CurrentTaskField.jsx';
 
@@ -67,7 +63,6 @@ const StyledTableRow = withStyles(() => ({
 const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
   const { user, visibeCells } = props;
   const [changedFields, setChangedFields] = useState(user);
 
@@ -79,7 +74,6 @@ const UserTableRow = (props) => {
   }
 
   if (engSkill !== undefined) engSkill = engSkill.label;
-
 
   return (
     <StyledTableRow
@@ -119,10 +113,9 @@ const UserTableRow = (props) => {
             {user.milestons.map((item) => (
               <div key={Math.random()}>
                 <Typography
-                  style={{ cursor: 'pointer', paddingTop: 5 }}
+                  style={{ cursor: 'pointer', paddingTop: 5, whiteSpace: 'nowrap' }}
                   onClick={() => {
-                    // dispatch(getProject(item.project_uuid));
-                    history.push(`/projects/${item.project_uuid}`);
+                    history.push(`/customers/${item.project_uuid}`);
                   }}
                   key={Math.random()}
                 >
@@ -139,7 +132,7 @@ const UserTableRow = (props) => {
           <StyledTableCell style={{ padding: '16px 0px' }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.role}</Typography>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.role ? item.role : '―'}</Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
               </div>
             ))}
@@ -151,7 +144,7 @@ const UserTableRow = (props) => {
           <StyledTableCell style={{ padding: '16px 0px' }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.rate}</Typography>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.rate ? item.rate : '―'}</Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
               </div>
             ))}
@@ -163,7 +156,7 @@ const UserTableRow = (props) => {
           <StyledTableCell style={{ paddingLeft: 0 }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{item.load}</Typography>
+                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.load ? item.load : '―'}</Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
               </div>
             ))}

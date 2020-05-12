@@ -66,7 +66,7 @@ const CurrentProject = ({ match }) => {
   const history = useHistory();
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
 
-  const handleClick = () => history.push('/projects');
+  const handleClick = () => history.push('/customers');
 
   const { projectId } = match.params;
 
@@ -74,20 +74,19 @@ const CurrentProject = ({ match }) => {
 
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    if (!project || !project.Projects_Milestones || project.uuid !== projectId) {
+    if (!project || !project.ProjectMilestones || project.uuid !== projectId) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);
 
-  if (!project || !project.Projects_Milestones) {
+  if (!project || !project.ProjectMilestones) {
     return (<Loading />);
   }
   return (
-    <div style={{ marginLeft: '85px' }}>
-
+    <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
-        <Typography color="textPrimary" onClick={() => history.push('/projects')}>Projects</Typography>
-        <Typography color="textPrimary" onClick={() => history.push(`/projects/${project.uuid}`)}>{project.name}</Typography>
+        <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
+        <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div
@@ -109,8 +108,9 @@ const CurrentProject = ({ match }) => {
           <h2>Resources: </h2>
 
           <AddMilestonesForm
+            showInfo
             project={project}
-            projectMilestones={project.Projects_Milestones}
+            projectMilestones={project.ProjectMilestones}
           />
 
         </div>
@@ -128,14 +128,14 @@ const CurrentProject = ({ match }) => {
           </Button>
           <Button
             className={classes.button}
-            onClick={() => history.push(`/project/${project.uuid}`)}
+            onClick={() => history.push(`/customer/${project.uuid}`)}
           >
             <EditSharpIcon />
           </Button>
-          <Tooltip title={project.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
+          <Tooltip title={project.ProjectMilestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
-                disabled={project.Projects_Milestones.length !== 0}
+                disabled={project.ProjectMilestones.length !== 0}
                 className={classes.button}
                 onClick={() => setdeleteModalIsOpen(true)}
               >

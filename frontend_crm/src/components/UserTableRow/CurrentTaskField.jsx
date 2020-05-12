@@ -13,7 +13,6 @@ function CurrentTaskField(props) {
   const _isMounted = useRef(true);
   const { user, changedFields, setChangedFields } = props;
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
   const [curTask, setCurTask] = useState(true);
   const [newTask, setNewTask] = useState(user && changedFields.current_task !== undefined ? {
     user_uuid: user.uuid,
@@ -21,7 +20,7 @@ function CurrentTaskField(props) {
     text: changedFields.current_task,
   } : '');
 
-  useEffect(() => () => { // ComponentWillUnmount in Class Component
+  useEffect(() => { // ComponentWillUnmount in Class Component
     _isMounted.current = false;
   }, []);
 
@@ -30,26 +29,25 @@ function CurrentTaskField(props) {
   };
 
   const handleAddTask = async () => {
-    if (changedFields.current_task !== newTask.text) {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
-      if (_isMounted.current) {
-        const taskId = response.data.uuid;
-        dispatch(updateUser({ ...changedFields, current_task: taskId }));
-        setNewTask({ ...newTask, text: response.data.text });
-        setChangedFields({ ...changedFields, current_task: response.data.text });
-      }
+    if (changedFields.current_task !== newTask.text && newTask.text !== '') {
+      const response = await axios.post('/history-tasks', newTask);
+      const taskId = response.data.uuid;
+      dispatch(updateUser({ ...changedFields, current_task: taskId }));
+      setNewTask({ ...newTask, text: response.data.text });
+      setChangedFields({ ...changedFields, current_task: response.data.text });
     } else { setCurTask(!curTask); }
   };
 
   const handleCancel = () => {
-    setChangedFields(user);
+    setChangedFields(changedFields);
+    setNewTask({ ...newTask, text: changedFields.current_task });
     setCurTask(!curTask);
   };
   const handleKeyPress = (e) => {
     if (e.key === 'Escape') {
       handleCancel();
     } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
-      e.preventDefault();
+      // e.preventDefault();
       handleAddTask();
     }
     // else if (e.ctrlKey && e.key === 'Enter') {
@@ -83,7 +81,7 @@ function CurrentTaskField(props) {
               rowsMax="5"
               name='text'
               style={{ width: '100%', marginBottom: 5 }}
-              onKeyUp={handleKeyPress}
+              onKeyDown={handleKeyPress}
             />
           </div>
         )}

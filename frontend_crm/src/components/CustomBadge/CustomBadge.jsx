@@ -68,7 +68,8 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#00C90D',
   },
   role: {
-    backgroundColor: '#964994',
+    color: 'black',
+    backgroundColor: '#9dcdfa',
     whiteSpace: 'nowrap',
     transition: 'all 0.25s ease-in-out',
     '&:hover': {

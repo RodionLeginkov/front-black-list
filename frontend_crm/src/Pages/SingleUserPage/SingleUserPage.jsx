@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -18,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 import axios from 'axios';
+import { userRoles } from '../../constants/constants';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 // import CircularProgress from '@material-ui/core/CircularProgress';
 import Loading from '../../components/Loading/index.jsx';
@@ -32,7 +34,7 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 
 const useStyles = makeStyles(() => ({
   container: {
-    margin: '100px 10px 0 85px',
+    margin: '100px 10px 0 0',
   },
   footerIcons: {
     display: 'flex',
@@ -132,7 +134,6 @@ const useStyles = makeStyles(() => ({
 const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
-  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const [curTask, setCurTask] = useState(true);
   const [openPopUp, setOpenPopUp] = useState(false);
@@ -171,20 +172,23 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const user = useSelector((state) => state.users.currentUser);
   const users = useSelector((state) => getFilteredUsers(state));
 
+
   let userCurrentTask;
 
-  if (user !== null && user.UsersTasks !== undefined) {
-    userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
+  if (user && user.UsersTasks) {
+    // userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
+    userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 
   useEffect(() => {
-    if (!user || !user.Users_Milestones || !user.UsersTasks || userId !== user.uuid) {
+    if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
       dispatch(getUser(userId));
     }
     if (!users.length) {
       dispatch(getUsers('', '', '', true));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
 
   // //////////////////////////////////////////////////////////////////////////
@@ -193,25 +197,24 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     creator_uuid: '',
     text: '',
   } : '');
-  // console.log('NEWTASK', newTask);
+
   useEffect(() => {
     if (user) {
       setNewTask({ ...newTask, user_uuid: user.uuid, text: userCurrentTask });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCurrentTask]);
   const handleTaskChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
-
   const handleAddTask = async () => {
-    if (userCurrentTask !== newTask.text) {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_API}history-tasks`, newTask, { headers: { authorization: token } });
+    if (userCurrentTask !== newTask.text && newTask.text !== '') {
+      const response = await axios.post('/history-tasks', newTask);
       const taskId = response.data.uuid;
+      console.log('update', user);
       dispatch(updateUser({ ...user, current_task: taskId }));
-      // dispatch(getUser(userId));
       setNewTask({ ...newTask, text: response.data.text });
       setCurTask(!curTask);
-      // setChangedFields({ ...changedFields, current_task: response.data.text });
     } else { setCurTask(!curTask); }
   };
   const handleOnBlur = () => {
@@ -232,8 +235,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     } else if (!e.ctrlKey && !e.shiftKey && e.key === 'Enter') {
       e.preventDefault();
       handleAddTask();
-    } else if (e.ctrlKey && e.key === 'Enter') {
-      e.target.value += '\n';
     }
   };
 
@@ -243,10 +244,16 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     return (<Loading />);
   }
   const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+  const devRole = userRoles.find((item) => item.value === user.role).label;
 
+
+  let createDate = new Date(user.hiredAt);
+  let firedDate = new Date(user.firedAt);
+  createDate = createDate.toLocaleString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' });
+  firedDate = user.firedAt !== null ? firedDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
 
   return (
-    <div className={classes.container}>
+    <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
         <Typography className={classes.link} onClick={() => history.push('/users')}>
           Users
@@ -260,10 +267,17 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       </Breadcrumbs>
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
-          <h1>
+          <h1 style={{ display: 'flex', alignItems: 'center' }}>
             {user.firstName}
             {' '}
             {user.lastName}
+            <div style={{ fontSize: '15px', paddingLeft: '8px', color: '#adacac' }}>
+              (
+              {createDate}
+              {' : '}
+              {firedDate}
+              )
+            </div>
           </h1>
           <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
             <span>
@@ -320,7 +334,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               <div className={classes.field}>
                 <span className={classes.fieldTitle}>Role: </span>
                 <div className={classes.fieldValue}>
-                  {user.role || '―'}
+                  {devRole || '―'}
                 </div>
               </div>
               <div className={classes.field}>
@@ -350,7 +364,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                           rowsMax="5"
                           name='text'
                           style={{ width: '100%', marginBottom: 5 }}
-                          onKeyUp={handleKeyPress}
+                          onKeyDown={handleKeyPress}
                         />
                       </div>
                     )}

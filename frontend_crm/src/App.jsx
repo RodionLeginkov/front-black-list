@@ -1,16 +1,18 @@
 
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import {
   Route, Switch, withRouter, BrowserRouter, useHistory,
 } from 'react-router-dom';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {
+  ThemeProvider, createMuiTheme, makeStyles,
+} from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
 import Projects from './Pages/ProjectsPage/Projects.jsx';
-import Leads from './Pages/LeadsPage/Leads.jsx';
+import Milestones from './Pages/MilestonesPage/Milestones.jsx';
 import Home from './Pages/HomePage/Home.jsx';
 import SignUp from './Pages/SignUnPage/SignUp.jsx';
 import Signin from './Pages/SignInPage/SignIn.jsx';
@@ -24,6 +26,20 @@ import InviteUserPage from './Pages/SingleUserPage/InviteUserPage.jsx';
 import NewReserPasswordPage from './Pages/ResetPasswordPage/NewReserPasswordPage.jsx';
 import 'react-notifications/lib/notifications.css';
 
+const useStyles = makeStyles((theme) => ({
+  content: {
+    // flexGrow: 1,
+    // padding: theme.spacing(3),
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+}));
+
 const theme = createMuiTheme({
   palette: {
     primary: { main: '#32418C' },
@@ -33,8 +49,14 @@ const theme = createMuiTheme({
 
 function App() {
   const history = useHistory();
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const loginToken = localStorage.getItem('token');
+    axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
+    // eslint-disable-next-line dot-notation
+    axios.defaults.headers.common['authorization'] = loginToken;
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
@@ -57,25 +79,33 @@ function App() {
         <AuthContextProvider>
           <div className="App">
             <NotificationContainer />
-            <Navbar />
-            <Switch>
-              <PrivateRoute exact path="/" component={Home} />
-              <PrivateRoute exact path="/users" component={Users} />
-              <PrivateRoute exact path="/projects" component={Projects} />
-              <PrivateRoute exact path="/leads" component={Leads} />
-              <Route path="/projects/addproject" component={AddProjectPage} />
-              <Route path="/users/inviteuser" component={InviteUserPage} />
-              <Route path="/project/:projectId" component={AddProjectPage} />
-              <Route exact path="/projects/:projectId" component={SingleProjectPage} />
-              <Route exact path="/user/:userId" component={SingleUserPage} />
-              <Route exact path="/user/info/:userId" component={SingleUserPage} />
-              <Route exact path="/user/edituser/:userId" component={EditUserPage} />
-              <Route path="/signin" component={Signin} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/Forgot" component={Forgot} />
-              {/* <Route exact path="/Reset/:token" component={ResetPassword} /> */}
-              <Route path="/Reset/:token" component={NewReserPasswordPage} />
-            </Switch>
+            <Navbar
+              open={open}
+              setOpen={setOpen}
+            />
+            <main
+              className={classes.content}
+              style={open ? { marginLeft: 240 } : { marginLeft: 70 }}
+            >
+              <Switch>
+                <PrivateRoute exact path="/" component={Home} />
+                <PrivateRoute exact path="/users" component={Users} />
+                <PrivateRoute exact path="/customers" component={Projects} />
+                <PrivateRoute exact path="/projects" component={Milestones} />
+                <Route path="/customers/addproject" component={AddProjectPage} />
+                <Route path="/users/inviteuser" component={InviteUserPage} />
+                <Route path="/customer/:projectId" component={AddProjectPage} />
+                <Route exact path="/customers/:projectId" component={SingleProjectPage} />
+                <Route exact path="/user/:userId" component={SingleUserPage} />
+                <Route exact path="/user/info/:userId" component={SingleUserPage} />
+                <Route exact path="/user/edituser/:userId" component={EditUserPage} />
+                <Route path="/signin" component={Signin} />
+                <Route path="/signup" component={SignUp} />
+                <Route path="/Forgot" component={Forgot} />
+                {/* <Route exact path="/Reset/:token" component={ResetPassword} /> */}
+                <Route path="/Reset/:token" component={NewReserPasswordPage} />
+              </Switch>
+            </main>
           </div>
         </AuthContextProvider>
       </BrowserRouter>

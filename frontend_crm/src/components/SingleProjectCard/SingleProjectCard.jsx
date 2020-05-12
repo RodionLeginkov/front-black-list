@@ -15,7 +15,7 @@ import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -122,12 +122,12 @@ export default function RecipeReviewCard(props) {
 
   function handleClick() {
     dispatch(findProject(card.uuid));
-    history.push(`/projects/${card.uuid}`);
+    history.push(`/customers/${card.uuid}`);
   }
   const classes = useStyles();
   const startDate = new Date(card.start_date);
   const curDate = new Date();
- 
+
   return (
     <>
       <Card className={classes.root}>
@@ -167,10 +167,10 @@ export default function RecipeReviewCard(props) {
           </CardContent>
         </CardActionArea>
         <div className={classes.cardFooter}>
-          <Tooltip title={card.Projects_Milestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
+          <Tooltip title={card.ProjectMilestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>
               <Button
-                disabled={card.Projects_Milestones.length !== 0}
+                disabled={card.ProjectMilestones.length !== 0}
                 className={classes.button}
                 onClick={() => setdeleteModalIsOpen(true)}
               >
@@ -179,7 +179,7 @@ export default function RecipeReviewCard(props) {
             </span>
           </Tooltip>
           <DevAvatars
-            milestones={card.Projects_Milestones}
+            milestones={card.ProjectMilestones}
             addUserModalOpen={addUserModalOpen}
             setAddUserModalOpen={setAddUserModalOpen}
           />
@@ -187,14 +187,14 @@ export default function RecipeReviewCard(props) {
         </div>
       </Card>
       <DeleteModal
-        milestones={card.Projects_Milestones}
+        milestones={card.ProjectMilestones}
         deleteModalIsOpen={deleteModalIsOpen}
         setdeleteModalIsOpen={setdeleteModalIsOpen}
         id={card.uuid}
         name={card.name}
       />
 
-      <AddUserModal
+      <AddNewMilestoneModal
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}
         curProject={{ ...card }}

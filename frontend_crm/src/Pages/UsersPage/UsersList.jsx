@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -17,6 +18,7 @@ import { userRoles, userTableCells } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
 import UserTableHeaderCell from '../../components/UserTableHeaderCell/UserTableHeaderCell.jsx';
 import './UsersPage.css';
+import moment from 'moment';
 
 
 // const StyledTableCell = withStyles((theme) => ({
@@ -76,24 +78,15 @@ const useStyles = makeStyles({
 });
 
 function difDates(startDate, curDate) {
-  const
-    difMonth = curDate.getMonth() - startDate.getMonth();
-  const difYear = curDate.getFullYear() - startDate.getFullYear();
-  const difDay = curDate.getDate() - startDate.getDate();
-  if (curDate - startDate < 0) return 'Not started';
-  if (difYear * 12 + difMonth > 12 && difMonth > 0) {
-    return `${difYear} year(s) ${difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 0 && difMonth > 0) {
-    return `${difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 0 && difMonth < 0) {
-    return `${12 + difMonth} month(s)`;
-  }
+  const difference = moment.duration(moment(curDate).diff(moment(startDate)));
+  const difYear = difference._data.years;
+  const difMonth = difference._data.months;
+  const difDay = difference._data.days;
 
+  if (difYear > 0 && difMonth !== 0) return `${difYear} year(s) ${difMonth} month(s)`;
+  if (difYear > 0 && difMonth === 0) return `${difYear} year(s)`;
+  if (difMonth > 4) return `${difMonth} month(s)`;
+  if (difMonth <= 4 && difMonth !== 0) return `${difMonth} month(s) ${difDay} day(s)`;
   return `${difDay} day(s)`;
 }
 
@@ -114,12 +107,12 @@ export default function UsersList(props) {
     const startDate = new Date(user.hiredAt);
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
-    let userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid);
+    let userCurrentTask = user.UsersTasks[0];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
     return createData(
       user.firstName,
       user.lastName,
-      user.Users_Milestones,
+      user.UserMilestones,
       difDates(startDate, curDate),
       role,
       user.role,
@@ -134,7 +127,7 @@ export default function UsersList(props) {
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-  console.log('rows', rows);
+
   return (
     <>
       <FormControl className='form-control'>

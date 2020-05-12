@@ -14,10 +14,10 @@ import UsersFilter from './UsersFilter.jsx';
 import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   container: {
-    paddingLeft: '100px',
-    background: '#fff',
+    paddingLeft: theme.spacing(3),
+    // background: '#fff',
   },
   usersWrapper: {
     width: '100%',
@@ -41,13 +41,13 @@ const useStyles = makeStyles({
     minHeight: '40px',
     padding: '0 10px',
   },
-});
+}));
 
 function Users() {
   const classes = useStyles();
 
   const history = useHistory();
-  const users = useSelector((state) => getFilteredUsers(state));
+  let users = useSelector((state) => getFilteredUsers(state));
   const loading = useSelector((state) => state.users.loadingUsers);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('userWidgetView')) || false);
   const [filterRole, setFilterRole] = useState('');
@@ -74,17 +74,16 @@ function Users() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!users.length) {
-      dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
-    }
+    dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
   }, [dispatch, filterRole, filterBar, sort, order, profitable]);
-
 
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
-
+  if (profitable === 'No Profitable') {
+    users = users.filter((user) => user.UserMilestones.length === 0 || !user.UserMilestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
+  }
 
   return (
     <div className={classes.container}>

@@ -36,20 +36,18 @@ const CustomProjectIcon = ({
 
   const handleClick = (projectId) => {
     dispatch(findProject(projectId));
-    history.push(`/projects/${projectId}`);
+    history.push(`/customers/${projectId}`);
   };
 
-  const projectsList = user.Users_Milestones.map((milestone) => {
-    return (
-          <Tooltip className={classes.avatar} title={milestone.Projects.name} key={Math.random()}>
-            <Avatar
-              onClick={() => handleClick(milestone.project_uuid)}
-              alt={milestone.Projects.name}
-              src={`${milestone.userImage}`}
-            />
-          </Tooltip>
-        );
-  })
+  const projectsList = user.UserMilestones.map((milestone) => (
+    <Tooltip className={classes.avatar} title={milestone.Projects.name} key={Math.random()}>
+      <Avatar
+        onClick={() => handleClick(milestone.project_uuid)}
+        alt={milestone.Projects.name}
+        src={`${milestone.userImage}`}
+      />
+    </Tooltip>
+  ));
 
   return (
     <AvatarGroup key={Math.random()} className={classes.avatarGroup} max={4}>

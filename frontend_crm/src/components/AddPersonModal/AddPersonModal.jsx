@@ -208,12 +208,23 @@ const AddPersonModal = (props) => {
         <Fade in={personModalOpen}>
           <div className={clsx(classes.paper, classes.modalWidth)}>
             <form className={classes.root} noValidate autoComplete="off">
-              <DevelopersChooseForm
+              {/* <DevelopersChooseForm
                 name='Person'
                 userChange={userChange}
                 developersValue={person.name}
                 isParticipent
                 isError={errors.name}
+              /> */}
+              <TextField
+                value={person.name || ''}
+                label="Person name"
+                variant="outlined"
+                inputProps={{ 'aria-label': 'description' }}
+                style={{ width: '100%' }}
+                name='name'
+                onChange={handleChange}
+                error={Boolean(errors.name)}
+                helperText={errors.name}
               />
               <ParticipantsList
                 participantDelete={participantDelete}

@@ -96,7 +96,7 @@ const ParticipantsList = (props) => {
         {participantsList}
         <Grid item xs={5}>
           <DevelopersChooseForm
-            name='Person'
+            name='User'
             userChange={userChange}
             developersValue={newParticipant.name}
             isParticipent

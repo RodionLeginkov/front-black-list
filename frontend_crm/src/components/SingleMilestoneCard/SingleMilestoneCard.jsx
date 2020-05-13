@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
+import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuBotton from '../AddMilestonesForm/MenuBotton.jsx';
 import { paymentTypes } from '../../constants/constants';
@@ -89,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
   cardColor: {
     background: '#deedff',
   },
+  expiredMilestone: {
+    background: '#ffe6ff',
+  },
 }));
 
 const SingleMilestoneCard = (props) => {
@@ -105,9 +109,11 @@ const SingleMilestoneCard = (props) => {
   const user = milestone.Users;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
+  const curDate = new Date();
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-  const personName = project.Person ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
+  const personName = project.Person && milestone.person_uuid ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
+  const isExpired = milestone.end_date && curDate - end;
   let paymentType;
   if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
     paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
@@ -117,6 +123,7 @@ const SingleMilestoneCard = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
     [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
+    [classes.expiredMilestone]: (isExpired),
   });
   const handleClick = () => {
     setOpenModal(true);
@@ -141,14 +148,16 @@ const SingleMilestoneCard = (props) => {
             </Typography>
             <Typography>
               <b>
-                (
-                {personName}
-                )
+                {milestone.person_uuid
+                  ? `(${personName})`
+                  : ''}
               </b>
             </Typography>
           </div>
+          {isExpired ? <ErrorOutlineSharpIcon /> : ''}
           {isEdit ? (
             <MenuBotton
+              isExpired={isExpired}
               project={project}
               setProject={setProject}
               milestones={projectMilestones}

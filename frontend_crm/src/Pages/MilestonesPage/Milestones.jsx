@@ -5,17 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import MilestonesList from './MilestonesList.jsx';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    fontSize: '13 px',
-    minHeight: '40px',
-    padding: '0 10px',
-  },
   container: {
     paddingLeft: theme.spacing(3),
-  },
-  tableWrapper: {
-    width: '100%',
-    margin: '0 auto',
   },
   projectsHeader: {
     alignItems: 'center',

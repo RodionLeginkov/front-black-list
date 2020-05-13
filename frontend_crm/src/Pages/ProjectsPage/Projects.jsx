@@ -9,7 +9,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import ProjectCards from './ProjectsCards.jsx';
-import ProjectModal from './ProjectsModal.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
 import ProjectsList from './ProjectsList.jsx';
@@ -43,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 export default function StickyHeadTable() {
   const classes = useStyles();
   const history = useHistory();
-  const [isOpen, setIsOpen] = useState(false);
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => getFilteredProjects(state));
@@ -88,7 +86,6 @@ export default function StickyHeadTable() {
               : <ProjectsList projects={projects} />}
         </Grid>
       </div>
-      <ProjectModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

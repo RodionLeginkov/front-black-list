@@ -73,19 +73,6 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: '100%',
   },
-  descriptionForm: {
-    maxHeight: '200px',
-    width: '100%',
-  },
-  paperHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-  },
-  inviteButton: {
-    padding: '7px',
-    fontSize: '13px',
-  },
 }));
 
 const EditUserPage = ({ match }) => {
@@ -198,14 +185,14 @@ const EditUserPage = ({ match }) => {
     <>
       {!userId
         ? (
-          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -234,7 +221,6 @@ const EditUserPage = ({ match }) => {
                     helperText={errors.firstName}
                     label="User name"
                     variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='firstName'
                     onChange={handleChange}
@@ -248,7 +234,6 @@ const EditUserPage = ({ match }) => {
                     error={Boolean(errors.lastName)}
                     helperText={errors.lastName}
                     variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='lastName'
                     onChange={handleChange}
@@ -257,31 +242,6 @@ const EditUserPage = ({ match }) => {
               </Grid>
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
-                  {/* <FormControl
-                    error={!user.role && isError}
-                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
-
-                    placeholder='Role'
-                    variant="outlined"
-                    className={clsx(classes.formControl, classes.inputForm)}
-                  >
-                    <InputLabel>Role</InputLabel>
-                    <Select
-                      labelWidth={47}
-                      name='role'
-                      value={user.role || ''}
-                      onChange={handleChange}
-                    >
-                      {userRoles.map((role) => (
-                        <MenuItem
-                          value={role.value}
-                          key={role.label}
-                        >
-                          {role.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
                   <Autocomplete
                     options={userRoles}
                     onChange={handleChangeRole}
@@ -300,10 +260,6 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl
-
-                    // error={!user.english_skill && isError}
-                    // helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
-
                     placeholder='English'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -388,17 +344,6 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <TextField
-                    style={{ width: '100%' }}
-                    value={user.current_task || ''}
-                    variant="outlined"
-                    label="Current Task"
-                    multiline
-                    name='current_task'
-                    onChange={handleChange}
-                  />
-                </Grid> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
@@ -414,9 +359,6 @@ const EditUserPage = ({ match }) => {
                       label="Date of joining"
                       value={new Date(user.hiredAt) || ''}
                       onChange={startDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -431,9 +373,6 @@ const EditUserPage = ({ match }) => {
                       label="Date of Leave"
                       value={user.firedAt}
                       onChange={endDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>

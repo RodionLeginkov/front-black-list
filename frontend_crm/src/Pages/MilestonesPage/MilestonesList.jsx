@@ -62,22 +62,17 @@ const MilestonesList = (props) => {
   const {
     milestones, setVisibeCells, visibeCells, sort, setSort, order, setOrder,
   } = props;
-  // console.log('milestone', milestones);
   const rows = milestones.map((milestone) => {
     let startDate = 'not-started';
     if (milestone.Person !== null) {
       startDate = new Date(milestone.Person.start_date);
       startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-      // console.log('date', startDate);
     }
     let personName = '';
     let personParticipants = [];
     if (milestone.Person !== null) {
-      // console.log(milestone.Person.Participants);
       personName = milestone.Person.name;
       personParticipants = milestone.Person.participants;
-      // if (milestone.Person.Participants.length !== 0) personParticipants = milestone.Person.Participants;
-      // personParticipants = milestones.Person.Participants.name;
     }
     return createData(
       milestone.Projects.name,
@@ -121,7 +116,7 @@ const MilestonesList = (props) => {
         </Select>
       </FormControl>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table}>
           <TableHead color='primary'>
             <TableRow>
               {

@@ -107,7 +107,7 @@ const SingleMilestoneCard = (props) => {
   const end = new Date(milestone.end_date);
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-  const personName = project.Person ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
+  const personName = project.Person && milestone.person_uuid ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
   let paymentType;
   if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
     paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
@@ -141,9 +141,9 @@ const SingleMilestoneCard = (props) => {
             </Typography>
             <Typography>
               <b>
-                (
-                {personName}
-                )
+                {personName ? (
+                  { personName }
+                ) : ''}
               </b>
             </Typography>
           </div>

@@ -57,7 +57,6 @@ const MilestonesTableRow = (props) => {
     <StyledTableRow key={Math.random()}>
       {
                 milestonesTableCells.map((cell) => {
-                  console.log('ia debil');
                   const milestoneClassName = clsx({
                     [classes.redirect]: (cell.label === 'Name' || cell.label === 'User'),
                   });

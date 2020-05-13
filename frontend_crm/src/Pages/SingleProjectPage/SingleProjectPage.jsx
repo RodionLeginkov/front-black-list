@@ -71,10 +71,9 @@ const CurrentProject = ({ match }) => {
   const { projectId } = match.params;
 
   const dispatch = useDispatch();
-
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
-    if (!project || !project.ProjectMilestones || project.uuid !== projectId) {
+    if (!project || !project.ProjectMilestones || project.uuid !== projectId || !project.Person) {
       dispatch(getProject(projectId));
     }
   }, [dispatch, projectId, project]);

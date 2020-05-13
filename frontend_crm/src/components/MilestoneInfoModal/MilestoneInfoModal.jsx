@@ -82,7 +82,7 @@ const MilestoneInfoModal = (props) => {
 
   let curPerson;
 
-  if (project.person_uuid !== null) {
+  if (customer.Person) {
     curPerson = customer.Person.find((item) => item.uuid === project.person_uuid);
     curPerson = curPerson.name;
   } else curPerson = '―';

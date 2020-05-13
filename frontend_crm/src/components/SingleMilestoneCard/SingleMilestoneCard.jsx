@@ -141,9 +141,9 @@ const SingleMilestoneCard = (props) => {
             </Typography>
             <Typography>
               <b>
-                {personName ? (
-                  { personName }
-                ) : ''}
+                {milestone.person_uuid
+                  ? `(${personName})`
+                  : ''}
               </b>
             </Typography>
           </div>

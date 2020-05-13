@@ -7,6 +7,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
+import UnarchiveSharpIcon from '@material-ui/icons/UnarchiveSharp';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
@@ -15,18 +16,22 @@ const ITEM_HEIGHT = 48;
 
 export default function LongMenu(props) {
   const {
-    project, setProject, milestones, singleMilestone, setProjectMilestones,
+    project, setProject, milestones, singleMilestone, setProjectMilestones, isExpired,
   } = props;
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+  const [archive, setArchive] = useState(false);
 
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
-
+  const handleArchive = () => {
+    setAddUserModalOpen(true);
+    setArchive(true);
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -70,10 +75,19 @@ export default function LongMenu(props) {
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <MenuItem style={{ padding: '0, 8px' }}>
+
             <IconButton onClick={handleChange}>
               <EditSharpIcon style={{ fontSize: '20px' }} />
             </IconButton>
           </MenuItem>
+          {isExpired
+            ? (
+              <MenuItem style={{ padding: '0, 8px' }}>
+                <IconButton onClick={handleArchive}>
+                  <UnarchiveSharpIcon style={{ fontSize: '20px' }} />
+                </IconButton>
+              </MenuItem>
+            ) : ''}
           <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton>
               <FileCopySharpIcon style={{ fontSize: '20px' }} />
@@ -92,6 +106,9 @@ export default function LongMenu(props) {
         setAddUserModalOpen={setAddUserModalOpen}
         curProject={project}
         initialMilestone={singleMilestone}
+        isExpired={isExpired}
+        archive={archive}
+        setArchive={setArchive}
         // milestonesChange={milestonesChange}
       />
     </div>

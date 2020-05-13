@@ -80,6 +80,9 @@ export default function AddNewMilestoneModal(props) {
     isEdit,
     initialMilestone,
     milestonesChange,
+    isExpired,
+    setArchive,
+    archive,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -117,6 +120,7 @@ export default function AddNewMilestoneModal(props) {
     });
     setIsError(false);
     setProject(initialValue);
+    setArchive(false);
     setAddUserModalOpen(false);
   };
   const handleChange = (e) => {
@@ -157,10 +161,15 @@ export default function AddNewMilestoneModal(props) {
 
       setProject(initialValue);
       setIsError(false);
+      setArchive(false);
       setAddUserModalOpen(false);
     }
   };
 
+  const handleArchive = (e) => {
+    dispatch(updateMilestone({ ...project, status: 'archived' }));
+    dispatch(getProject(curProject.uuid));
+  };
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
@@ -170,6 +179,60 @@ export default function AddNewMilestoneModal(props) {
   if (curProject.Person !== undefined) {
     curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
   } else curPerson = '';
+  if (archive) {
+    return (
+      <div className={classes.position}>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={addUserModalOpen}
+          onClose={handleCancel}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={addUserModalOpen}>
+            <div className={clsx(classes.paper, classes.modalWidth)}>
+              <form className={classes.root} noValidate autoComplete="off">
+                <TextField
+                  value={project.comment || ''}
+                  label="Death rattle"
+                  variant="outlined"
+                  inputProps={{ 'aria-label': 'description' }}
+                  className={classes.inputForm}
+                  name='comment'
+                  onChange={handleChange}
+                />
+                <div className={classes.buttons}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    onClick={handleArchive}
+                    className={classes.submitButton}
+                  >
+                    Archive
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={classes.submitButton}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </Fade>
+        </Modal>
+      </div>
+    );
+  }
   return (
     <div className={classes.position}>
       <Modal
@@ -263,20 +326,7 @@ export default function AddNewMilestoneModal(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
-                  {/* <TextField
-                    error={!project.unit && isError}
-                    helperText={(!project.unit && isError) ? 'Empty field.' : ''}
-                    value={project.unit || ''}
-                    label="Unit"
-                    variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
-                    className={classes.inputForm}
-                    name='unit'
-                    onChange={handleChange}
-                  /> */}
                   <FormControl
-                    // error={!project.rate_type && isError}
-                    // helperText={(!project.rate_type && isError) ? 'Empty field.' : ''}
                     placeholder='Rate type'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -301,8 +351,6 @@ export default function AddNewMilestoneModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.platform || ''}
                     label="Platform"
                     variant="outlined"
@@ -314,8 +362,6 @@ export default function AddNewMilestoneModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.withdraw || ''}
                     label="Withdraw"
                     variant="outlined"
@@ -327,8 +373,6 @@ export default function AddNewMilestoneModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.comment || ''}
                     label="Comment"
                     variant="outlined"
@@ -386,7 +430,6 @@ export default function AddNewMilestoneModal(props) {
                 >
                   Submit
                 </Button>
-
                 <Button
                   variant="contained"
                   color="primary"

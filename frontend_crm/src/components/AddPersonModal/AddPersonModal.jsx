@@ -226,13 +226,13 @@ const AddPersonModal = (props) => {
                 error={Boolean(errors.name)}
                 helperText={errors.name}
               />
-              <ParticipantsList
+              {/* <ParticipantsList
                 participantDelete={participantDelete}
                 personId={person.uuid}
                 participants={person.Participants}
                 addParticipant={addParticipant}
                 participantChange={participantChange}
-              />
+              /> */}
               <Grid container spacing={1}>
                 <Grid item xs={12} style={{ paddingBottom: 0 }}>
                   <TextField

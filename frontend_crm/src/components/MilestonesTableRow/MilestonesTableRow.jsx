@@ -57,10 +57,11 @@ const MilestonesTableRow = (props) => {
     <StyledTableRow key={Math.random()}>
       {
                 milestonesTableCells.map((cell) => {
+                  console.log('ia debil');
                   const milestoneClassName = clsx({
                     [classes.redirect]: (cell.label === 'Name' || cell.label === 'User'),
                   });
-                  if (visibeCells.includes(cell.label) && cell.label !== 'Participants') {
+                  if (visibeCells.includes(cell.label)) {
                     // console.log(milestone[cell.value]);
                     return (
                       <StyledTableCell
@@ -69,11 +70,19 @@ const MilestonesTableRow = (props) => {
                         className={milestoneClassName}
                         onClick={() => handleClick(cell.label, milestone)}
                       >
-                        {milestone[cell.value]}
+                        {cell.label !== 'Participants'
+                          ? milestone[cell.value] : milestone[cell.value].map((item) => (
+                            <div key={Math.random()}>
+                              <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
+                                {`${item.user} - ${item.role}`}
+                              </Typography>
+                              <Divider />
+                            </div>
+                          ))}
                       </StyledTableCell>
                     );
                   }
-                  if (visibeCells.includes(cell.label) && cell.label === 'Participants') {
+                  { /* if (visibeCells.includes(cell.label) && cell.label === 'Participants') {
                     if (milestone[cell.value].length !== 0) {
                       // console.log(milestone[cell.value]);
 
@@ -94,7 +103,7 @@ const MilestonesTableRow = (props) => {
                           { milestone[cell.value].map((item) => (
                             <div key={Math.random()}>
                               <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
-                                {`${item.name} - ${item.role}`}
+
                               </Typography>
                               <Divider />
                             </div>
@@ -118,7 +127,7 @@ const MilestonesTableRow = (props) => {
                         </div>
                       </StyledTableCell>
                     );
-                  }
+                  } */ }
                   return false;
                 })
           }

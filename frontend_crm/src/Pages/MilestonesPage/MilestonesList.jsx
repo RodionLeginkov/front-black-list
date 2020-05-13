@@ -62,24 +62,23 @@ const MilestonesList = (props) => {
   const {
     milestones, setVisibeCells, visibeCells, sort, setSort, order, setOrder,
   } = props;
+  // console.log('milestone', milestones);
   const rows = milestones.map((milestone) => {
     let startDate = 'not-started';
-    console.log(milestone);
     if (milestone.Person !== null) {
       startDate = new Date(milestone.Person.start_date);
       startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-      console.log('date', startDate);
+      // console.log('date', startDate);
     }
     let personName = '';
-    let personParticipants = '';
+    let personParticipants = [];
     if (milestone.Person !== null) {
       // console.log(milestone.Person.Participants);
       personName = milestone.Person.name;
-      personParticipants = milestone.Person.Participants;
+      personParticipants = milestone.Person.participants;
       // if (milestone.Person.Participants.length !== 0) personParticipants = milestone.Person.Participants;
       // personParticipants = milestones.Person.Participants.name;
     }
-    // const fullName = `${milestone['Users.firstName']} ${milestone['Users.lastName']}`;
     return createData(
       milestone.Projects.name,
       milestone.Users.fullName,

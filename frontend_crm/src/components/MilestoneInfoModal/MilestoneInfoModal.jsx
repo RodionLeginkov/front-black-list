@@ -61,7 +61,11 @@ const useStyles = makeStyles((theme) => ({
 
 const MilestoneInfoModal = (props) => {
   const {
-    project, openModal, setOpenModal, customer,
+    project,
+    openModal,
+    setOpenModal,
+    customer,
+    archived,
   } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -204,7 +208,7 @@ const MilestoneInfoModal = (props) => {
                 <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                   <TextField
                     value={project.comment || '―'}
-                    label="Comment"
+                    label={archived ? 'Death rattle' : 'Comment'}
                     variant="outlined"
                     disabled
                     inputProps={{ 'aria-label': 'description' }}
@@ -222,7 +226,6 @@ const MilestoneInfoModal = (props) => {
                   variant="outlined"
                   inputProps={{ 'aria-label': 'description' }}
                   className={classes.inputForm}
-                  name='comment'
                 />
               </Grid>
               <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
@@ -233,7 +236,6 @@ const MilestoneInfoModal = (props) => {
                   variant="outlined"
                   inputProps={{ 'aria-label': 'description' }}
                   className={classes.inputForm}
-                  name='comment'
                 />
               </Grid>
               <div className={classes.buttons}>

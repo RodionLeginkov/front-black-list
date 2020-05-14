@@ -128,7 +128,6 @@ export default function AddNewMilestoneModal(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
   };
@@ -161,7 +160,7 @@ export default function AddNewMilestoneModal(props) {
 
       setProject(initialValue);
       setIsError(false);
-      setArchive(false);
+      // setArchive(false);
       setAddUserModalOpen(false);
     }
   };
@@ -169,6 +168,7 @@ export default function AddNewMilestoneModal(props) {
   const handleArchive = (e) => {
     dispatch(updateMilestone({ ...project, status: 'archived' }));
     dispatch(getProject(curProject.uuid));
+    setArchive(false);
   };
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };

@@ -13,6 +13,9 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Tooltip from '@material-ui/core/Tooltip';
+import Box from '@material-ui/core/Box';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -58,15 +61,48 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function TabPanel(props) {
+  const {
+    children, value, index, ...other
+  } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+
 const CurrentProject = ({ match }) => {
   const classes = useStyles();
   const history = useHistory();
+  const [value, setValue] = useState(0);
   const [deleteModalIsOpen, setdeleteModalIsOpen] = useState(false);
 
   const handleClick = () => history.push('/customers');
 
   const { projectId } = match.params;
-
+  const handleChangeTab = (event, newValue) => {
+    setValue(newValue);
+  };
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
   useEffect(() => {
@@ -103,12 +139,32 @@ const CurrentProject = ({ match }) => {
         <div className={classes.stackAndEnglish}>
           <h2>Resources: </h2>
 
-          <AddMilestonesForm
-            showInfo
-            project={project}
-            projectMilestones={project.ProjectMilestones}
-          />
-
+          <Tabs
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="simple tabs example"
+            value={value}
+            onChange={handleChangeTab}
+          >
+            <Tab label="Resources" {...a11yProps(0)} />
+            <Tab label="Archived resources" {...a11yProps(1)} />
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <AddMilestonesForm
+              showInfo
+              project={project}
+              projectMilestones={project.ProjectMilestones}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <AddMilestonesForm
+              showInfo
+              project={project}
+              projectMilestones={project.ProjectMilestones}
+              archived
+            />
+          </TabPanel>
         </div>
 
         <div className={classes.content}>

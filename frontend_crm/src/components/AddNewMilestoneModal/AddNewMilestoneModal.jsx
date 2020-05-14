@@ -128,7 +128,6 @@ export default function AddNewMilestoneModal(props) {
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
-
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
   };

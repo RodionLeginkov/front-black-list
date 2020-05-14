@@ -98,7 +98,6 @@ const useStyles = makeStyles((theme) => ({
 const SingleMilestoneCard = (props) => {
   const classes = useStyles();
   const {
-    showInfo,
     milestone,
     isEdit,
     project,
@@ -188,15 +187,13 @@ const SingleMilestoneCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      {!showInfo
-      || (
       <MilestoneInfoModal
         project={milestone}
         openModal={openModal}
         setOpenModal={setOpenModal}
         customer={project}
+        archived={archived}
       />
-      )}
     </Grid>
   );
 };

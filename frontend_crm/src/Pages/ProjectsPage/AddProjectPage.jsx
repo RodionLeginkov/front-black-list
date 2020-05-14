@@ -130,7 +130,7 @@ const AddProjectPage = (props) => {
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
   const [personModalOpen, setPersonModalOpen] = useState(false);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [errors, setErrors] = useState({
     name: '',
     description: '',

@@ -26,7 +26,6 @@ function AddMilestonesForm(props) {
   };
 
   const milestones = projectMilestones.map((milestone) => {
-    console.log(milestone);
     if (!archived && milestone.status !== 'Archived') {
       return (
         <SingleMilestoneCard

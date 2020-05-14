@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
 const SingleMilestoneCard = (props) => {
   const classes = useStyles();
   const {
+    showInfo,
     milestone,
     isEdit,
     project,
@@ -106,6 +107,7 @@ const SingleMilestoneCard = (props) => {
     setProjectMilestones,
     archived,
   } = props;
+  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const user = milestone.Users;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
@@ -159,6 +161,8 @@ const SingleMilestoneCard = (props) => {
           {isEdit && !archived ? (
             <MenuBotton
               isExpired={isExpired}
+              addUserModalOpen={addUserModalOpen}
+              setAddUserModalOpen={setAddUserModalOpen}
               project={project}
               setProject={setProject}
               milestones={projectMilestones}
@@ -187,13 +191,16 @@ const SingleMilestoneCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      <MilestoneInfoModal
-        project={milestone}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        customer={project}
-        archived={archived}
-      />
+      {showInfo
+        ? (
+          <MilestoneInfoModal
+            project={milestone}
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            customer={project}
+            archived={archived}
+          />
+        ) : ''}
     </Grid>
   );
 };

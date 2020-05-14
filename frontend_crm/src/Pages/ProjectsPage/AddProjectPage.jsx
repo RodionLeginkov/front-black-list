@@ -337,6 +337,7 @@ const AddProjectPage = (props) => {
                   >
                     <Tab label="Resources" {...a11yProps(0)} />
                     <Tab label="Persons" {...a11yProps(1)} />
+                    <Tab label="Archived resources" {...a11yProps(2)} />
                   </Tabs>
 
                   <TabPanel value={value} index={0}>
@@ -348,6 +349,7 @@ const AddProjectPage = (props) => {
                       isError={isError}
                       setProjectMilestones={setProjectMilestones}
                       isEdit
+                      archived={false}
                     />
                   </TabPanel>
 
@@ -369,7 +371,18 @@ const AddProjectPage = (props) => {
                       Add Person
                     </Button>
                   </TabPanel>
-
+                  <TabPanel value={value} index={2}>
+                    <AddMilestonesForm
+                      setProject={setProject}
+                      project={project}
+                      projectMilestones={projectMilestones}
+                      milestonesChange={milestonesChange}
+                      isError={isError}
+                      setProjectMilestones={setProjectMilestones}
+                      isEdit
+                      archived
+                    />
+                  </TabPanel>
                 </>
               ) : (
                 ''

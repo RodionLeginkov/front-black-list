@@ -17,6 +17,7 @@ function AddMilestonesForm(props) {
     milestonesChange,
     isEdit,
     setProjectMilestones,
+    archived,
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
 
@@ -24,20 +25,43 @@ function AddMilestonesForm(props) {
     setAddUserModalOpen(true);
   };
 
-  const milestones = projectMilestones.map((milestone) => (
-    <SingleMilestoneCard
-      showInfo={showInfo}
-      addUserModalOpen={addUserModalOpen}
-      setAddUserModalOpen={setAddUserModalOpen}
-      key={Math.random()}
-      milestone={milestone}
-      isEdit={isEdit}
-      project={project}
-      setProject={setProject}
-      projectMilestones={projectMilestones}
-      setProjectMilestones={setProjectMilestones}
-    />
-  ));
+  const milestones = projectMilestones.map((milestone) => {
+    console.log(milestone);
+    if (!archived && milestone.status !== 'Archived') {
+      return (
+        <SingleMilestoneCard
+          showInfo={showInfo}
+          addUserModalOpen={addUserModalOpen}
+          setAddUserModalOpen={setAddUserModalOpen}
+          key={Math.random()}
+          milestone={milestone}
+          isEdit={isEdit}
+          project={project}
+          setProject={setProject}
+          projectMilestones={projectMilestones}
+          setProjectMilestones={setProjectMilestones}
+          archived={archived}
+        />
+      );
+    }
+    if (archived && milestone.status === 'Archived') {
+      return (
+        <SingleMilestoneCard
+          showInfo={showInfo}
+          addUserModalOpen={addUserModalOpen}
+          setAddUserModalOpen={setAddUserModalOpen}
+          key={Math.random()}
+          milestone={milestone}
+          isEdit={isEdit}
+          project={project}
+          setProject={setProject}
+          projectMilestones={projectMilestones}
+          setProjectMilestones={setProjectMilestones}
+          archived={archived}
+        />
+      );
+    }
+  });
 
 
   return (
@@ -45,7 +69,7 @@ function AddMilestonesForm(props) {
       <Grid container spacing={1} style={{ alignItems: 'center', marginTop: '5px' }}>
 
         {milestones}
-        {isEdit
+        {isEdit && !archived
           ? (
             <Grid item xs={1}>
               <Tooltip title="Set user">

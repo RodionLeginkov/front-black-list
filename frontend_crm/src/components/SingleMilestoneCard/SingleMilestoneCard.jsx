@@ -105,6 +105,7 @@ const SingleMilestoneCard = (props) => {
     setProject,
     projectMilestones,
     setProjectMilestones,
+    archived,
   } = props;
   const user = milestone.Users;
   const start = new Date(milestone.start_date);
@@ -113,13 +114,14 @@ const SingleMilestoneCard = (props) => {
   const startDate = `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `End: ${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
   const personName = project.Person && milestone.person_uuid ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
-  const isExpired = milestone.end_date && curDate - end;
+  const isExpired = milestone.end_date && (end - curDate) < 0;
   let paymentType;
   if (milestone.rate_type === 'hourly' || milestone.rate_type === 'flat_rate' || milestone.rate_type === 'fixed' || milestone.rate_type === 'weekly') {
     paymentType = `${project.rate_type !== '' ? paymentTypes.find((item) => item.value === milestone.rate_type).label : '–'}`;
   } else {
     paymentType = '–';
   }
+
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
     [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
@@ -154,8 +156,8 @@ const SingleMilestoneCard = (props) => {
               </b>
             </Typography>
           </div>
-          {isExpired ? <ErrorOutlineSharpIcon /> : ''}
-          {isEdit ? (
+          {isExpired && !archived ? <ErrorOutlineSharpIcon /> : ''}
+          {isEdit && !archived ? (
             <MenuBotton
               isExpired={isExpired}
               project={project}

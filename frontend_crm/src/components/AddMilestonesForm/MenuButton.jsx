@@ -13,8 +13,7 @@ import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 
 const ITEM_HEIGHT = 48;
-
-export default function MenuButton(props) {
+export default function LongMenu(props) {
   const {
     project,
     setProject,
@@ -22,36 +21,27 @@ export default function MenuButton(props) {
     singleMilestone,
     setProjectMilestones,
     isExpired,
-    addUserModalOpen,
-    setAddUserModalOpen,
-    setOpenModal,
   } = props;
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [archive, setArchive] = useState(false);
-
-  const handleClick = (e) => {
-    e.stopPropagation();
-    setAnchorEl(e.currentTarget);
+  const handleClick = (event) => {
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
   };
-  const handleArchive = (e) => {
-
+  const handleArchive = () => {
     setAddUserModalOpen(true);
     setArchive(true);
   };
-  const handleClose = (e) => {
-
+  const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleChange = (e) => {
-
+  const handleChange = () => {
     setAddUserModalOpen(true);
   };
-
-  const handleDelete = (e) => {
-
+  const handleDelete = () => {
     // eslint-disable-next-line max-len
     const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
     setProject({ ...project, ProjectMilestones: filteredMilestones });
@@ -59,7 +49,6 @@ export default function MenuButton(props) {
     dispatch(deleteMilestone(singleMilestone.uuid));
     dispatch(getProject(project.uuid));
   };
-
   return (
     <div>
       <IconButton
@@ -86,7 +75,6 @@ export default function MenuButton(props) {
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <MenuItem style={{ padding: '0, 8px' }}>
-
             <IconButton onClick={handleChange}>
               <EditSharpIcon style={{ fontSize: '20px' }} />
             </IconButton>

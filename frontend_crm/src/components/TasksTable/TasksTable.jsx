@@ -37,7 +37,7 @@ function createData(createDate, authorName, text) {
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: 500,
     maxWidth: 650,
   },
 });

@@ -166,7 +166,7 @@ export default function AddNewMilestoneModal(props) {
   };
 
   const handleArchive = (e) => {
-    dispatch(updateMilestone({ ...project, status: 'archived' }));
+    dispatch(updateMilestone({ ...project, status: 'Archived' }));
     dispatch(getProject(curProject.uuid));
     setArchive(false);
   };

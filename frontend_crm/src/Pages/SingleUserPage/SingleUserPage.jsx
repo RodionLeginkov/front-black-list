@@ -34,6 +34,10 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -144,6 +148,10 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 150,
     font: 16,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
 function a11yProps(index) {
@@ -185,6 +193,22 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [value, setValue] = React.useState(0);
+  const [age, setAge] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleFilterChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const handleFilterClose = () => {
+    setOpen(false);
+  };
+
+  const handleFilterOpen = () => {
+    setOpen(true);
+  };
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -315,6 +339,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           {user.lastName}
         </Typography>
       </Breadcrumbs>
+
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
           <h1 style={{ display: 'flex', alignItems: 'center' }}>
@@ -329,7 +354,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               )
             </div>
           </h1>
+
+
           <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
+
+
             <span>
               <Button
                 onClick={handleClickInvite}
@@ -487,9 +516,31 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             </TabPanel>
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
+
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
+            {/* <div>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-controlled-open-select-label">Periods</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={open}
+                  onClose={handleFilterClose}
+                  onOpen={handleFilterOpen}
+                  value={age}
+                  onChange={handleFilterChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </div> */}
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo archived />
           </TabPanel>
           <div className={classes.rightCol}>

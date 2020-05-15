@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuButton from '../AddMilestonesForm/MenuButton.jsx';
+import MilestoneInfoModal from '../MilestoneInfoModal/MilestoneInfoModal.jsx';
 import { paymentTypes } from '../../constants/constants';
 import './SingleUserMilestoneCardStyle.css';
 
@@ -181,15 +182,17 @@ const SingleUserMilestoneCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      {/* {!showInfo
+      {!showInfo
       || (
       <MilestoneInfoModal
-        project={project}
+        project={milestone}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        customer={milestone}
+        customer={project}
+        archived={archived}
+        userPage
       />
-      )} */}
+      )}
     </Grid>
   );
 };

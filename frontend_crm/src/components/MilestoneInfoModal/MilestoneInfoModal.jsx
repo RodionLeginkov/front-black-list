@@ -66,6 +66,7 @@ const MilestoneInfoModal = (props) => {
     setOpenModal,
     customer,
     archived,
+    userPage,
   } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -91,6 +92,7 @@ const MilestoneInfoModal = (props) => {
     curPerson = curPerson.name;
   } else curPerson = '―';
 
+  console.log('info', customer);
   return (
     <div className={classes.position}>
       <Modal
@@ -111,13 +113,29 @@ const MilestoneInfoModal = (props) => {
               <h2 className={classes.header}>{project.name}</h2>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} style={{ paddingBottom: 0 }}>
-                  <DevelopersChooseForm
-                    show
-                    name='Developers'
-                    developersValue={project.user_uuid}
-                    isEdit
-                    disabled
-                  />
+                  {!userPage ? (
+                    <DevelopersChooseForm
+                      show
+                      name='Developers'
+                      developersValue={project.user_uuid}
+                      isEdit
+                      disabled
+                    />
+                  ) : (
+                    <TextField
+                      show
+                      name='Project'
+                      variant="outlined"
+                      label="Project"
+                      inputProps={{ 'aria-label': 'description' }}
+                      className={classes.inputForm}
+                      value={customer.name}
+
+                      disabled
+                    />
+                  )}
+
+
                 </Grid>
                 <Grid item xs={12} sm={12} style={{ paddingBottom: 0 }}>
                   <TextField

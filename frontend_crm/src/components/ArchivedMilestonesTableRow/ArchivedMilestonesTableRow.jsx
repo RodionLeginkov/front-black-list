@@ -13,6 +13,11 @@ const ArchivedMilestonesTableRow = (props) => {
   const handleClick = () => {
     setOpenModal(true);
   };
+  const start = new Date(milestone.start_date);
+  const end = new Date(milestone.end_date);
+  const startDate = `${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
+  const endDate = milestone.end_date ? `${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
+
   return (
     <>
       <TableRow onClick={handleClick}>
@@ -21,6 +26,9 @@ const ArchivedMilestonesTableRow = (props) => {
         </TableCell>
         <TableCell align="center">{milestone.role}</TableCell>
         <TableCell align="center">{milestone.load}</TableCell>
+        <TableCell align="center">{startDate}</TableCell>
+        <TableCell align="center">{endDate}</TableCell>
+        <TableCell align="center">{milestone.comment}</TableCell>
       </TableRow>
       <MilestoneInfoModal
         project={milestone}

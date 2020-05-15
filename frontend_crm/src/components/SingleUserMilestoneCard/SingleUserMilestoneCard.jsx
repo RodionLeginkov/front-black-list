@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   root: {
-    maxHeight: '170px',
+    // maxHeight: '170px',
     minWidth: '170px',
+    maxWidth: '30%',
     marginRight: 20,
     marginBottom: 20,
     background: '#F2F2F2',
@@ -141,10 +142,13 @@ const SingleUserMilestoneCard = (props) => {
       justify="flex-start"
       sm={12}
       md={6}
-      lg={6}
+      lg={4}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}
+        >
           <div style={{ marginLeft: '7px' }}>
             <Typography>
               <b>
@@ -182,16 +186,16 @@ const SingleUserMilestoneCard = (props) => {
         </CardContent>
       </Card>
       {!showInfo
-      || (
-      <MilestoneInfoModal
-        project={milestone}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        customer={project}
-        archived={archived}
-        userPage
-      />
-      )}
+        ? (
+          <MilestoneInfoModal
+            project={milestone}
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            customer={project}
+            archived={archived}
+            userPage
+          />
+        ) : ''}
     </Grid>
   );
 };

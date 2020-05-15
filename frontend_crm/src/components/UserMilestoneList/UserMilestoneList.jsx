@@ -22,6 +22,8 @@ function UserMilestoneList(props) {
     setAddUserModalOpen(true);
   };
 
+  console.log('archived', archived);
+  console.log('Milestones', milestones);
   const milestonesCard = !archived ? milestones.map((milestone) => {
     if (milestone.status !== 'Archived') {
       return (
@@ -35,7 +37,7 @@ function UserMilestoneList(props) {
         />
       );
     }
-  }) : <ArchivedMilestonesTable milestones={milestones} archived={archived}/>;
+  }) : <ArchivedMilestonesTable milestones={milestones} archived={archived} />;
 
 
   return (

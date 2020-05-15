@@ -39,13 +39,11 @@ function createData(milestone) {
 
 const ArchivedMilestonesTable = (props) => {
   const classes = useStyles();
-  const { milestones } = props;
-  const rows = milestones.map((milestone) => {
-    if (milestone.status === 'Archived') {
-      return createData(milestone);
-    }
-  });
+  const { milestones, archived } = props;
+  const rows = milestones.filter((milestone) => milestone.status === 'Archived');
 
+  console.log('rows', rows);
+  console.log('archive', archived);
   return (
     <>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
@@ -56,15 +54,18 @@ const ArchivedMilestonesTable = (props) => {
               <StyledTableCell align="center"> Project</StyledTableCell>
               <StyledTableCell align="center"> Role</StyledTableCell>
               <StyledTableCell align="center"> Load</StyledTableCell>
+              <StyledTableCell align="center"> Start Date</StyledTableCell>
+              <StyledTableCell align="center"> End Date</StyledTableCell>
+              <StyledTableCell align="center"> Comment</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((item) => (
+            {archived ? (rows.map((item) => (
               <ArchivedMilestonesTableRow
                 milestone={item}
                 key={Math.random()}
               />
-            ))}
+            ))) : ''}
           </TableBody>
         </Table>
       </TableContainer>

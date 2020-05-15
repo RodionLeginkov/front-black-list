@@ -29,12 +29,6 @@ import PersonsList from '../../components/PersonsList/PersonsList.jsx';
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    border: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   root: {
     width: '100%',
     margin: '0 auto',
@@ -210,7 +204,6 @@ const AddProjectPage = (props) => {
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateProject();

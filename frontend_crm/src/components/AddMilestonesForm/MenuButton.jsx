@@ -31,14 +31,17 @@ export default function LongMenu(props) {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
-  const handleArchive = () => {
+  const handleArchive = (e) => {
+    e.stopPropagation();
     setAddUserModalOpen(true);
     setArchive(true);
   };
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.stopPropagation();
     setAnchorEl(null);
   };
-  const handleChange = () => {
+  const handleChange = (e) => {
+    e.stopPropagation();
     setAddUserModalOpen(true);
   };
   const handleDelete = () => {

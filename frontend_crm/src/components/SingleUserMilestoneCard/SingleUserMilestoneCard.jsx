@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
 import MenuButton from '../AddMilestonesForm/MenuButton.jsx';
+import MilestoneInfoModal from '../MilestoneInfoModal/MilestoneInfoModal.jsx';
 import { paymentTypes } from '../../constants/constants';
 import './SingleUserMilestoneCardStyle.css';
 
@@ -23,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   root: {
-    maxHeight: '170px',
+    // maxHeight: '170px',
     minWidth: '170px',
+    maxWidth: '30%',
     marginRight: 20,
     marginBottom: 20,
     background: '#F2F2F2',
@@ -107,7 +109,6 @@ const SingleUserMilestoneCard = (props) => {
     archived,
   } = props;
 
-  console.log('allMilestone', milestone);
   const project = milestone.Projects;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
@@ -141,10 +142,13 @@ const SingleUserMilestoneCard = (props) => {
       justify="flex-start"
       sm={12}
       md={6}
-      lg={6}
+      lg={4}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}
+        >
           <div style={{ marginLeft: '7px' }}>
             <Typography>
               <b>
@@ -181,15 +185,17 @@ const SingleUserMilestoneCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      {/* {!showInfo
-      || (
-      <MilestoneInfoModal
-        project={project}
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        customer={milestone}
-      />
-      )} */}
+      {!showInfo
+        ? (
+          <MilestoneInfoModal
+            project={milestone}
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            customer={project}
+            archived={archived}
+            userPage
+          />
+        ) : ''}
     </Grid>
   );
 };

@@ -34,6 +34,10 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -144,6 +148,10 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 150,
     font: 16,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
 
 function a11yProps(index) {
@@ -185,6 +193,22 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [value, setValue] = React.useState(0);
+  const [age, setAge] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleFilterChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  const handleFilterClose = () => {
+    setOpen(false);
+  };
+
+  const handleFilterOpen = () => {
+    setOpen(true);
+  };
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -301,7 +325,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   createDate = createDate.toLocaleString('en-GB', { year: 'numeric', month: 'numeric', day: 'numeric' });
   firedDate = user.firedAt !== null ? firedDate.toLocaleString('en-GB', { hour12: false }) : '― / ― / ―';
 
-  console.log(user.UserMilestones);
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -315,6 +338,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           {user.lastName}
         </Typography>
       </Breadcrumbs>
+
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
           <h1 style={{ display: 'flex', alignItems: 'center' }}>
@@ -329,7 +353,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               )
             </div>
           </h1>
+
+
           <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
+
+
             <span>
               <Button
                 onClick={handleClickInvite}
@@ -348,148 +376,173 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
         <Divider />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div className={classes.row}>
-            <div className={classes.leftCol}>
-              <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
-              <span className={classes.fieldName}>
-                {user.firstName}
-                {' '}
-                {user.lastName}
-              </span>
-            </div>
 
 
             {/* ///////////////////////////////////////// */}
             <TabPanel value={value} index={0}>
-              <div className={classes.col}>
-                <div className={classes.body}>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Email: </span>
-                    <div className={classes.fieldValue}>
-                      {user.email || '―'}
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Phone: </span>
-                    <div className={classes.fieldValue}>
-                      {user.phone1 || '―'}
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Second Phone: </span>
-                    <div className={classes.fieldValue}>
-                      {user.phone2 || '―'}
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>English: </span>
-                    <div className={classes.fieldValue}>
-                      {user.english_skill || '―'}
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Role: </span>
-                    <div className={classes.fieldValue}>
-                      {devRole || '―'}
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Project Ready </span>
-                    <div className={classes.fieldValue}>
-                      {user.project_ready || '―'}
-                      %
-                    </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Current Task: </span>
-                    <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
-                      { curTask ? (
-                        <Typography variant="inherit">
-                          {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
-                        </Typography>
-                      )
-                        : (
-                          <div>
-                            <TextField
-                              autoFocus
-                              onChange={handleTaskChange}
-                              value={newTask.text || ''}
-                              variant="outlined"
-                              label="New task"
-                              multiline
-                              rowsMax="5"
-                              name='text'
-                              style={{ width: '100%', marginBottom: 5 }}
-                              onKeyDown={handleKeyPress}
-                            />
-                          </div>
-                        )}
-                      <div className="buttons">
-                        {curTask
-                          ? (
-                            <Button
-                              className={classes.editButton}
-                              onClick={() => { setCurTask(!curTask); }}
-                            >
-                              <EditSharpIcon />
-                            </Button>
-                          ) : (
-                            <div className={classes.buttons}>
-                              <Button>
-                                <CheckSharpIcon />
-                              </Button>
-                              <Button
-                                name="closeButton"
-                                onMouseDown={handleCancel}
-                              >
-                                <CloseSharpIcon />
-                              </Button>
-                            </div>
-                          )}
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={classes.leftCol}>
+                  <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
+                  <span className={classes.fieldName}>
+                    {user.firstName}
+                    {' '}
+                    {user.lastName}
+                  </span>
+                </div>
+
+                <div className={classes.col}>
+                  <div className={classes.body}>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Email: </span>
+                      <div className={classes.fieldValue}>
+                        {user.email || '―'}
                       </div>
                     </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Current Occupation: </span>
-                    <div className={classes.fieldValue}>
-                      {user.current_occupation || '―'}
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Phone: </span>
+                      <div className={classes.fieldValue}>
+                        {user.phone1 || '―'}
+                      </div>
                     </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Total load: </span>
-                    <div className={classes.fieldValue}>
-                      {user.total_load || '―'}
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Second Phone: </span>
+                      <div className={classes.fieldValue}>
+                        {user.phone2 || '―'}
+                      </div>
                     </div>
-                  </div>
-                  <div className={classes.field}>
-                    <span className={classes.fieldTitle}>Task History: </span>
-                    {taskHistoryTable
-                      ? (
-                        <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
-                          <KeyboardArrowRightSharpIcon />
-                        </Button>
-                      )
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>English: </span>
+                      <div className={classes.fieldValue}>
+                        {user.english_skill || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Role: </span>
+                      <div className={classes.fieldValue}>
+                        {devRole || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Project Ready </span>
+                      <div className={classes.fieldValue}>
+                        {user.project_ready || '―'}
+                        %
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Current Task: </span>
+                      <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
+                        { curTask ? (
+                          <Typography variant="inherit">
+                            {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                          </Typography>
+                        )
+                          : (
+                            <div>
+                              <TextField
+                                autoFocus
+                                onChange={handleTaskChange}
+                                value={newTask.text || ''}
+                                variant="outlined"
+                                label="New task"
+                                multiline
+                                rowsMax="5"
+                                name='text'
+                                style={{ width: '100%', marginBottom: 5 }}
+                                onKeyDown={handleKeyPress}
+                              />
+                            </div>
+                          )}
+                        <div className="buttons">
+                          {curTask
+                            ? (
+                              <Button
+                                className={classes.editButton}
+                                onClick={() => { setCurTask(!curTask); }}
+                              >
+                                <EditSharpIcon />
+                              </Button>
+                            ) : (
+                              <div className={classes.buttons}>
+                                <Button>
+                                  <CheckSharpIcon />
+                                </Button>
+                                <Button
+                                  name="closeButton"
+                                  onMouseDown={handleCancel}
+                                >
+                                  <CloseSharpIcon />
+                                </Button>
+                              </div>
+                            )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Current Occupation: </span>
+                      <div className={classes.fieldValue}>
+                        {user.current_occupation || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Total load: </span>
+                      <div className={classes.fieldValue}>
+                        {user.total_load || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Task History: </span>
+                      {taskHistoryTable
+                        ? (
+                          <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
+                            <KeyboardArrowRightSharpIcon />
+                          </Button>
+                        )
+                        : (
+                          <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
+                            <KeyboardArrowDownSharpIcon />
+                          </Button>
+                        )}
+                    </div>
+                    {taskHistoryTable || user.UsersTasks === undefined ? ''
                       : (
-                        <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
-                          <KeyboardArrowDownSharpIcon />
-                        </Button>
-                      )}
+                        <TasksTable
+                          user={user}
+                          userName={user.fullName}
+                          tasks={user.UsersTasks}
+                        />
+                      ) }
                   </div>
-                  {taskHistoryTable || user.UsersTasks === undefined ? ''
-                    : (
-                      <TasksTable
-                        user={user}
-                        userName={user.fullName}
-                        tasks={user.UsersTasks}
-                      />
-                    ) }
                 </div>
               </div>
             </TabPanel>
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
+
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
+            {/* <div>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-controlled-open-select-label">Periods</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={open}
+                  onClose={handleFilterClose}
+                  onOpen={handleFilterOpen}
+                  value={age}
+                  onChange={handleFilterChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </div> */}
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo archived />
           </TabPanel>
           <div className={classes.rightCol}>

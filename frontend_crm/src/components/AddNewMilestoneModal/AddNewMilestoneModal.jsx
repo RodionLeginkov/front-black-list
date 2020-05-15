@@ -16,6 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from 'axios';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -100,6 +101,7 @@ export default function AddNewMilestoneModal(props) {
     platform: '',
     withdraw: '',
     comment: '',
+    status: 'Active',
   };
 
   const [isError, setIsError] = useState(false);
@@ -120,7 +122,7 @@ export default function AddNewMilestoneModal(props) {
     });
     setIsError(false);
     setProject(initialValue);
-    setArchive(false);
+    if (initialMilestone) setArchive(false);
     setAddUserModalOpen(false);
   };
   const handleChange = (e) => {
@@ -140,7 +142,7 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateMilestone();
     if (validateErrors) {
@@ -152,10 +154,8 @@ export default function AddNewMilestoneModal(props) {
         dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         dispatch(getProject(curProject.uuid));
       } else {
-        milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
-        if (curProject.uuid) {
-          dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-        }
+        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+        dispatch(getProject(curProject.uuid));
       }
 
       setProject(initialValue);

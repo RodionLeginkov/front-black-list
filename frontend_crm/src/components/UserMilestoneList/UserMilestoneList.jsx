@@ -35,7 +35,7 @@ function UserMilestoneList(props) {
         />
       );
     }
-  }) : <ArchivedMilestonesTable milestones={milestones}/>;
+  }) : <ArchivedMilestonesTable milestones={milestones} archived={archived}/>;
 
 
   return (

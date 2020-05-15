@@ -6,7 +6,7 @@ import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp'
 import IconButton from '@material-ui/core/IconButton';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import SingleUserMilestoneCard from '../SingleUserMilestoneCard/SingleUserMilestoneCard.jsx';
-
+import ArchivedMilestonesTable from '../ArchivedMilestonesTable/ArchivedMilestonesTable.jsx';
 
 function UserMilestoneList(props) {
   const {
@@ -22,10 +22,9 @@ function UserMilestoneList(props) {
     setAddUserModalOpen(true);
   };
 
-  const milestonesCard = milestones.map((milestone) => {
-    if (!archived && milestone.status !== 'Archived') {
+  const milestonesCard = !archived ? milestones.map((milestone) => {
+    if (milestone.status !== 'Archived') {
       return (
-
         <SingleUserMilestoneCard
           showInfo={showInfo}
           addUserModalOpen={addUserModalOpen}
@@ -36,20 +35,7 @@ function UserMilestoneList(props) {
         />
       );
     }
-    if (archived && milestone.status == 'Archived') {
-      return (
-
-        <SingleUserMilestoneCard
-          showInfo={showInfo}
-          addUserModalOpen={addUserModalOpen}
-          setAddUserModalOpen={setAddUserModalOpen}
-          key={Math.random()}
-          milestone={milestone}
-          user={user}
-        />
-      );
-    }
-  });
+  }) : <ArchivedMilestonesTable milestones={milestones}/>;
 
 
   return (

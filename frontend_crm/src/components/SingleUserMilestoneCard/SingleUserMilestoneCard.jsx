@@ -108,7 +108,6 @@ const SingleUserMilestoneCard = (props) => {
     archived,
   } = props;
 
-  console.log('allMilestone', milestone);
   const project = milestone.Projects;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);

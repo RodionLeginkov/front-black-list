@@ -15,7 +15,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ArchivedMilestonesTableRow from '../ArchivedMilestonesTableRow/ArchivedMilestonesTableRow';
+import MilestonesTableRow from '../MilestonesTableRowOnSinglePages/MilestonesTableRowOnSinglePages.jsx';
 
 const useStyles = makeStyles({
   table: {
@@ -33,17 +33,12 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-function createData(milestone) {
-  return { ...milestone };
-}
 
-const ArchivedMilestonesTable = (props) => {
+const MilestonesTableOnSinglePages = (props) => {
   const classes = useStyles();
-  const { milestones, archived } = props;
-  const rows = milestones.filter((milestone) => milestone.status === 'Archived');
-
-  console.log('rows', rows);
-  console.log('archive', archived);
+  const { project, projectPage, milestones, archived } = props;
+  const rows = milestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
+console.log(projectPage)
   return (
     <>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
@@ -60,12 +55,14 @@ const ArchivedMilestonesTable = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {archived ? (rows.map((item) => (
-              <ArchivedMilestonesTableRow
+            {rows.map((item) => (
+              <MilestonesTableRow
                 milestone={item}
                 key={Math.random()}
+                projectPage={projectPage}
+                project={project}
               />
-            ))) : ''}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -73,4 +70,4 @@ const ArchivedMilestonesTable = (props) => {
   );
 };
 
-export default ArchivedMilestonesTable;
+export default MilestonesTableOnSinglePages;

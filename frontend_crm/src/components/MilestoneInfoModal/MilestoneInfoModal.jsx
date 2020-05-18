@@ -66,7 +66,7 @@ const MilestoneInfoModal = (props) => {
     setOpenModal,
     customer,
     archived,
-    userPage,
+    projectPage,
   } = props;
   const classes = useStyles();
   const handleCancel = (e) => {
@@ -92,7 +92,6 @@ const MilestoneInfoModal = (props) => {
     curPerson = curPerson.name;
   } else curPerson = '―';
 
-  console.log('info', customer);
   return (
     <div className={classes.position}>
       <Modal
@@ -113,7 +112,7 @@ const MilestoneInfoModal = (props) => {
               <h2 className={classes.header}>{project.name}</h2>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={12} style={{ paddingBottom: 0 }}>
-                  {!userPage ? (
+                  {projectPage ? (
                     <DevelopersChooseForm
                       show
                       name='Developers'

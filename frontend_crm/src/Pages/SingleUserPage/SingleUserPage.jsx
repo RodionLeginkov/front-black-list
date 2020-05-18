@@ -41,9 +41,6 @@ import Select from '@material-ui/core/Select';
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: '100px 10px 0 0',
-  },
   footerIcons: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -94,9 +91,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginBottom: 20,
   },
-  // body: {
-  //   padding: '10px 10px 10px 20px',
-  // },
   fieldTitle: {
     display: 'block;',
     fontSize: 16,
@@ -112,17 +106,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     paddingLeft: '5px',
     display: 'flex',
-  },
-  stackAndDuration: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  description: {
-    margin: '4px 13px',
-    paddingBottom: '10px',
-  },
-  duration: {
-    margitTop: '3px  !important',
   },
   breadcrumbs: {
     margin: '85px 20px',
@@ -522,27 +505,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
-            {/* <div>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Periods</InputLabel>
-                <Select
-                  labelId="demo-controlled-open-select-label"
-                  id="demo-controlled-open-select"
-                  open={open}
-                  onClose={handleFilterClose}
-                  onOpen={handleFilterOpen}
-                  value={age}
-                  onChange={handleFilterChange}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </div> */}
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo archived />
           </TabPanel>
           <div className={classes.rightCol}>

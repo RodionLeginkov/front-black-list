@@ -38,6 +38,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import moment from 'moment';
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -176,21 +177,8 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [value, setValue] = React.useState(0);
-  const [age, setAge] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
-
-  const handleFilterChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleFilterClose = () => {
-    setOpen(false);
-  };
-
-  const handleFilterOpen = () => {
-    setOpen(true);
-  };
+  const [subtract, setSubtract] = useState('');
 
 
   const handleChange = (event, newValue) => {
@@ -238,12 +226,13 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 
+
   useEffect(() => {
     if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
-      dispatch(getUser(userId));
+      dispatch(getUser(userId, ''));
     }
     if (!users.length) {
-      dispatch(getUsers('', '', '', true));
+      dispatch(getUsers('', '', '', true, ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
@@ -293,7 +282,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       handleAddTask();
     }
   };
-
 
   // //////////////////////////////////////////////////////////////////////
   if (!user) {
@@ -502,10 +490,10 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
 
-            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
-            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo archived />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <div className={classes.rightCol}>
             <Tabs
@@ -519,7 +507,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               className={classes.tabs}
             >
               <Tab label="Information" {...a11yProps(0)} />
-              <Tab label="Resourses" {...a11yProps(1)} />
+              <Tab label="Projects" {...a11yProps(1)} />
               <Tab label="History" {...a11yProps(2)} />
             </Tabs>
 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-async function getData(url, filterRole, filterBar, sort, order, profitable) {
+async function getData(url, filterRole, filterBar, sort, order, profitable, active) {
   const response = await axios.get(url, {
     params: {
-      filterRole, filterBar, sort, order, profitable,
+      filterRole, filterBar, sort, order, profitable, active,
     },
   });
   return response;
@@ -27,9 +27,9 @@ async function postData(url, data) {
 // eslint-disable-next-line import/prefer-default-export
 export const postUser = (data) => postData('/user', data);
 
-export const loadAllUsers = (filterRole, filterBar, sort, order, profitable, token) => getData('/users', filterRole, filterBar, sort, order, profitable, token);
+export const loadAllUsers = (filterRole, filterBar, sort, order, profitable, active, token) => getData('/users', filterRole, filterBar, sort, order, profitable, active, token);
 
-export const loadUser = (token, userId) => getData(`/user/${userId}`);
+export const loadUser = (token, userId, subtract) => getData(`/user/${userId}`, subtract);
 
 export const deletedUser = (token, userId) => deleteData(`/user/${userId}`);
 

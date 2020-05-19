@@ -129,7 +129,7 @@ const UserTableRow = (props) => {
         : false }
       {visibeCells.includes('Role in the project')
         ? (
-          <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+          <StyledTableCell style={{ padding: '16px 0px', whiteSpace: 'nowrap' }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
                 <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.role ? item.role : '―'}</Typography>

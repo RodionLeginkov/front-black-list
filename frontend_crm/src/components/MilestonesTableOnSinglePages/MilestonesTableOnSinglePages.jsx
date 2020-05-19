@@ -36,9 +36,11 @@ const StyledTableCell = withStyles((theme) => ({
 
 const MilestonesTableOnSinglePages = (props) => {
   const classes = useStyles();
-  const { project, projectPage, milestones, archived } = props;
+  const {
+    project, projectPage, milestones, archived,
+  } = props;
   const rows = milestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
-console.log(projectPage)
+
   return (
     <>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>

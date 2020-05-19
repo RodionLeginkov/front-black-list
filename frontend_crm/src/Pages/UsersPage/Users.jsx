@@ -56,6 +56,7 @@ function Users() {
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(true);
   const [profitable, setProfitable] = useState('');
+  const [active, setActive] = useState('Active');
   const [visibeCells, setVisibeCells] = useState([
     'Name',
     'Current Task',
@@ -71,11 +72,12 @@ function Users() {
   ]);
   const [selectButton, setSelectButton] = useState('');
   const [profitButton, setProfitButton] = useState('');
+  const [activeButton, setActiveButton] = useState('Active');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
-  }, [dispatch, filterRole, filterBar, sort, order, profitable]);
+    dispatch(getUsers(filterRole, filterBar, sort, order, profitable, active));
+  }, [dispatch, filterRole, filterBar, sort, order, profitable, active]);
 
   const handleChange = () => {
     setWidgetView(!widgetView);
@@ -124,6 +126,10 @@ function Users() {
         setProfitable={setProfitable}
         profitButton={profitButton}
         setProfitButton={setProfitButton}
+        active={active}
+        setActive={setActive}
+        activeButton={activeButton}
+        setActiveButton={setActiveButton}
       />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid

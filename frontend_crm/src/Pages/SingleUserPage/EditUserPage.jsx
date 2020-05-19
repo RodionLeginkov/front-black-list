@@ -25,13 +25,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, englishLevels } from '../../constants/constants';
 import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,17 +76,6 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: '100%',
   },
-<<<<<<< Updated upstream
-=======
-  header__switch: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  switch: {
-    margin: '20px 0px'
-  }
-
->>>>>>> Stashed changes
 }));
 
 const EditUserPage = ({ match }) => {
@@ -148,17 +137,17 @@ const EditUserPage = ({ match }) => {
   useEffect(() => {
     setUser(initialValue);
     setUsersTasks(user.UsersTasks);
-    const status = (user.UserMilestones) ? (user.UserMilestones.find(user => user.status === 'Active')):('');
+    const status = (user.UserMilestones) ? (user.UserMilestones.find((user) => user.status === 'Active')) : ('');
     if (status) {
-      setCheckedStatus(true)
-    } else setCheckedStatus(false)
-    
+      setCheckedStatus(true);
+    } else setCheckedStatus(false);
+
     // eslint-disable-next-line
   }, [loading, user.UsersTasks]);
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers('', '', '', true, ''));
+      dispatch(getUsers('', '', '', true, '', ''));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line
@@ -167,7 +156,7 @@ const EditUserPage = ({ match }) => {
   if (loading) {
     return (<Loading />);
   }
-  
+
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -185,7 +174,7 @@ const EditUserPage = ({ match }) => {
   const handleChangeStatus = () => {
     if (!checkedStatus) {
       setUser({ ...user, isActive: !(user.isActive) });
-    };
+    }
   };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
@@ -238,22 +227,24 @@ const EditUserPage = ({ match }) => {
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
-              <div className={classes.header__switch}> 
+              <div className={classes.header__switch}>
                 <h2>Edit user</h2>
-                <Tooltip title={(checkedStatus)?('User has active milestones'):('')}>
+                <Tooltip title={(checkedStatus) ? ('User has active milestones') : ('')}>
                   <span>
-                  <FormControlLabel
-                    control={<Switch
-                      disabled={checkedStatus}
-                      className={classes.switch}
-                      checked={user.isActive}
-                      onChange={handleChangeStatus}
-                      color="primary"
-                      name="checkedB"
-                      inputProps={{ 'aria-label': 'primary checkbox' }}
-                    />}
-                    label='Status'
-                  />
+                    <FormControlLabel
+                      control={(
+                        <Switch
+                          disabled={checkedStatus}
+                          className={classes.switch}
+                          checked={user.isActive}
+                          onChange={handleChangeStatus}
+                          color="primary"
+                          name="checkedB"
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+)}
+                      label='Status'
+                    />
                   </span>
                 </Tooltip>
               </div>

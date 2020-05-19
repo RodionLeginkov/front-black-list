@@ -40,9 +40,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
-import CreateSharpIcon from '@material-ui/icons/CreateSharp';
 import PersonListItem from '../PersonListItem/PersonListItem.jsx';
 
 
@@ -72,7 +69,7 @@ const StyledTableRow = withStyles((theme) => ({
 
 function createData(person) {
   return {
-    ...person
+    ...person,
   };
 }
 

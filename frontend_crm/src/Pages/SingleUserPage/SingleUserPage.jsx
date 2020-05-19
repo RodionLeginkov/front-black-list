@@ -34,11 +34,7 @@ import TasksTable from '../../components/TasksTable/TasksTable.jsx';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import moment from 'moment';
+
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -177,7 +173,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [value, setValue] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
   const [subtract, setSubtract] = useState('');
 
 
@@ -232,7 +227,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       dispatch(getUser(userId, ''));
     }
     if (!users.length) {
-      dispatch(getUsers('', '', '', true, ''));
+      dispatch(getUsers('', '', '', true, '', ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);

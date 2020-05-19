@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, FormHelperText } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -99,7 +99,7 @@ const EditUserPage = ({ match }) => {
     fullName: '',
     role: '',
     englishLevel: '',
-    email: undefined,
+    email: '',
     project_ready: '',
     current_task: '',
     current_occupation: '',
@@ -128,7 +128,7 @@ const EditUserPage = ({ match }) => {
     if (validator.isEmpty(user.role)) fieldsErrors.role = 'Role is required field.';
     if (validator.isEmpty(user.firstName)) fieldsErrors.firstName = 'First name is required field.';
     if (validator.isEmpty(user.lastName)) fieldsErrors.lastName = 'Last name is required field.';
-    if (!validator.isEmail(user.email) && !validator.isEmpty(user.email)) {
+    if (user.email !== null && !validator.isEmail(user.email) && !validator.isEmpty(user.email)) {
       fieldsErrors.email = 'Please enter email address in format: yourname@example.com';
     }
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
@@ -147,7 +147,7 @@ const EditUserPage = ({ match }) => {
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers('', '', '', true, '', ''));
+      dispatch(getUsers('', '', '', true, '', 'Active'));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line
@@ -183,10 +183,14 @@ const EditUserPage = ({ match }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+
     const validateErrors = validateClient();
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
+      if (user.email === '') {
+        delete user.email;
+      }
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
     }
@@ -198,6 +202,8 @@ const EditUserPage = ({ match }) => {
     // eslint-disable-next-line max-len
     filteredProjects = filteredProjects.filter((project) => project.name !== user.currentProject[index].name);
   }
+
+
   return (
     <>
       {!userId

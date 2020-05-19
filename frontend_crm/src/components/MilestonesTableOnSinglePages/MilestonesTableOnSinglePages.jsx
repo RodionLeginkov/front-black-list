@@ -4,14 +4,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 
 import TableCell from '@material-ui/core/TableCell';
-import Select from '@material-ui/core/Select';
 import TableContainer from '@material-ui/core/TableContainer';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import FormControl from '@material-ui/core/FormControl';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';

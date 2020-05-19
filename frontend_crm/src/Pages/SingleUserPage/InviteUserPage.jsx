@@ -157,7 +157,7 @@ const EditUserPage = ({ match }) => {
         hiredAt: user.hiredAt,
       };
       dispatch(AddUser(login));
-      dispatch(getUsers('', '', '', true, '', ''));
+      dispatch(getUsers('', '', '', true, '', 'Active'));
       history.push('/users');
     }
   };

@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+
+import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import axios from 'axios';
-import { TextField } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import CreateSharpIcon from '@material-ui/icons/CreateSharp';
+import TableRow from '@material-ui/core/TableRow';
 import AddPersonModal from '../AddPersonModal/AddPersonModal.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import TableRow from '@material-ui/core/TableRow';
 
 const PersonListItem = (props) => {
   const {

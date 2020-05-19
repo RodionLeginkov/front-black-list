@@ -10,11 +10,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import MilestonesTableOnSinglePages from '../MilestonesTableOnSinglePages/MilestonesTableOnSinglePages.jsx';
 import SingleUserMilestoneCard from '../SingleUserMilestoneCard/SingleUserMilestoneCard.jsx';
 import {
-  getUser, deleteUser, getUsers, updateUser,
+  getUser,
 } from '../../Redux/Actions/UsersActions/UserActions';
 
 const useStyles = makeStyles((theme) => ({

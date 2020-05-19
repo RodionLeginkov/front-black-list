@@ -17,8 +17,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
-import ParticipantsList from '../ParticipantsList/ParticipantsList.jsx';
+
 
 const useStyles = makeStyles((theme) => ({
   modal: {

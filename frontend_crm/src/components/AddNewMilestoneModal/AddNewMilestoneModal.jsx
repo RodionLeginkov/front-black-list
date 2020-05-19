@@ -16,7 +16,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import DateFnsUtils from '@date-io/date-fns';
-import axios from 'axios';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -80,8 +79,6 @@ export default function AddNewMilestoneModal(props) {
     curProject,
     isEdit,
     initialMilestone,
-    milestonesChange,
-    isExpired,
     setArchive,
     archive,
   } = props;

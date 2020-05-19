@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
 import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import CustomBage from '../CustomBadge/CustomBadge.jsx';
-import MenuButton from '../AddMilestonesForm/MenuButton.jsx';
 import MilestoneInfoModal from '../MilestoneInfoModal/MilestoneInfoModal.jsx';
 import { paymentTypes } from '../../constants/constants';
 import './SingleUserMilestoneCardStyle.css';

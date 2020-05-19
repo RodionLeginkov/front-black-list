@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField } from '@material-ui/core';
+import { TextField, FormHelperText } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -29,6 +29,9 @@ import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, englishLevels } from '../../constants/constants';
 import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +76,17 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: '100%',
   },
+<<<<<<< Updated upstream
+=======
+  header__switch: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  switch: {
+    margin: '20px 0px'
+  }
+
+>>>>>>> Stashed changes
 }));
 
 const EditUserPage = ({ match }) => {
@@ -113,10 +127,12 @@ const EditUserPage = ({ match }) => {
     firedAt: null,
     hiredAt: null,
     Skills: [],
+    isActive: true,
   };
 
   const [user, setUser] = useState(initialValue);
   const [usersTasks, setUsersTasks] = useState(user.UsersTasks);
+  const [checkedStatus, setCheckedStatus] = useState('');
 
   const validateClient = () => {
     const fieldsErrors = {};
@@ -132,6 +148,11 @@ const EditUserPage = ({ match }) => {
   useEffect(() => {
     setUser(initialValue);
     setUsersTasks(user.UsersTasks);
+    const status = (user.UserMilestones) ? (user.UserMilestones.find(user => user.status === 'Active')):('');
+    if (status) {
+      setCheckedStatus(true)
+    } else setCheckedStatus(false)
+    
     // eslint-disable-next-line
   }, [loading, user.UsersTasks]);
 
@@ -146,6 +167,7 @@ const EditUserPage = ({ match }) => {
   if (loading) {
     return (<Loading />);
   }
+  
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -159,6 +181,12 @@ const EditUserPage = ({ match }) => {
   };
 
   const handleChangeCurrentTask = (taskId) => { setUser({ ...user, current_task: taskId }); };
+
+  const handleChangeStatus = () => {
+    if (!checkedStatus) {
+      setUser({ ...user, isActive: !(user.isActive) });
+    };
+  };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
 
@@ -210,7 +238,25 @@ const EditUserPage = ({ match }) => {
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
-              <h2>Edit user</h2>
+              <div className={classes.header__switch}> 
+                <h2>Edit user</h2>
+                <Tooltip title={(checkedStatus)?('User has active milestones'):('')}>
+                  <span>
+                  <FormControlLabel
+                    control={<Switch
+                      disabled={checkedStatus}
+                      className={classes.switch}
+                      checked={user.isActive}
+                      onChange={handleChangeStatus}
+                      color="primary"
+                      name="checkedB"
+                      inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />}
+                    label='Status'
+                  />
+                  </span>
+                </Tooltip>
+              </div>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField

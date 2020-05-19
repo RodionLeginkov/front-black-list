@@ -9,7 +9,9 @@ import MilestoneInfoModal from '../MilestoneInfoModal/MilestoneInfoModal.jsx';
 
 const ArchivedMilestonesTableRow = (props) => {
   const [openModal, setOpenModal] = useState(false);
-  const { milestone, archived } = props;
+  const {
+    project, milestone, archived, projectPage,
+  } = props;
   const handleClick = () => {
     setOpenModal(true);
   };
@@ -17,12 +19,12 @@ const ArchivedMilestonesTableRow = (props) => {
   const end = new Date(milestone.end_date);
   const startDate = `${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}`;
   const endDate = milestone.end_date ? `${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
-
+  const name = projectPage ? milestone.Users.fullName : milestone.Projects.name;
   return (
     <>
       <TableRow onClick={handleClick}>
         <TableCell align="center" component="th" scope="row">
-          {milestone.Projects.name}
+          {name}
         </TableCell>
         <TableCell align="center">{milestone.role}</TableCell>
         <TableCell align="center">{milestone.load}</TableCell>
@@ -34,9 +36,9 @@ const ArchivedMilestonesTableRow = (props) => {
         project={milestone}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        customer={milestone.Projects}
+        customer={projectPage ? project : milestone.Projects}
         archived={archived}
-        userPage
+        projectPage
       />
     </>
   );

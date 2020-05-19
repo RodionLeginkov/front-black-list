@@ -38,12 +38,10 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import moment from 'moment';
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: '100px 10px 0 0',
-  },
   footerIcons: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -94,9 +92,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     marginBottom: 20,
   },
-  // body: {
-  //   padding: '10px 10px 10px 20px',
-  // },
   fieldTitle: {
     display: 'block;',
     fontSize: 16,
@@ -112,17 +107,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     paddingLeft: '5px',
     display: 'flex',
-  },
-  stackAndDuration: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  description: {
-    margin: '4px 13px',
-    paddingBottom: '10px',
-  },
-  duration: {
-    margitTop: '3px  !important',
   },
   breadcrumbs: {
     margin: '85px 20px',
@@ -193,21 +177,8 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
   const [value, setValue] = React.useState(0);
-  const [age, setAge] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
-
-  const handleFilterChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleFilterClose = () => {
-    setOpen(false);
-  };
-
-  const handleFilterOpen = () => {
-    setOpen(true);
-  };
+  const [subtract, setSubtract] = useState('');
 
 
   const handleChange = (event, newValue) => {
@@ -255,12 +226,13 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 
+
   useEffect(() => {
     if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
-      dispatch(getUser(userId));
+      dispatch(getUser(userId, ''));
     }
     if (!users.length) {
-      dispatch(getUsers('', '', '', true));
+      dispatch(getUsers('', '', '', true, ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
@@ -310,7 +282,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
       handleAddTask();
     }
   };
-
 
   // //////////////////////////////////////////////////////////////////////
   if (!user) {
@@ -519,31 +490,10 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
 
-            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
-            {/* <div>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Periods</InputLabel>
-                <Select
-                  labelId="demo-controlled-open-select-label"
-                  id="demo-controlled-open-select"
-                  open={open}
-                  onClose={handleFilterClose}
-                  onOpen={handleFilterOpen}
-                  value={age}
-                  onChange={handleFilterChange}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </FormControl>
-            </div> */}
-            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo archived />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <div className={classes.rightCol}>
             <Tabs
@@ -557,7 +507,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               className={classes.tabs}
             >
               <Tab label="Information" {...a11yProps(0)} />
-              <Tab label="Resourses" {...a11yProps(1)} />
+              <Tab label="Projects" {...a11yProps(1)} />
               <Tab label="History" {...a11yProps(2)} />
             </Tabs>
 

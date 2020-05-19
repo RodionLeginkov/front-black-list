@@ -330,7 +330,7 @@ const AddProjectPage = (props) => {
                   >
                     <Tab label="Resources" {...a11yProps(0)} />
                     <Tab label="Persons" {...a11yProps(1)} />
-                    <Tab label="Archived resources" {...a11yProps(2)} />
+                    <Tab label="History" {...a11yProps(2)} />
                   </Tabs>
 
                   <TabPanel value={value} index={0}>

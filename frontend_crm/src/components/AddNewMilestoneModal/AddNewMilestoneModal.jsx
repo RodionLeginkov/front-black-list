@@ -196,7 +196,7 @@ export default function AddNewMilestoneModal(props) {
               <form className={classes.root} noValidate autoComplete="off">
                 <TextField
                   value={project.comment || ''}
-                  label="Death rattle"
+                  label="Post mortem"
                   variant="outlined"
                   inputProps={{ 'aria-label': 'description' }}
                   className={classes.inputForm}

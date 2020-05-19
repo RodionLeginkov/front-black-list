@@ -21,6 +21,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
+import PersonsList from '../../components/PersonsList/PersonsList.jsx';
 
 const useStyles = makeStyles(() => ({
   footerIcons: {
@@ -148,7 +149,8 @@ const CurrentProject = ({ match }) => {
             onChange={handleChangeTab}
           >
             <Tab label="Resources" {...a11yProps(0)} />
-            <Tab label="Archived resources" {...a11yProps(1)} />
+            <Tab label="Persons" {...a11yProps(1)} />
+            <Tab label="History" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={value} index={0}>
             <AddMilestonesForm
@@ -158,6 +160,15 @@ const CurrentProject = ({ match }) => {
             />
           </TabPanel>
           <TabPanel value={value} index={1}>
+            <PersonsList
+              // personDelete={personDelete}
+              // personChange={personChange}
+
+              projectPersons={project.Person}
+              projectId={project.uuid}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
             <AddMilestonesForm
               showInfo
               project={project}

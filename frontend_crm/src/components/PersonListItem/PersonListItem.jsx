@@ -56,13 +56,19 @@ const PersonListItem = (props) => {
         </StyledTableCell>
         <StyledTableCell align="center">{person.description}</StyledTableCell>
         <StyledTableCell align="center">
-          <IconButton onClick={() => setPersonModalOpen(true)}>
-            <CreateSharpIcon />
-          </IconButton>
+          {personDelete
+            ? (
+              <>
+                <IconButton onClick={() => setPersonModalOpen(true)}>
+                  <CreateSharpIcon />
+                </IconButton>
 
-          <IconButton onClick={() => handleDelete(person.uuid)}>
-            <DeleteSharpIcon />
-          </IconButton>
+                <IconButton onClick={() => handleDelete(person.uuid)}>
+                  <DeleteSharpIcon />
+                </IconButton>
+              </>
+            ) : ''}
+
         </StyledTableCell>
       </StyledTableRow>
       <AddPersonModal

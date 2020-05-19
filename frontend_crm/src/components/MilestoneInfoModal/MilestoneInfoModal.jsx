@@ -225,7 +225,7 @@ const MilestoneInfoModal = (props) => {
                 <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                   <TextField
                     value={project.comment || '―'}
-                    label={archived ? 'Death rattle' : 'Comment'}
+                    label={archived ? 'Post mortem' : 'Comment'}
                     variant="outlined"
                     disabled
                     inputProps={{ 'aria-label': 'description' }}

@@ -44,7 +44,7 @@ function UserMilestoneList(props) {
   const dispatch = useDispatch();
   // console.log(user);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
-  const [widgetView, setWidgetView] = useState(true);
+  const [widgetView, setWidgetView] = useState(false);
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {

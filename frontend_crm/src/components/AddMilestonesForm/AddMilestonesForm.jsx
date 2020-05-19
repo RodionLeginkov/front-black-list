@@ -25,13 +25,17 @@ function AddMilestonesForm(props) {
     archived,
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
-  const [widgetView, setWidgetView] = useState(true);
+  const [widgetView, setWidgetView] = useState({
+    resourse: true,
+    history: false,
+  });
 
   const handleClick = () => {
     setAddUserModalOpen(true);
   };
+  const show = archived ? 'history' : 'resourse';
   const choosenMilestones = projectMilestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
-  const milestones = widgetView ? choosenMilestones.map((milestone) => (
+  const milestones = widgetView[show] ? choosenMilestones.map((milestone) => (
     <SingleMilestoneCard
       showInfo={showInfo}
       addUserModalOpen={addUserModalOpen}
@@ -48,14 +52,14 @@ function AddMilestonesForm(props) {
   )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={projectMilestones} archived={archived} />;
 
   const handleChangeView = () => {
-    setWidgetView(!widgetView);
+    setWidgetView({ ...widgetView, resourse: !widgetView.resourse, history: !widgetView.history });
   };
   if (!choosenMilestones.length) return <Typography>There is no resourses</Typography>;
   return (
     <>
       <FormControlLabel
         style={{ marginLeft: '10px' }}
-        control={<Switch checked={widgetView} onChange={handleChangeView} color='primary' />}
+        control={<Switch checked={widgetView[show]} onChange={handleChangeView} color='primary' />}
         label="Widget view"
       />
 

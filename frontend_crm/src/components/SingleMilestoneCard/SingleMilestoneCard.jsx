@@ -139,7 +139,7 @@ const SingleMilestoneCard = (props) => {
       justify="flex-start"
       sm={12}
       md={6}
-      lg={4}
+      lg={6}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

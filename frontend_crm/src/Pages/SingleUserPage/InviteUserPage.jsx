@@ -142,7 +142,12 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, hiredAt: dataofJoining });
   };
 
-  const onSubmit = (e) => {
+  // const handleClick = () => {
+  //   dispatch(getUsers('', '', '', true, '', ''));
+  //   console.log('user')
+  // };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateClient();
     if (validateErrors) {
@@ -156,8 +161,13 @@ const EditUserPage = ({ match }) => {
         lastName: user.lastName,
         hiredAt: user.hiredAt,
       };
-      dispatch(AddUser(login));
-      dispatch(getUsers('', '', '', true, '', 'Active'));
+      try {
+        await dispatch(AddUser(login));
+        dispatch(getUsers('', '', '', true, '', 'Active'));
+      } catch {}
+      // dispatch(AddUser(login));
+      // dispatch(getUsers('', '', '', true, '', 'Active'));
+      // dispatch(getUsers('', '', '', true, '', ''));
       history.push('/users');
     }
   };

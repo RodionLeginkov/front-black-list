@@ -70,6 +70,13 @@ function Users() {
     'Total Load',
     'English Skill',
   ]);
+  const [archiveVisibleCells, setArchiveVisibleCells] = useState([
+    'Name',
+    'Role',
+    'Post mortem',
+    'Hired',
+    'Fired',
+  ]);
   const [selectButton, setSelectButton] = useState('');
   const [profitButton, setProfitButton] = useState('');
   const [activeButton, setActiveButton] = useState('Active');
@@ -78,7 +85,6 @@ function Users() {
   useEffect(() => {
     dispatch(getUsers(filterRole, filterBar, sort, order, profitable, active));
   }, [dispatch, filterRole, filterBar, sort, order, profitable, active]);
-
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
@@ -150,6 +156,9 @@ function Users() {
                 setSort={setSort}
                 order={order}
                 setOrder={setOrder}
+                active={active}
+                archiveVisibleCells={archiveVisibleCells}
+                setArchiveVisibleCells={setArchiveVisibleCells}
               />
             )}
 

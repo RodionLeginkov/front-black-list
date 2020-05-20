@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
   },
   root: {
     margin: '0 auto',
-    maxWidth: '900px',
+    maxWidth: '1100px',
     marginTop: '30px',
   },
   content: {

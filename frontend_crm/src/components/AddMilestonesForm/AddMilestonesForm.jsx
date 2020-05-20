@@ -54,14 +54,21 @@ function AddMilestonesForm(props) {
   const handleChangeView = () => {
     setWidgetView({ ...widgetView, resourse: !widgetView.resourse, history: !widgetView.history });
   };
-  if (!choosenMilestones.length) return <Typography>There is no resourses</Typography>;
+  if (!choosenMilestones.length && !isEdit) return <Typography>There is no resourses</Typography>;
+  if (!choosenMilestones.length && isEdit && archived) return <Typography>There is no resourses</Typography>;
   return (
     <>
-      <FormControlLabel
-        style={{ marginLeft: '10px' }}
-        control={<Switch checked={widgetView[show]} onChange={handleChangeView} color='primary' />}
-        label="Widget view"
-      />
+      {!archived && choosenMilestones.length ? (
+        <FormControlLabel
+          style={{ marginLeft: '10px' }}
+          control={<Switch checked={widgetView[show]} onChange={handleChangeView} color='primary' />}
+          label="Widget view"
+        />
+      ) : ''}
+
+      {/* {
+          !choosenMilestones.length && !isEdit ? <Typography>There is no resourses</Typography> : ''
+        } */}
 
       <Grid container spacing={1} style={{ alignItems: 'center', marginTop: '5px' }}>
         {milestones}

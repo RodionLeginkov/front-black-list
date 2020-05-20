@@ -14,7 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormControl from '@material-ui/core/FormControl';
-import { userRoles, userTableCells } from '../../constants/constants';
+import { userRoles, userTableCells, userArchiveTableCells } from '../../constants/constants';
 import UserTableRow from '../../components/UserTableRow/UserTableRow.jsx';
 import UserTableHeaderCell from '../../components/UserTableHeaderCell/UserTableHeaderCell.jsx';
 import './UsersPage.css';
@@ -56,6 +56,23 @@ function createData(firstName,
     english_skill,
   };
 }
+
+function archiveCreateData(
+  fullName,
+  role,
+  current_task,
+  hiredAt,
+  firedAt,
+) {
+  return {
+    fullName,
+    role,
+    current_task,
+    hiredAt,
+    firedAt,
+  };
+}
+
 
 const useStyles = makeStyles({
   table: {
@@ -101,7 +118,34 @@ export default function UsersList(props) {
     setOrder,
     setVisibeCells,
     visibeCells,
+    active,
+    archiveVisibleCells,
+    setArchiveVisibleCells,
   } = props;
+
+
+  const archiveUser = users.filter((user) => !user.isActive);
+
+  const archiveRows = archiveUser.map((user) => {
+    let startDate = 'not-started';
+    let endDate = 'not-fired';
+    if (user.hiredAt !== null) {
+      startDate = new Date(user.hiredAt);
+      startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    if (user.firedAt !== null) {
+      endDate = new Date(user.firedAt);
+      endDate = endDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    const role = userRoles.find((item) => item.value === user.role).label;
+    return (archiveCreateData(
+      user.fullName,
+      role,
+      user.current_task,
+      startDate,
+      endDate,
+    ));
+  });
 
   const rows = users.map((user) => {
     const startDate = new Date(user.hiredAt);
@@ -128,32 +172,57 @@ export default function UsersList(props) {
     setVisibeCells(e.target.value);
   };
 
+  const handleArchiveChange = (e) => {
+    setArchiveVisibleCells(e.target.value);
+  };
+
   return (
     <>
       <FormControl className='form-control'>
         <InputLabel>Cells</InputLabel>
-        <Select
-          name="visibeCells"
-          multiple
-          value={visibeCells}
-          onChange={handleChange}
-          input={<Input />}
-          renderValue={(selected) => selected.join(', ')}
-        >
-          {userTableCells.map((cellName) => (
+        {active !== 'Archived' ? (
+          <Select
+            name="visibeCells"
+            multiple
+            value={visibeCells}
+            onChange={handleChange}
+            input={<Input />}
+            renderValue={(selected) => selected.join(', ')}
+          >
+            {userTableCells.map((cellName) => (
 
-            <MenuItem key={cellName.label} value={cellName.label}>
-              <Checkbox color='primary' checked={visibeCells.indexOf(cellName.label) > -1} />
-              <ListItemText primary={cellName.label} />
-            </MenuItem>
-          ))}
-        </Select>
+              <MenuItem key={cellName.label} value={cellName.label}>
+                <Checkbox color='primary' checked={visibeCells.indexOf(cellName.label) > -1} />
+                <ListItemText primary={cellName.label} />
+              </MenuItem>
+            ))}
+          </Select>
+        ) : (
+          <Select
+            name="archiveVisibleCells"
+            multiple
+            value={archiveVisibleCells}
+            onChange={handleArchiveChange}
+            input={<Input />}
+            renderValue={(selected) => selected.join(', ')}
+          >
+            {userArchiveTableCells.map((cellName) => (
+
+              <MenuItem key={cellName.label} value={cellName.label}>
+                <Checkbox color='primary' checked={archiveVisibleCells.indexOf(cellName.label) > -1} />
+                <ListItemText primary={cellName.label} />
+              </MenuItem>
+            ))}
+          </Select>
+        )}
+
       </FormControl>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
         <Table className={classes.table}>
           <TableHead color='primary'>
-            <TableRow>
-              {
+            {active !== 'Archived' ? (
+              <TableRow>
+                {
             userTableCells.map((cell) => {
               if (visibeCells.includes(cell.label)) {
                 return (
@@ -170,17 +239,55 @@ export default function UsersList(props) {
               return false;
             })
           }
-            </TableRow>
+              </TableRow>
+            ) : (
+              <TableRow>
+                {
+                  userArchiveTableCells.map((cell) => {
+                    if (archiveVisibleCells.includes(cell.label)) {
+                      return (
+                        <UserTableHeaderCell
+                          key={Math.random()}
+                          order={order}
+                          setOrder={setOrder}
+                          sort={sort}
+                          setSort={setSort}
+                          cell={cell}
+                        />
+                      );
+                    }
+                    return false;
+                  })
+          }
+              </TableRow>
+            )}
+
           </TableHead>
-          <TableBody>
-            {rows.map((user) => (
-              <UserTableRow
-                key={Math.random()}
-                visibeCells={visibeCells}
-                user={user}
-              />
-            ))}
-          </TableBody>
+          {active !== 'Archived' ? (
+            <TableBody>
+              {rows.map((user) => (
+                <UserTableRow
+                  key={Math.random()}
+                  visibeCells={visibeCells}
+                  user={user}
+                />
+              ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              {archiveRows.map((user) => (
+                <UserTableRow
+                  key={Math.random()}
+                  visibeCells={archiveVisibleCells}
+                  user={user}
+                  userArchiveTableCells={userArchiveTableCells}
+                  archive
+                />
+              ))}
+            </TableBody>
+          )}
+
+
         </Table>
       </TableContainer>
     </>

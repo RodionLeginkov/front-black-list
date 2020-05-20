@@ -129,7 +129,7 @@ const SingleMilestoneCard = (props) => {
     [classes.expiredMilestone]: (isExpired),
   });
   const handleClick = () => {
-    setOpenModal(true);
+    if (!isEdit)setOpenModal(true);
   };
   return (
     <Grid
@@ -139,7 +139,7 @@ const SingleMilestoneCard = (props) => {
       justify="flex-start"
       sm={12}
       md={6}
-      lg={6}
+      lg={4}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -161,8 +161,8 @@ const SingleMilestoneCard = (props) => {
           {isEdit && !archived ? (
             <MenuButton
               isExpired={isExpired}
-              addUserModalOpen={addUserModalOpen}
-              setAddUserModalOpen={setAddUserModalOpen}
+              // addUserModalOpen={addUserModalOpen}
+              // setAddUserModalOpen={setAddUserModalOpen}
               project={project}
               setProject={setProject}
               milestones={projectMilestones}

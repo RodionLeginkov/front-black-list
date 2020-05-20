@@ -38,6 +38,14 @@ export const userTableCells = [
   { label: 'Seniority', value: 'Senioiry' },
 ];
 
+export const userArchiveTableCells = [
+  { label: 'Name', value: 'fullName' },
+  { label: 'Role', value: 'role' },
+  { label: 'Post mortem', value: 'current_task' },
+  { label: 'Hired', value: 'hiredAt' },
+  { label: 'Fired', value: 'firedAt' },
+];
+
 export const userRoles = [
   { label: 'CEO', value: 'ceo' },
   { label: 'CTO', value: 'cto' },

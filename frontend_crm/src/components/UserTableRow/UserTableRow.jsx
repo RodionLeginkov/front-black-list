@@ -63,8 +63,35 @@ const StyledTableRow = withStyles(() => ({
 const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const { user, visibeCells } = props;
+  const {
+    user, visibeCells, archive, userArchiveTableCells,
+  } = props;
   const [changedFields, setChangedFields] = useState(user);
+
+
+  if (archive) {
+    return (
+      <StyledTableRow key={Math.random()}>
+        {
+          userArchiveTableCells.map((cell) => {
+            if (visibeCells.includes(cell.label)) {
+              // console.log(milestone[cell.value]);
+              return (
+                <StyledTableCell
+                  key={Math.random()}
+                  align="center"
+                  className={classes.cell}
+                >
+                  {user[cell.value]}
+                </StyledTableCell>
+              );
+            }
+            return false;
+          })
+          }
+      </StyledTableRow>
+    );
+  }
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
   let engSkill = englishLevels.find((item) => item.value === changedFields.english_skill);

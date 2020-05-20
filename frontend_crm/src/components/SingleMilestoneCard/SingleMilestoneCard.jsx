@@ -129,7 +129,7 @@ const SingleMilestoneCard = (props) => {
     [classes.expiredMilestone]: (isExpired),
   });
   const handleClick = () => {
-    setOpenModal(true);
+    if (!isEdit)setOpenModal(true);
   };
   return (
     <Grid
@@ -161,8 +161,8 @@ const SingleMilestoneCard = (props) => {
           {isEdit && !archived ? (
             <MenuButton
               isExpired={isExpired}
-              addUserModalOpen={addUserModalOpen}
-              setAddUserModalOpen={setAddUserModalOpen}
+              // addUserModalOpen={addUserModalOpen}
+              // setAddUserModalOpen={setAddUserModalOpen}
               project={project}
               setProject={setProject}
               milestones={projectMilestones}

@@ -142,7 +142,6 @@ export default function AddNewDeathRattleModal(props) {
     setProject({ ...project, end_date: endDate });
   };
 
-  console.log('deathRattleModelOpen', deathRattleModelOpen);
 
   return (
     <div className={classes.position}>

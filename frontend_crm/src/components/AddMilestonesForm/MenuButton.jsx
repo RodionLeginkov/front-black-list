@@ -48,16 +48,13 @@ export default function MenuButton(props) {
     setAnchorEl(event.currentTarget);
   };
   const handleArchive = (e) => {
-    // e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault();
+    // e.stopPropagation();
     // e.nativeEvent.stopImmediatePropagation();
-    console.log('prevent');
     setDeathRattleModelOpen(true);
     setArchive(true);
     // e.stopPropagation();
   };
-  console.log('modalka', deathRattleModelOpen);
-  console.log('archive', archive);
   const handleClose = (e) => {
     e.stopPropagation();
     setAnchorEl(null);
@@ -131,7 +128,7 @@ export default function MenuButton(props) {
           </Tooltip>
         </div>
       </Menu>
-      {/* <AddNewMilestoneModal
+      <AddNewMilestoneModal
         projectMilestones={project.projectMilestones}
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}
@@ -141,7 +138,7 @@ export default function MenuButton(props) {
         archive={archive}
         setArchive={setArchive}
         // milestonesChange={milestonesChange}
-      /> */}
+      />
       <AddNewDeathRattleModal
         projectMilestones={project.projectMilestones}
         curProject={project}

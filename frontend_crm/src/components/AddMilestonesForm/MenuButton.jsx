@@ -13,6 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
+import AddNewDeathRattleModal from '../AddNewDeathRattleModal/AddNewDeathRattleModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const ITEM_HEIGHT = 48;
-export default function LongMenu(props) {
+export default function MenuButton(props) {
   const {
     project,
     setProject,
@@ -40,16 +41,23 @@ export default function LongMenu(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+  const [deathRattleModelOpen, setDeathRattleModelOpen] = useState(false);
   const [archive, setArchive] = useState(false);
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
   const handleArchive = (e) => {
+    // e.preventDefault();
     e.stopPropagation();
-    setAddUserModalOpen(true);
+    // e.nativeEvent.stopImmediatePropagation();
+    console.log('prevent');
+    setDeathRattleModelOpen(true);
     setArchive(true);
+    // e.stopPropagation();
   };
+  console.log('modalka', deathRattleModelOpen);
+  console.log('archive', archive);
   const handleClose = (e) => {
     e.stopPropagation();
     setAnchorEl(null);
@@ -100,16 +108,15 @@ export default function LongMenu(props) {
               </IconButton>
             </MenuItem>
           </Tooltip>
-          {isExpired
-            ? (
-              <Tooltip title="Archive milestone">
-                <MenuItem style={{ padding: '0, 8px' }}>
-                  <IconButton onClick={handleArchive}>
-                    <UnarchiveSharpIcon style={{ fontSize: '20px' }} />
-                  </IconButton>
-                </MenuItem>
-              </Tooltip>
-            ) : ''}
+
+          <Tooltip title="Archive milestone">
+            <MenuItem style={{ padding: '0, 8px' }}>
+              <IconButton onClick={handleArchive}>
+                <UnarchiveSharpIcon style={{ fontSize: '20px' }} />
+              </IconButton>
+            </MenuItem>
+          </Tooltip>
+
           <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton>
               <FileCopySharpIcon style={{ fontSize: '20px' }} />
@@ -124,7 +131,7 @@ export default function LongMenu(props) {
           </Tooltip>
         </div>
       </Menu>
-      <AddNewMilestoneModal
+      {/* <AddNewMilestoneModal
         projectMilestones={project.projectMilestones}
         addUserModalOpen={addUserModalOpen}
         setAddUserModalOpen={setAddUserModalOpen}
@@ -134,6 +141,16 @@ export default function LongMenu(props) {
         archive={archive}
         setArchive={setArchive}
         // milestonesChange={milestonesChange}
+      /> */}
+      <AddNewDeathRattleModal
+        projectMilestones={project.projectMilestones}
+        curProject={project}
+        initialMilestone={singleMilestone}
+        isExpired={isExpired}
+        archive={archive}
+        setArchive={setArchive}
+        deathRattleModelOpen={deathRattleModelOpen}
+        setDeathRattleModelOpen={setDeathRattleModelOpen}
       />
     </div>
   );

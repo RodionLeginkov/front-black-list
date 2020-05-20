@@ -64,7 +64,7 @@ export default function LongMenu(props) {
     setProject({ ...project, ProjectMilestones: filteredMilestones });
     setProjectMilestones(filteredMilestones);
     dispatch(deleteMilestone(singleMilestone.uuid));
-    dispatch(getProject(project.uuid));
+    // dispatch(getProject(project.uuid));
   };
   return (
     <div>

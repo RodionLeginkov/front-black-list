@@ -145,20 +145,23 @@ export default function AddNewMilestoneModal(props) {
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
-      if (isEdit) {
-        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+      try {
+        if (isEdit) {
+          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
       } else if (initialMilestone && curProject.uuid) {
-        dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-        dispatch(getProject(curProject.uuid));
+          await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          dispatch(getProject(curProject.uuid));
+          // await axios.get(`/person/${person.uuid}`, person);
       } else {
-        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          dispatch(getProject(curProject.uuid));
+        }
+        setProject(initialValue);
+        setIsError(false);
+        // setArchive(false);
+        setAddUserModalOpen(false);
         dispatch(getProject(curProject.uuid));
-      }
-
-      setProject(initialValue);
-      setIsError(false);
-      // setArchive(false);
-      setAddUserModalOpen(false);
+      } catch {}
     }
   };
 

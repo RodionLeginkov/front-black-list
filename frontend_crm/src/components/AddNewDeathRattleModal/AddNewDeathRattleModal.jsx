@@ -125,15 +125,17 @@ export default function AddNewDeathRattleModal(props) {
   };
 
 
-  const handleArchive = (e) => {
+  const handleArchive = async (e) => {
     e.preventDefault();
     const validateErrors = validateDeathRattle();
     if (validateErrors) {
       setErrorsDeathRattle(validateErrors);
     } else {
-      dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
-      dispatch(getProject(curProject.uuid));
-      setArchive(false);
+      try {
+        await dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
+        dispatch(getProject(curProject.uuid));
+        setArchive(false)
+      } catch {}
     }
   };
 

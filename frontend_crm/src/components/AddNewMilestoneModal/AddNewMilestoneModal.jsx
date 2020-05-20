@@ -100,7 +100,7 @@ export default function AddNewMilestoneModal(props) {
     comment: '',
     status: 'Active',
   };
-
+  const curDate = new Date();
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
   const [errors, setErrors] = useState({
@@ -108,6 +108,10 @@ export default function AddNewMilestoneModal(props) {
     load: '',
     role: '',
     // start_date: '',
+  });
+
+  const [errorsDeathRattle, setErrorsDeathRattle] = useState({
+    end_date: '',
   });
   const handleCancel = (e) => {
     e.preventDefault();
@@ -117,15 +121,19 @@ export default function AddNewMilestoneModal(props) {
       role: '',
       // start_date: '',
     });
+    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
     setIsError(false);
     setProject(initialValue);
-    if (initialMilestone) setArchive(false);
+    if (initialMilestone) {
+      setArchive(false);
+    }
     setAddUserModalOpen(false);
   };
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setProject({ ...project, [e.target.name]: e.target.value });
   };
+
 
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
@@ -139,6 +147,14 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
+  const validateDeathRattle = () => {
+    const end = new Date(project.end_date);
+    const fieldsErrors = {};
+    if (project.end_date === null) fieldsErrors.end_date = 'End date is required field.';
+    else if (end - curDate > 0) fieldsErrors.end_date = 'You can not select end date more than current.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
   const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateMilestone();
@@ -147,6 +163,7 @@ export default function AddNewMilestoneModal(props) {
     } else {
       if (isEdit) {
         dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+        // dispatch(getProject(curProject.uuid));
       } else if (initialMilestone && curProject.uuid) {
         dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         dispatch(getProject(curProject.uuid));
@@ -163,14 +180,24 @@ export default function AddNewMilestoneModal(props) {
   };
 
   const handleArchive = (e) => {
-    dispatch(updateMilestone({ ...project, status: 'Archived' }));
-    dispatch(getProject(curProject.uuid));
-    setArchive(false);
+    e.preventDefault();
+    const validateErrors = validateDeathRattle();
+    if (validateErrors) {
+      setErrorsDeathRattle(validateErrors);
+    } else {
+      dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
+      dispatch(getProject(curProject.uuid));
+      setArchive(false);
+    }
   };
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
+  const endDateChange = (endDate) => {
+    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
+    setProject({ ...project, end_date: endDate });
+  };
+
   let curPerson;
 
   if (curProject.Person !== undefined) {
@@ -183,7 +210,7 @@ export default function AddNewMilestoneModal(props) {
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
           className={classes.modal}
-          open={addUserModalOpen}
+          open={false}
           onClose={handleCancel}
           closeAfterTransition
           BackdropComponent={Backdrop}
@@ -191,9 +218,9 @@ export default function AddNewMilestoneModal(props) {
             timeout: 500,
           }}
         >
-          <Fade in={addUserModalOpen}>
+          <Fade in={false}>
             <div className={clsx(classes.paper, classes.modalWidth)}>
-              <form className={classes.root} noValidate autoComplete="off">
+              <form className={classes.root}>
                 <TextField
                   value={project.comment || ''}
                   label="Post mortem"
@@ -203,6 +230,28 @@ export default function AddNewMilestoneModal(props) {
                   name='comment'
                   onChange={handleChange}
                 />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                      error={Boolean(errorsDeathRattle.end_date)}
+                      helperText={errorsDeathRattle.end_date}
+                      className={clsx(classes.formControl, classes.inputForm)}
+                      style={{ width: '100%' }}
+                      inputVariant="outlined"
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      autoOk
+                      margin="normal"
+                      onChange={endDateChange}
+                      value={project.end_date}
+                      label="End Date"
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
                 <div className={classes.buttons}>
                   <Button
                     variant="contained"

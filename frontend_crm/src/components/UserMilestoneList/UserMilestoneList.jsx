@@ -42,7 +42,6 @@ function UserMilestoneList(props) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  // console.log(user);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [widgetView, setWidgetView] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -94,11 +93,14 @@ function UserMilestoneList(props) {
   return (
     <>
       <div className={classes.filterControl}>
-        <FormControlLabel
-          style={{ marginLeft: '10px' }}
-          control={<Switch checked={widgetView} onChange={handleChangeView} color='primary' />}
-          label="Widget view"
-        />
+        {!archived ? (
+          <FormControlLabel
+            style={{ marginLeft: '10px' }}
+            control={<Switch checked={widgetView} onChange={handleChangeView} color='primary' />}
+            label="Widget view"
+          />
+        ) : ''}
+
 
         {userId ? (
 

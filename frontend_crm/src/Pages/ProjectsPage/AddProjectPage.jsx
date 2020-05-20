@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     margin: '0 auto',
-    maxWidth: '750px',
+    maxWidth: '1100px',
   },
   breadcrumbs: {
     margin: '85px 20px',

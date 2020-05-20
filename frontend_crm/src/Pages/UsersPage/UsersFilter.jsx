@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
   order: {
     display: 'flex',
     justifyContent: 'flex-end',
+    marginBottom: '-5px',
+  },
+  orderIcon: {
+    marginTop: '5px',
   },
   root: {
     display: 'flex',
@@ -68,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  buttonGroup: {
+    margin: '0px 10px',
+  }
 }));
 
 const UsersFilter = (props) => {
@@ -140,7 +147,7 @@ const UsersFilter = (props) => {
           />
         </Grid>
         <div className={classes.root}>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
                 if (filterRole === 'Developers') {
@@ -180,7 +187,7 @@ const UsersFilter = (props) => {
             </Button>
 
           </ButtonGroup>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
                 if (profitable === 'Profitable') {
@@ -210,7 +217,7 @@ const UsersFilter = (props) => {
               Not Profitable
             </Button>
           </ButtonGroup>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
                 if (active === 'Active') {
@@ -249,6 +256,7 @@ const UsersFilter = (props) => {
             {order
               ? (
                 <IconButton
+                  className={classes.orderIcon}
                   variant="contained"
                   color="primary"
                   size="medium"
@@ -262,6 +270,7 @@ const UsersFilter = (props) => {
               )
               : (
                 <IconButton
+                  className={classes.orderIcon}
                   variant="contained"
                   color="primary"
                   size="medium"

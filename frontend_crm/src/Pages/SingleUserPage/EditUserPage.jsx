@@ -76,6 +76,13 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: '100%',
   },
+  header__switch: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  switch: {
+    marginTop: '20px',
+  }
 }));
 
 const EditUserPage = ({ match }) => {
@@ -236,12 +243,11 @@ const EditUserPage = ({ match }) => {
               <div className={classes.header__switch}>
                 <h2>Edit user</h2>
                 <Tooltip title={(checkedStatus) ? ('User has active milestones') : ('')}>
-                  <span>
+                  <span className={classes.switch}>
                     <FormControlLabel
                       control={(
                         <Switch
                           disabled={checkedStatus}
-                          className={classes.switch}
                           checked={user.isActive}
                           onChange={handleChangeStatus}
                           color="primary"

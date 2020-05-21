@@ -32,33 +32,64 @@ const MilestonesTableOnSinglePages = (props) => {
   const {
     project, projectPage, milestones, archived,
   } = props;
+
   const rows = milestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
 
+  console.log('MFDFDF', milestones);
   return (
     <>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
         <Table className={classes.table}>
           <TableHead color='primary'>
-            <TableRow>
+            {archived ? (
+              <TableRow>
 
-              <StyledTableCell align="center"> Project</StyledTableCell>
-              <StyledTableCell align="center"> Role</StyledTableCell>
-              <StyledTableCell align="center"> Load</StyledTableCell>
-              <StyledTableCell align="center"> Start Date</StyledTableCell>
-              <StyledTableCell align="center"> End Date</StyledTableCell>
-              <StyledTableCell align="center"> Comment</StyledTableCell>
-            </TableRow>
+                <StyledTableCell align="center"> Project</StyledTableCell>
+                <StyledTableCell align="center"> Role</StyledTableCell>
+                <StyledTableCell align="center"> Load</StyledTableCell>
+                <StyledTableCell align="center"> Start Date</StyledTableCell>
+                <StyledTableCell align="center"> End Date</StyledTableCell>
+                <StyledTableCell align="center"> Comment</StyledTableCell>
+              </TableRow>
+            ) : (
+              <TableRow>
+
+                <StyledTableCell align="center"> Project</StyledTableCell>
+                <StyledTableCell align="center"> Role</StyledTableCell>
+                <StyledTableCell align="center"> Load</StyledTableCell>
+                <StyledTableCell align="center"> Person</StyledTableCell>
+                <StyledTableCell align="center"> Start Date</StyledTableCell>
+                <StyledTableCell align="center"> End Date</StyledTableCell>
+                <StyledTableCell align="center"> Comment</StyledTableCell>
+              </TableRow>
+            )}
+
           </TableHead>
-          <TableBody>
-            {rows.map((item) => (
-              <MilestonesTableRow
-                milestone={item}
-                key={Math.random()}
-                projectPage={projectPage}
-                project={project}
-              />
-            ))}
-          </TableBody>
+          {archived ? (
+            <TableBody>
+              {rows.map((item) => (
+                <MilestonesTableRow
+                  milestone={item}
+                  key={Math.random()}
+                  projectPage={projectPage}
+                  project={project}
+                  archived
+                />
+              ))}
+            </TableBody>
+          ) : (
+            <TableBody>
+              {rows.map((item) => (
+                <MilestonesTableRow
+                  milestone={item}
+                  key={Math.random()}
+                  projectPage={projectPage}
+                  project={project}
+                />
+              ))}
+            </TableBody>
+          )}
+
         </Table>
       </TableContainer>
     </>

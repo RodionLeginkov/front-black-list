@@ -118,8 +118,8 @@ export default function UserPostMortemModal(props) {
       setErrorsDeathRattle(validateErrors);
     } else {
       try {
-        dispatch(updateUser(user));
-        dispatch(getUser(userId));
+        await dispatch(updateUser(user));
+        await dispatch(getUser(userId));
         setUserPostMortemOpen(false);
       } catch {}
     }

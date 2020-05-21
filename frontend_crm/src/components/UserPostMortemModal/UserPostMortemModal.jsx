@@ -121,8 +121,6 @@ export default function UserPostMortemModal(props) {
         dispatch(updateUser(user));
         dispatch(getUser(userId));
         setUserPostMortemOpen(false);
-        // dispatch(getProject(curProject.uuid));
-        // setArchive(false);
       } catch {}
     }
   };

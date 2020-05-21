@@ -63,6 +63,7 @@ function archiveCreateData(
   current_task,
   hiredAt,
   firedAt,
+  uuid,
 ) {
   return {
     fullName,
@@ -70,6 +71,7 @@ function archiveCreateData(
     current_task,
     hiredAt,
     firedAt,
+    uuid,
   };
 }
 
@@ -144,6 +146,7 @@ export default function UsersList(props) {
       user.current_task,
       startDate,
       endDate,
+      user.uuid,
     ));
   });
 

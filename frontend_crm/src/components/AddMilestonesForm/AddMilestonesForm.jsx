@@ -51,7 +51,6 @@ function AddMilestonesForm(props) {
     />
   )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={choosenMilestones} archived={archived} />;
 
-  console.log('choosenMilestones', choosenMilestones);
   const handleChangeView = () => {
     setWidgetView({ ...widgetView, resourse: !widgetView.resourse, history: !widgetView.history });
   };

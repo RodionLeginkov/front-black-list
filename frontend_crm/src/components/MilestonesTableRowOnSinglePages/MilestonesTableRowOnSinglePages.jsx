@@ -17,13 +17,13 @@ const ArchivedMilestonesTableRow = (props) => {
   const endDate = milestone.end_date ? `${end.getDate()}/${end.getMonth() + 1}/${end.getFullYear()}` : 'End: -/-/-';
   const name = projectPage ? milestone.Users.fullName : milestone.Projects.name;
   let personName = '';
-  console.log('milestone.Projects', milestone.Projects);
+
   if (milestone.Projects) {
     personName = milestone.person_uuid && milestone.Projects.Person ? milestone.Projects.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
   } else {
     personName = milestone.person_uuid && project.Person ? project.Person.find((p) => p.uuid === milestone.person_uuid).name : '';
   }
-  console.log('milestone.Person', project);
+
   // personName = milestone.Projects.Person.name;
 
   // console.log(personName);

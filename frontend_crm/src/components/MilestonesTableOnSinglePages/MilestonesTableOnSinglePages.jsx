@@ -35,7 +35,6 @@ const MilestonesTableOnSinglePages = (props) => {
 
   const rows = milestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
 
-  console.log('MFDFDF', milestones);
   return (
     <>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>

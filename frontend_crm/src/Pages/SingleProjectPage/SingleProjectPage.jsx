@@ -48,6 +48,15 @@ const useStyles = makeStyles(() => ({
   stackAndEnglish: {
     margin: '0px 20px',
   },
+  Descriptions: {
+    margin: '0px 20px',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  descriptionText: {
+    fontSize: '18px',
+    paddingLeft: '5px',
+  },
   description: {
     margin: '4px 13px',
     paddingBottom: '10px',
@@ -59,6 +68,9 @@ const useStyles = makeStyles(() => ({
   },
   button: {
     color: '#777777',
+  },
+  headerText: {
+    fontSize: '22px',
   },
 }));
 
@@ -115,6 +127,7 @@ const CurrentProject = ({ match }) => {
   if (!project || !project.ProjectMilestones) {
     return (<Loading />);
   }
+  console.log(project);
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -131,14 +144,14 @@ const CurrentProject = ({ match }) => {
           </div>
         </div>
         <Divider />
-        <div className={classes.stackAndEnglish}>
-          <h2>Stack: </h2>
-          <div className={classes.stackIcons}>
-            {/* {projectStack} */}
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Description: </h2>
+          <div className={classes.descriptionText}>
+            {project.description}
           </div>
         </div>
         <div className={classes.stackAndEnglish}>
-          <h2>Resources: </h2>
+          <h2 className={classes.headerText}>Resources: </h2>
 
           <Tabs
             indicatorColor="primary"
@@ -178,12 +191,12 @@ const CurrentProject = ({ match }) => {
           </TabPanel>
         </div>
 
-        <div className={classes.content}>
+        {/* <div className={classes.content}>
           <h2 style={{ marginTop: 0 }}>Description: </h2>
           <Typography className={classes.description}>
             {project.description}
           </Typography>
-        </div>
+        </div> */}
         <Divider />
         <div className={classes.footerIcons}>
           <Button className={classes.button} onClick={handleClick}>

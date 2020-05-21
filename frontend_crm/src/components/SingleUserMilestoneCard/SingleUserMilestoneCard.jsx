@@ -184,17 +184,14 @@ const SingleUserMilestoneCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-      {!showInfo
-        ? (
-          <MilestoneInfoModal
-            project={milestone}
-            openModal={openModal}
-            setOpenModal={setOpenModal}
-            customer={project}
-            archived={archived}
-            userPage
-          />
-        ) : ''}
+      <MilestoneInfoModal
+        project={milestone}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        customer={project}
+        archived={archived}
+        userPage
+      />
     </Grid>
   );
 };

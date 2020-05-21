@@ -82,7 +82,7 @@ function UserMilestoneList(props) {
       milestone={milestone}
       user={user}
     />
-  )) : <MilestonesTableOnSinglePages milestones={milestones} archived={archived} />;
+  )) : <MilestonesTableOnSinglePages milestones={choosenMilestones} archived={archived} />;
 
 
   const handleChangeView = () => {

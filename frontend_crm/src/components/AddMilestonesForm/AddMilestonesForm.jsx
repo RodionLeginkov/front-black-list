@@ -49,7 +49,7 @@ function AddMilestonesForm(props) {
       setProjectMilestones={setProjectMilestones}
       archived={archived}
     />
-  )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={projectMilestones} archived={archived} />;
+  )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={choosenMilestones} archived={archived} />;
 
   const handleChangeView = () => {
     setWidgetView({ ...widgetView, resourse: !widgetView.resourse, history: !widgetView.history });

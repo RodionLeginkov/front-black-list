@@ -6,6 +6,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import { userRoles, englishLevels } from '../../constants/constants';
 import './style.css';
 import CurrentTaskField from './CurrentTaskField.jsx';
@@ -68,19 +69,28 @@ const UserTableRow = (props) => {
   } = props;
   const [changedFields, setChangedFields] = useState(user);
 
+  function archiveClick(name, user) {
+    if (name === 'Name') {
+      history.push(`/user/${user.uuid}`);
+    }
+  }
 
   if (archive) {
     return (
       <StyledTableRow key={Math.random()}>
         {
           userArchiveTableCells.map((cell) => {
+            const userClassName = clsx({
+              [classes.redirect]: (cell.label === 'Name'),
+            });
             if (visibeCells.includes(cell.label)) {
               // console.log(milestone[cell.value]);
               return (
                 <StyledTableCell
                   key={Math.random()}
                   align="center"
-                  className={classes.cell}
+                  className={userClassName}
+                  onClick={() => archiveClick(cell.label, user)}
                 >
                   {user[cell.value]}
                 </StyledTableCell>

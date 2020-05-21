@@ -32,6 +32,7 @@ import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, englishLevels } from '../../constants/constants';
 import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
+import UserPosetMortemModal from '../../components/UserPostMortemModal/UserPostMortemModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   switch: {
     marginTop: '20px',
-  }
+  },
 }));
 
 const EditUserPage = ({ match }) => {
@@ -93,6 +94,7 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
+  const [userPostMortemOpen, setUserPostMortemOpen] = useState(false);
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -182,6 +184,7 @@ const EditUserPage = ({ match }) => {
     if (!checkedStatus) {
       setUser({ ...user, isActive: !(user.isActive) });
     }
+    setUserPostMortemOpen((user.isActive));
   };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
@@ -209,7 +212,6 @@ const EditUserPage = ({ match }) => {
     // eslint-disable-next-line max-len
     filteredProjects = filteredProjects.filter((project) => project.name !== user.currentProject[index].name);
   }
-
 
   return (
     <>
@@ -432,6 +434,7 @@ const EditUserPage = ({ match }) => {
                     user={user}
                     setUsersTasks={setUsersTasks}
                     usersTasks={usersTasks}
+
                   />
                   )}
                 </Grid>
@@ -451,6 +454,14 @@ const EditUserPage = ({ match }) => {
           </div>
         </Paper>
       </div>
+      <UserPosetMortemModal
+        userPostMortemOpen={userPostMortemOpen}
+        setUserPostMortemOpen={setUserPostMortemOpen}
+        user={user}
+        setUser={setUser}
+        initialValue={initialValue}
+        userId={userId}
+      />
     </>
   );
 };

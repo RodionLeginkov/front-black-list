@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -22,7 +22,7 @@ import {
 } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -71,77 +71,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddNewDeathRattleModal(props) {
+export default function UserPostMortemModal(props) {
   const {
-    curProject,
-    initialMilestone,
-    setArchive,
-    deathRattleModelOpen,
-    setDeathRattleModelOpen,
+    user,
+    setUser,
+    userPostMortemOpen,
+    setUserPostMortemOpen,
+    initialValue,
+    userId,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const initialValue = initialMilestone || {
-    user_uuid: '',
-    project_uuid: curProject.uuid,
-    person_uuid: null,
-    role: '',
-    rate: null,
-    rate_type: '',
-    load: null,
-    start_date: new Date(),
-    end_date: null,
-    Users: {},
-    platform: '',
-    withdraw: '',
-    comment: '',
-    status: 'Active',
-  };
+  const [postMortem, setPostMortem] = useState('');
   const curDate = new Date();
-  const [project, setProject] = useState(initialValue);
-
 
   const [errorsDeathRattle, setErrorsDeathRattle] = useState({
-    end_date: '',
+    firedAt: '',
   });
   const handleCancel = (e) => {
     e.preventDefault();
-
-    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
-    setProject(initialValue);
-    setArchive(false);
-    setDeathRattleModelOpen(false);
+    setPostMortem('');
+    setUser({
+      ...user, firedAt: initialValue.firedAt, current_task: initialValue.current_task, isActive: true,
+    });
+    setUserPostMortemOpen(false);
   };
   const handleChange = (e) => {
-    setProject({ ...project, [e.target.name]: e.target.value });
+    setPostMortem(e.target.value);
+    setUser({ ...user, current_task: e.target.value });
   };
 
+
   const validateDeathRattle = () => {
-    const end = new Date(project.end_date);
+    const end = new Date(user.firedAt);
     const fieldsErrors = {};
-    if (project.end_date === null) fieldsErrors.end_date = 'End date is required field.';
-    else if (end - curDate > 0) fieldsErrors.end_date = 'You can not select end date more than current.';
+    if (user.firedAt === null) fieldsErrors.firedAt = 'End date is required field.';
+    else if (end - curDate > 0) fieldsErrors.firedAt = 'You can not select fired date more than current.';
+
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
-
-  const handleArchive = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateDeathRattle();
     if (validateErrors) {
       setErrorsDeathRattle(validateErrors);
     } else {
       try {
-        await dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
-        dispatch(getProject(curProject.uuid));
-        setArchive(false);
+        await dispatch(updateUser(user));
+        await dispatch(getUser(userId));
+        setUserPostMortemOpen(false);
       } catch {}
     }
   };
 
   const endDateChange = (endDate) => {
-    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
-    setProject({ ...project, end_date: endDate });
+    setErrorsDeathRattle({ ...errorsDeathRattle, firedAt: '' });
+    setUser({ ...user, firedAt: endDate });
   };
 
 
@@ -151,7 +137,7 @@ export default function AddNewDeathRattleModal(props) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={deathRattleModelOpen}
+        open={userPostMortemOpen}
         onClose={handleCancel}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -159,23 +145,23 @@ export default function AddNewDeathRattleModal(props) {
           timeout: 500,
         }}
       >
-        <Fade in={deathRattleModelOpen}>
+        <Fade in={userPostMortemOpen}>
           <div className={clsx(classes.paper, classes.modalWidth)}>
             <form className={classes.root}>
               <TextField
-                value={project.comment || ''}
+                value={postMortem}
                 label="Post mortem"
                 variant="outlined"
                 inputProps={{ 'aria-label': 'description' }}
                 className={classes.inputForm}
-                name='comment'
+                name='current_task'
                 onChange={handleChange}
               />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
                   <KeyboardDatePicker
-                    error={Boolean(errorsDeathRattle.end_date)}
-                    helperText={errorsDeathRattle.end_date}
+                    error={Boolean(errorsDeathRattle.firedAt)}
+                    helperText={errorsDeathRattle.firedAt}
                     className={clsx(classes.formControl, classes.inputForm)}
                     style={{ width: '100%' }}
                     inputVariant="outlined"
@@ -185,7 +171,7 @@ export default function AddNewDeathRattleModal(props) {
                     autoOk
                     margin="normal"
                     onChange={endDateChange}
-                    value={project.end_date}
+                    value={user.firedAt}
                     label="End Date"
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
@@ -198,7 +184,7 @@ export default function AddNewDeathRattleModal(props) {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  onClick={handleArchive}
+                  onClick={handleSubmit}
                   className={classes.submitButton}
                 >
                   Archive

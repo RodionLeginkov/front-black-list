@@ -138,6 +138,12 @@ export default function AddNewMilestoneModal(props) {
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
   };
+
+  const HandleRateTyoeChange = (e, values) => {
+    console.log(values);
+    setProject({ ...project, rate_type: values ? values.value : null });
+  };
+  console.log(project);
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
@@ -164,10 +170,12 @@ export default function AddNewMilestoneModal(props) {
       try {
         if (isEdit) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-      } else if (initialMilestone && curProject.uuid) {
+        } else if (initialMilestone && curProject.uuid) {
           await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
+
       } else {
+
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           await dispatch(getProject(curProject.uuid));
           dispatch(getProjects());
@@ -206,6 +214,9 @@ export default function AddNewMilestoneModal(props) {
   if (curProject.Person !== undefined) {
     curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
   } else curPerson = '';
+
+  const curRateType = project.rate_type ? paymentTypes.find((item) => item.value === project.rate_type) : '';
+
   if (archive) {
     return (
       <div className={classes.position}>
@@ -375,7 +386,16 @@ export default function AddNewMilestoneModal(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
-                  <FormControl
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={paymentTypes}
+                    getOptionLabel={(option) => option.label}
+                    style={{ paddingTop: '5px' }}
+                    renderInput={(params) => <TextField {...params} label="Rate Type" variant="outlined" />}
+                    value={curRateType || null}
+                    onChange={HandleRateTyoeChange}
+                  />
+                  {/* <FormControl
                     placeholder='Rate type'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -396,7 +416,7 @@ export default function AddNewMilestoneModal(props) {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField

@@ -27,6 +27,8 @@ import './ProjectStyles.css';
 import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
 import PersonsList from '../../components/PersonsList/PersonsList.jsx';
 import Box from '@material-ui/core/Box';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { CommunicationType } from '../../constants/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -99,6 +101,7 @@ function TabPanel(props) {
     children, value, index, ...other
   } = props;
 
+
   return (
     <div
       role="tabpanel"
@@ -140,6 +143,8 @@ const AddProjectPage = (props) => {
     type: '',
     withdrawal_of_funds: '',
     customer: '',
+    communicationType: null,
+    communicationIntensity: '',
     description: '',
     history: '',
     ProjectMilestones: [],
@@ -156,6 +161,12 @@ const AddProjectPage = (props) => {
     setProjectMilestones(initialMilestones);
     // eslint-disable-next-line
   }, [loading]);
+
+  const curCommunicationType = project.communicationType ? CommunicationType.find((item) => item.value === project.communicationType) : null;
+  const HandleCommunicationTypeChange = (e, values) => {
+    console.log(values);
+    setProject({ ...project, communicationType: values ? values.value : null });
+  };
 
   useEffect(() => {
     if (projectId && (!curProject || !curProject.Persons)) {
@@ -297,6 +308,34 @@ const AddProjectPage = (props) => {
                     multiline
                     rowsMax="5"
                     name='customer'
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+              </Grid>
+              <Grid style={{ margin: '0px 0px 10px', paddingTop: '5px' }} container justify="space-between" spacing={1}>
+
+                <Grid item xs={6}>
+
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={CommunicationType}
+                    getOptionLabel={(option) => option.label}
+
+                    renderInput={(params) => <TextField {...params} label="Communication Type" variant="outlined" />}
+                    value={curCommunicationType || null}
+                    onChange={HandleCommunicationTypeChange}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    value={project.communicationIntensity}
+                    variant="outlined"
+                    label="Communication Intensity"
+                    multiline
+                    rowsMax="5"
+                    name='communicationIntensity'
+                    className={classes.inputForm}
                     onChange={handleChange}
                   />
                 </Grid>

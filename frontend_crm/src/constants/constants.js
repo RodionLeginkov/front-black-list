@@ -103,3 +103,9 @@ export const projectFormatOfCommunication = [
   'Calls',
   'Video calls',
 ];
+
+export const CommunicationType = [
+  { label: 'Text', value: 'Text' },
+  { label: 'Voice calls', value: 'Voice calls' },
+  { label: 'Video Calls', value: 'Video Calls' },
+];

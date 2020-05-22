@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonGroup: {
     margin: '0px 10px',
-  }
+  },
 }));
 
 const UsersFilter = (props) => {
@@ -193,9 +193,13 @@ const UsersFilter = (props) => {
                 if (profitable === 'Profitable') {
                   setProfitable('');
                   setProfitButton('');
+                  setFilterRole('');
+                  setSelectButton('');
                 } else {
                   setProfitable('Profitable');
                   setProfitButton('Profitable');
+                  setFilterRole('Developers');
+                  setSelectButton('Developers');
                 }
               }}
               className={(profitButton === 'Profitable') ? classes.button : classes.buttonOf}

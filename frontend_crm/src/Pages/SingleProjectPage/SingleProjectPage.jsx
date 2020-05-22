@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
     marginTop: '30px',
   },
   content: {
-    margin: '0px 20px',
+    margin: '0px 10px',
     display: 'flex',
   },
   header: {
@@ -54,7 +54,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   descriptionText: {
-    fontSize: '18px',
+    fontSize: '16px',
     paddingLeft: '5px',
   },
   description: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles(() => ({
     color: '#777777',
   },
   headerText: {
-    fontSize: '22px',
+    fontSize: '18px',
   },
 }));
 
@@ -148,6 +148,18 @@ const CurrentProject = ({ match }) => {
           <h2 className={classes.headerText}>Description: </h2>
           <div className={classes.descriptionText}>
             {project.description}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Communication type: </h2>
+          <div className={classes.descriptionText}>
+            {project.communicationType}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Communication Intensity: </h2>
+          <div className={classes.descriptionText}>
+            {project.communicationIntensity}
           </div>
         </div>
         <div className={classes.stackAndEnglish}>

@@ -50,7 +50,6 @@ export default function ProjectsList(props) {
   // eslint-disable-next-line array-callback-return
   const rows = projects.map((project) => {
     const start = project.ProjectMilestones.length ? new Date(project.ProjectMilestones[0].start_date) : '';// new Date(milestone.start_date);
-    console.log(project);
     const startDate = start ? ` ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Not-started';
 
     return createData(project.name, project.description, project.customer, project.uuid, startDate, project.communicationType, project.communicationIntensity);

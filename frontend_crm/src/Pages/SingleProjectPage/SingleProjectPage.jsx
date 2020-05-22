@@ -127,7 +127,7 @@ const CurrentProject = ({ match }) => {
   if (!project || !project.ProjectMilestones) {
     return (<Loading />);
   }
-  console.log(project);
+
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>

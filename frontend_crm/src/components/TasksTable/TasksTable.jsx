@@ -52,7 +52,6 @@ export default function TasksTable(props) {
     createDate = createDate.toLocaleString('en-GB', { hour12: false });
     const authorName = !users.length || users.find((user) => task.creator_uuid === user.uuid).fullName;
 
-    console.log('tasks',tasks)
 
     return createData(createDate, authorName, task.text);
   });

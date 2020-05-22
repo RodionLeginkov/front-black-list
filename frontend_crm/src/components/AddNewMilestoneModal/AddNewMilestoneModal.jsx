@@ -140,10 +140,9 @@ export default function AddNewMilestoneModal(props) {
   };
 
   const HandleRateTyoeChange = (e, values) => {
-    console.log(values);
     setProject({ ...project, rate_type: values ? values.value : null });
   };
-  console.log(project);
+
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
@@ -173,9 +172,7 @@ export default function AddNewMilestoneModal(props) {
         } else if (initialMilestone && curProject.uuid) {
           await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
-
-      } else {
-
+        } else {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           await dispatch(getProject(curProject.uuid));
           dispatch(getProjects());

@@ -164,7 +164,6 @@ const AddProjectPage = (props) => {
 
   const curCommunicationType = project.communicationType ? CommunicationType.find((item) => item.value === project.communicationType) : null;
   const HandleCommunicationTypeChange = (e, values) => {
-    console.log(values);
     setProject({ ...project, communicationType: values ? values.value : null });
   };
 

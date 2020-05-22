@@ -130,7 +130,6 @@ export default function RecipeReviewCard(props) {
   // const startDate = new Date(card.start_date);
   const curDate = new Date();
 
-  console.log('card', card);
   return (
     <>
       <Card className={classes.root}>

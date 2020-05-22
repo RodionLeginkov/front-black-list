@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '5px',
+    marginBottom: '4px',
   },
   price: {
     maxHeight: '20px',
@@ -92,26 +92,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function difDates(startDate, curDate) {
-  const
-    difMonth = curDate.getMonth() - startDate.getMonth();
-  const difYear = curDate.getFullYear() - startDate.getFullYear();
-  const difDay = curDate.getDate() - startDate.getDate();
-  if (difYear * 12 + difMonth > 12 && difMonth > 0) {
-    return `${difYear} year(s) ${difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 12 && difMonth < 0) {
-    return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 0 && difMonth > 0) {
-    return `${difMonth} month(s)`;
-  }
-  if (difYear * 12 + difMonth > 0 && difMonth < 0) {
-    return `${12 + difMonth} month(s)`;
-  }
+// function difDates(startDate, curDate) {
+//   const
+//     difMonth = curDate.getMonth() - startDate.getMonth();
+//   const difYear = curDate.getFullYear() - startDate.getFullYear();
+//   const difDay = curDate.getDate() - startDate.getDate();
+//   if (difYear * 12 + difMonth > 12 && difMonth > 0) {
+//     return `${difYear} year(s) ${difMonth} month(s)`;
+//   }
+//   if (difYear * 12 + difMonth > 12 && difMonth < 0) {
+//     return `${difYear - 1} year(s) ${12 + difMonth} month(s)`;
+//   }
+//   if (difYear * 12 + difMonth > 0 && difMonth > 0) {
+//     return `${difMonth} month(s)`;
+//   }
+//   if (difYear * 12 + difMonth > 0 && difMonth < 0) {
+//     return `${12 + difMonth} month(s)`;
+//   }
 
-  return `${difDay} day(s)`;
-}
+//   return `${difDay} day(s)`;
+// }
 
 export default function RecipeReviewCard(props) {
   const { card } = props;
@@ -119,15 +119,18 @@ export default function RecipeReviewCard(props) {
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const start = card.ProjectMilestones.length ? new Date(card.ProjectMilestones[0].start_date) : '';// new Date(milestone.start_date);
+  const startDate = start ? `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Start: Not-started';
 
   function handleClick() {
     dispatch(findProject(card.uuid));
     history.push(`/customers/${card.uuid}`);
   }
   const classes = useStyles();
-  const startDate = new Date(card.start_date);
+  // const startDate = new Date(card.start_date);
   const curDate = new Date();
 
+  console.log('card', card);
   return (
     <>
       <Card className={classes.root}>
@@ -152,14 +155,33 @@ export default function RecipeReviewCard(props) {
           </div>
           <CardContent>
             <div className={classes.projectInfo}>
-              <div className={classes.priceAndDuration}>
+              <Typography>
+                {startDate}
+              </Typography>
+
+              {/* <div className={classes.priceAndDuration}>
                 <CustomBadge text={difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} />
-              </div>
+              </div> */}
               <div>
+
                 <div style={{ margin: '10px', display: 'flex' }}>
                   {/* {projectStack} */}
                 </div>
               </div>
+            </div>
+            <div className={classes.projectInfo}>
+              <Typography>
+                Communication Type:
+                {' '}
+                {card.communicationType ? card.communicationType : '―' }
+              </Typography>
+            </div>
+            <div className={classes.projectInfo}>
+              <Typography>
+                Communication Intensity:
+                {' '}
+                {card.communicationIntensity ? card.communicationIntensity : '―'}
+              </Typography>
             </div>
             <Typography variant="body2" color="textSecondary" component="p" className={classes.lineClamp5}>
               {card.description}

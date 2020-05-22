@@ -186,6 +186,7 @@ const SingleMilestoneCard = (props) => {
           <Typography>
             {startDate}
           </Typography>
+
           <Typography>
             {endDate}
           </Typography>

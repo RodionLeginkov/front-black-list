@@ -29,10 +29,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, description, customer, id) {
-
+function createData(name, description, customer, id, start, type, intensity) {
   return {
-    name, description, customer, id,
+    name, description, customer, id, start, type, intensity,
   };
 }
 
@@ -50,7 +49,10 @@ export default function ProjectsList(props) {
   const dispatch = useDispatch();
   // eslint-disable-next-line array-callback-return
   const rows = projects.map((project) => {
-    return  createData(project.name, project.description, project.customer, project.uuid);
+    const start = project.ProjectMilestones.length ? new Date(project.ProjectMilestones[0].start_date) : '';// new Date(milestone.start_date);
+    const startDate = start ? ` ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Not-started';
+
+    return createData(project.name, project.description, project.customer, project.uuid, startDate, project.communicationType, project.communicationIntensity);
   });
   function handleClick(id) {
     dispatch(findProject(id));
@@ -65,6 +67,9 @@ export default function ProjectsList(props) {
             <StyledTableCell>Project Name</StyledTableCell>
             <StyledTableCell align="right">Customer</StyledTableCell>
             <StyledTableCell align="right">Description</StyledTableCell>
+            <StyledTableCell align="right">Communication type</StyledTableCell>
+            <StyledTableCell align="right">Communication Intensity</StyledTableCell>
+            <StyledTableCell align="right">Start Date</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -79,6 +84,9 @@ export default function ProjectsList(props) {
               </StyledTableCell>
               <StyledTableCell align="right">{project.customer}</StyledTableCell>
               <StyledTableCell align="right">{project.description}</StyledTableCell>
+              <StyledTableCell align="right">{project.type}</StyledTableCell>
+              <StyledTableCell align="right">{project.intensity}</StyledTableCell>
+              <StyledTableCell align="right">{project.start}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

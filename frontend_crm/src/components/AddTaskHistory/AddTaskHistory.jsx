@@ -37,6 +37,7 @@ function AddTaskHistory(props) {
 
       const taskId = response.data.uuid;
 
+
       handleChangeCurrentTask(taskId);
       setUsersTasks([...usersTasks, newTask]);
       setNewTask({

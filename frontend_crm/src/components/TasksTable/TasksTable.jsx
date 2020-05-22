@@ -38,7 +38,6 @@ function createData(createDate, authorName, text) {
 const useStyles = makeStyles({
   table: {
     minWidth: 500,
-    maxWidth: 650,
   },
 });
 
@@ -53,9 +52,10 @@ export default function TasksTable(props) {
     createDate = createDate.toLocaleString('en-GB', { hour12: false });
     const authorName = !users.length || users.find((user) => task.creator_uuid === user.uuid).fullName;
 
+
     return createData(createDate, authorName, task.text);
   });
-
+  if (!tasks.length) return <Typography>There is no resourses</Typography>;
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">

@@ -22,7 +22,7 @@ import {
 } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -161,23 +161,23 @@ export default function AddNewMilestoneModal(props) {
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
-
       try {
         if (isEdit) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
       } else if (initialMilestone && curProject.uuid) {
           await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
-          // await axios.get(`/person/${person.uuid}`, person);
       } else {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-          dispatch(getProject(curProject.uuid));
+          await dispatch(getProject(curProject.uuid));
+          dispatch(getProjects());
         }
         setProject(initialValue);
         setIsError(false);
         // setArchive(false);
         setAddUserModalOpen(false);
-        dispatch(getProject(curProject.uuid));
+        await dispatch(getProject(curProject.uuid));
+        dispatch(getProjects());
       } catch {}
     }
   };

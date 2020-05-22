@@ -1,14 +1,13 @@
 
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import {
   Route, Switch, withRouter, BrowserRouter, useHistory,
 } from 'react-router-dom';
 import {
-  ThemeProvider, createMuiTheme, makeStyles, useTheme,
+  ThemeProvider, createMuiTheme, makeStyles,
 } from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-import clsx from 'clsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
@@ -58,7 +57,6 @@ function App() {
     axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
     // eslint-disable-next-line dot-notation
     axios.defaults.headers.common['authorization'] = loginToken;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     axios.interceptors.response.use(
       (res) => res,
       (error) => {
@@ -71,6 +69,7 @@ function App() {
         return Promise.reject(error);
       },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // localStorage.setItem('token', '');

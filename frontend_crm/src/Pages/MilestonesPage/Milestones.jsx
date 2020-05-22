@@ -5,17 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import MilestonesList from './MilestonesList.jsx';
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    fontSize: '13 px',
-    minHeight: '40px',
-    padding: '0 10px',
-  },
   container: {
     paddingLeft: theme.spacing(3),
-  },
-  tableWrapper: {
-    width: '100%',
-    margin: '0 auto',
   },
   projectsHeader: {
     alignItems: 'center',
@@ -31,13 +22,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function StickyHeadTable() {
   const classes = useStyles();
-  const token = localStorage.getItem('token');
   const [sort, setSort] = useState('');
   const [order, setOrder] = useState(true);
   const [milestones, setMilestones] = useState([]);
   const [visibeCells, setVisibeCells] = useState([
     'Name',
     'User',
+    'Person',
     'Participants',
     'Rate',
     'RPD',

@@ -1,98 +1,18 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
 import IconButton from '@material-ui/core/IconButton';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
-import AddUserModal from '../AddUserModal/AddUserModal.jsx';
-import CustomBage from '../CustomBadge/CustomBadge.jsx';
-import MenuBotton from './MenuBotton.jsx';
-import { paymentTypes } from '../../constants/constants';
+import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
+import MilestonesTableOnSinglePages from '../MilestonesTableOnSinglePages/MilestonesTableOnSinglePages.jsx';
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    border: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  root: {
-    maxHeight: '170px',
-    width: '100%',
-    marginRight: 20,
-    marginBottom: 20,
-    background: '#F2F2F2',
-    color: '#555',
-    borderRadius: 2,
-    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
-    transition: 'all 0.25s ease-in-out',
-    '&:hover': {
-      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)',
-    },
-    display: 'flex',
-    flexFlow: 'column wrap',
-    justifyContent: 'space-between',
-  },
-  breadcrumbs: {
-    margin: '85px 20px 40px 0px',
-    color: '#777777',
-    cursor: 'pointer',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    borderRadius: '5px',
-    boxShadow: theme.shadows[5],
-    padding: '20px 40px',
-  },
-  content: {
-    margin: '0px 20px',
-    display: 'flex',
-  },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  position: {
-    display: 'flex',
-    alignItems: 'Center',
-  },
-  button: {
-    display: 'flex',
-    justifyContent: 'center',
-    fontSize: '13 px',
-  },
-  submitButton: {
-    width: '30%',
-    margin: '20px 0',
-  },
-  inputForm: {
-    width: '100%',
-    margin: '5px 0',
-  },
-  descriptionForm: {
-    maxHeight: '200px',
-    width: '100%',
-  },
-  smallForm: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-  },
-  cardHeader: {
-    marginTop: '5px',
-    display: 'flex',
-    fontSize: '16px',
-    alignItems: 'center',
-  },
-}));
 
 function AddMilestonesForm(props) {
-  const classes = useStyles();
   const {
     forRead,
     setProject,
@@ -102,14 +22,20 @@ function AddMilestonesForm(props) {
     milestonesChange,
     isEdit,
     setProjectMilestones,
+    archived,
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+  const [widgetView, setWidgetView] = useState({
+    resourse: true,
+    history: false,
+  });
 
   const handleClick = () => {
     setAddUserModalOpen(true);
   };
-
-  const milestones = projectMilestones.map((milestone) => (
+  const show = archived ? 'history' : 'resourse';
+  const choosenMilestones = projectMilestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
+  const milestones = widgetView[show] ? choosenMilestones.map((milestone) => (
     <SingleMilestoneCard
       showInfo={showInfo}
       addUserModalOpen={addUserModalOpen}
@@ -121,16 +47,32 @@ function AddMilestonesForm(props) {
       setProject={setProject}
       projectMilestones={projectMilestones}
       setProjectMilestones={setProjectMilestones}
+      archived={archived}
     />
-  ));
+  )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={choosenMilestones} archived={archived} />;
 
-
+  const handleChangeView = () => {
+    setWidgetView({ ...widgetView, resourse: !widgetView.resourse, history: !widgetView.history });
+  };
+  if (!choosenMilestones.length && !isEdit) return <Typography>There is no resourses</Typography>;
+  if (!choosenMilestones.length && isEdit && archived) return <Typography>There is no resourses</Typography>;
   return (
     <>
-      <Grid container spacing={1} style={{ alignItems: 'center', marginTop: '5px' }}>
+      {!archived && choosenMilestones.length ? (
+        <FormControlLabel
+          style={{ marginLeft: '10px' }}
+          control={<Switch checked={widgetView[show]} onChange={handleChangeView} color='primary' />}
+          label="Widget view"
+        />
+      ) : ''}
 
+      {/* {
+          !choosenMilestones.length && !isEdit ? <Typography>There is no resourses</Typography> : ''
+        } */}
+
+      <Grid container spacing={1} style={{ alignItems: 'center', marginTop: '5px' }}>
         {milestones}
-        {isEdit
+        {isEdit && !archived
           ? (
             <Grid item xs={1}>
               <Tooltip title="Set user">
@@ -142,7 +84,7 @@ function AddMilestonesForm(props) {
           ) : ''}
       </Grid>
       {isEdit ? (
-        <AddUserModal
+        <AddNewMilestoneModal
           forRead={forRead}
           projectMilestones={projectMilestones}
           addUserModalOpen={addUserModalOpen}

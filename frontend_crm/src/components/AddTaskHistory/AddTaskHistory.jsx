@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'; import 'date-fns';
+import React, { useState, useEffect } from 'react'; import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleOutlineSharpIcon from '@material-ui/icons/AddCircleOutlineSharp';
@@ -11,12 +11,10 @@ import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSh
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 
 function AddTaskHistory(props) {
-  const _isMounted = useRef(true);
   const {
     user, setUsersTasks, usersTasks, handleChangeCurrentTask,
   } = props;
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
-  const token = localStorage.getItem('token');
   const [newTask, setNewTask] = useState(user ? {
     user_uuid: user.uuid,
     creator_uuid: '',
@@ -28,9 +26,6 @@ function AddTaskHistory(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.uuid]);
 
-  useEffect(() => () => { // ComponentWillUnmount in Class Component
-    _isMounted.current = false;
-  }, []);
 
   const handleChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
@@ -41,15 +36,14 @@ function AddTaskHistory(props) {
       const response = await axios.post('/history-tasks', newTask);
 
       const taskId = response.data.uuid;
-      if (_isMounted.current) {
-        handleChangeCurrentTask(taskId);
-        setUsersTasks([...usersTasks, newTask]);
-        setNewTask({
-          user_uuid: user.uuid,
-          creator_uuid: '',
-          text: '',
-        });
-      }
+
+      handleChangeCurrentTask(taskId);
+      setUsersTasks([...usersTasks, newTask]);
+      setNewTask({
+        user_uuid: user.uuid,
+        creator_uuid: '',
+        text: '',
+      });
     }
   };
 

@@ -7,6 +7,7 @@ import Fade from '@material-ui/core/Fade';
 import clsx from 'clsx';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useDispatch } from 'react-redux';
+import validator from 'validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
@@ -19,6 +20,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
@@ -69,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddUserModal(props) {
+export default function AddNewMilestoneModal(props) {
   const {
     forRead,
     addUserModalOpen,
@@ -77,13 +79,15 @@ export default function AddUserModal(props) {
     curProject,
     isEdit,
     initialMilestone,
-    milestonesChange,
+    setArchive,
+    archive,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const initialValue = initialMilestone || {
     user_uuid: '',
     project_uuid: curProject.uuid,
+    person_uuid: null,
     role: '',
     rate: null,
     rate_type: '',
@@ -94,54 +98,190 @@ export default function AddUserModal(props) {
     platform: '',
     withdraw: '',
     comment: '',
+    status: 'Active',
   };
+  const curDate = new Date();
   const [isError, setIsError] = useState(false);
   const [project, setProject] = useState(initialValue);
+  const [errors, setErrors] = useState({
+    user_uuid: '',
+    load: '',
+    role: '',
+    // start_date: '',
+  });
 
+  const [errorsDeathRattle, setErrorsDeathRattle] = useState({
+    end_date: '',
+  });
   const handleCancel = (e) => {
     e.preventDefault();
+    setErrors({
+      user_uuid: '',
+      load: '',
+      role: '',
+      // start_date: '',
+    });
+    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
     setIsError(false);
     setProject(initialValue);
+    if (initialMilestone) {
+      setArchive(false);
+    }
     setAddUserModalOpen(false);
   };
-
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setProject({ ...project, [e.target.name]: e.target.value });
   };
 
 
-  const reqFields = [
-    'user_uuid',
-    'role',
-    'load',
-    'start_date',
-  ];
-  const handleAdd = (e) => {
-    e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!project[field]));
-    if (isEmpty === undefined && project.role.length <= 50) {
-      setIsError(false);
-      if (isEdit) {
-        dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-      } else if (initialMilestone) {
-        dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-        dispatch(getProject(curProject.uuid));
-      } else {
-        milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
-        if (curProject.uuid) {
-          dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-        }
-      }
-      setProject(initialValue);
-      setIsError(false);
-      setAddUserModalOpen(false);
-    } else setIsError(true);
+  const handlePersonChange = (e, values) => {
+    setProject({ ...project, person_uuid: values ? values.uuid : null });
+  };
+  const validateMilestone = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
+    if (!project.load) fieldsErrors.load = 'Load is required field.';
+    if (validator.isEmpty(project.role)) fieldsErrors.role = 'Role is required field.';
+    else if (project.role.length > 50) fieldsErrors.role = 'Role field is too long.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
+  const validateDeathRattle = () => {
+    const end = new Date(project.end_date);
+    const fieldsErrors = {};
+    if (project.end_date === null) fieldsErrors.end_date = 'End date is required field.';
+    else if (end - curDate > 0) fieldsErrors.end_date = 'You can not select end date more than current.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    const validateErrors = validateMilestone();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
+
+      try {
+        if (isEdit) {
+          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+      } else if (initialMilestone && curProject.uuid) {
+          await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          dispatch(getProject(curProject.uuid));
+          // await axios.get(`/person/${person.uuid}`, person);
+      } else {
+          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          dispatch(getProject(curProject.uuid));
+        }
+        setProject(initialValue);
+        setIsError(false);
+        // setArchive(false);
+        setAddUserModalOpen(false);
+        dispatch(getProject(curProject.uuid));
+      } catch {}
+    }
+  };
+
+  const handleArchive = (e) => {
+    e.preventDefault();
+    const validateErrors = validateDeathRattle();
+    if (validateErrors) {
+      setErrorsDeathRattle(validateErrors);
+    } else {
+      dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
+      dispatch(getProject(curProject.uuid));
+      setArchive(false);
+    }
+  };
 
   const userChange = (user) => { setProject({ ...project, user_uuid: user ? user.uuid : '', Users: user }); };
   const startDateChange = (startDate) => { setProject({ ...project, start_date: startDate }); };
-  const endDateChange = (endDate) => { setProject({ ...project, end_date: endDate }); };
+  const endDateChange = (endDate) => {
+    setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
+    setProject({ ...project, end_date: endDate });
+  };
+
+  let curPerson;
+
+  if (curProject.Person !== undefined) {
+    curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
+  } else curPerson = '';
+  if (archive) {
+    return (
+      <div className={classes.position}>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={false}
+          onClose={handleCancel}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={false}>
+            <div className={clsx(classes.paper, classes.modalWidth)}>
+              <form className={classes.root}>
+                <TextField
+                  value={project.comment || ''}
+                  label="Post mortem"
+                  variant="outlined"
+                  inputProps={{ 'aria-label': 'description' }}
+                  className={classes.inputForm}
+                  name='comment'
+                  onChange={handleChange}
+                />
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid container justify="space-around">
+                    <KeyboardDatePicker
+                      error={Boolean(errorsDeathRattle.end_date)}
+                      helperText={errorsDeathRattle.end_date}
+                      className={clsx(classes.formControl, classes.inputForm)}
+                      style={{ width: '100%' }}
+                      inputVariant="outlined"
+                      disableToolbar
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      autoOk
+                      margin="normal"
+                      onChange={endDateChange}
+                      value={project.end_date}
+                      label="End Date"
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+                <div className={classes.buttons}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    onClick={handleArchive}
+                    className={classes.submitButton}
+                  >
+                    Archive
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={classes.submitButton}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </Fade>
+        </Modal>
+      </div>
+    );
+  }
   return (
     <div className={classes.position}>
       <Modal
@@ -166,13 +306,31 @@ export default function AddUserModal(props) {
                 developersValue={project.user_uuid}
                 isEdit
                 forRead={forRead}
-                isError={isError}
+                isError={errors.user_uuid}
               />
+              <Autocomplete
+                style={{ paddingTop: '5px' }}
+                options={curProject.Person}
+                onChange={handlePersonChange}
+                getOptionLabel={(option) => `${option.name}`}
+                renderInput={(params) => <TextField {...params} label="Person" variant="outlined" />}
+                value={curPerson || null}
+                // renderInput={(params) => (
+                //   <TextField
+                //     error={!developersValue && isError}
+                //     helperText={!developersValue && isError ? 'Empty field.' : ''}
+                //     {...params}
+                //     label={name}
+                //     variant="outlined"
+                //   />
+                // )}
+              />
+
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    error={(!project.role && isError) || project.role.length > 50}
-                    helperText={(!project.role && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.role)}
+                    helperText={errors.role}
                     value={project.role || ''}
                     label="Role"
                     variant="outlined"
@@ -184,8 +342,8 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingBottom: 0 }}>
                   <TextField
-                    error={!project.load && isError}
-                    helperText={(!project.load && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.load)}
+                    helperText={errors.load}
                     type="number"
                     value={project.load || ''}
                     label="Load"
@@ -217,20 +375,7 @@ export default function AddUserModal(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
-                  {/* <TextField
-                    error={!project.unit && isError}
-                    helperText={(!project.unit && isError) ? 'Empty field.' : ''}
-                    value={project.unit || ''}
-                    label="Unit"
-                    variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
-                    className={classes.inputForm}
-                    name='unit'
-                    onChange={handleChange}
-                  /> */}
                   <FormControl
-                    // error={!project.rate_type && isError}
-                    // helperText={(!project.rate_type && isError) ? 'Empty field.' : ''}
                     placeholder='Rate type'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -255,8 +400,6 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.platform || ''}
                     label="Platform"
                     variant="outlined"
@@ -268,8 +411,6 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.withdraw || ''}
                     label="Withdraw"
                     variant="outlined"
@@ -281,8 +422,6 @@ export default function AddUserModal(props) {
                 </Grid>
                 <Grid item xs={12} sm={12} style={{ paddingTop: 0 }}>
                   <TextField
-                    // error={!project.rate && isError}
-                    // helperText={(!project.rate && isError) ? 'Empty field.' : ''}
                     value={project.comment || ''}
                     label="Comment"
                     variant="outlined"
@@ -340,7 +479,6 @@ export default function AddUserModal(props) {
                 >
                   Submit
                 </Button>
-
                 <Button
                   variant="contained"
                   color="primary"

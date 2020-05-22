@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import Select from '@material-ui/core/Select';
 import TableContainer from '@material-ui/core/TableContainer';
 import Input from '@material-ui/core/Input';
@@ -18,24 +18,6 @@ import { milestonesTableCells } from '../../constants/constants';
 import MilestonesTableHeaderCells from '../../components/MilestonesTableHeaderCell/MilestonesTableHeaderCell.jsx';
 import MilestonesTableRow from '../../components/MilestonesTableRow/MilestonesTableRow.jsx';
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: '#32418c',
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default,
-    },
-  },
-}))(TableRow);
-
 
 const useStyles = makeStyles({
   table: {
@@ -45,7 +27,8 @@ const useStyles = makeStyles({
 
 function createData(name,
   user,
-  participants,
+  person,
+  participant,
   rate,
   rpd,
   load,
@@ -54,11 +37,13 @@ function createData(name,
   comment,
   startDate,
   user_uuid,
-  project_uuid) {
+  project_uuid,
+  role) {
   return {
     name,
     user,
-    participants,
+    person,
+    participant,
     rate,
     rpd,
     load,
@@ -68,6 +53,7 @@ function createData(name,
     startDate,
     user_uuid,
     project_uuid,
+    role,
   };
 }
 
@@ -77,13 +63,22 @@ const MilestonesList = (props) => {
     milestones, setVisibeCells, visibeCells, sort, setSort, order, setOrder,
   } = props;
   const rows = milestones.map((milestone) => {
-    let startDate = new Date(milestone.start_date);
-    startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
-    const fullName = `${milestone['Users.firstName']} ${milestone['Users.lastName']}`;
+    let startDate = 'not-started';
+    if (milestone.Person !== null) {
+      startDate = new Date(milestone.Person.start_date);
+      startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    let personName = '';
+    let personParticipants = [];
+    if (milestone.Person !== null) {
+      personName = milestone.Person.name;
+      personParticipants = milestone.Person.participants;
+    }
     return createData(
-      milestone['Projects.name'],
-      fullName,
-      milestone.participants,
+      milestone.Projects.name,
+      milestone.Users.fullName,
+      personName,
+      personParticipants,
       milestone.rate,
       milestone.rpd,
       milestone.load,
@@ -93,12 +88,12 @@ const MilestonesList = (props) => {
       startDate,
       milestone.user_uuid,
       milestone.project_uuid,
+      milestone.role,
     );
   });
   const handleChange = (e) => {
     setVisibeCells(e.target.value);
   };
-
   return (
     <>
       <FormControl className='form-control'>
@@ -121,7 +116,7 @@ const MilestonesList = (props) => {
         </Select>
       </FormControl>
       <TableContainer component={Paper} style={{ marginRight: 20 }}>
-        <Table className={classes.table} aria-label="customized table">
+        <Table className={classes.table}>
           <TableHead color='primary'>
             <TableRow>
               {

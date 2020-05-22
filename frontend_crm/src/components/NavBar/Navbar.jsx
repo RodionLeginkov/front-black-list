@@ -21,7 +21,6 @@ import PeopleIcon from '@material-ui/icons/People';
 import HomeIcon from '@material-ui/icons/Home';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeveloperBoardIcon from '@material-ui/icons/DeveloperBoard';
-import AccessAlarmSharpIcon from '@material-ui/icons/AccessAlarmSharp';
 import FadeMenu from '../ProfileButton/ProfileButton.jsx';
 
 const drawerWidth = 240;
@@ -205,22 +204,22 @@ export default function MiniDrawer(props) {
           </Link>
 
           <Link to="/customers" className={classes.link}>
-            <Tooltip title='Projects'>
-              <ListItem button key="Projects">
+            <Tooltip title='Customers'>
+              <ListItem button key="Customers">
                 <ListItemIcon>
                   <DeveloperBoardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Projects" />
+                <ListItemText primary="Customers" />
               </ListItem>
             </Tooltip>
           </Link>
           <Link to="/projects" className={classes.link}>
-            <Tooltip title='Leads'>
-              <ListItem button key="Leads">
+            <Tooltip title='Projects'>
+              <ListItem button key="Projects">
                 <ListItemIcon>
                   <AssignmentIndSharpIcon />
                 </ListItemIcon>
-                <ListItemText primary="Leads" />
+                <ListItemText primary="Projects" />
               </ListItem>
             </Tooltip>
           </Link>

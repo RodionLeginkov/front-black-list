@@ -2,14 +2,12 @@
 import React, { useState } from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
-import { useDispatch } from 'react-redux';
 import TableRow from '@material-ui/core/TableRow';
 import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import clsx from 'clsx';
 import { userRoles, englishLevels } from '../../constants/constants';
-import { findUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import './style.css';
 import CurrentTaskField from './CurrentTaskField.jsx';
 
@@ -66,9 +64,44 @@ const StyledTableRow = withStyles(() => ({
 const UserTableRow = (props) => {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { user, visibeCells } = props;
+  const {
+    user, visibeCells, archive, userArchiveTableCells,
+  } = props;
   const [changedFields, setChangedFields] = useState(user);
+
+  function archiveClick(name, user) {
+    if (name === 'Name') {
+      history.push(`/user/${user.uuid}`);
+    }
+  }
+
+  if (archive) {
+    return (
+      <StyledTableRow key={Math.random()}>
+        {
+          userArchiveTableCells.map((cell) => {
+            const userClassName = clsx({
+              [classes.redirect]: (cell.label === 'Name'),
+            });
+            if (visibeCells.includes(cell.label)) {
+              // console.log(milestone[cell.value]);
+              return (
+                <StyledTableCell
+                  key={Math.random()}
+                  align="center"
+                  className={userClassName}
+                  onClick={() => archiveClick(cell.label, user)}
+                >
+                  {user[cell.value]}
+                </StyledTableCell>
+              );
+            }
+            return false;
+          })
+          }
+      </StyledTableRow>
+    );
+  }
 
   const devRole = userRoles.find((item) => item.value === changedFields.role).label;
   let engSkill = englishLevels.find((item) => item.value === changedFields.english_skill);
@@ -133,7 +166,7 @@ const UserTableRow = (props) => {
         : false }
       {visibeCells.includes('Role in the project')
         ? (
-          <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+          <StyledTableCell style={{ padding: '16px 0px', whiteSpace: 'nowrap' }} align="center">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
                 <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.role ? item.role : '―'}</Typography>

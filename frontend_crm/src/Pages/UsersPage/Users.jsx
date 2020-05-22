@@ -56,6 +56,7 @@ function Users() {
   const [open, setOpen] = useState(false);
   const [order, setOrder] = useState(true);
   const [profitable, setProfitable] = useState('');
+  const [active, setActive] = useState('Active');
   const [visibeCells, setVisibeCells] = useState([
     'Name',
     'Current Task',
@@ -69,20 +70,27 @@ function Users() {
     'Total Load',
     'English Skill',
   ]);
+  const [archiveVisibleCells, setArchiveVisibleCells] = useState([
+    'Name',
+    'Role',
+    'Post mortem',
+    'Hired',
+    'Fired',
+  ]);
   const [selectButton, setSelectButton] = useState('');
   const [profitButton, setProfitButton] = useState('');
+  const [activeButton, setActiveButton] = useState('Active');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers(filterRole, filterBar, sort, order, profitable));
-  }, [dispatch, filterRole, filterBar, sort, order, profitable]);
-
+    dispatch(getUsers(filterRole, filterBar, sort, order, profitable, active));
+  }, [dispatch, filterRole, filterBar, sort, order, profitable, active]);
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('userWidgetView', !widgetView);
   };
   if (profitable === 'No Profitable') {
-    users = users.filter((user) => user.Users_Milestones.length === 0 || !user.Users_Milestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
+    users = users.filter((user) => user.UserMilestones.length === 0 || !user.UserMilestones.find((milestone) => milestone.rate !== 0 && milestone.rate !== null));
   }
 
   return (
@@ -124,6 +132,10 @@ function Users() {
         setProfitable={setProfitable}
         profitButton={profitButton}
         setProfitButton={setProfitButton}
+        active={active}
+        setActive={setActive}
+        activeButton={activeButton}
+        setActiveButton={setActiveButton}
       />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid
@@ -144,6 +156,9 @@ function Users() {
                 setSort={setSort}
                 order={order}
                 setOrder={setOrder}
+                active={active}
+                archiveVisibleCells={archiveVisibleCells}
+                setArchiveVisibleCells={setArchiveVisibleCells}
               />
             )}
 

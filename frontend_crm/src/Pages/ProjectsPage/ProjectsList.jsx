@@ -41,9 +41,6 @@ const useStyles = makeStyles({
     minWidth: 700,
     marginRight: 20,
   },
-  button: {
-    color: '#777777',
-  },
 });
 
 export default function ProjectsList(props) {
@@ -62,7 +59,7 @@ export default function ProjectsList(props) {
 
   return (
     <TableContainer component={Paper} style={{ marginRight: 20 }}>
-      <Table className={classes.table} aria-label="customized table">
+      <Table className={classes.table}>
         <TableHead color='primary'>
           <TableRow>
             <StyledTableCell>Project Name</StyledTableCell>

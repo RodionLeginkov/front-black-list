@@ -59,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
   order: {
     display: 'flex',
     justifyContent: 'flex-end',
+    marginBottom: '-5px',
+  },
+  orderIcon: {
+    marginTop: '5px',
   },
   root: {
     display: 'flex',
@@ -68,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  buttonGroup: {
+    margin: '0px 10px',
+  }
 }));
 
 const UsersFilter = (props) => {
@@ -75,7 +82,8 @@ const UsersFilter = (props) => {
   const {
     filterRole, setFilterRole, filterBar, setFilterBar, sort,
     setSort, open, setOpen, order, setOrder, selectButton, setSelectButton,
-    profitable, setProfitable, profitButton, setProfitButton,
+    profitable, setProfitable, profitButton, setProfitButton, active, setActive,
+    activeButton, setActiveButton,
   } = props;
 
   // const dispatch = useDispatch();
@@ -139,7 +147,7 @@ const UsersFilter = (props) => {
           />
         </Grid>
         <div className={classes.root}>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
                 if (filterRole === 'Developers') {
@@ -179,7 +187,7 @@ const UsersFilter = (props) => {
             </Button>
 
           </ButtonGroup>
-          <ButtonGroup color="primary" aria-label="outlined primary button group">
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
             <Button
               onClick={() => {
                 if (profitable === 'Profitable') {
@@ -209,60 +217,46 @@ const UsersFilter = (props) => {
               Not Profitable
             </Button>
           </ButtonGroup>
-        </div>
+          <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
+            <Button
+              onClick={() => {
+                if (active === 'Active') {
+                  setActive('');
+                  setActiveButton('');
+                } else {
+                  setActive('Active');
+                  setActiveButton('Active');
+                }
+              }}
+              className={(activeButton === 'Active') ? classes.button : classes.buttonOf}
+            >
+              Active
+            </Button>
+            <Button
+              onClick={() => {
+                if (active === 'Archived') {
+                  setActive('');
+                  setActiveButton('');
+                } else {
+                  setActive('Archived');
+                  setActiveButton('Archived');
+                }
+              }}
+              className={(activeButton === 'Archived') ? classes.button : classes.buttonOf}
+            >
+              Archived
+            </Button>
 
-        {/* <div>
-          <Grid container spacing={1}>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                onClick={() => {
-                  setFilterRole('Developers');
-                  // dispatch(getUsers(filter,sort));
-                }}
-              >
-                Developers
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                onClick={() => {
-                  setFilterRole('manager');
-                  // dispatch(getUsers(filter,sort));
-                }}
-              >
-                Managers
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                className={classes.button}
-                onClick={() => {
-                  setFilterRole('');
-                  // dispatch(getUsers(filter,sort));
-                }}
-              >
-                All
-              </Button>
-            </Grid>
-          </Grid>
-        </div> */}
+
+          </ButtonGroup>
+        </div>
 
         <Grid className={classes.order}>
           <Grid item>
             {order
               ? (
                 <IconButton
+                  className={classes.orderIcon}
                   variant="contained"
                   color="primary"
                   size="medium"
@@ -276,6 +270,7 @@ const UsersFilter = (props) => {
               )
               : (
                 <IconButton
+                  className={classes.orderIcon}
                   variant="contained"
                   color="primary"
                   size="medium"

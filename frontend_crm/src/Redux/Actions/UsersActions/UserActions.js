@@ -18,22 +18,23 @@ import {
   ADD_USER_ERROR,
 } from '../../ActionTypes/usersTypes/usersTypes';
 
-export const getUsers = (filterRole, filterBar, sort, order, profitable) => async (dispatch) => {
+export const getUsers = (filterRole, filterBar, sort, order, profitable, active) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadAllUsers(filterRole, filterBar, sort, order, profitable, loginToken);
+    const { data } = await loadAllUsers(filterRole, filterBar, sort, order, profitable, active, loginToken);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });
   }
 };
 
-export const getUser = (userId) => async (dispatch) => {
+export const getUser = (userId, subtract) => async (dispatch) => {
   try {
     dispatch({ type: LOAD_CURRENT_USER });
     const loginToken = localStorage.getItem('token');
-    const { data } = await loadUser(loginToken, userId);
+
+    const { data } = await loadUser(loginToken, userId, subtract);
     dispatch({ type: LOAD_CURRENT_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_USER_ERROR, payload: error });

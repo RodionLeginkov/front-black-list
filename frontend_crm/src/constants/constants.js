@@ -13,7 +13,8 @@ export const stackList = [
 export const milestonesTableCells = [
   { label: 'Name', value: 'name' },
   { label: 'User', value: 'user' },
-  { label: 'Participants', value: 'participants' },
+  { label: 'Person', value: 'person' },
+  { label: 'Participants', value: 'participant' },
   { label: 'Rate', value: 'rate' },
   { label: 'RPD', value: 'rpd' },
   { label: 'Load', value: 'load' },
@@ -35,6 +36,14 @@ export const userTableCells = [
   { label: 'Project Ready', value: 'project_ready' },
   { label: 'English Skill', value: 'english_skill' },
   { label: 'Seniority', value: 'Senioiry' },
+];
+
+export const userArchiveTableCells = [
+  { label: 'Name', value: 'fullName' },
+  { label: 'Role', value: 'role' },
+  { label: 'Post mortem', value: 'current_task' },
+  { label: 'Hired', value: 'hiredAt' },
+  { label: 'Fired', value: 'firedAt' },
 ];
 
 export const userRoles = [

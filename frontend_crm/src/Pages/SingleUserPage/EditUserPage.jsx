@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +14,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import validator from 'validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
@@ -22,10 +25,14 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Tooltip from '@material-ui/core/Tooltip';
 import Loading from '../../components/Loading/index.jsx';
 import { getUsers, updateUser, getUser } from '../../Redux/Actions/UsersActions/UserActions';
 import { userRoles, englishLevels } from '../../constants/constants';
 import AddTaskHistory from '../../components/AddTaskHistory/AddTaskHistory.jsx';
+import UserPosetMortemModal from '../../components/UserPostMortemModal/UserPostMortemModal.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,18 +77,12 @@ const useStyles = makeStyles((theme) => ({
   inputForm: {
     width: '100%',
   },
-  descriptionForm: {
-    maxHeight: '200px',
-    width: '100%',
-  },
-  paperHeader: {
+  header__switch: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
   },
-  inviteButton: {
-    padding: '7px',
-    fontSize: '13px',
+  switch: {
+    marginTop: '20px',
   },
 }));
 
@@ -93,14 +94,21 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
-
-  const [isError, setIsError] = useState(false);
+  const [userPostMortemOpen, setUserPostMortemOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    role: '',
+    hiredAt: '',
+    email: '',
+  });
+  const [isError] = useState(false);
 
   const initialValue = (userId && curUser) ? curUser : {
     fullName: '',
     role: '',
     englishLevel: '',
-    email: undefined,
+    email: '',
     project_ready: '',
     current_task: '',
     current_occupation: '',
@@ -117,27 +125,38 @@ const EditUserPage = ({ match }) => {
     firedAt: null,
     hiredAt: null,
     Skills: [],
+    isActive: true,
   };
-
-
-  const reqFields = [
-    'role',
-    'firstName',
-    'lastName',
-    'hiredAt'];
 
   const [user, setUser] = useState(initialValue);
   const [usersTasks, setUsersTasks] = useState(user.UsersTasks);
+  const [checkedStatus, setCheckedStatus] = useState('');
+
+  const validateClient = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(user.role)) fieldsErrors.role = 'Role is required field.';
+    if (validator.isEmpty(user.firstName)) fieldsErrors.firstName = 'First name is required field.';
+    if (validator.isEmpty(user.lastName)) fieldsErrors.lastName = 'Last name is required field.';
+    if (user.email !== null && !validator.isEmail(user.email) && !validator.isEmpty(user.email)) {
+      fieldsErrors.email = 'Please enter email address in format: yourname@example.com';
+    }
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
 
   useEffect(() => {
     setUser(initialValue);
     setUsersTasks(user.UsersTasks);
+    const status = (user.UserMilestones) ? (user.UserMilestones.find((user) => user.status === 'Active')) : ('');
+    if (status) {
+      setCheckedStatus(true);
+    } else setCheckedStatus(false);
+
     // eslint-disable-next-line
   }, [loading, user.UsersTasks]);
 
   useEffect(() => {
     if (userId && !curUser) {
-      dispatch(getUsers('', '', '', true, ''));
+      dispatch(getUsers('', '', '', true, '', 'Active'));
       dispatch(getUser(userId));
     }
     // eslint-disable-next-line
@@ -146,18 +165,27 @@ const EditUserPage = ({ match }) => {
   if (loading) {
     return (<Loading />);
   }
-  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleChangeRole = (e, values) => {
     if (values !== null) {
+      setErrors({ ...errors, role: '' });
       setUser({ ...user, role: values.value || '' });
     }
   };
 
   const handleChangeCurrentTask = (taskId) => { setUser({ ...user, current_task: taskId }); };
+
+  const handleChangeStatus = () => {
+    if (!checkedStatus) {
+      setUser({ ...user, isActive: !(user.isActive) });
+    }
+    setUserPostMortemOpen((user.isActive));
+  };
 
   const startDateChange = (hiredAt) => { setUser({ ...user, hiredAt }); };
 
@@ -165,31 +193,38 @@ const EditUserPage = ({ match }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!user[field]));
-    if ((isEmpty === undefined && !user.email)
-    || (isEmpty === undefined && validateEmail(user.email) && user.email)) {
+
+    const validateErrors = validateClient();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
+      if (user.email === '') {
+        delete user.email;
+      }
       dispatch(updateUser(user));
       history.push(`/user/${userId}`);
-    } else setIsError(true);
+    }
   };
 
   let filteredProjects = projects;
   const devRole = user.role !== '' ? userRoles.find((item) => item.value === user.role) : '';
   for (const index in user.currentProject) {
-    filteredProjects = filteredProjects.filter((project) => (project.name !== user.currentProject[index].name));
+    // eslint-disable-next-line max-len
+    filteredProjects = filteredProjects.filter((project) => project.name !== user.currentProject[index].name);
   }
+
   return (
     <>
       {!userId
         ? (
-          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
           </Breadcrumbs>
         )
         : (
-          <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
+          <Breadcrumbs className={classes.breadcrumbs}>
             <Typography className={classes.link} onClick={() => history.push('/users')}>
               Users
             </Typography>
@@ -207,18 +242,36 @@ const EditUserPage = ({ match }) => {
         <Paper className={classes.root}>
           <div className={clsx(classes.content, classes.header)}>
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
-              <h2>Edit user</h2>
+              <div className={classes.header__switch}>
+                <h2>Edit user</h2>
+                <Tooltip title={(checkedStatus) ? ('User has active milestones') : ('')}>
+                  <span className={classes.switch}>
+                    <FormControlLabel
+                      control={(
+                        <Switch
+                          disabled={checkedStatus}
+                          checked={user.isActive}
+                          onChange={handleChangeStatus}
+                          color="primary"
+                          name="checkedB"
+                          inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+)}
+                      label='Status'
+                    />
+                  </span>
+                </Tooltip>
+              </div>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoFocus
                     style={{ marginBottom: 10 }}
                     value={user.firstName}
-                    error={!user.firstName && isError}
-                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.firstName)}
+                    helperText={errors.firstName}
                     label="User name"
                     variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='firstName'
                     onChange={handleChange}
@@ -229,10 +282,9 @@ const EditUserPage = ({ match }) => {
                     style={{ marginBottom: 10 }}
                     value={user.lastName}
                     label="User surname"
-                    error={!user.lastName && isError}
-                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.lastName)}
+                    helperText={errors.lastName}
                     variant="outlined"
-                    inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
                     name='lastName'
                     onChange={handleChange}
@@ -241,31 +293,6 @@ const EditUserPage = ({ match }) => {
               </Grid>
               <Grid spacing={2} container justify="space-between">
                 <Grid item xs={12} sm={6}>
-                  {/* <FormControl
-                    error={!user.role && isError}
-                    helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
-
-                    placeholder='Role'
-                    variant="outlined"
-                    className={clsx(classes.formControl, classes.inputForm)}
-                  >
-                    <InputLabel>Role</InputLabel>
-                    <Select
-                      labelWidth={47}
-                      name='role'
-                      value={user.role || ''}
-                      onChange={handleChange}
-                    >
-                      {userRoles.map((role) => (
-                        <MenuItem
-                          value={role.value}
-                          key={role.label}
-                        >
-                          {role.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl> */}
                   <Autocomplete
                     options={userRoles}
                     onChange={handleChangeRole}
@@ -273,8 +300,8 @@ const EditUserPage = ({ match }) => {
                     value={devRole}
                     renderInput={(params) => (
                       <TextField
-                        error={!user.role && isError}
-                        helpertext={(!user.role && isError) ? 'Empty field.' : ''}
+                        error={Boolean(errors.role)}
+                        helperText={errors.role}
                         {...params}
                         label='Role'
                         variant="outlined"
@@ -284,10 +311,6 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl
-
-                    // error={!user.english_skill && isError}
-                    // helpertext={(!user.role.length && isError) ? 'Empty field.' : ''}
-
                     placeholder='English'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -299,12 +322,12 @@ const EditUserPage = ({ match }) => {
                       value={user.english_skill || ''}
                       onChange={handleChange}
                     >
-                      {englishLevels.map((english_skill) => (
+                      {englishLevels.map((englishSkill) => (
                         <MenuItem
-                          value={english_skill.value}
-                          key={english_skill.label}
+                          value={englishSkill.value}
+                          key={englishSkill.label}
                         >
-                          {english_skill.label}
+                          {englishSkill.label}
                         </MenuItem>
                       ))}
                     </Select>
@@ -314,8 +337,8 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={12}>
                   <TextField
                     className={clsx(classes.formControl, classes.inputForm)}
-                    error={!validateEmail(user.email) && Boolean(user.email) && isError}
-                    helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
                     style={{ width: '100%' }}
                     value={user.email || ''}
                     variant="outlined"
@@ -372,17 +395,6 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <TextField
-                    style={{ width: '100%' }}
-                    value={user.current_task || ''}
-                    variant="outlined"
-                    label="Current Task"
-                    multiline
-                    name='current_task'
-                    onChange={handleChange}
-                  />
-                </Grid> */}
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker
@@ -398,9 +410,6 @@ const EditUserPage = ({ match }) => {
                       label="Date of joining"
                       value={new Date(user.hiredAt) || ''}
                       onChange={startDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -415,9 +424,6 @@ const EditUserPage = ({ match }) => {
                       label="Date of Leave"
                       value={user.firedAt}
                       onChange={endDateChange}
-                      KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                      }}
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -428,6 +434,7 @@ const EditUserPage = ({ match }) => {
                     user={user}
                     setUsersTasks={setUsersTasks}
                     usersTasks={usersTasks}
+
                   />
                   )}
                 </Grid>
@@ -447,6 +454,14 @@ const EditUserPage = ({ match }) => {
           </div>
         </Paper>
       </div>
+      <UserPosetMortemModal
+        userPostMortemOpen={userPostMortemOpen}
+        setUserPostMortemOpen={setUserPostMortemOpen}
+        user={user}
+        setUser={setUser}
+        initialValue={initialValue}
+        userId={userId}
+      />
     </>
   );
 };

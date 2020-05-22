@@ -7,15 +7,12 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Tooltip } from '@material-ui/core';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import validator from 'validator';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -87,11 +84,14 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
-
-  const [isError, setIsError] = useState(false);
-
-
-  const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+  const [isError] = useState(false);
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    role: '',
+    hiredAt: '',
+    email: '',
+  });
   const initialValue = (userId && curUser) ? curUser : {
     email: '',
     role: '',
@@ -101,12 +101,6 @@ const EditUserPage = ({ match }) => {
     hiredAt: new Date(),
   };
 
-  const reqFields = [
-    'role',
-    'firstName',
-    'lastName',
-    'hiredAt'];
-
   const [user, setUser] = useState(initialValue);
   useEffect(() => {
     setUser(initialValue);
@@ -114,7 +108,7 @@ const EditUserPage = ({ match }) => {
   }, [loading]);
 
   useEffect(() => {
-    dispatch(getUsers('', '', '', true, ''));
+    dispatch(getUsers('', '', '', true, '', ''));
     // eslint-disable-next-line
   }, [curUser, dispatch, userId]);
 
@@ -122,11 +116,24 @@ const EditUserPage = ({ match }) => {
     return (<Loading />);
   }
 
+  const validateClient = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(user.role)) fieldsErrors.role = 'Role is required field.';
+    if (validator.isEmpty(user.firstName)) fieldsErrors.firstName = 'First name is required field.';
+    if (validator.isEmpty(user.lastName)) fieldsErrors.lastName = 'Last name is required field.';
+    if (!validator.isEmail(user.email) && !validator.isEmpty(user.email)) {
+      fieldsErrors.email = 'Please enter email address in format: yourname@example.com';
+    }
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
   };
   const handleChangeRole = (e, values) => {
     if (values !== null) {
+      setErrors({ ...errors, role: '' });
       setUser({ ...user, role: values.value || '' });
     }
   };
@@ -135,12 +142,17 @@ const EditUserPage = ({ match }) => {
     setUser({ ...user, hiredAt: dataofJoining });
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const isEmpty = reqFields.find((field) => (!user[field]));
+  // const handleClick = () => {
+  //   dispatch(getUsers('', '', '', true, '', ''));
+  //   console.log('user')
+  // };
 
-    if ((isEmpty === undefined && !user.email.length)
-    || (isEmpty === undefined && validateEmail(user.email) && user.email.length)) {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const validateErrors = validateClient();
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
       const login = {
         email: user.email || undefined,
         role: user.role,
@@ -149,10 +161,15 @@ const EditUserPage = ({ match }) => {
         lastName: user.lastName,
         hiredAt: user.hiredAt,
       };
-      dispatch(AddUser(login));
-      dispatch(getUsers('', '', '', true, ''));
+      try {
+        await dispatch(AddUser(login));
+        dispatch(getUsers('', '', '', true, '', 'Active'));
+      } catch {}
+      // dispatch(AddUser(login));
+      // dispatch(getUsers('', '', '', true, '', 'Active'));
+      // dispatch(getUsers('', '', '', true, '', ''));
       history.push('/users');
-    } else setIsError(true);
+    }
   };
 
 
@@ -203,8 +220,8 @@ const EditUserPage = ({ match }) => {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     autoFocus
-                    error={!user.firstName && isError}
-                    helperText={(!user.firstName.length && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.firstName)}
+                    helperText={errors.firstName}
                     // style={{ marginBottom: 10 }}
                     value={user.firstName}
                     label="User name"
@@ -217,8 +234,8 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    error={!user.lastName && isError}
-                    helperText={(!user.lastName.length && isError) ? 'Empty field.' : ''}
+                    error={Boolean(errors.lastName)}
+                    helperText={errors.lastName}
                     value={user.lastName}
                     label="User surname"
                     variant="outlined"
@@ -260,8 +277,8 @@ const EditUserPage = ({ match }) => {
                     // value={user.role || null}
                     renderInput={(params) => (
                       <TextField
-                        error={!user.role && isError}
-                        helpertext={(!user.role && isError) ? 'Empty field.' : ''}
+                        error={Boolean(errors.role)}
+                        helperText={errors.role}
                         {...params}
                         label='Role'
                         variant="outlined"
@@ -271,8 +288,8 @@ const EditUserPage = ({ match }) => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
-                    error={!validateEmail(user.email) && Boolean(user.email) && isError}
-                    helperText={(!validateEmail(user.email) && Boolean(user.email) && isError) ? 'Uncorrect email' : ''}
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
                     style={{ width: '100%' }}
                     value={user.email}
                     variant="outlined"

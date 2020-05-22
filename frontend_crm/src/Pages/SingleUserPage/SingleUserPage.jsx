@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -26,15 +27,17 @@ import {
   getUser, deleteUser, getUsers, updateUser,
 } from '../../Redux/Actions/UsersActions/UserActions';
 import PopUpDeleteUser from './PopUpDeleteUser.jsx';
+import UserMilestoneList from '../../components/UserMilestoneList/UserMilestoneList.jsx';
 import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 import '../../components/UserTableRow/style.css';
 import TasksTable from '../../components/TasksTable/TasksTable.jsx';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Box from '@material-ui/core/Box';
+
 // import CurrentTaskField from '../../components/UserTableRow/CurrentTaskField.jsx';
 
-const useStyles = makeStyles(() => ({
-  container: {
-    margin: '100px 10px 0 0',
-  },
+const useStyles = makeStyles((theme) => ({
   footerIcons: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -68,6 +71,12 @@ const useStyles = makeStyles(() => ({
     flexDirection: 'column',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
   },
+  rightCol: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    borderLeft: '1px solid rgba(0, 0, 0, 0.12)',
+  },
   row: {
     display: 'flex',
     flexDirection: 'row',
@@ -78,9 +87,6 @@ const useStyles = makeStyles(() => ({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
-  },
-  body: {
-    padding: '10px 10px 10px 20px',
   },
   fieldTitle: {
     display: 'block;',
@@ -97,17 +103,6 @@ const useStyles = makeStyles(() => ({
     fontSize: 16,
     paddingLeft: '5px',
     display: 'flex',
-  },
-  stackAndDuration: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  description: {
-    margin: '4px 13px',
-    paddingBottom: '10px',
-  },
-  duration: {
-    margitTop: '3px  !important',
   },
   breadcrumbs: {
     margin: '85px 20px',
@@ -128,17 +123,62 @@ const useStyles = makeStyles(() => ({
     padding: '7px',
     fontSize: '13px',
   },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    maxWidth: 150,
+    font: 16,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
 }));
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+function TabPanel(props) {
+  const {
+    children, value, index, ...other
+  } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 
 const UserInfo = ({ match: { params: { userId }, path } }) => {
   const history = useHistory();
   const classes = useStyles();
-  const token = localStorage.getItem('token');
   const dispatch = useDispatch();
   const [curTask, setCurTask] = useState(true);
   const [openPopUp, setOpenPopUp] = useState(false);
   // const [setChangedFields] = useState('');
   const [taskHistoryTable, setTaskHistoryTable] = useState(true);
+  const [value, setValue] = React.useState(0);
+  const [subtract, setSubtract] = useState('');
+
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
 
   const handleClickOpenPopUp = () => {
@@ -172,20 +212,24 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const user = useSelector((state) => state.users.currentUser);
   const users = useSelector((state) => getFilteredUsers(state));
 
+
   let userCurrentTask;
-  if (user !== null && user.UsersTasks !== undefined) {
+
+  if (user && user.UsersTasks) {
     // userCurrentTask = user.UsersTasks.find((task) => user.current_task === task.uuid) || false;
     userCurrentTask = user.UsersTasks[user.UsersTasks.length - 1];
     userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
   }
 
+
   useEffect(() => {
-    if (!user || !user.Users_Milestones || !user.UsersTasks || userId !== user.uuid) {
-      dispatch(getUser(userId));
+    if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
+      dispatch(getUser(userId, ''));
     }
     if (!users.length) {
-      dispatch(getUsers('', '', '', true));
+      dispatch(getUsers('', '', '', true, '', ''));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
 
   // //////////////////////////////////////////////////////////////////////////
@@ -199,6 +243,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     if (user) {
       setNewTask({ ...newTask, user_uuid: user.uuid, text: userCurrentTask });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userCurrentTask]);
   const handleTaskChange = (e) => {
     setNewTask({ ...newTask, [e.target.name]: e.target.value });
@@ -233,7 +278,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     }
   };
 
-
   // //////////////////////////////////////////////////////////////////////
   if (!user) {
     return (<Loading />);
@@ -260,6 +304,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           {user.lastName}
         </Typography>
       </Breadcrumbs>
+
       <Paper className={classes.root}>
         <div className={clsx(classes.content, classes.paperHeader)}>
           <h1 style={{ display: 'flex', alignItems: 'center' }}>
@@ -274,7 +319,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               )
             </div>
           </h1>
+
+
           <Tooltip title={user.email ? 'Send invite to email' : 'There is no email. Add email to the user'}>
+
+
             <span>
               <Button
                 onClick={handleClickInvite}
@@ -291,141 +340,179 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
           </Tooltip>
         </div>
         <Divider />
-        <div className={classes.row}>
-          <div className={classes.leftCol}>
-            <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
-            <span className={classes.fieldName}>
-              {user.firstName}
-              {' '}
-              {user.lastName}
-            </span>
-          </div>
-          <div className={classes.col}>
-            <div className={classes.body}>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Email: </span>
-                <div className={classes.fieldValue}>
-                  {user.email || '―'}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className={classes.row}>
+
+
+            {/* ///////////////////////////////////////// */}
+            <TabPanel value={value} index={0}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className={classes.leftCol}>
+                  <div className={classes.userImage} style={{ background: `url(${imgUrl}) no-repeat` }} />
+                  <span className={classes.fieldName}>
+                    {user.firstName}
+                    {' '}
+                    {user.lastName}
+                  </span>
                 </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Phone: </span>
-                <div className={classes.fieldValue}>
-                  {user.phone1 || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Second Phone: </span>
-                <div className={classes.fieldValue}>
-                  {user.phone2 || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>English: </span>
-                <div className={classes.fieldValue}>
-                  {user.english_skill || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Role: </span>
-                <div className={classes.fieldValue}>
-                  {devRole || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Project Ready </span>
-                <div className={classes.fieldValue}>
-                  {user.project_ready || '―'}
-                  %
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Current Task: </span>
-                <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
-                  { curTask ? (
-                    <Typography variant="inherit">
-                      {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
-                    </Typography>
-                  )
-                    : (
-                      <div>
-                        <TextField
-                          autoFocus
-                          onChange={handleTaskChange}
-                          value={newTask.text || ''}
-                          variant="outlined"
-                          label="New task"
-                          multiline
-                          rowsMax="5"
-                          name='text'
-                          style={{ width: '100%', marginBottom: 5 }}
-                          onKeyDown={handleKeyPress}
-                        />
+
+                <div className={classes.col}>
+                  <div className={classes.body}>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Email: </span>
+                      <div className={classes.fieldValue}>
+                        {user.email || '―'}
                       </div>
-                    )}
-                  <div className="buttons">
-                    {curTask
-                      ? (
-                        <Button
-                          className={classes.editButton}
-                          onClick={() => { setCurTask(!curTask); }}
-                        >
-                          <EditSharpIcon />
-                        </Button>
-                      ) : (
-                        <div className={classes.buttons}>
-                          <Button>
-                            <CheckSharpIcon />
-                          </Button>
-                          <Button
-                            name="closeButton"
-                            onMouseDown={handleCancel}
-                          >
-                            <CloseSharpIcon />
-                          </Button>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Phone: </span>
+                      <div className={classes.fieldValue}>
+                        {user.phone1 || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Second Phone: </span>
+                      <div className={classes.fieldValue}>
+                        {user.phone2 || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>English: </span>
+                      <div className={classes.fieldValue}>
+                        {user.english_skill || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Role: </span>
+                      <div className={classes.fieldValue}>
+                        {devRole || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Project Ready </span>
+                      <div className={classes.fieldValue}>
+                        {user.project_ready || '―'}
+                        %
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Current Task: </span>
+                      <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
+                        { curTask ? (
+                          <Typography variant="inherit">
+                            {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
+                          </Typography>
+                        )
+                          : (
+                            <div>
+                              <TextField
+                                autoFocus
+                                onChange={handleTaskChange}
+                                value={newTask.text || ''}
+                                variant="outlined"
+                                label="New task"
+                                multiline
+                                rowsMax="5"
+                                name='text'
+                                style={{ width: '100%', marginBottom: 5 }}
+                                onKeyDown={handleKeyPress}
+                              />
+                            </div>
+                          )}
+                        <div className="buttons">
+                          {curTask
+                            ? (
+                              <Button
+                                className={classes.editButton}
+                                onClick={() => { setCurTask(!curTask); }}
+                              >
+                                <EditSharpIcon />
+                              </Button>
+                            ) : (
+                              <div className={classes.buttons}>
+                                <Button>
+                                  <CheckSharpIcon />
+                                </Button>
+                                <Button
+                                  name="closeButton"
+                                  onMouseDown={handleCancel}
+                                >
+                                  <CloseSharpIcon />
+                                </Button>
+                              </div>
+                            )}
                         </div>
-                      )}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Current Occupation: </span>
+                      <div className={classes.fieldValue}>
+                        {user.current_occupation || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Total load: </span>
+                      <div className={classes.fieldValue}>
+                        {user.total_load || '―'}
+                      </div>
+                    </div>
+                    <div className={classes.field}>
+                      <span className={classes.fieldTitle}>Task History: </span>
+                      {taskHistoryTable
+                        ? (
+                          <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
+                            <KeyboardArrowRightSharpIcon />
+                          </Button>
+                        )
+                        : (
+                          <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
+                            <KeyboardArrowDownSharpIcon />
+                          </Button>
+                        )}
+                    </div>
+                    {taskHistoryTable || user.UsersTasks === undefined ? ''
+                      : (
+                        <TasksTable
+                          user={user}
+                          userName={user.fullName}
+                          tasks={user.UsersTasks}
+                        />
+                      ) }
                   </div>
                 </div>
               </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Current Occupation: </span>
-                <div className={classes.fieldValue}>
-                  {user.current_occupation || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Total load: </span>
-                <div className={classes.fieldValue}>
-                  {user.total_load || '―'}
-                </div>
-              </div>
-              <div className={classes.field}>
-                <span className={classes.fieldTitle}>Task History: </span>
-                {taskHistoryTable
-                  ? (
-                    <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
-                      <KeyboardArrowRightSharpIcon />
-                    </Button>
-                  )
-                  : (
-                    <Button onClick={handleCloseTaskTable} style={{ padding: 0 }}>
-                      <KeyboardArrowDownSharpIcon />
-                    </Button>
-                  )}
-              </div>
-              {taskHistoryTable || user.UsersTasks === undefined ? ''
-                : (
-                  <TasksTable
-                    user={user}
-                    userName={user.fullName}
-                    tasks={user.UsersTasks}
-                  />
-                ) }
-            </div>
+            </TabPanel>
           </div>
+          <TabPanel style={{ width: '100%' }} value={value} index={1}>
+
+            <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
+          </TabPanel>
+          <TabPanel style={{ width: '100%' }} value={value} index={2}>
+            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
+          </TabPanel>
+          <div className={classes.rightCol}>
+            <Tabs
+              orientation="vertical"
+              variant="scrollable"
+              indicatorColor="primary"
+              textColor="primary"
+              value={value}
+              onChange={handleChange}
+              aria-label="Vertical tabs example"
+              className={classes.tabs}
+            >
+              <Tab label="Information" {...a11yProps(0)} />
+              <Tab label="Projects" {...a11yProps(1)} />
+              <Tab label="History" {...a11yProps(2)} />
+            </Tabs>
+
+          </div>
+
+
+          {/* ///////////////////////////////////////// */}
         </div>
         <Divider />
+
         <div className={classes.footerIcons}>
           <Button onClick={handleClickOnBack}>
             <ArrowBackIosIcon />

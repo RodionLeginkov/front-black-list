@@ -130,10 +130,11 @@ export default function AddNewMilestoneModal(props) {
     setAddUserModalOpen(false);
   };
   const handleChange = (e) => {
+    console.log(typeof (e.target.value));
     setErrors({ ...errors, [e.target.name]: '' });
     setProject({ ...project, [e.target.name]: e.target.value });
   };
-
+console.log(project )
 
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
@@ -161,15 +162,14 @@ export default function AddNewMilestoneModal(props) {
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
-
       try {
         if (isEdit) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-      } else if (initialMilestone && curProject.uuid) {
+        } else if (initialMilestone && curProject.uuid) {
           await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
           // await axios.get(`/person/${person.uuid}`, person);
-      } else {
+        } else {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
         }

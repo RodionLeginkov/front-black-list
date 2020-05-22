@@ -12,11 +12,17 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import validator from 'validator';
 import DateFnsUtils from '@date-io/date-fns';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { paymentTypes } from '../../constants/constants';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,6 +86,11 @@ const AddPersonModal = (props) => {
   const [person, setPerson] = useState(initialPerson || {
     project_uuid: projectId,
     name: '',
+    rate: null,
+    rate_type: '',
+    load: null,
+    platform: '',
+    withdraw: '',
     description: '',
     start_date: new Date(),
     end_date: null,
@@ -99,7 +110,10 @@ const AddPersonModal = (props) => {
   const userChange = (user) => { setPerson({ ...person, name: user !== null ? user.fullName : '' }); };
   const startDateChange = (startDate) => { setPerson({ ...person, start_date: startDate }); };
   const endDateChange = (endDate) => { setPerson({ ...person, end_date: endDate }); };
-  const handleChange = (e) => setPerson({ ...person, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setPerson({ ...person, [e.target.name]: e.target.value });
+  };
+
   const addParticipant = (participant) => setPerson({ ...person, Participants: [...person.Participants, participant] });
 
   const participantDelete = (deletedParticipant) => {
@@ -114,6 +128,11 @@ const AddPersonModal = (props) => {
         project_uuid: projectId,
         name: '',
         description: '',
+        rate: null,
+        rate_type: '',
+        load: null,
+        platform: '',
+        withdraw: '',
         start_date: new Date(),
         end_date: null,
         Participants: [],
@@ -132,13 +151,21 @@ const AddPersonModal = (props) => {
   const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateProject();
+
     if (validateErrors) setErrors(validateErrors);
     else if (projectId) {
       try {
-        const response = await axios.post('/person', { ...person, project_uuid: projectId });
+        const response = await axios.post('/person', {
+          ...person, project_uuid: projectId, rate: person.rate !== '' ? person.rate : 0, load: person.load !== '' ? person.load : 0,
+        });
         setPerson({
           project_uuid: projectId,
           name: '',
+          rate: null,
+          rate_type: '',
+          load: null,
+          platform: '',
+          withdraw: '',
           description: '',
           start_date: new Date(),
           end_date: null,
@@ -156,6 +183,11 @@ const AddPersonModal = (props) => {
         project_uuid: projectId,
         name: '',
         description: '',
+        rate: null,
+        rate_type: '',
+        load: null,
+        platform: '',
+        withdraw: '',
         start_date: new Date(),
         end_date: null,
         Participants: [],
@@ -170,7 +202,7 @@ const AddPersonModal = (props) => {
     if (validateErrors) setErrors(validateErrors);
     else if (projectId) {
       try {
-        await axios.put(`/person/${person.uuid}`, person);
+        await axios.put(`/person/${person.uuid}`, { ...person, rate: person.rate !== '' ? person.rate : 0, load: person.load !== '' ? person.load : 0 });
         dispatch(getProject(projectId));
         setPersonModalOpen(false);
       } catch (error) {
@@ -182,6 +214,11 @@ const AddPersonModal = (props) => {
         project_uuid: projectId,
         name: '',
         description: '',
+        rate: null,
+        rate_type: '',
+        load: null,
+        platform: '',
+        withdraw: '',
         start_date: new Date(),
         end_date: null,
       });
@@ -233,6 +270,85 @@ const AddPersonModal = (props) => {
                 participantChange={participantChange}
               /> */}
               <Grid container spacing={1}>
+
+
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    type="number"
+                    value={person.rate || ''}
+                    label="Rate"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='rate'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <FormControl
+                    placeholder='Rate type'
+                    variant="outlined"
+                    className={clsx(classes.formControl, classes.inputForm)}
+                  >
+                    <InputLabel>Rate type</InputLabel>
+                    <Select
+                      labelWidth={47}
+                      name='rate_type'
+                      value={person.rate_type || ''}
+                      onChange={handleChange}
+                    >
+                      {paymentTypes.map((role) => (
+                        <MenuItem
+                          value={role.value}
+                          key={role.label}
+                        >
+                          {role.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    value={person.load || ''}
+                    type="number"
+                    label="load"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='load'
+                    onChange={handleChange}
+                    InputProps={{
+                      endAdornment:
+  <InputAdornment position="end">
+    hr/week
+  </InputAdornment>,
+
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    value={person.platform || ''}
+                    label="Platform"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='platform'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} style={{ paddingBottom: 0 }}>
+                  <TextField
+                    value={person.withdraw || ''}
+                    label="Withdraw"
+                    variant="outlined"
+                    inputProps={{ 'aria-label': 'description' }}
+                    className={classes.inputForm}
+                    name='withdraw'
+                    onChange={handleChange}
+                  />
+                </Grid>
                 <Grid item xs={12} style={{ paddingBottom: 0 }}>
                   <TextField
                     value={person.description || ''}

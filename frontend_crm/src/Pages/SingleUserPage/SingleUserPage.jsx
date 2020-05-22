@@ -70,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexDirection: 'column',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+    paddingRight: '20px'
   },
   rightCol: {
     display: 'flex',
@@ -103,6 +104,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     paddingLeft: '5px',
     display: 'flex',
+  },
+  fieldTask: {
+    border: 'solid 1px lightgrey',
+    borderRadius: '3px',
+    paddingLeft: '5px',
   },
   breadcrumbs: {
     margin: '85px 20px',
@@ -231,6 +237,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
+
+  useEffect(() => {
+      dispatch(getUser(userId, ''));
+      // dispatch(getUsers('', '', '', true, '', ''));
+  }, []);
 
   // //////////////////////////////////////////////////////////////////////////
   const [newTask, setNewTask] = useState(user ? {
@@ -397,7 +408,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                     </div>
                     <div className={classes.field}>
                       <span className={classes.fieldTitle}>Current Task: </span>
-                      <div className="raw" style={{ display: 'flex', alignItems: 'center' }} onBlur={handleOnBlur}>
+                      <div className="raw" style={{ display: 'flex', alignItems: 'center', marginLeft: '5px', textDecoration: 'underline' }} onBlur={handleOnBlur}>
                         { curTask ? (
                           <Typography variant="inherit">
                             {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
@@ -445,18 +456,12 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                       </div>
                     </div>
                     <div className={classes.field}>
-                      <span className={classes.fieldTitle}>Current Occupation: </span>
-                      <div className={classes.fieldValue}>
-                        {user.current_occupation || '―'}
-                      </div>
-                    </div>
-                    <div className={classes.field}>
                       <span className={classes.fieldTitle}>Total load: </span>
                       <div className={classes.fieldValue}>
                         {user.total_load || '―'}
                       </div>
                     </div>
-                    <div className={classes.field}>
+                    {/* <div className={classes.field}>
                       <span className={classes.fieldTitle}>Task History: </span>
                       {taskHistoryTable
                         ? (
@@ -469,25 +474,32 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                             <KeyboardArrowDownSharpIcon />
                           </Button>
                         )}
-                    </div>
-                    {taskHistoryTable || user.UsersTasks === undefined ? ''
+                    </div> */}
+                    {/* {taskHistoryTable || user.UsersTasks === undefined ? ''
                       : (
                         <TasksTable
                           user={user}
                           userName={user.fullName}
                           tasks={user.UsersTasks}
                         />
-                      ) }
+                      ) } */}
                   </div>
                 </div>
               </div>
             </TabPanel>
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
+          <TasksTable
+            user={user}
+            userName={user.fullName}
+            tasks={user.UsersTasks}
+          />
+          </TabPanel>
+          <TabPanel style={{ width: '100%' }} value={value} index={2}>
 
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
-          <TabPanel style={{ width: '100%' }} value={value} index={2}>
+          <TabPanel style={{ width: '100%' }} value={value} index={3}>
             <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <div className={classes.rightCol}>
@@ -502,10 +514,10 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               className={classes.tabs}
             >
               <Tab label="Information" {...a11yProps(0)} />
-              <Tab label="Projects" {...a11yProps(1)} />
-              <Tab label="History" {...a11yProps(2)} />
+              <Tab label="Tasks history" {...a11yProps(1)} />
+              <Tab label="Projects" {...a11yProps(2)} />
+              <Tab label="History" {...a11yProps(3)} />
             </Tabs>
-
           </div>
 
 

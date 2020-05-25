@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import moment from 'moment';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -21,6 +22,7 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
+
 const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
@@ -29,9 +31,9 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-function createData(name, description, customer, id, start, type, intensity) {
+function createData(name, description, customer, id, start, type, intensity, location, wokringHours, timezone) {
   return {
-    name, description, customer, id, start, type, intensity,
+    name, description, customer, id, start, type, intensity, location, wokringHours, timezone,
   };
 }
 
@@ -47,12 +49,29 @@ export default function ProjectsList(props) {
   const { projects } = props;
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const countTime = (cur, other) => {
+    const result = cur - other;
+    if (result > 0) return (`+${result}`);
+    return result;
+  };
   // eslint-disable-next-line array-callback-return
   const rows = projects.map((project) => {
+    const curDate = moment.utc(new Date()).format();
+    const customerTime = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH:mm')) : '';
+    const currentHour = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH')) : '';
+    const utc = moment.utc().format('HH');
+    const moscow = moment.tz('Europe/Moscow').format('HH');
     const start = project.ProjectMilestones.length ? new Date(project.ProjectMilestones[0].start_date) : '';// new Date(milestone.start_date);
     const startDate = start ? ` ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Not-started';
+    const startWork = project && project.workStart ? moment(project.workStart) : '';
+    const endWork = project && project.workEnd ? moment(project.workEnd) : '';
+    const wokringHours = startWork && endWork ? `from ${startWork.format('HH:mm')} till ${endWork.format('HH:mm')}` : '―';
+    const timezone = project && project.timezone ? (
+      `${customerTime} (UTC ${countTime(currentHour, utc)} / MSC ${countTime(currentHour, moscow)})`
+    ) : '―';
 
-    return createData(project.name, project.description, project.customer, project.uuid, startDate, project.communicationType, project.communicationIntensity);
+    return createData(project.name, project.description, project.customer, project.uuid, startDate, project.communicationType, project.communicationIntensity, project.location, wokringHours, timezone);
   });
   function handleClick(id) {
     dispatch(findProject(id));
@@ -69,6 +88,9 @@ export default function ProjectsList(props) {
             <StyledTableCell align="right">Description</StyledTableCell>
             <StyledTableCell align="right">Communication type</StyledTableCell>
             <StyledTableCell align="right">Communication Intensity</StyledTableCell>
+            <StyledTableCell align="right">Location</StyledTableCell>
+            <StyledTableCell align="right">Customer time:</StyledTableCell>
+            <StyledTableCell align="right">Wokring hours:</StyledTableCell>
             <StyledTableCell align="right">Start Date</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -86,6 +108,9 @@ export default function ProjectsList(props) {
               <StyledTableCell align="right">{project.description}</StyledTableCell>
               <StyledTableCell align="right">{project.type}</StyledTableCell>
               <StyledTableCell align="right">{project.intensity}</StyledTableCell>
+              <StyledTableCell align="right">{project.location}</StyledTableCell>
+              <StyledTableCell align="right">{project.timezone}</StyledTableCell>
+              <StyledTableCell align="right">{project.wokringHours}</StyledTableCell>
               <StyledTableCell align="right">{project.start}</StyledTableCell>
             </StyledTableRow>
           ))}

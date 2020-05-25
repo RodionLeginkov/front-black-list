@@ -11,6 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { useHistory } from 'react-router-dom';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import Button from '@material-ui/core/Button';
+import moment from 'moment';
 import CustomBadge from '../CustomBadge/CustomBadge.jsx';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
@@ -90,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     color: '#777777',
   },
+  typographyFont: {
+    fontSize: '14px',
+  },
 }));
 
 // function difDates(startDate, curDate) {
@@ -121,6 +125,9 @@ export default function RecipeReviewCard(props) {
   const dispatch = useDispatch();
   const start = card.ProjectMilestones.length ? new Date(card.ProjectMilestones[0].start_date) : '';// new Date(milestone.start_date);
   const startDate = start ? `Start: ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Start: Not-started';
+  const startWork = card && card.workStart ? moment(card.workStart) : '';
+  const endWork = card && card.workEnd ? moment(card.workEnd) : '';
+
 
   function handleClick() {
     dispatch(findProject(card.uuid));
@@ -128,7 +135,16 @@ export default function RecipeReviewCard(props) {
   }
   const classes = useStyles();
   // const startDate = new Date(card.start_date);
-  const curDate = new Date();
+  const curDate = moment.utc(new Date()).format();
+  const customerTime = card && card.timezone ? (moment.tz(`${curDate}`, `${card.timezone.split(')')[1]}`).format('HH:mm')) : '';
+  const currentHour = card && card.timezone ? (moment.tz(`${curDate}`, `${card.timezone.split(')')[1]}`).format('HH')) : '';
+  const utc = moment.utc().format('HH');
+  const moscow = moment.tz('Europe/Moscow').format('HH');
+  const countTime = (cur, other) => {
+    const result = cur - other;
+    if (result > 0) return (`+${result}`);
+    return result;
+  };
 
   return (
     <>
@@ -154,7 +170,7 @@ export default function RecipeReviewCard(props) {
           </div>
           <CardContent>
             <div className={classes.projectInfo}>
-              <Typography>
+              <Typography className={classes.typographyFont}>
                 {startDate}
               </Typography>
 
@@ -169,14 +185,37 @@ export default function RecipeReviewCard(props) {
               </div>
             </div>
             <div className={classes.projectInfo}>
-              <Typography>
+              <Typography className={classes.typographyFont}>
                 Communication Type:
                 {' '}
                 {card.communicationType ? card.communicationType : '―' }
               </Typography>
             </div>
             <div className={classes.projectInfo}>
-              <Typography>
+              <Typography className={classes.typographyFont}>
+                Location:
+                {' '}
+                {card.location ? card.location : '―' }
+              </Typography>
+            </div>
+            <div className={classes.projectInfo}>
+              <Typography className={classes.typographyFont}>
+                Customer time:
+                {' '}
+                {customerTime ? (
+                  `${customerTime} (UTC ${countTime(currentHour, utc)} / MSC ${countTime(currentHour, moscow)})`
+                ) : '―'}
+              </Typography>
+            </div>
+            <div className={classes.projectInfo}>
+              <Typography className={classes.typographyFont}>
+                Wokring hours:
+                {' '}
+                {startWork && endWork ? `from ${startWork.format('HH:mm')} till ${endWork.format('HH:mm')}` : '―' }
+              </Typography>
+            </div>
+            <div className={classes.projectInfo}>
+              <Typography className={classes.typographyFont}>
                 Communication Intensity:
                 {' '}
                 {card.communicationIntensity ? card.communicationIntensity : '―'}

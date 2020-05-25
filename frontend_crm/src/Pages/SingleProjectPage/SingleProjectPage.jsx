@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import moment from 'moment';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
@@ -119,9 +120,19 @@ const CurrentProject = ({ match }) => {
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
 
-  const start = project ? new Date(project.workStart) : '';
-  const end = project ? new Date(project.workEnd) : '';
-  console.log('project', start, end);
+  const start = project && project.workStart ? moment(project.workStart) : '';
+  const end = project && project.workEnd ? moment(project.workEnd) : '';
+
+  const curDate = moment.utc(new Date()).format();
+  const customerTime = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH:mm')) : '';
+  const currentHour = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH')) : '';
+  const utc = moment.utc().format('HH');
+  const moscow = moment.tz('Europe/Moscow').format('HH');
+  const countTime = (cur, other) => {
+    const result = cur - other;
+    if (result > 0) return (`+${result}`);
+    return result;
+  };
   useEffect(() => {
     if (!project || !project.ProjectMilestones || project.uuid !== projectId || !project.Person) {
       dispatch(getProject(projectId));
@@ -173,14 +184,21 @@ const CurrentProject = ({ match }) => {
           </div>
         </div>
         <div className={classes.Descriptions}>
-          <h2 className={classes.headerText}>Wokring hours: </h2>
+          <h2 className={classes.headerText}>Working hours: </h2>
           <div className={classes.descriptionText}>
-            from
-            {project.workStart}
-            {' '}
-            till
-            {' '}
-            {project.workEnd}
+            {start && end ? (
+              `from ${start.format('HH:mm')} till ${end.format('HH:mm')}`
+            ) : '―'}
+
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Customer time: </h2>
+          <div className={classes.descriptionText}>
+            {customerTime ? (
+              `${customerTime} (UTC ${countTime(currentHour, utc)} / MSC ${countTime(currentHour, moscow)})`
+            ) : '―'}
+
           </div>
         </div>
         <div className={classes.stackAndEnglish}>

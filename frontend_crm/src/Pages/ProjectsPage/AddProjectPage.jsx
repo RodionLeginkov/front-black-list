@@ -188,7 +188,6 @@ const AddProjectPage = (props) => {
     offsetTmz.push(` (GMT${moment.tz(timeZones[i]).format('Z')})${timeZones[i]}`);
   }
 
-  console.log(offsetTmz);
   useEffect(() => {
     if (projectId && (!curProject || !curProject.Persons)) {
       dispatch(getProjects());
@@ -248,7 +247,7 @@ const AddProjectPage = (props) => {
     setProject({ ...project, timezone: value });
   };
 
-  console.log(project);
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateProject();
@@ -382,7 +381,7 @@ const AddProjectPage = (props) => {
                   <TextField
                     error={Boolean(errors.description)}
                     helperText={errors.description}
-                    style={{ marginBottom: '10px' }}
+                    // style={{ marginBottom: '10px' }}
                     value={project.description}
                     variant="outlined"
                     id="standard-multiline-flexible"
@@ -397,7 +396,7 @@ const AddProjectPage = (props) => {
 
                 <Grid item xs={6}>
                   <TextField
-                    style={{ marginBottom: '10px' }}
+                    // style={{ marginBottom: '10px' }}
                     value={project.location}
                     variant="outlined"
                     id="standard-multiline-flexible"

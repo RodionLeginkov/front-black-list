@@ -24,11 +24,20 @@ import {
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import './ProjectStyles.css';
-import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
-import PersonsList from '../../components/PersonsList/PersonsList.jsx';
 import Box from '@material-ui/core/Box';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TimezonePicker from 'react-timezone';
+import moment from 'moment-timezone';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import { CommunicationType } from '../../constants/constants';
+import PersonsList from '../../components/PersonsList/PersonsList.jsx';
+import AddPersonModal from '../../components/AddPersonModal/AddPersonModal.jsx';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -134,6 +143,7 @@ const AddProjectPage = (props) => {
     customer: '',
   });
 
+
   const initialValue = (projectId && curProject) ? curProject : {
     name: '',
     communication: '',
@@ -145,6 +155,9 @@ const AddProjectPage = (props) => {
     customer: '',
     communicationType: null,
     communicationIntensity: '',
+    workStart: null,
+    workEnd: null,
+    timezone: '',
     description: '',
     history: '',
     ProjectMilestones: [],
@@ -167,6 +180,15 @@ const AddProjectPage = (props) => {
     setProject({ ...project, communicationType: values ? values.value : null });
   };
 
+
+  const timeZones = moment.tz.names();
+  const offsetTmz = [];
+
+  for (const i in timeZones) {
+    offsetTmz.push(` (GMT${moment.tz(timeZones[i]).format('Z')})${timeZones[i]}`);
+  }
+
+  console.log(offsetTmz);
   useEffect(() => {
     if (projectId && (!curProject || !curProject.Persons)) {
       dispatch(getProjects());
@@ -182,6 +204,13 @@ const AddProjectPage = (props) => {
     if (validator.isEmpty(project.description)) fieldsErrors.description = 'Desctiption is required field.';
 
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
+  const handleWorkStartTimeChange = (e) => {
+    setProject({ ...project, workStart: e });
+  };
+  const handleWorkEndTimeChange = (e) => {
+    setProject({ ...project, workEnd: e });
   };
 
   const handleChange = (e) => {
@@ -214,6 +243,12 @@ const AddProjectPage = (props) => {
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
+
+  const timeZoneHandle = (e, value) => {
+    setProject({ ...project, timezone: value });
+  };
+
+  console.log(project);
   const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateProject();
@@ -268,33 +303,36 @@ const AddProjectPage = (props) => {
                   </Button>
                 </Tooltip>
               </div>
-              <TextField
-                autoFocus
-                required
-                style={{ marginBottom: 10 }}
-                error={Boolean(errors.name)}
-                helperText={errors.name}
-                value={project.name || ''}
-                label="Project Name"
-                className={classes.inputForm}
-                name='name'
-                onChange={handleChange}
-                variant="outlined"
-                InputProps={{
-                  endAdornment:
+
+
+              {/* <div className={classes.smallForm} /> */}
+
+
+              <Grid style={{ margin: '0px 0px 10px', paddingTop: '5px' }} container spacing={1} justify="space-between">
+                <Grid item xs={12}>
+                  <TextField
+                    autoFocus
+                    required
+                    style={{ marginBottom: 10 }}
+                    error={Boolean(errors.name)}
+                    helperText={errors.name}
+                    value={project.name || ''}
+                    label="Project Name"
+                    className={classes.inputForm}
+                    name='name'
+                    onChange={handleChange}
+                    variant="outlined"
+                    InputProps={{
+                      endAdornment:
   <InputAdornment position="end">
     <Tooltip title="Project Name">
       <HelpOutlineSharpIcon className={classes.helperIcon} />
     </Tooltip>
   </InputAdornment>,
 
-                }}
-              />
-              <div className={classes.smallForm} />
-
-
-              <Grid style={{ margin: '0px 0px 10px' }} container justify="space-between">
-
+                    }}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     error={Boolean(errors.customer)}
@@ -311,8 +349,8 @@ const AddProjectPage = (props) => {
                   />
                 </Grid>
 
-              </Grid>
-              <Grid style={{ margin: '0px 0px 10px', paddingTop: '5px' }} container justify="space-between" spacing={1}>
+                {/* </Grid> */}
+                {/* <Grid style={{ margin: '0px 0px 10px', paddingTop: '5px' }} container justify="space-between" spacing={1}> */}
 
                 <Grid item xs={6}>
 
@@ -339,22 +377,99 @@ const AddProjectPage = (props) => {
                   />
                 </Grid>
 
+
+                <Grid item xs={12}>
+                  <TextField
+                    error={Boolean(errors.description)}
+                    helperText={errors.description}
+                    style={{ marginBottom: '10px' }}
+                    value={project.description}
+                    variant="outlined"
+                    id="standard-multiline-flexible"
+                    label="Description"
+                    multiline
+                    rowsMax="5"
+                    className={classes.descriptionForm}
+                    name='description'
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <TextField
+                    style={{ marginBottom: '10px' }}
+                    value={project.location}
+                    variant="outlined"
+                    id="standard-multiline-flexible"
+                    label="Location"
+                    multiline
+                    rowsMax="5"
+                    className={classes.descriptionForm}
+                    name='location'
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={offsetTmz}
+                    onChange={timeZoneHandle}
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => <TextField {...params} label="Timezone" variant="outlined" />}
+                    value={project.timezone || ''}
+                  />
+
+                  {/* <TimezonePicker
+                    className={classes.inputForm}
+                    onChange={timeZoneHandle}
+                    defaultValue="America/New_York"
+                    unselectLabel="No Timezone"
+                    inputProps={{
+                      placeholder: 'Select Timezone...',
+                      name: 'timezone',
+                    }}
+                    style={{
+                      borderRadius: '0.5rem',
+                      background: 'teal',
+                      color: 'white',
+                    }}
+                  /> */}
+                </Grid>
+                <Grid item xs={12}><h2>Wokring hours:</h2></Grid>
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={6}>
+                    <KeyboardTimePicker
+                      margin="normal"
+                      id="work-starts"
+                      name='workStart'
+                      label="From"
+                      inputVariant="outlined"
+                      className={classes.inputForm}
+                      value={project.workStart}
+                      onChange={handleWorkStartTimeChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change time',
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <KeyboardTimePicker
+                      margin="normal"
+                      id="work-ends"
+                      name='workEnd'
+                      label="Till"
+                      inputVariant="outlined"
+                      className={classes.inputForm}
+                      value={project.workEnd}
+                      onChange={handleWorkEndTimeChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change time',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
               </Grid>
 
-              <TextField
-                error={Boolean(errors.description)}
-                helperText={errors.description}
-                style={{ marginBottom: '10px' }}
-                value={project.description}
-                variant="outlined"
-                id="standard-multiline-flexible"
-                label="Description"
-                multiline
-                rowsMax="5"
-                className={classes.descriptionForm}
-                name='description'
-                onChange={handleChange}
-              />
               <Divider />
               { project.uuid ? (
                 <>

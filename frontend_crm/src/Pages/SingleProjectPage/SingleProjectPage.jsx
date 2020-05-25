@@ -118,6 +118,10 @@ const CurrentProject = ({ match }) => {
   };
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
+
+  const start = project ? new Date(project.workStart) : '';
+  const end = project ? new Date(project.workEnd) : '';
+  console.log('project', start, end);
   useEffect(() => {
     if (!project || !project.ProjectMilestones || project.uuid !== projectId || !project.Person) {
       dispatch(getProject(projectId));
@@ -160,6 +164,23 @@ const CurrentProject = ({ match }) => {
           <h2 className={classes.headerText}>Communication Intensity: </h2>
           <div className={classes.descriptionText}>
             {project.communicationIntensity}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Location: </h2>
+          <div className={classes.descriptionText}>
+            {project.location}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Wokring hours: </h2>
+          <div className={classes.descriptionText}>
+            from
+            {project.workStart}
+            {' '}
+            till
+            {' '}
+            {project.workEnd}
           </div>
         </div>
         <div className={classes.stackAndEnglish}>

@@ -7,12 +7,12 @@ function ProjectsCards(props) {
   const { projects } = props;
 
 
-  if (!projects) return (<Loading />)
+  if (!projects) return (<Loading />);
 
   return (
     <>
       {projects.map((card) => (
-        <Grid item container key={Math.random()} justify="flex-start" sm={6} md={4} lg={3}>
+        <Grid item container key={Math.random()} justify="flex-start" sm={6} md={4} lg={4}>
           <SinglProjectCard card={card} />
         </Grid>
       ))}

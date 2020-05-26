@@ -66,7 +66,7 @@ export default function ProjectsList(props) {
     const startDate = start ? ` ${start.getDate()}/${start.getMonth() + 1}/${start.getFullYear()}` : 'Not-started';
     const startWork = project && project.workStart ? moment(project.workStart) : '';
     const endWork = project && project.workEnd ? moment(project.workEnd) : '';
-    const wokringHours = startWork && endWork ? `from ${startWork.format('HH:mm')} till ${endWork.format('HH:mm')}` : '―';
+    const wokringHours = startWork && endWork ? `${startWork.format('HH:mm')} - ${endWork.format('HH:mm')}` : '―';
     const timezone = project && project.timezone ? (
       `${customerTime} (UTC ${countTime(currentHour, utc)} / MSC ${countTime(currentHour, moscow)})`
     ) : '―';

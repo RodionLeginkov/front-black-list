@@ -123,6 +123,8 @@ const SingleMilestoneCard = (props) => {
     paymentType = '–';
   }
 
+  console.log('milestone.person_uuid', milestone.person_uuid);
+
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
     [classes.cardColor]: (milestone.rate !== 0 && milestone.rate !== null),
@@ -142,7 +144,10 @@ const SingleMilestoneCard = (props) => {
       lg={4}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: '50px',
+        }}
+        >
           <div style={{ marginLeft: '7px' }}>
             <Typography>
               <b>

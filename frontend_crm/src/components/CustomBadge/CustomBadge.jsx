@@ -61,6 +61,9 @@ const useStyles = makeStyles(() => ({
   junior: {
     backgroundColor: '#1240AB',
   },
+  startDate: {
+    backgroundColor: '#a1c6ff',
+  },
   middle: {
     whiteSpace: 'nowrap',
     backgroundColor: '#6F0AAA',
@@ -111,7 +114,7 @@ export default function CustomBadge(props) {
     [classes.tech]: theme === 'tech',
     [classes.junior]: position === 'junior',
     [classes.middle]: position === 'middle',
-    [classes.junior]: text !== 'Start: Not-started',
+    [classes.startDate]: text !== 'Start: Not-started',
     [classes.notStarted]: text === 'Start: Not-started',
     [classes.senior]: position === 'senior',
     [classes.role]: !!position === true,

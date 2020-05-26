@@ -21,7 +21,7 @@ import CustomBage from '../CustomBadge/CustomBadge.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '250px',
+    height: '300px',
     width: '100%',
     marginRight: 20,
     marginBottom: 20,
@@ -191,6 +191,7 @@ export default function RecipeReviewCard(props) {
                 </div>
               </div> */}
             {/* </div> */}
+            {/* 111111111111111111111111111111111111111 */}
             <div className={classes.projectInfo}>
               <Typography className={classes.typographyFont}>
                 Communication Type:
@@ -266,6 +267,7 @@ export default function RecipeReviewCard(props) {
         setAddUserModalOpen={setAddUserModalOpen}
         curProject={{ ...card }}
         isEdit
+        allProjects
       />
     </>
   );

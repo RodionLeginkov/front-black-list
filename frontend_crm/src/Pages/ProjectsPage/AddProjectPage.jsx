@@ -143,7 +143,6 @@ const AddProjectPage = (props) => {
     customer: '',
   });
 
-
   const initialValue = (projectId && curProject) ? curProject : {
     name: '',
     communication: '',

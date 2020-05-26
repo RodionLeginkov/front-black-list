@@ -76,11 +76,14 @@ export default function AddNewMilestoneModal(props) {
     forRead,
     addUserModalOpen,
     setAddUserModalOpen,
+    projectMilestones,
     curProject,
     isEdit,
     initialMilestone,
     setArchive,
     archive,
+    allProjects,
+    milestonesChange,
   } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -173,19 +176,23 @@ export default function AddNewMilestoneModal(props) {
           await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
           dispatch(getProject(curProject.uuid));
         } else {
-          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-          await dispatch(getProject(curProject.uuid));
-          dispatch(getProjects());
+          milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
+          if (curProject.uuid) {
+            dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+          }
         }
         setProject(initialValue);
         setIsError(false);
         // setArchive(false);
         setAddUserModalOpen(false);
-        await dispatch(getProject(curProject.uuid));
-        dispatch(getProjects());
+        // await dispatch(getProject(curProject.uuid));
+        if (allProjects) {
+          dispatch(getProjects());
+        }
       } catch {}
     }
   };
+
 
   const handleArchive = (e) => {
     e.preventDefault();

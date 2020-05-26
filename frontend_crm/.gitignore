@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# Configuration files
+*.env
+
 # testing
 /coverage
 

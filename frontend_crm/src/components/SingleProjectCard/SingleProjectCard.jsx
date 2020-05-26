@@ -17,6 +17,7 @@ import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions'
 import DevAvatars from '../DevAvatars/DevAvatars.jsx';
 import DeleteModal from '../DeleteModal/DeleteModal.jsx';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
+import CustomBage from '../CustomBadge/CustomBadge.jsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -162,28 +163,34 @@ export default function RecipeReviewCard(props) {
               </Avatar>
             )}
             {card.name}
-            <CustomBadge
+            {/* <CustomBadge
               text={card.status}
               icon={<FiberManualRecordSharpIcon />}
               status={card.status}
+            /> */}
+            <CustomBage
+              text={startDate}
+              size="medium"
+
             />
           </div>
           <CardContent>
-            <div className={classes.projectInfo}>
-              <Typography className={classes.typographyFont}>
-                {startDate}
-              </Typography>
+            {/* <div className={classes.projectInfo}> */}
 
-              {/* <div className={classes.priceAndDuration}>
+            {/* <Typography className={classes.typographyFont}>
+                {startDate}
+              </Typography> */}
+
+            {/* <div className={classes.priceAndDuration}>
                 <CustomBadge text={difDates(startDate, curDate)} theme="duration" style={{ marginTop: '20px' }} />
               </div> */}
-              <div>
+            {/* <div>
 
                 <div style={{ margin: '10px', display: 'flex' }}>
-                  {/* {projectStack} */}
+                  {projectStack}
                 </div>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             <div className={classes.projectInfo}>
               <Typography className={classes.typographyFont}>
                 Communication Type:

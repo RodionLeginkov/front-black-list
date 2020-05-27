@@ -184,7 +184,7 @@ const CurrentProject = ({ match }) => {
           <h2 className={classes.headerText}>Working hours: </h2>
           <div className={classes.descriptionText}>
             {start && end ? (
-              `from ${start.format('HH:mm')} till ${end.format('HH:mm')}`
+              ` ${start.format('HH:mm')} - ${end.format('HH:mm')}`
             ) : '―'}
 
           </div>

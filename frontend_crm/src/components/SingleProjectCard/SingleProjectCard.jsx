@@ -219,7 +219,7 @@ export default function RecipeReviewCard(props) {
               <Typography className={classes.typographyFont}>
                 Wokring hours:
                 {' '}
-                {startWork && endWork ? `from ${startWork.format('HH:mm')} till ${endWork.format('HH:mm')}` : '―' }
+                {startWork && endWork ? ` ${startWork.format('HH:mm')} - ${endWork.format('HH:mm')}` : '―' }
               </Typography>
             </div>
             <div className={classes.projectInfo}>

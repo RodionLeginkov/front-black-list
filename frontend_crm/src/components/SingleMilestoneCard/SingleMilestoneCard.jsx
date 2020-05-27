@@ -107,7 +107,7 @@ const SingleMilestoneCard = (props) => {
     setProjectMilestones,
     archived,
   } = props;
-  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+
   const user = milestone.Users;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
@@ -123,7 +123,6 @@ const SingleMilestoneCard = (props) => {
     paymentType = '–';
   }
 
-  console.log('milestone.person_uuid', milestone.person_uuid);
 
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {

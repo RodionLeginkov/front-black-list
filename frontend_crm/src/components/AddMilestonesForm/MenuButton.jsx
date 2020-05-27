@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
@@ -11,21 +10,8 @@ import EditSharpIcon from '@material-ui/icons/EditSharp';
 import UnarchiveSharpIcon from '@material-ui/icons/UnarchiveSharp';
 import Tooltip from '@material-ui/core/Tooltip';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import AddNewDeathRattleModal from '../AddNewDeathRattleModal/AddNewDeathRattleModal.jsx';
-
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    margin: theme.spacing(2),
-  },
-  absolute: {
-    position: 'absolute',
-    bottom: theme.spacing(2),
-    right: theme.spacing(3),
-  },
-}));
-
 
 const ITEM_HEIGHT = 48;
 export default function MenuButton(props) {

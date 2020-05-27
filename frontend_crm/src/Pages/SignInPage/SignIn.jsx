@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import validator from 'validator';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,6 +43,12 @@ export default function SignUp() {
   const classes = useStyles();
   const userAuth = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+
+
   const [emailError, setEmailError] = useState({
     err: false,
     message: '',
@@ -54,9 +61,22 @@ export default function SignUp() {
     email: '',
     password: '',
   });
+
+
+  const validateUser = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(form.email)) fieldsErrors.email = 'Email is required field.';
+    else if (!validator.isEmail(form.email)) fieldsErrors.email = 'Invalid email.';
+    if (validator.isEmpty(form.password)) fieldsErrors.password = 'Password is required field.';
+    else if (form.password.length < 6) fieldsErrors.password = 'Invalid password.';
+    console.log('fieldsErrors', fieldsErrors);
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
   const [anchorEl] = React.useState(null);
 
   const onChangheEmail = (e) => {
+    setErrors({ ...errors, email: '' });
     setState({
       ...form,
       email: e.target.value,
@@ -64,6 +84,7 @@ export default function SignUp() {
   };
 
   const onChanghePassword = (e) => {
+    setErrors({ ...errors, password: '' });
     setOpen(false);
     setState({
       ...form,
@@ -81,20 +102,12 @@ export default function SignUp() {
       email: form.email,
       password: form.password,
     };
-    if (!form.email.includes('@')) {
-      setEmailError({
-        ...form,
-        err: true,
-        message: 'where is @ ',
-      });
+    const validateErrors = validateUser();
+    if (validateErrors) {
+      setErrors(validateErrors);
     } else {
-      setEmailError({
-        ...form,
-        err: false,
-        message: '',
-      });
+      dispatch(signIn(login));
     }
-    dispatch(signIn(login));
   };
 
   if (userAuth && userAuth.loggedIn) {
@@ -125,8 +138,8 @@ export default function SignUp() {
             autoFocus
             value={form.email}
             onChange={onChangheEmail}
-            error={emailError.err}
-            helperText={emailError.message}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
           />
           <TextField
             variant="outlined"
@@ -140,8 +153,8 @@ export default function SignUp() {
             autoComplete="current-password"
             value={form.password}
             onChange={onChanghePassword}
-            error={passwordError.err}
-            helperText={passwordError.message}
+            error={Boolean(errors.password)}
+            helperText={errors.password}
           />
           <Popover
             id={id}

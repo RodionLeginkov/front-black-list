@@ -427,7 +427,7 @@ const EditUserPage = ({ match }) => {
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   {user.uuid && (
                   <AddTaskHistory
                     handleChangeCurrentTask={handleChangeCurrentTask}
@@ -437,7 +437,7 @@ const EditUserPage = ({ match }) => {
 
                   />
                   )}
-                </Grid>
+                </Grid> */}
 
               </Grid>
               <div className={classes.button}>

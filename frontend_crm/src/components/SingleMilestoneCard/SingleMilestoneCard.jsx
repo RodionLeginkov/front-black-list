@@ -106,6 +106,9 @@ const SingleMilestoneCard = (props) => {
     projectMilestones,
     setProjectMilestones,
     archived,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
 
   const user = milestone.Users;
@@ -172,6 +175,9 @@ const SingleMilestoneCard = (props) => {
               milestones={projectMilestones}
               singleMilestone={milestone}
               setProjectMilestones={setProjectMilestones}
+              projectId={projectId}
+              newProjectId={newProjectId}
+              milestoneEdit={milestoneEdit}
             />
           ) : ''}
         </div>

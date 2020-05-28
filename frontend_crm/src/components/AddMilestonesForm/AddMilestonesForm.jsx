@@ -23,13 +23,15 @@ function AddMilestonesForm(props) {
     isEdit,
     setProjectMilestones,
     archived,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [widgetView, setWidgetView] = useState({
     resourse: true,
     history: false,
   });
-
   const handleClick = () => {
     setAddUserModalOpen(true);
   };
@@ -48,6 +50,9 @@ function AddMilestonesForm(props) {
       projectMilestones={projectMilestones}
       setProjectMilestones={setProjectMilestones}
       archived={archived}
+      projectId={projectId}
+      newProjectId={newProjectId}
+      milestoneEdit={milestoneEdit}
     />
   )) : <MilestonesTableOnSinglePages project={project} projectPage milestones={choosenMilestones} archived={archived} />;
 
@@ -91,6 +96,9 @@ function AddMilestonesForm(props) {
           setAddUserModalOpen={setAddUserModalOpen}
           curProject={project}
           milestonesChange={milestonesChange}
+          projectId={projectId}
+          milestoneEdit={milestoneEdit}
+          newProjectId={newProjectId}
         />
       )
         : ''}

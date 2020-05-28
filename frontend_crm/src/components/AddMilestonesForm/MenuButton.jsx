@@ -22,6 +22,9 @@ export default function MenuButton(props) {
     singleMilestone,
     setProjectMilestones,
     isExpired,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -123,6 +126,9 @@ export default function MenuButton(props) {
         isExpired={isExpired}
         archive={archive}
         setArchive={setArchive}
+        projectId={projectId}
+        newProjectId={newProjectId}
+        milestoneEdit={milestoneEdit}
         // milestonesChange={milestonesChange}
       />
       <AddNewDeathRattleModal

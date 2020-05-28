@@ -18,6 +18,8 @@ const PersonListItem = (props) => {
     person,
     personDelete,
     personChange,
+    isEdit,
+    newProjectId,
   } = props;
   const dispatch = useDispatch();
   const [personModalOpen, setPersonModalOpen] = useState(false);
@@ -77,6 +79,8 @@ const PersonListItem = (props) => {
         projectId={projectId}
         initialPerson={person}
         personChange={personChange}
+        isEdit={isEdit}
+        newProjectId={newProjectId}
       />
       {/* <Grid item sm={3}>
         <TextField

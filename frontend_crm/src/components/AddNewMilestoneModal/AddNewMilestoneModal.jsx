@@ -84,8 +84,13 @@ export default function AddNewMilestoneModal(props) {
     archive,
     allProjects,
     milestonesChange,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
   const classes = useStyles();
+
+
   const dispatch = useDispatch();
   const initialValue = initialMilestone || {
     user_uuid: '',
@@ -155,6 +160,7 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
+
   const validateDeathRattle = () => {
     const end = new Date(project.end_date);
     const fieldsErrors = {};
@@ -162,6 +168,7 @@ export default function AddNewMilestoneModal(props) {
     else if (end - curDate > 0) fieldsErrors.end_date = 'You can not select end date more than current.';
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
+
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -173,12 +180,22 @@ export default function AddNewMilestoneModal(props) {
         if (isEdit) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         } else if (initialMilestone && curProject.uuid) {
-          await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-          dispatch(getProject(curProject.uuid));
+          if (projectId) {
+            dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            dispatch(getProject(curProject.uuid));
+          } else {
+            // milestoneEdit(initialMilestone, project);
+            if (newProjectId) {
+              await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
+              await dispatch(getProject(curProject.uuid));
+            }
+          }
         } else {
           milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
+          if (newProjectId) dispatch(getProject(newProjectId));
           if (curProject.uuid) {
             dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            if (projectId) dispatch(getProject(curProject.uuid));
           }
         }
         setProject(initialValue);

@@ -132,6 +132,7 @@ const AddProjectPage = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
+  const [newProjectId, setNewProjectId] = useState();
   const { projectId } = props.match.params;
   const curProject = useSelector((state) => state.projects.currentProject);
   const loading = useSelector((state) => state.projects.loadingCurrentProjects);
@@ -142,8 +143,7 @@ const AddProjectPage = (props) => {
     description: '',
     customer: '',
   });
-
-  const initialValue = (projectId && curProject) ? curProject : {
+  const initialValue = ((projectId && curProject) || (newProjectId && curProject)) ? curProject : {
     name: '',
     communication: '',
     source: '',
@@ -162,7 +162,7 @@ const AddProjectPage = (props) => {
     ProjectMilestones: [],
     Person: [],
   };
-  const initialMilestones = (projectId && curProject) ? curProject.ProjectMilestones : [];
+  const initialMilestones = (projectId && curProject) || (newProjectId && curProject) ? curProject.ProjectMilestones : [];
 
   const [projectMilestones, setProjectMilestones] = useState(initialMilestones);
   const [project, setProject] = useState(initialValue);
@@ -221,6 +221,12 @@ const AddProjectPage = (props) => {
     setProject({ ...project, ProjectMilestones: [...project.ProjectMilestones, newMilestone] });
   };
 
+  const milestoneEdit = (initial, changed) => {
+    const changedMilestones = project.ProjectMilestones;
+    changedMilestones.splice(project.ProjectMilestones.indexOf(initial), 1, changed);
+    setProject({ ...project, ProjectMilestones: changedMilestones });
+  };
+
   const personAdd = (newPerson) => {
     setProject({ ...project, Person: [...project.Person, newPerson] });
   };
@@ -229,7 +235,6 @@ const AddProjectPage = (props) => {
     const filteredPersons = project.Person.filter((person) => person !== deletedPerson);
     setProject({ ...project, Person: filteredPersons });
   };
-
   const personChange = (initialPerson, changedPerson) => {
     const changedPersons = project.Person;
     changedPersons.splice(project.Person.indexOf(initialPerson), 1, changedPerson);
@@ -245,7 +250,6 @@ const AddProjectPage = (props) => {
   const timeZoneHandle = (e, value) => {
     setProject({ ...project, timezone: value });
   };
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -265,6 +269,7 @@ const AddProjectPage = (props) => {
     } else {
       const response = await axios.post('/project', project);
       setProject({ ...project, uuid: response.data.uuid });
+      setNewProjectId(response.data.uuid);
       // history.push('/customers');
     }
   };
@@ -432,7 +437,7 @@ const AddProjectPage = (props) => {
                     }}
                   /> */}
                 </Grid>
-                <Grid item xs={12}><h2>Wokring hours:</h2></Grid>
+                <Grid item xs={12}><h2>Working hours:</h2></Grid>
 
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={6}>
@@ -494,6 +499,9 @@ const AddProjectPage = (props) => {
                       setProjectMilestones={setProjectMilestones}
                       isEdit
                       archived={false}
+                      projectId={projectId}
+                      newProjectId={newProjectId}
+                      milestoneEdit={milestoneEdit}
                     />
                   </TabPanel>
 
@@ -503,6 +511,8 @@ const AddProjectPage = (props) => {
                       personChange={personChange}
                       projectPersons={project.Person}
                       projectId={project.uuid}
+                      newProjectId={newProjectId}
+                      isEdit={projectId}
                     />
                     <Button
                       style={{ marginBotton: 5 }}
@@ -522,7 +532,10 @@ const AddProjectPage = (props) => {
                       projectMilestones={projectMilestones}
                       milestonesChange={milestonesChange}
                       isError={isError}
+                      projectId={projectId}
+                      newProjectId={newProjectId}
                       setProjectMilestones={setProjectMilestones}
+                      milestoneEdit={milestoneEdit}
                       isEdit
                       archived
                     />
@@ -550,7 +563,9 @@ const AddProjectPage = (props) => {
         setPersonModalOpen={setPersonModalOpen}
         personModalOpen={personModalOpen}
         projectId={project.uuid}
+        newProjectId={newProjectId}
         personAdd={personAdd}
+        isEdit={projectId}
       />
     </>
   );

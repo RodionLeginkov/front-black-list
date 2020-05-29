@@ -11,6 +11,7 @@ async function signin(url, data) {
 }
 
 async function invite(url, data) {
+  console.log('data', data);
   const response = await axios.post(url, data);
   return response;
 }
@@ -20,4 +21,4 @@ export const signUpNewUser = (data) => signUp('/signup', data);
 
 export const loginUser = (data) => signin('/signin', data);
 
-export const inviteUser = (id) => invite(`/user/invitation/${id}`);
+export const inviteUser = (data) => invite('/v1/reset', data);

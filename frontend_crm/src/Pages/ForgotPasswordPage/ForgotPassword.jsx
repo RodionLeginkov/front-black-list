@@ -10,6 +10,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import validator from 'validator';
+import { inviteUsers } from '../../Redux/Actions/AuthActions/AuthActions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Forgot() {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [form, setState] = useState({
     email: '',
     showError: false,
@@ -41,7 +45,19 @@ export default function Forgot() {
     showNullError: false,
   });
 
+  const validateUser = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(form.email)) fieldsErrors.email = 'Email is required field.';
+    else if (!validator.isEmail(form.email)) fieldsErrors.email = 'Invalid email.';
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
+  const [errors, setErrors] = useState({
+    email: '',
+  });
+
   const onChangheEmail = (e) => {
+    setErrors({ ...errors, email: '' });
     setState({
       ...form,
       email: e.target.value,
@@ -50,21 +66,13 @@ export default function Forgot() {
 
   const sendEmail = async (e) => {
     e.preventDefault();
-    try {
-      if (form.email === '') {
-        setState({
-          ...form,
-          showError: false,
-          messageFromServer: '',
-          showNullError: false,
-        });
-      } else {
-        await axios.post('/forgotPass', { email: form.email });
-        history.push('/');
-      }
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
+    const validateErrors = validateUser();
+
+    if (validateErrors) {
+      setErrors(validateErrors);
+    } else {
+      await dispatch(inviteUsers({ email: form.email }));
+      history.push('/');
     }
   };
 
@@ -92,6 +100,8 @@ export default function Forgot() {
             autoComplete="email"
             autoFocus
             onChange={onChangheEmail}
+            error={Boolean(errors.email)}
+            helperText={errors.email}
           />
           <Button
             type="submit"

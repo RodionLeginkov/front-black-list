@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexDirection: 'column',
     borderRight: '1px solid rgba(0, 0, 0, 0.12)',
-    paddingRight: '20px'
+    paddingRight: '20px',
   },
   rightCol: {
     display: 'flex',
@@ -209,7 +209,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
 
   const handleClickInvite = () => {
-    dispatch(inviteUsers(userId));
+    dispatch(inviteUsers({ email: user.email }));
   };
 
   const handleCloseTaskTable = () => {
@@ -217,6 +217,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
   const user = useSelector((state) => state.users.currentUser);
   const users = useSelector((state) => getFilteredUsers(state));
+  // console.log(user.email);
 
 
   let userCurrentTask;
@@ -239,8 +240,8 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   }, [dispatch, userId, user]);
 
   useEffect(() => {
-      dispatch(getUser(userId, ''));
-      // dispatch(getUsers('', '', '', true, '', ''));
+    dispatch(getUser(userId, ''));
+    // dispatch(getUsers('', '', '', true, '', ''));
   }, []);
 
   // //////////////////////////////////////////////////////////////////////////
@@ -408,7 +409,13 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                     </div>
                     <div className={classes.field}>
                       <span className={classes.fieldTitle}>Current Task: </span>
-                      <div className="raw" style={{ display: 'flex', alignItems: 'center', marginLeft: '5px', textDecoration: 'underline' }} onBlur={handleOnBlur}>
+                      <div
+                        className="raw"
+                        style={{
+                          display: 'flex', alignItems: 'center', marginLeft: '5px', textDecoration: 'underline',
+                        }}
+                        onBlur={handleOnBlur}
+                      >
                         { curTask ? (
                           <Typography variant="inherit">
                             {userCurrentTask === undefined || userCurrentTask.split('\n').map((i, key) => <div key={key}>{i}</div>)}
@@ -489,11 +496,11 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             </TabPanel>
           </div>
           <TabPanel style={{ width: '100%' }} value={value} index={1}>
-          <TasksTable
-            user={user}
-            userName={user.fullName}
-            tasks={user.UsersTasks}
-          />
+            <TasksTable
+              user={user}
+              userName={user.fullName}
+              tasks={user.UsersTasks}
+            />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={2}>
 

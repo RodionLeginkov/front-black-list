@@ -211,7 +211,7 @@ const EditUserPage = ({ match }) => {
               <div className={classes.header}>
                 <h2>Add user</h2>
                 <Tooltip title='close'>
-                  <Button>
+                  <Button onClick={() => history.push('/users')}>
                     <CloseSharpIcon style={{ color: '#a3a3a3' }} />
                   </Button>
                 </Tooltip>

@@ -16,9 +16,11 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import moment from 'moment';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import PersonsList from '../../components/PersonsList/PersonsList.jsx';
@@ -34,7 +36,7 @@ const useStyles = makeStyles(() => ({
     marginTop: '30px',
   },
   content: {
-    margin: '0px 20px',
+    margin: '0px 10px',
     display: 'flex',
   },
   header: {
@@ -54,7 +56,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   descriptionText: {
-    fontSize: '18px',
+    fontSize: '16px',
     paddingLeft: '5px',
   },
   description: {
@@ -70,7 +72,7 @@ const useStyles = makeStyles(() => ({
     color: '#777777',
   },
   headerText: {
-    fontSize: '22px',
+    fontSize: '18px',
   },
 }));
 
@@ -118,7 +120,22 @@ const CurrentProject = ({ match }) => {
   };
   const dispatch = useDispatch();
   const project = useSelector((state) => state.projects.currentProject);
+
+  const start = project && project.workStart ? moment(project.workStart) : '';
+  const end = project && project.workEnd ? moment(project.workEnd) : '';
+
+  const curDate = moment.utc(new Date()).format();
+  const customerTime = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH:mm')) : '';
+  const currentHour = project && project.timezone ? (moment.tz(`${curDate}`, `${project.timezone.split(')')[1]}`).format('HH')) : '';
+  const utc = moment.utc().format('HH');
+  const moscow = moment.tz('Europe/Moscow').format('HH');
+  const countTime = (cur, other) => {
+    const result = cur - other;
+    if (result > 0) return (`+${result}`);
+    return result;
+  };
   useEffect(() => {
+    dispatch(getUsers('', '', '', '', '', 'Active'));
     if (!project || !project.ProjectMilestones || project.uuid !== projectId || !project.Person) {
       dispatch(getProject(projectId));
     }
@@ -127,7 +144,7 @@ const CurrentProject = ({ match }) => {
   if (!project || !project.ProjectMilestones) {
     return (<Loading />);
   }
-  console.log(project);
+
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
@@ -139,15 +156,48 @@ const CurrentProject = ({ match }) => {
           className={clsx(classes.content, classes.header)}
         >
           <h1>{project.name}</h1>
-          <div style={{ marginRight: '10px' }}>
-            <CustomBadge text={project.status} icon={<FiberManualRecordSharpIcon />} status={project.status} size="large" />
-          </div>
         </div>
         <Divider />
         <div className={classes.Descriptions}>
           <h2 className={classes.headerText}>Description: </h2>
           <div className={classes.descriptionText}>
             {project.description}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Communication type: </h2>
+          <div className={classes.descriptionText}>
+            {project.communicationType}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Communication Intensity: </h2>
+          <div className={classes.descriptionText}>
+            {project.communicationIntensity}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Location: </h2>
+          <div className={classes.descriptionText}>
+            {project.location}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Working hours: </h2>
+          <div className={classes.descriptionText}>
+            {start && end ? (
+              ` ${start.format('HH:mm')} - ${end.format('HH:mm')}`
+            ) : '―'}
+
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Customer time: </h2>
+          <div className={classes.descriptionText}>
+            {customerTime ? (
+              `${customerTime} (UTC ${countTime(currentHour, utc)} / MSC ${countTime(currentHour, moscow)})`
+            ) : '―'}
+
           </div>
         </div>
         <div className={classes.stackAndEnglish}>

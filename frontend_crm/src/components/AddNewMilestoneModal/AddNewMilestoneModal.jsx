@@ -22,7 +22,7 @@ import {
 } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -76,13 +76,21 @@ export default function AddNewMilestoneModal(props) {
     forRead,
     addUserModalOpen,
     setAddUserModalOpen,
+    projectMilestones,
     curProject,
     isEdit,
     initialMilestone,
     setArchive,
     archive,
+    allProjects,
+    milestonesChange,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
   const classes = useStyles();
+
+
   const dispatch = useDispatch();
   const initialValue = initialMilestone || {
     user_uuid: '',
@@ -138,6 +146,11 @@ export default function AddNewMilestoneModal(props) {
   const handlePersonChange = (e, values) => {
     setProject({ ...project, person_uuid: values ? values.uuid : null });
   };
+
+  const HandleRateTyoeChange = (e, values) => {
+    setProject({ ...project, rate_type: values ? values.value : null });
+  };
+
   const validateMilestone = () => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.user_uuid)) fieldsErrors.user_uuid = 'Developer is required field.';
@@ -147,6 +160,7 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
+
   const validateDeathRattle = () => {
     const end = new Date(project.end_date);
     const fieldsErrors = {};
@@ -155,32 +169,48 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
+
   const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateMilestone();
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
-
       try {
         if (isEdit) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-      } else if (initialMilestone && curProject.uuid) {
-          await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-          dispatch(getProject(curProject.uuid));
-          // await axios.get(`/person/${person.uuid}`, person);
-      } else {
-          await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-          dispatch(getProject(curProject.uuid));
+        } else if (initialMilestone && curProject.uuid) {
+          if (projectId) {
+            await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            await dispatch(getProject(curProject.uuid));
+          } else {
+            // milestoneEdit(initialMilestone, project);
+            if (newProjectId) {
+              await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
+              await dispatch(getProject(curProject.uuid));
+            }
+          }
+        } else {
+          milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
+          if (newProjectId) await dispatch(getProject(newProjectId));
+          if (curProject.uuid) {
+            await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            if (projectId) await dispatch(getProject(curProject.uuid));
+            else if (newProjectId) await dispatch(getProject(newProjectId));
+          }
         }
         setProject(initialValue);
         setIsError(false);
         // setArchive(false);
         setAddUserModalOpen(false);
-        dispatch(getProject(curProject.uuid));
+        // await dispatch(getProject(curProject.uuid));
+        if (allProjects) {
+          dispatch(getProjects());
+        }
       } catch {}
     }
   };
+
 
   const handleArchive = (e) => {
     e.preventDefault();
@@ -206,6 +236,9 @@ export default function AddNewMilestoneModal(props) {
   if (curProject.Person !== undefined) {
     curPerson = curProject.Person.find((item) => item.uuid === project.person_uuid);
   } else curPerson = '';
+
+  const curRateType = project.rate_type ? paymentTypes.find((item) => item.value === project.rate_type) : '';
+
   if (archive) {
     return (
       <div className={classes.position}>
@@ -375,7 +408,16 @@ export default function AddNewMilestoneModal(props) {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
-                  <FormControl
+                  <Autocomplete
+                    id="combo-box-demo"
+                    options={paymentTypes}
+                    getOptionLabel={(option) => option.label}
+                    style={{ paddingTop: '5px' }}
+                    renderInput={(params) => <TextField {...params} label="Rate Type" variant="outlined" />}
+                    value={curRateType || null}
+                    onChange={HandleRateTyoeChange}
+                  />
+                  {/* <FormControl
                     placeholder='Rate type'
                     variant="outlined"
                     className={clsx(classes.formControl, classes.inputForm)}
@@ -396,7 +438,7 @@ export default function AddNewMilestoneModal(props) {
                         </MenuItem>
                       ))}
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
                 </Grid>
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField

@@ -72,6 +72,8 @@ const AddPersonModal = (props) => {
     personChange,
     projectId,
     personAdd,
+    isEdit,
+    newProjectId,
   } = props;
 
   const dispatch = useDispatch();
@@ -133,7 +135,7 @@ const AddPersonModal = (props) => {
     e.preventDefault();
     const validateErrors = validateProject();
     if (validateErrors) setErrors(validateErrors);
-    else if (projectId) {
+    else if ((projectId && isEdit) || (projectId && newProjectId)) {
       try {
         const response = await axios.post('/person', { ...person, project_uuid: projectId });
         setPerson({
@@ -168,7 +170,7 @@ const AddPersonModal = (props) => {
     e.preventDefault();
     const validateErrors = validateProject();
     if (validateErrors) setErrors(validateErrors);
-    else if (projectId) {
+    else if ((isEdit && projectId) || (projectId && newProjectId)) {
       try {
         await axios.put(`/person/${person.uuid}`, person);
         dispatch(getProject(projectId));

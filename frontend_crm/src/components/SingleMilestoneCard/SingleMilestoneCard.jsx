@@ -106,8 +106,11 @@ const SingleMilestoneCard = (props) => {
     projectMilestones,
     setProjectMilestones,
     archived,
+    projectId,
+    milestoneEdit,
+    newProjectId,
   } = props;
-  const [addUserModalOpen, setAddUserModalOpen] = useState(false);
+
   const user = milestone.Users;
   const start = new Date(milestone.start_date);
   const end = new Date(milestone.end_date);
@@ -122,6 +125,7 @@ const SingleMilestoneCard = (props) => {
   } else {
     paymentType = '–';
   }
+
 
   const [openModal, setOpenModal] = useState(false);
   const lightingMilestone = clsx(classes.root, {
@@ -142,7 +146,10 @@ const SingleMilestoneCard = (props) => {
       lg={4}
     >
       <Card className={lightingMilestone} onClick={handleClick}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: '50px',
+        }}
+        >
           <div style={{ marginLeft: '7px' }}>
             <Typography>
               <b>
@@ -168,6 +175,9 @@ const SingleMilestoneCard = (props) => {
               milestones={projectMilestones}
               singleMilestone={milestone}
               setProjectMilestones={setProjectMilestones}
+              projectId={projectId}
+              newProjectId={newProjectId}
+              milestoneEdit={milestoneEdit}
             />
           ) : ''}
         </div>
@@ -186,6 +196,7 @@ const SingleMilestoneCard = (props) => {
           <Typography>
             {startDate}
           </Typography>
+
           <Typography>
             {endDate}
           </Typography>

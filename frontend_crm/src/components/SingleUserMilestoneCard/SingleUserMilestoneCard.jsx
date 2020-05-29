@@ -104,7 +104,6 @@ const SingleUserMilestoneCard = (props) => {
   const {
     milestone,
     user,
-    showInfo,
     archived,
   } = props;
 
@@ -145,7 +144,7 @@ const SingleUserMilestoneCard = (props) => {
     >
       <Card className={lightingMilestone} onClick={handleClick}>
         <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: ' 5px 0px',
         }}
         >
           <div style={{ marginLeft: '7px' }}>

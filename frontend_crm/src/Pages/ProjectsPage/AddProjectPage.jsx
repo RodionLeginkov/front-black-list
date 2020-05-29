@@ -22,6 +22,7 @@ import Tab from '@material-ui/core/Tab';
 import {
   getProject, getProjects, updateProject,
 } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import './ProjectStyles.css';
 import Box from '@material-ui/core/Box';
@@ -191,6 +192,9 @@ const AddProjectPage = (props) => {
     if (projectId && (!curProject || !curProject.Persons)) {
       dispatch(getProjects());
       dispatch(getProject(projectId));
+    }
+    if (!projectId) {
+      dispatch(getUsers('', '', '', '', '', 'Active'));
     }
 
     // eslint-disable-next-line

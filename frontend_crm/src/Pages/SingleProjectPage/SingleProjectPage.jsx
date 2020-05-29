@@ -20,6 +20,7 @@ import moment from 'moment';
 import CustomBadge from '../../components/CustomBadge/CustomBadge.jsx';
 import Loading from '../../components/Loading/index.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getUsers } from '../../Redux/Actions/UsersActions/UserActions';
 import DeleteModal from '../../components/DeleteModal/DeleteModal.jsx';
 import AddMilestonesForm from '../../components/AddMilestonesForm/AddMilestonesForm.jsx';
 import PersonsList from '../../components/PersonsList/PersonsList.jsx';
@@ -134,6 +135,7 @@ const CurrentProject = ({ match }) => {
     return result;
   };
   useEffect(() => {
+    dispatch(getUsers('', '', '', '', '', 'Active'));
     if (!project || !project.ProjectMilestones || project.uuid !== projectId || !project.Person) {
       dispatch(getProject(projectId));
     }

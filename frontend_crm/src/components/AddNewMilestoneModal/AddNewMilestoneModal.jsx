@@ -181,8 +181,8 @@ export default function AddNewMilestoneModal(props) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         } else if (initialMilestone && curProject.uuid) {
           if (projectId) {
-            dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-            dispatch(getProject(curProject.uuid));
+            await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            await dispatch(getProject(curProject.uuid));
           } else {
             // milestoneEdit(initialMilestone, project);
             if (newProjectId) {
@@ -194,8 +194,8 @@ export default function AddNewMilestoneModal(props) {
           milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
           if (newProjectId) dispatch(getProject(newProjectId));
           if (curProject.uuid) {
-            dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-            if (projectId) dispatch(getProject(curProject.uuid));
+            await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            if (projectId) await dispatch(getProject(curProject.uuid));
           }
         }
         setProject(initialValue);
@@ -204,7 +204,7 @@ export default function AddNewMilestoneModal(props) {
         setAddUserModalOpen(false);
         // await dispatch(getProject(curProject.uuid));
         if (allProjects) {
-          dispatch(getProjects());
+          await dispatch(getProjects());
         }
       } catch {}
     }

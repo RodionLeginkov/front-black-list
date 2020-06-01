@@ -118,7 +118,6 @@ export default function ResetPassword(props) {
   };
 
   const onChanghePassword = (e) => {
-    console.log(e.target.name);
     setErrors({ ...errors, [e.target.name]: '' });
     setState({
       ...form,

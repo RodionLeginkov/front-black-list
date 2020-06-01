@@ -11,7 +11,6 @@ async function signin(url, data) {
 }
 
 async function invite(url, data) {
-  console.log('data', data);
   const response = await axios.post(url, data);
   return response;
 }

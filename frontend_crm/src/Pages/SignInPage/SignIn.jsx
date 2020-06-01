@@ -69,7 +69,6 @@ export default function SignUp() {
     else if (!validator.isEmail(form.email)) fieldsErrors.email = 'Invalid email.';
     if (validator.isEmpty(form.password)) fieldsErrors.password = 'Password is required field.';
     else if (form.password.length < 6) fieldsErrors.password = 'Invalid password.';
-    console.log('fieldsErrors', fieldsErrors);
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 

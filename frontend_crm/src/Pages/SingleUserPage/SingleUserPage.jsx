@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import KeyboardArrowRightSharpIcon from '@material-ui/icons/KeyboardArrowRightSharp';
 import KeyboardArrowDownSharpIcon from '@material-ui/icons/KeyboardArrowDownSharp';
 import axios from 'axios';
+import IconButton from '@material-ui/core/IconButton';
 import { userRoles } from '../../constants/constants';
 import getFilteredUsers from '../../Redux/Selectors/UserSelectors';
 // import CircularProgress from '@material-ui/core/CircularProgress';
@@ -294,7 +295,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   if (!user) {
     return (<Loading />);
   }
-  const imgUrl = user.userImage || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
+  const imgUrl = user.avatar || 'https://themicon.co/theme/centric/v2.0/static-html5/src/images/04.jpg';
   const devRole = userRoles.find((item) => item.value === user.role).label;
 
 

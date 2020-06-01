@@ -33,7 +33,6 @@ export const signIn = (user) => async (dispatch) => {
 
 export const inviteUsers = (email) => async (dispatch) => {
   try {
-    console.log('email', email);
     dispatch({ type: INVITE_LOADING });
     const { data } = await inviteUser(email);
     dispatch({ type: INVITE_SUCCESS, payload: data });

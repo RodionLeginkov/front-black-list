@@ -16,11 +16,14 @@ import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import validator from 'validator';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from 'axios';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -94,6 +97,7 @@ const EditUserPage = ({ match }) => {
   const curUser = useSelector((state) => state.users.currentUser);
   const loading = useSelector((state) => state.users.loadingCurrentUser);
   const projects = useSelector((state) => state.projects.projects);
+  const [image, setImage] = useState();
   const [userPostMortemOpen, setUserPostMortemOpen] = useState(false);
   const [errors, setErrors] = useState({
     firstName: '',
@@ -166,6 +170,15 @@ const EditUserPage = ({ match }) => {
     return (<Loading />);
   }
 
+  const changeImage = (e) => {
+    const fd = new FormData();
+    fd.append('avatar', e.target.files[0]);
+    setImage(...fd);
+
+
+    //   await axios.put(`${process.env.REACT_APP_DILLALI_BASE_API}v1/user/avatar/${user.uuid}`,fd)
+  };
+
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: '' });
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -191,13 +204,19 @@ const EditUserPage = ({ match }) => {
 
   const endDateChange = (firedAt) => { setUser({ ...user, firedAt }); };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const validateErrors = validateClient();
+
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
+      if (image) {
+        const newImage = new FormData();
+        newImage.append(image[0], image[1]);
+        await axios.put(`/user/avatar/${user.uuid}`, newImage);
+      }
       if (user.email === '') {
         delete user.email;
       }
@@ -427,6 +446,17 @@ const EditUserPage = ({ match }) => {
                     />
                   </Grid>
                 </MuiPickersUtilsProvider>
+                <Grid item xs={12} sm={12} lg={12}>
+                  <div className={classes.root}>
+
+                    <input accept="image/*" className={classes.input} id="icon-button-file" type="file" onChange={changeImage} />
+                    <label htmlFor="icon-button-file">
+                      <IconButton color="primary" aria-label="upload picture" component="span">
+                        <PhotoCamera />
+                      </IconButton>
+                    </label>
+                  </div>
+                </Grid>
                 {/* <Grid item xs={12}>
                   {user.uuid && (
                   <AddTaskHistory

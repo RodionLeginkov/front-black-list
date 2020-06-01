@@ -123,7 +123,6 @@ const UserCard = ({ user }) => {
     history.push(`/user/${user.uuid}`);
   };
 
-
   const changeIsShowingModal = () => {
     setIsShowingModal(!isShowingModal);
   };
@@ -166,7 +165,7 @@ const UserCard = ({ user }) => {
           <div className={classes.row}>
             <div
               className={classes.avatar}
-              style={{ background: `url(${user.userImage || defaultIcon}) no-repeat` }}
+              style={{ background: `url(${user.avatar || defaultIcon}) no-repeat` }}
             />
           </div>
           <div className={classes.row}>

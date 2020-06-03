@@ -103,7 +103,7 @@ function App() {
                 <Route path="/signup" component={SignUp} />
                 <Route path="/Forgot" component={Forgot} />
                 {/* <Route exact path="/Reset/:token" component={ResetPassword} /> */}
-                <Route path="/Reset/:token" component={NewReserPasswordPage} />
+                <Route path="/reset/:token" component={NewReserPasswordPage} />
               </Switch>
             </main>
           </div>

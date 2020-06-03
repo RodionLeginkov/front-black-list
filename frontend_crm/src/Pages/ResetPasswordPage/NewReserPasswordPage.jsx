@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import validator from 'validator';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,6 +48,24 @@ export default function ResetPassword(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState({
+    password: '',
+    confirmPassword: '',
+  });
+
+  const validateUser = () => {
+    const fieldsErrors = {};
+    if (validator.isEmpty(form.password)) fieldsErrors.password = 'Password is required field.';
+    else if (form.password.length <= 6) fieldsErrors.password = 'Invalid password.';
+    if (validator.isEmpty(form.confirmPassword)) fieldsErrors.confirmPassword = 'Password is required field.';
+    else if (form.confirmPassword.length <= 6) fieldsErrors.confirmPassword = 'Invalid password.';
+    if (form.confirmPassword !== form.password) {
+      fieldsErrors.confirmPassword = 'Password and password confirmation do not match.';
+      fieldsErrors.password = 'Password and password confirmation do not match.';
+    }
+    return Object.keys(fieldsErrors).length ? fieldsErrors : false;
+  };
+
   const [form, setState] = useState({
     login: '',
     password: '',
@@ -71,38 +90,35 @@ export default function ResetPassword(props) {
 
   const updatePassword = async (e) => {
     e.preventDefault();
-    if (form.password.length > 6 && (form.password === form.confirmPassword)) {
-      try {
-        const response = await axios.put('/users/updatePassword', {
-          password: form.password,
-          token: tokenId,
-        });
-        localStorage.setItem('token', response.data.token.accessToken);
-        history.push('/');
-        if (response.data.message === 'password updated') {
-          setState({
-            ...form,
-            updated: true,
-            error: false,
-
-          });
-        } else {
-          setState({
-            ...form,
-            updated: false,
-            error: true,
-          });
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-alert
-        alert('Something is going wrong');
-      }
+    const validateErrors = validateUser();
+    if (validateErrors) {
+      setErrors(validateErrors);
     } else {
-      setOpen(true);
+      const response = await axios.put('/v1/reset/', {
+        password: form.password,
+        token: tokenId,
+      });
+      localStorage.setItem('token', response.data.token.accessToken);
+      history.push('/');
+      if (response.data.message === 'password updated') {
+        setState({
+          ...form,
+          updated: true,
+          error: false,
+
+        });
+      } else {
+        setState({
+          ...form,
+          updated: false,
+          error: true,
+        });
+      }
     }
   };
 
   const onChanghePassword = (e) => {
+    setErrors({ ...errors, [e.target.name]: '' });
     setState({
       ...form,
       [e.target.name]: e.target.value,
@@ -132,6 +148,8 @@ export default function ResetPassword(props) {
                   value={form.password}
                   onChange={onChanghePassword}
                   onClick={handleClick}
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -147,10 +165,12 @@ export default function ResetPassword(props) {
                   value={form.confirmPassword}
                   onChange={onChanghePassword}
                   onClick={handleClick}
+                  error={Boolean(errors.confirmPassword)}
+                  helperText={errors.confirmPassword}
                 />
               </Grid>
             </Grid>
-            <Popover
+            {/* <Popover
               id="open"
               open={open}
               anchorEl={anchorEl}
@@ -169,7 +189,7 @@ export default function ResetPassword(props) {
               >
                 Password must be more than 6 characters.
               </Typography>
-            </Popover>
+            </Popover> */}
             <div className={classes.footer}>
               <div style={{ marginTop: 20 }}>
                 <Typography>

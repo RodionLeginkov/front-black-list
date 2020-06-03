@@ -31,10 +31,10 @@ export const signIn = (user) => async (dispatch) => {
   }
 };
 
-export const inviteUsers = (id) => async (dispatch) => {
+export const inviteUsers = (email) => async (dispatch) => {
   try {
     dispatch({ type: INVITE_LOADING });
-    const { data } = await inviteUser(id);
+    const { data } = await inviteUser(email);
     dispatch({ type: INVITE_SUCCESS, payload: data });
     NotificationManager.success('The message was sent');
   } catch (error) {

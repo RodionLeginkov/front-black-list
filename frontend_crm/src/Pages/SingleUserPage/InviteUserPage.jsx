@@ -14,6 +14,7 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import validator from 'validator';
 import DateFnsUtils from '@date-io/date-fns';
+
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -150,6 +151,7 @@ const EditUserPage = ({ match }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const validateErrors = validateClient();
+
     if (validateErrors) {
       setErrors(validateErrors);
     } else {
@@ -308,28 +310,31 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
+
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item xs={12} sm={12} lg={12}>
+                    <KeyboardDatePicker
+                      error={!user.hiredAt && isError}
+                      helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
+                      style={{ width: '100%' }}
+                      inputVariant="outlined"
+                      disableToolbar
+                      variant="inline"
+                      autoOk
+                      format="dd/MM/yyyy"
+                      margin="normal"
+                      label="Date of joining"
+                      value={user.hiredAt}
+                      onChange={startDateChange}
+                      KeyboardButtonProps={{
+                        'aria-label': 'change date',
+                      }}
+                    />
+                  </Grid>
+                </MuiPickersUtilsProvider>
+
               </Grid>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid item xs={12} sm={6}>
-                  <KeyboardDatePicker
-                    error={!user.hiredAt && isError}
-                    helperText={(!user.hiredAt && isError) ? 'Empty field.' : ''}
-                    style={{ width: '100%' }}
-                    inputVariant="outlined"
-                    disableToolbar
-                    variant="inline"
-                    autoOk
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    label="Date of joining"
-                    value={user.hiredAt}
-                    onChange={startDateChange}
-                    KeyboardButtonProps={{
-                      'aria-label': 'change date',
-                    }}
-                  />
-                </Grid>
-              </MuiPickersUtilsProvider>
               <div className={classes.button}>
                 <Button
                   variant="contained"

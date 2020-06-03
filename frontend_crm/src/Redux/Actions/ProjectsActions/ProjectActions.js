@@ -70,6 +70,7 @@ export const deleteProject = (id) => async (dispatch) => {
 export const updateProject = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
+    console.log('data', project);
     const { data } = await patchProject(project, loginToken);
     NotificationManager.success('The project was updated');
     dispatch({ type: EDIT_PROJECT, payload: data });

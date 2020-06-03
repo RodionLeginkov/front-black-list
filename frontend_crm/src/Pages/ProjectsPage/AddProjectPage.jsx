@@ -155,8 +155,8 @@ const AddProjectPage = (props) => {
     customer: '',
     communicationType: null,
     communicationIntensity: '',
-    workStart: null,
-    workEnd: null,
+    workStart: new Date('2020-06-03 05:00:32.945000 +00:00'),
+    workEnd: new Date('2020-06-03 15:00:32.952000 +00:00'),
     timezone: '',
     description: '',
     history: '',
@@ -267,7 +267,8 @@ const AddProjectPage = (props) => {
       //     dispatch(addMilestone(projectMilestones[index]));
       //   }
       // }
-      dispatch(updateProject(project));
+
+      dispatch(updateProject({ ...project, workStart: project.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), workEnd: project.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') }));
       dispatch(getProject(project.uuid));
       history.push(`/customers/${project.uuid}`);
     } else {
@@ -452,7 +453,7 @@ const AddProjectPage = (props) => {
                       label="From"
                       inputVariant="outlined"
                       className={classes.inputForm}
-                      value={project.workStart}
+                      value={project.workStart ? project.workStart : new Date('2020-06-03 05:00:32.945000 +00:00')}
                       onChange={handleWorkStartTimeChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change time',
@@ -467,7 +468,7 @@ const AddProjectPage = (props) => {
                       label="Till"
                       inputVariant="outlined"
                       className={classes.inputForm}
-                      value={project.workEnd}
+                      value={project.workEnd ? project.workEnd : new Date('2020-06-03 15:00:32.952000 +00:00')}
                       onChange={handleWorkEndTimeChange}
                       KeyboardButtonProps={{
                         'aria-label': 'change time',

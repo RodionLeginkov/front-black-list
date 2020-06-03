@@ -387,7 +387,7 @@ const EditUserPage = ({ match }) => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     style={{ width: '100%' }}
                     value={user.project_ready || ''}
@@ -404,16 +404,7 @@ const EditUserPage = ({ match }) => {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    style={{ width: '100%' }}
-                    value={user.current_occupation || ''}
-                    variant="outlined"
-                    label="Current Occupation"
-                    name='current_occupation'
-                    onChange={handleChange}
-                  />
-                </Grid>
+
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item xs={12} sm={6}>
                     <KeyboardDatePicker

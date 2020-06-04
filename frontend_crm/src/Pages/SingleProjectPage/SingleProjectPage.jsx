@@ -165,6 +165,12 @@ const CurrentProject = ({ match }) => {
           </div>
         </div>
         <div className={classes.Descriptions}>
+          <h2 className={classes.headerText}>Customer: </h2>
+          <div className={classes.descriptionText}>
+            {project.customer}
+          </div>
+        </div>
+        <div className={classes.Descriptions}>
           <h2 className={classes.headerText}>Communication type: </h2>
           <div className={classes.descriptionText}>
             {project.communicationType}

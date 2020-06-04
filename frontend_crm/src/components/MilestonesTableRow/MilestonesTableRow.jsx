@@ -75,7 +75,7 @@ const MilestonesTableRow = (props) => {
                               <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
                                 {`${item.user} - ${item.role}`}
                               </Typography>
-                              <Divider />
+                              {/* <Divider /> */}
                             </div>
                           ))}
                       </StyledTableCell>

@@ -508,7 +508,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={3}>
-            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} userHistory />
           </TabPanel>
           <div className={classes.rightCol}>
             <Tabs

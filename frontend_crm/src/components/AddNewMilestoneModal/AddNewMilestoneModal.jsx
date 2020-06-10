@@ -88,6 +88,7 @@ export default function AddNewMilestoneModal(props) {
     projectId,
     milestoneEdit,
     newProjectId,
+    projectView,
   } = props;
   const classes = useStyles();
 
@@ -170,7 +171,6 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
-
   const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateMilestone();
@@ -202,6 +202,10 @@ export default function AddNewMilestoneModal(props) {
             if (projectId) await dispatch(getProject(curProject.uuid));
             else if (newProjectId) await dispatch(getProject(newProjectId));
           }
+        }
+        if (projectView) {
+          await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
+          await dispatch(getProject(curProject.uuid));
         }
         setProject(initialValue);
         setIsError(false);

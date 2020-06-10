@@ -26,7 +26,7 @@ export const milestonesTableCells = [
 
 export const userTableCells = [
   { label: 'Name', value: 'Name' },
-  { label: 'Current Task', value: 'current_task' },
+  { label: 'Comment', value: 'current_task' },
   { label: 'Current project', value: '' },
   { label: 'Role in the project', value: '' },
   { label: 'Current rate', value: '' },

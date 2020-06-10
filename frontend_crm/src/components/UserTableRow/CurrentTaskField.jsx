@@ -76,7 +76,7 @@ function CurrentTaskField(props) {
               onChange={handleTaskChange}
               value={newTask.text || ''}
               variant="outlined"
-              label="New task"
+              label="New comment"
               multiline
               rowsMax="5"
               name='text'

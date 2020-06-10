@@ -152,10 +152,20 @@ const CurrentProject = ({ match }) => {
         <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
       </Breadcrumbs>
       <Paper className={classes.root}>
-        <div
-          className={clsx(classes.content, classes.header)}
-        >
-          <h1>{project.name}</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            className={clsx(classes.content, classes.header)}
+          >
+            <h1>{project.name}</h1>
+          </div>
+          <div>
+            <Button
+              className={classes.button}
+              onClick={() => history.push(`/customer/${project.uuid}`)}
+            >
+              <EditSharpIcon />
+            </Button>
+          </div>
         </div>
         <Divider />
         <div className={classes.Descriptions}>
@@ -257,12 +267,6 @@ const CurrentProject = ({ match }) => {
         <div className={classes.footerIcons}>
           <Button className={classes.button} onClick={handleClick}>
             <ArrowBackIosIcon />
-          </Button>
-          <Button
-            className={classes.button}
-            onClick={() => history.push(`/customer/${project.uuid}`)}
-          >
-            <EditSharpIcon />
           </Button>
           <Tooltip title={project.ProjectMilestones.length === 0 ? 'Delete project' : 'This project contains resources, it can`t be deleted'}>
             <span>

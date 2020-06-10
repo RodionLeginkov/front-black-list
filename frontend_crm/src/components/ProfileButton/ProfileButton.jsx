@@ -23,7 +23,7 @@ export default function FadeMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const authUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : ' ';
-  console.log(authUser);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

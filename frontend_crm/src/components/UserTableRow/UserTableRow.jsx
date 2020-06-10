@@ -133,7 +133,7 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false}
-      {visibeCells.includes('Current Task')
+      {visibeCells.includes('Comment')
         ? (
           <StyledTableCell align="left">
             <CurrentTaskField

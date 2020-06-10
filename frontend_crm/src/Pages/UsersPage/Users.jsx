@@ -59,7 +59,7 @@ function Users() {
   const [active, setActive] = useState('Active');
   const [visibeCells, setVisibeCells] = useState([
     'Name',
-    'Current Task',
+    'Comment',
     'Current project',
     'Role in the project',
     'Current rate',

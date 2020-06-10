@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
+import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
@@ -21,7 +22,8 @@ export default function FadeMenu() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-
+  const authUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : ' ';
+  console.log(authUser);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -37,6 +39,7 @@ export default function FadeMenu() {
 
   return (
     <>
+      <div>{authUser.fullName}</div>
       <Button className={classes.button} aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
         <AccountCircleIcon className={classes.completed} />
       </Button>

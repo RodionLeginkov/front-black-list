@@ -518,6 +518,7 @@ const AddProjectPage = (props) => {
                       projectId={project.uuid}
                       newProjectId={newProjectId}
                       isEdit={projectId}
+                      curProject={project}
                     />
                     <Button
                       style={{ marginBotton: 5 }}
@@ -565,6 +566,7 @@ const AddProjectPage = (props) => {
         </Paper>
       </div>
       <AddPersonModal
+        curProject={project}
         setPersonModalOpen={setPersonModalOpen}
         personModalOpen={personModalOpen}
         projectId={project.uuid}

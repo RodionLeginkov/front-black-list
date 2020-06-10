@@ -201,7 +201,7 @@ const UserTableRow = (props) => {
         )
         : false }
       {visibeCells.includes('Total Load')
-        ? <StyledTableCell align="center">{user.total_load}</StyledTableCell>
+        ? <StyledTableCell align="center">{user.total_load || 0}</StyledTableCell>
         : false }
       {visibeCells.includes('Role')
         ? (

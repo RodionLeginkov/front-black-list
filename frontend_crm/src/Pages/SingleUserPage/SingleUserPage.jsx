@@ -409,7 +409,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
                       </div>
                     </div>
                     <div className={classes.field}>
-                      <span className={classes.fieldTitle}>Current Task: </span>
+                      <span className={classes.fieldTitle}>Comment: </span>
                       <div
                         className="raw"
                         style={{
@@ -508,7 +508,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
             <UserMilestoneList user={user} milestones={user.UserMilestones} showInfo subtract={subtract} setSubtract={setSubtract} />
           </TabPanel>
           <TabPanel style={{ width: '100%' }} value={value} index={3}>
-            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} />
+            <UserMilestoneList user={user} milestones={user.UserMilestones} userId={userId} showInfo archived subtract={subtract} setSubtract={setSubtract} userHistory />
           </TabPanel>
           <div className={classes.rightCol}>
             <Tabs
@@ -522,7 +522,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
               className={classes.tabs}
             >
               <Tab label="Information" {...a11yProps(0)} />
-              <Tab label="Tasks history" {...a11yProps(1)} />
+              <Tab label="Comments" {...a11yProps(1)} />
               <Tab label="Projects" {...a11yProps(2)} />
               <Tab label="History" {...a11yProps(3)} />
             </Tabs>

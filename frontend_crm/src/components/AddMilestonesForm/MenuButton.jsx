@@ -9,6 +9,8 @@ import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import UnarchiveSharpIcon from '@material-ui/icons/UnarchiveSharp';
 import Tooltip from '@material-ui/core/Tooltip';
+import axios from 'axios';
+import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import AddNewDeathRattleModal from '../AddNewDeathRattleModal/AddNewDeathRattleModal.jsx';
@@ -25,7 +27,9 @@ export default function MenuButton(props) {
     projectId,
     milestoneEdit,
     newProjectId,
+    projectView,
   } = props;
+
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -54,10 +58,15 @@ export default function MenuButton(props) {
   };
   const handleDelete = () => {
     // eslint-disable-next-line max-len
-    const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
-    setProject({ ...project, ProjectMilestones: filteredMilestones });
-    setProjectMilestones(filteredMilestones);
-    dispatch(deleteMilestone(singleMilestone.uuid));
+    if (projectView) {
+      dispatch(deleteMilestone(singleMilestone.uuid));
+      dispatch(getProject(project.uuid));
+    } else {
+      const filteredMilestones = milestones.filter((element) => element.uuid !== singleMilestone.uuid);
+      setProject({ ...project, ProjectMilestones: filteredMilestones });
+      setProjectMilestones(filteredMilestones);
+      dispatch(deleteMilestone(singleMilestone.uuid));
+    }
     // dispatch(getProject(project.uuid));
   };
   return (
@@ -131,6 +140,22 @@ export default function MenuButton(props) {
         milestoneEdit={milestoneEdit}
         // milestonesChange={milestonesChange}
       />
+      {projectView ? (
+        <AddNewMilestoneModal
+          projectMilestones={project.projectMilestones}
+          addUserModalOpen={addUserModalOpen}
+          setAddUserModalOpen={setAddUserModalOpen}
+          curProject={project}
+          initialMilestone={singleMilestone}
+          isExpired={isExpired}
+          archive={archive}
+          setArchive={setArchive}
+          projectId={projectId}
+          newProjectId={newProjectId}
+          milestoneEdit={milestoneEdit}
+          projectView
+        />
+      ) : ''}
       <AddNewDeathRattleModal
         projectMilestones={project.projectMilestones}
         curProject={project}

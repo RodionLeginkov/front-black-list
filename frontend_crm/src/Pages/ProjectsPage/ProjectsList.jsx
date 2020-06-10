@@ -84,14 +84,14 @@ export default function ProjectsList(props) {
         <TableHead color='primary'>
           <TableRow>
             <StyledTableCell>Project Name</StyledTableCell>
-            <StyledTableCell align="right">Customer</StyledTableCell>
-            <StyledTableCell align="right">Description</StyledTableCell>
-            <StyledTableCell align="right">Communication type</StyledTableCell>
-            <StyledTableCell align="right">Communication Intensity</StyledTableCell>
-            <StyledTableCell align="right">Location</StyledTableCell>
-            <StyledTableCell align="right">Customer time:</StyledTableCell>
-            <StyledTableCell align="right">Wokring hours:</StyledTableCell>
-            <StyledTableCell align="right">Start Date</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Customer</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap', minWidth: '200px' }}>Description</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Communication type</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Communication Intensity</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Location</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Customer time:</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Wokring hours:</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Start Date</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -101,17 +101,17 @@ export default function ProjectsList(props) {
               key={project.name}
               onClick={() => handleClick(project.id)}
             >
-              <StyledTableCell component="th" scope="row">
+              <StyledTableCell component="th" scope="row" style={{ whiteSpace: 'noWrap' }}>
                 {project.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{project.customer}</StyledTableCell>
-              <StyledTableCell align="right">{project.description}</StyledTableCell>
-              <StyledTableCell align="right">{project.type}</StyledTableCell>
-              <StyledTableCell align="right">{project.intensity}</StyledTableCell>
-              <StyledTableCell align="right">{project.location}</StyledTableCell>
-              <StyledTableCell align="right">{project.timezone}</StyledTableCell>
-              <StyledTableCell align="right">{project.wokringHours}</StyledTableCell>
-              <StyledTableCell align="right">{project.start}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.customer}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.description}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.type}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.intensity}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.location}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.timezone}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.wokringHours}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.start}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

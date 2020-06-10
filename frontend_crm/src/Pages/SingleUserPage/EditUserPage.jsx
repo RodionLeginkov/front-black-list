@@ -276,7 +276,7 @@ const EditUserPage = ({ match }) => {
                           inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
 )}
-                      label='Status'
+                      label='Active'
                     />
                   </span>
                 </Tooltip>

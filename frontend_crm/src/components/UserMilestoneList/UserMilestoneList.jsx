@@ -37,6 +37,7 @@ function UserMilestoneList(props) {
     userId,
     subtract,
     setSubtract,
+    userHistory,
   } = props;
 
 
@@ -89,7 +90,38 @@ function UserMilestoneList(props) {
     setWidgetView(!widgetView);
   };
 
-  if (!choosenMilestones.length) return <Typography>There is no resourses</Typography>;
+  if (!choosenMilestones.length) {
+    return (
+      <>
+        {userHistory ? (
+          <>
+            <FormControl className={classes.formControl}>
+              <InputLabel>Periods</InputLabel>
+              <Select
+                open={open}
+                onClose={handleFilterClose}
+                onOpen={handleFilterOpen}
+                  // value={age}
+                onChange={dateSubtract}
+              >
+                <MenuItem value={0}>
+                  <em>All</em>
+                </MenuItem>
+                <MenuItem value={1}>Last month</MenuItem>
+                <MenuItem value={3}>Last three mounth</MenuItem>
+                <MenuItem value={12}>Last year</MenuItem>
+              </Select>
+            </FormControl>
+            {!user.UserMilestones.length ? <Typography>There is no resourses</Typography> : ''}
+
+          </>
+
+        ) : (
+          <Typography>There is no resourses</Typography>
+        )}
+      </>
+    );
+  }
   return (
     <>
       <div className={classes.filterControl}>
@@ -102,7 +134,7 @@ function UserMilestoneList(props) {
         ) : ''}
 
 
-        {userId ? (
+        {userHistory ? (
 
           <FormControl className={classes.formControl}>
             <InputLabel>Periods</InputLabel>

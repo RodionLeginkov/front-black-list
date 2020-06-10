@@ -69,15 +69,19 @@ const MilestonesTableRow = (props) => {
                         className={milestoneClassName}
                         onClick={() => handleClick(cell.label, milestone)}
                       >
-                        {cell.label !== 'Participants'
-                          ? milestone[cell.value] : milestone[cell.value].map((item) => (
-                            <div key={Math.random()}>
-                              <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
-                                {`${item.user} - ${item.role}`}
-                              </Typography>
-                              <Divider />
-                            </div>
-                          ))}
+                        {
+                          cell.label !== 'Participants'
+                            ? milestone[cell.value] : milestone[cell.value].map((item, index) => (
+
+                              <div key={Math.random()}>
+                                <Typography style={{ paddingTop: 5, fontSize: '14px', whiteSpace: 'nowrap' }} key={Math.random()}>
+                                  {`${item.user} - ${item.role}`}
+                                </Typography>
+                                { index !== milestone[cell.value].length - 1 ? (<Divider />) : ''}
+
+                              </div>
+                            ))
+}
                       </StyledTableCell>
                     );
                   }

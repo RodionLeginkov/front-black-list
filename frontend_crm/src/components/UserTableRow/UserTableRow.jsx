@@ -68,7 +68,6 @@ const UserTableRow = (props) => {
     user, visibeCells, archive, userArchiveTableCells,
   } = props;
   const [changedFields, setChangedFields] = useState(user);
-
   function archiveClick(name, user) {
     if (name === 'Name') {
       history.push(`/user/${user.uuid}`);

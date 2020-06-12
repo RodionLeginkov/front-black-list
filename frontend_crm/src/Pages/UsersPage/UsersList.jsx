@@ -140,6 +140,7 @@ export default function UsersList(props) {
       endDate = endDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     }
     const role = userRoles.find((item) => item.value === user.role).label;
+
     return (archiveCreateData(
       user.fullName,
       role,
@@ -155,7 +156,9 @@ export default function UsersList(props) {
     const curDate = new Date();
     const role = userRoles.find((item) => item.value === user.role).label;
     let userCurrentTask = user.UsersTasks[0];
-    userCurrentTask = userCurrentTask === undefined ? '' : userCurrentTask.text;
+
+    userCurrentTask = user.current_task === '' || userCurrentTask === undefined ? '' : userCurrentTask.text;
+
     return createData(
       user.firstName,
       user.lastName,

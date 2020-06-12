@@ -220,8 +220,8 @@ export default function UsersList(props) {
         )}
 
       </FormControl>
-      <TableContainer component={Paper} style={{ marginRight: 20 }}>
-        <Table className={classes.table}>
+      <TableContainer component={Paper} style={{ marginRight: 20, maxHeight: '800px' }}>
+        <Table className={classes.table} stickyHeader>
           <TableHead color='primary'>
             {active !== 'Archived' ? (
               <TableRow>

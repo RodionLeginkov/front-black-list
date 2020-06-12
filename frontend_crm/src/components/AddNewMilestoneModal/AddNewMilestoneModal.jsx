@@ -451,11 +451,13 @@ export default function AddNewMilestoneModal(props) {
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     value={project.platform || ''}
+                    autocomplete="platform"
+                    id="platform"
                     label="Platform"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
-                    name='platform'
+                    name="platform"
                     onChange={handleChange}
                   />
                 </Grid>

@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ProjectCards from './ProjectsCards.jsx';
 import { getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import getFilteredProjects from '../../Redux/Selectors/ProjectSelectors';
@@ -26,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: '0 auto',
   },
+  buttonActive: {
+    backgroundColor: '#deedff',
+  },
+  buttonOf: {
+    backgroundColor: '#fff',
+  },
   projectsHeader: {
     alignItems: 'center',
     marginRight: '20px',
@@ -38,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '40px',
   },
 
+
 }));
 export default function StickyHeadTable() {
   const classes = useStyles();
@@ -45,16 +53,19 @@ export default function StickyHeadTable() {
   const [widgetView, setWidgetView] = useState(JSON.parse(localStorage.getItem('projectWidgetView')) || false);
   const dispatch = useDispatch();
   const projects = useSelector((state) => getFilteredProjects(state));
+  const [active, setActive] = useState('Active');
+  const [activeButton, setActiveButton] = useState('Active');
   // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+    dispatch(getProjects(active));
+  }, [dispatch, active]);
 
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };
+  console.log(active);
 
   return (
     <div className={classes.container}>
@@ -67,6 +78,39 @@ export default function StickyHeadTable() {
             label="Widget view"
           />
         </div>
+        <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
+          <Button
+            style={{ width: '102px' }}
+            onClick={() => {
+              if (active === 'Active') {
+                setActive('');
+                setActiveButton('');
+              } else {
+                setActive('Active');
+                setActiveButton('Active');
+              }
+            }}
+            className={(activeButton === 'Active') ? classes.buttonActive : classes.buttonOf}
+          >
+            Active
+          </Button>
+          <Button
+            onClick={() => {
+              if (active === 'Archived') {
+                setActive('');
+                setActiveButton('');
+              } else {
+                setActive('Archived');
+                setActiveButton('Archived');
+              }
+            }}
+            className={(activeButton === 'Archived') ? classes.buttonActive : classes.buttonOf}
+          >
+            Archived
+          </Button>
+
+
+        </ButtonGroup>
         <Button
           variant="contained"
           color="primary"

@@ -4,6 +4,9 @@ import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
 import '../UserTableRow/style.css';
 
 const useStyles = makeStyles({
@@ -24,7 +27,7 @@ const useStyles = makeStyles({
 
 function UserTableRowButtons(props) {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const {
     state,
     newTask,
@@ -32,6 +35,7 @@ function UserTableRowButtons(props) {
     changedFields,
     setState,
     setChangedFields,
+    handleAddTask,
   } = props;
 
   const handleCancel = () => {
@@ -40,16 +44,31 @@ function UserTableRowButtons(props) {
     setState(!state);
   };
 
+  const handeCloseTask = async () => {
+    if (newTask.text !== '') {
+      const response = await axios.post('/history-tasks', newTask);
+      dispatch(updateUser({ ...changedFields, current_task: '' }));
+      setNewTask({ ...newTask, text: '' });
+      setChangedFields({ ...changedFields, current_task: '' });
+    }
+  };
   return (
     <>
       {state
         ? (
-          <Button
-            className={classes.editButton}
-            onClick={() => { setState(!state); }}
-          >
-            <EditSharpIcon />
-          </Button>
+          <>
+            <Button
+              className={classes.editButton}
+              onClick={() => { setState(!state); }}
+            >
+              <EditSharpIcon />
+            </Button>
+            <Button
+              onClick={handeCloseTask}
+            >
+              <CheckSharpIcon />
+            </Button>
+          </>
         ) : (
           <div className={classes.buttons}>
             <Button>

@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import axios from 'axios';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -22,7 +23,7 @@ import {
 } from '@material-ui/pickers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { addMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
-import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import { getProject, getProjects, updateProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import DevelopersChooseForm from '../DevelopersChooseForm/index.jsx';
 import { paymentTypes } from '../../constants/constants';
 
@@ -87,6 +88,7 @@ export default function AddNewMilestoneModal(props) {
     projectId,
     milestoneEdit,
     newProjectId,
+    projectView,
   } = props;
   const classes = useStyles();
 
@@ -169,7 +171,6 @@ export default function AddNewMilestoneModal(props) {
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
 
-
   const handleAdd = async (e) => {
     e.preventDefault();
     const validateErrors = validateMilestone();
@@ -181,11 +182,13 @@ export default function AddNewMilestoneModal(props) {
           await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
         } else if (initialMilestone && curProject.uuid) {
           if (projectId) {
+            await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
             await dispatch(updateMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
             await dispatch(getProject(curProject.uuid));
           } else {
             // milestoneEdit(initialMilestone, project);
             if (newProjectId) {
+              await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
               await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
               await dispatch(getProject(curProject.uuid));
             }
@@ -195,9 +198,14 @@ export default function AddNewMilestoneModal(props) {
           if (newProjectId) await dispatch(getProject(newProjectId));
           if (curProject.uuid) {
             await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
+            await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
             if (projectId) await dispatch(getProject(curProject.uuid));
             else if (newProjectId) await dispatch(getProject(newProjectId));
           }
+        }
+        if (projectView) {
+          await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
+          await dispatch(getProject(curProject.uuid));
         }
         setProject(initialValue);
         setIsError(false);
@@ -212,14 +220,14 @@ export default function AddNewMilestoneModal(props) {
   };
 
 
-  const handleArchive = (e) => {
+  const handleArchive = async (e) => {
     e.preventDefault();
     const validateErrors = validateDeathRattle();
     if (validateErrors) {
       setErrorsDeathRattle(validateErrors);
     } else {
-      dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
-      dispatch(getProject(curProject.uuid));
+      await dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
+      await dispatch(getProject(curProject.uuid));
       setArchive(false);
     }
   };
@@ -443,11 +451,13 @@ export default function AddNewMilestoneModal(props) {
                 <Grid item xs={12} sm={6} style={{ paddingTop: 0 }}>
                   <TextField
                     value={project.platform || ''}
+                    autocomplete="platform"
+                    id="platform"
                     label="Platform"
                     variant="outlined"
                     inputProps={{ 'aria-label': 'description' }}
                     className={classes.inputForm}
-                    name='platform'
+                    name="platform"
                     onChange={handleChange}
                   />
                 </Grid>

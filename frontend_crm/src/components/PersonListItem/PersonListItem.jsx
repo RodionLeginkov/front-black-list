@@ -20,11 +20,13 @@ const PersonListItem = (props) => {
     personChange,
     isEdit,
     newProjectId,
+    curProject,
   } = props;
   const dispatch = useDispatch();
   const [personModalOpen, setPersonModalOpen] = useState(false);
   const handleDelete = async (id) => {
     if (projectId) {
+      await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
       await axios.delete(`/person/${id}`);
       dispatch(getProject(projectId));
     } else {
@@ -81,6 +83,7 @@ const PersonListItem = (props) => {
         personChange={personChange}
         isEdit={isEdit}
         newProjectId={newProjectId}
+        curProject={curProject}
       />
       {/* <Grid item sm={3}>
         <TextField

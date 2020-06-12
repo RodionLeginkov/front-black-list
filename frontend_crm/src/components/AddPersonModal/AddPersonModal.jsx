@@ -74,6 +74,7 @@ const AddPersonModal = (props) => {
     personAdd,
     isEdit,
     newProjectId,
+    curProject,
   } = props;
 
   const dispatch = useDispatch();
@@ -172,6 +173,7 @@ const AddPersonModal = (props) => {
     if (validateErrors) setErrors(validateErrors);
     else if ((isEdit && projectId) || (projectId && newProjectId)) {
       try {
+        await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
         await axios.put(`/person/${person.uuid}`, person);
         dispatch(getProject(projectId));
         setPersonModalOpen(false);

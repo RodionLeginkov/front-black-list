@@ -26,7 +26,7 @@ export const milestonesTableCells = [
 
 export const userTableCells = [
   { label: 'Name', value: 'Name' },
-  { label: 'Current Task', value: 'current_task' },
+  { label: 'Comment', value: 'current_task' },
   { label: 'Current project', value: '' },
   { label: 'Role in the project', value: '' },
   { label: 'Current rate', value: '' },
@@ -106,6 +106,6 @@ export const projectFormatOfCommunication = [
 
 export const CommunicationType = [
   { label: 'Text', value: 'Text' },
-  { label: 'Voice calls', value: 'Voice calls' },
+  { label: 'Voice Calls', value: 'Voice Calls' },
   { label: 'Video Calls', value: 'Video Calls' },
 ];

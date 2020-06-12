@@ -12,6 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { TextField } from '@material-ui/core';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
+import axios from 'axios';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -132,6 +133,7 @@ export default function AddNewDeathRattleModal(props) {
       setErrorsDeathRattle(validateErrors);
     } else {
       try {
+        await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
         await dispatch(updateMilestone({ ...project, status: 'Archived', end_date: project.end_date }));
         dispatch(getProject(curProject.uuid));
         setArchive(false);

@@ -1,11 +1,14 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import CheckSharpIcon from '@material-ui/icons/CheckSharp';
+import EditSharpIcon from '@material-ui/icons/EditSharp';
 import UserTableRowButtons from '../UserTableRowButtons/UserTableRowButtons.jsx';
 import { updateUser } from '../../Redux/Actions/UsersActions/UserActions';
+
 import './style.css';
 
 function CurrentTaskField(props) {
@@ -19,7 +22,6 @@ function CurrentTaskField(props) {
     creator_uuid: '',
     text: changedFields.current_task,
   } : '');
-
   useEffect(() => { // ComponentWillUnmount in Class Component
     _isMounted.current = false;
   }, []);
@@ -54,7 +56,7 @@ function CurrentTaskField(props) {
     //   e.target.value += '\n';
     // }
   };
-
+  console.log('new', newTask);
   const handleOnBlur = () => {
     if (changedFields.current_task !== newTask.text) {
       handleAddTask();
@@ -76,7 +78,7 @@ function CurrentTaskField(props) {
               onChange={handleTaskChange}
               value={newTask.text || ''}
               variant="outlined"
-              label="New task"
+              label="New comment"
               multiline
               rowsMax="5"
               name='text'

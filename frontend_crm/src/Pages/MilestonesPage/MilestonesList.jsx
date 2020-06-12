@@ -115,8 +115,8 @@ const MilestonesList = (props) => {
           ))}
         </Select>
       </FormControl>
-      <TableContainer component={Paper} style={{ marginRight: 20 }}>
-        <Table className={classes.table}>
+      <TableContainer component={Paper} style={{ marginRight: 20, maxHeight: '800px' }}>
+        <Table stickyHeader className={classes.table}>
           <TableHead color='primary'>
             <TableRow>
               {

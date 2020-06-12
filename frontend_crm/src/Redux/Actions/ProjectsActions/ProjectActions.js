@@ -32,12 +32,16 @@ export const addProject = (project) => async (dispatch) => {
 };
 
 
-export const getProjects = () => async (dispatch) => {
+export const getProjects = (active) => async (dispatch) => {
   try {
     // if (localStorage.getItem('admin') === 'true') {
     dispatch({ type: LOAD_RPOJECT });
     // const loginToken = localStorage.getItem('token');
-    const { data } = await axios.get('/projects');
+    const { data } = await axios.get('/projects', {
+      params: {
+        active,
+      },
+    });
     dispatch({ type: LOAD_RPOJECT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOAD_PROJECT_ERROR, payload: error });
@@ -70,7 +74,6 @@ export const deleteProject = (id) => async (dispatch) => {
 export const updateProject = (project) => async (dispatch) => {
   try {
     const loginToken = localStorage.getItem('token');
-    console.log('data', project);
     const { data } = await patchProject(project, loginToken);
     NotificationManager.success('The project was updated');
     dispatch({ type: EDIT_PROJECT, payload: data });

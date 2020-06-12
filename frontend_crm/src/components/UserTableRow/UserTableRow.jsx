@@ -68,7 +68,6 @@ const UserTableRow = (props) => {
     user, visibeCells, archive, userArchiveTableCells,
   } = props;
   const [changedFields, setChangedFields] = useState(user);
-
   function archiveClick(name, user) {
     if (name === 'Name') {
       history.push(`/user/${user.uuid}`);
@@ -133,7 +132,7 @@ const UserTableRow = (props) => {
           </StyledTableCell>
         )
         : false}
-      {visibeCells.includes('Current Task')
+      {visibeCells.includes('Comment')
         ? (
           <StyledTableCell align="left">
             <CurrentTaskField
@@ -201,7 +200,7 @@ const UserTableRow = (props) => {
         )
         : false }
       {visibeCells.includes('Total Load')
-        ? <StyledTableCell align="center">{user.total_load}</StyledTableCell>
+        ? <StyledTableCell align="center">{user.total_load || 0}</StyledTableCell>
         : false }
       {visibeCells.includes('Role')
         ? (

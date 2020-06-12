@@ -133,7 +133,7 @@ const SingleMilestoneCard = (props) => {
     [classes.expiredMilestone]: (isExpired),
   });
   const handleClick = () => {
-    if (!isEdit)setOpenModal(true);
+    // if (!isEdit)setOpenModal(true);
   };
   return (
     <Grid
@@ -165,7 +165,7 @@ const SingleMilestoneCard = (props) => {
             </Typography>
           </div>
           {isExpired && !archived ? <ErrorOutlineSharpIcon /> : ''}
-          {isEdit && !archived ? (
+          { !archived && isEdit ? (
             <MenuButton
               isExpired={isExpired}
               // addUserModalOpen={addUserModalOpen}
@@ -179,7 +179,22 @@ const SingleMilestoneCard = (props) => {
               newProjectId={newProjectId}
               milestoneEdit={milestoneEdit}
             />
-          ) : ''}
+          ) : (
+            <MenuButton
+              isExpired={isExpired}
+              // addUserModalOpen={addUserModalOpen}
+              // setAddUserModalOpen={setAddUserModalOpen}
+              project={project}
+              setProject={setProject}
+              milestones={projectMilestones}
+              singleMilestone={milestone}
+              setProjectMilestones={setProjectMilestones}
+              projectId={projectId}
+              newProjectId={newProjectId}
+              milestoneEdit={milestoneEdit}
+              projectView
+            />
+          )}
         </div>
         <CustomBage
           text={milestone.role}

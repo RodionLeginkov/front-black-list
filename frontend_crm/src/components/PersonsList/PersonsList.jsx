@@ -81,6 +81,7 @@ const PersonsList = (props) => {
     personChange,
     isEdit,
     newProjectId,
+    curProject,
   } = props;
   const classes = useStyles();
 
@@ -107,6 +108,7 @@ const PersonsList = (props) => {
               personDelete={personDelete}
               isEdit={isEdit}
               newProjectId={newProjectId}
+              curProject={curProject}
             />
           ))}
         </TableBody>

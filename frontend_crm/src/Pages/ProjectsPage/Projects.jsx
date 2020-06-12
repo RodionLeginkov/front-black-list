@@ -58,13 +58,14 @@ export default function StickyHeadTable() {
   // const projects = useSelector((state) => state.projects.filteredProjects)
   const loading = useSelector((state) => state.projects.loadingProjects);
   useEffect(() => {
-    dispatch(getProjects());
-  }, [dispatch]);
+    dispatch(getProjects(active));
+  }, [dispatch, active]);
 
   const handleChange = () => {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };
+  console.log(active);
 
   return (
     <div className={classes.container}>

@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
+import { TextField } from '@material-ui/core';
 import { findProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -85,7 +86,7 @@ export default function ProjectsList(props) {
           <TableRow>
             <StyledTableCell>Project Name</StyledTableCell>
             <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Customer</StyledTableCell>
-            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap', minWidth: '200px' }}>Description</StyledTableCell>
+            <StyledTableCell align="right" style={{ whiteSpace: 'noWrap', minWidth: '150px' }}>Description</StyledTableCell>
             <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Communication type</StyledTableCell>
             <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Communication Intensity</StyledTableCell>
             <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>Location</StyledTableCell>
@@ -105,7 +106,10 @@ export default function ProjectsList(props) {
                 {project.name}
               </StyledTableCell>
               <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.customer}</StyledTableCell>
-              <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.description}</StyledTableCell>
+              <StyledTableCell align="right" style={{ whiteSpace: 'pre-wrap' }}>
+                {project.description}
+
+              </StyledTableCell>
               <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.type}</StyledTableCell>
               <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.intensity}</StyledTableCell>
               <StyledTableCell align="right" style={{ whiteSpace: 'noWrap' }}>{project.location}</StyledTableCell>

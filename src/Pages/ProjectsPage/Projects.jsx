@@ -65,7 +65,6 @@ export default function StickyHeadTable() {
     setWidgetView(!widgetView);
     localStorage.setItem('projectWidgetView', !widgetView);
   };
-  console.log(active);
 
   return (
     <div className={classes.container}>
@@ -118,7 +117,7 @@ export default function StickyHeadTable() {
           className={classes.button}
           onClick={() => history.push('/customers/addproject')}
         >
-          Add project
+          Add new customer
         </Button>
       </div>
       {/* <ProjectFilterPanel /> */}

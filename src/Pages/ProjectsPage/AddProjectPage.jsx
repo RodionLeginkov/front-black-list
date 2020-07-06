@@ -203,7 +203,7 @@ const AddProjectPage = (props) => {
     const fieldsErrors = {};
     if (validator.isEmpty(project.name)) fieldsErrors.name = 'Name is required field.';
     if (validator.isEmpty(project.customer)) fieldsErrors.customer = 'Customer is required field.';
-    if (validator.isEmpty(project.description)) fieldsErrors.description = 'Desctiption is required field.';
+    // if (validator.isEmpty(project.description)) fieldsErrors.description = 'Desctiption is required field.';
 
     return Object.keys(fieldsErrors).length ? fieldsErrors : false;
   };
@@ -287,14 +287,14 @@ const AddProjectPage = (props) => {
         ? (
           <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
-            <Typography color="textPrimary" onClick={() => history.push('/customers/addproject')}>Add new project</Typography>
+            <Typography color="textPrimary" onClick={() => history.push('/customers/addproject')}>Add new customer</Typography>
           </Breadcrumbs>
         )
         : (
           <Breadcrumbs aria-label="breadcrumb" className={classes.breadcrumbs}>
             <Typography color="textPrimary" onClick={() => history.push('/customers')}>Customers</Typography>
             <Typography color="textPrimary" onClick={() => history.push(`/customers/${project.uuid}`)}>{project.name}</Typography>
-            <Typography color="textPrimary" onClick={() => history.push(`/customers/editproject/${project.uuid}`)}>Edit project</Typography>
+            <Typography color="textPrimary" onClick={() => history.push(`/customers/editproject/${project.uuid}`)}>Edit customer</Typography>
           </Breadcrumbs>
         )}
       <div className={classes.position}>
@@ -304,7 +304,7 @@ const AddProjectPage = (props) => {
           >
             <form className={classes.root} noValidate autoComplete="off" onSubmit={onSubmit}>
               <div className={classes.header}>
-                {!projectId ? <h2>Add new project</h2> : <h2>Edit project</h2>}
+                {!projectId ? <h2>Add new customer</h2> : <h2>Edit customer</h2>}
                 <Tooltip title='close'>
                   <Button onClick={handleClose}>
                     <CloseSharpIcon style={{ color: '#a3a3a3' }} />
@@ -388,8 +388,8 @@ const AddProjectPage = (props) => {
 
                 <Grid item xs={12}>
                   <TextField
-                    error={Boolean(errors.description)}
-                    helperText={errors.description}
+                    // error={Boolean(errors.description)}
+                    // helperText={errors.description}
                     // style={{ marginBottom: '10px' }}
                     value={project.description}
                     variant="outlined"
@@ -558,7 +558,7 @@ const AddProjectPage = (props) => {
                   type="submit"
                   className={classes.submitButton}
                 >
-                  {project.uuid ? 'Submit' : 'Add project'}
+                  {project.uuid ? 'Submit' : 'Add new customer'}
                 </Button>
               </div>
             </form>

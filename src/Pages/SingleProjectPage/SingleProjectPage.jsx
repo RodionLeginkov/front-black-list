@@ -115,12 +115,19 @@ const CurrentProject = ({ match }) => {
   const handleClick = () => history.push('/customers');
 
   const { projectId } = match.params;
+  const dispatch = useDispatch();
+  const project = useSelector((state) => state.projects.currentProject);
+  const milestoneHistory = project?.ProjectMilestones?.filter((item) => item.status === 'Active');
+
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
   };
-  const dispatch = useDispatch();
-  const project = useSelector((state) => state.projects.currentProject);
 
+  useEffect(() => {
+    if (milestoneHistory?.length === 0) {
+      setValue(2);
+    }
+  }, milestoneHistory);
   const start = project && project.workStart ? moment(project.workStart) : '';
   const end = project && project.workEnd ? moment(project.workEnd) : '';
 

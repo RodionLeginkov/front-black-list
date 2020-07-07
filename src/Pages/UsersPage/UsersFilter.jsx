@@ -309,6 +309,10 @@ const UsersFilter = (props) => {
                 <MenuItem value="current_task">Current Task</MenuItem>
                 <MenuItem value="project_ready">Project Ready</MenuItem>
                 <MenuItem value="english_skill">English Skill</MenuItem>
+                <MenuItem value="current_project">Current Project</MenuItem>
+                <MenuItem value="role_in_project">Role in the project</MenuItem>
+                <MenuItem value='load'>Load (h/week)</MenuItem>
+                <MenuItem value='current_rate'>Current rate</MenuItem>
               </Select>
             </FormControl>
 

@@ -22,7 +22,7 @@ const MilestonesTableHeaderCell = (props) => {
       {(cell.value !== 'participant') ? (
         <StyledTableCell
           className='cell-pointer cell'
-          align="center"
+          align="left"
           onClick={() => {
             setSort(cell.value);
             setOrder(!order);
@@ -39,7 +39,7 @@ const MilestonesTableHeaderCell = (props) => {
         </StyledTableCell>
       ) : (
         <StyledTableCell
-          align="center"
+          align="left"
         >
           {cell.label}
         </StyledTableCell>

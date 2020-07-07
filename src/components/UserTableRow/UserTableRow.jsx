@@ -76,7 +76,7 @@ const UserTableRow = (props) => {
 
   if (archive) {
     return (
-      <StyledTableRow key={Math.random()}>
+      <StyledTableRow key={Math.random()} style={{ paddingLeft: 10 }}>
         {
           userArchiveTableCells.map((cell) => {
             const userClassName = clsx({
@@ -87,7 +87,7 @@ const UserTableRow = (props) => {
               return (
                 <StyledTableCell
                   key={Math.random()}
-                  align="center"
+                  align="left"
                   className={userClassName}
                   onClick={() => archiveClick(cell.label, user)}
                 >
@@ -119,7 +119,8 @@ const UserTableRow = (props) => {
       {visibeCells.includes('Name')
         ? (
           <StyledTableCell
-            align="center"
+            style={{ paddingLeft: 10 }}
+            align="left"
             component="th"
             cope="row"
             className={classes.cell}
@@ -145,7 +146,7 @@ const UserTableRow = (props) => {
         : false}
       {visibeCells.includes('Current project')
         ? (
-          <StyledTableCell style={{ paddingRight: 0 }} align="center">
+          <StyledTableCell style={{ paddingRight: 0 }} align="left">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
                 <Typography
@@ -165,7 +166,7 @@ const UserTableRow = (props) => {
         : false }
       {visibeCells.includes('Role in the project')
         ? (
-          <StyledTableCell style={{ padding: '16px 0px', whiteSpace: 'nowrap' }} align="center">
+          <StyledTableCell style={{ whiteSpace: 'nowrap' }} align="left">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
                 <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.role ? item.role : '―'}</Typography>
@@ -177,10 +178,10 @@ const UserTableRow = (props) => {
         : false }
       {visibeCells.includes('Current rate')
         ? (
-          <StyledTableCell style={{ padding: '16px 0px' }} align="center">
+          <StyledTableCell align="left">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.rate ? item.rate : '―'}</Typography>
+                <Typography style={{ paddingTop: 5, paddingLeft: 20 }} key={Math.random()}>{ item.rate ? item.rate : '―'}</Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
               </div>
             ))}
@@ -189,10 +190,10 @@ const UserTableRow = (props) => {
         : false }
       {visibeCells.includes('Load(h/week)')
         ? (
-          <StyledTableCell style={{ paddingLeft: 0 }} align="center">
+          <StyledTableCell align="left">
             {user.milestons.map((item) => (
               <div key={Math.random()}>
-                <Typography style={{ paddingTop: 5 }} key={Math.random()}>{ item.load ? item.load : '―'}</Typography>
+                <Typography style={{ paddingTop: 5, paddingLeft: 20 }} key={Math.random()}>{ item.load ? item.load : '―'}</Typography>
                 {user.milestons.indexOf(item) === user.milestons.length - 1 ? '' : <Divider />}
               </div>
             ))}
@@ -200,31 +201,31 @@ const UserTableRow = (props) => {
         )
         : false }
       {visibeCells.includes('Total Load')
-        ? <StyledTableCell align="center">{user.total_load || 0}</StyledTableCell>
+        ? <StyledTableCell style={{ paddingLeft: 20 }} align="left">{user.total_load || 0}</StyledTableCell>
         : false }
       {visibeCells.includes('Role')
         ? (
-          <StyledTableCell align="center" justify="space-between">
+          <StyledTableCell style={{ paddingLeft: 8 }} align="left" justify="space-between">
             {devRole}
           </StyledTableCell>
         )
         : false }
       {visibeCells.includes('Project Ready')
         ? (
-          <StyledTableCell align="center">
+          <StyledTableCell align="left">
             {changedFields.projectReady}
           </StyledTableCell>
         )
         : false }
       {visibeCells.includes('English Skill')
         ? (
-          <StyledTableCell align="center" justify="space-between">
+          <StyledTableCell align="left" justify="space-between">
             {engSkill}
           </StyledTableCell>
         )
         : false }
       {visibeCells.includes('Seniority')
-        ? <StyledTableCell align="center">{user.seniority}</StyledTableCell>
+        ? <StyledTableCell style={{ paddingLeft: 8 }} align="left">{user.seniority}</StyledTableCell>
         : false }
 
     </StyledTableRow>

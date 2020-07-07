@@ -65,7 +65,8 @@ const MilestonesTableRow = (props) => {
                     return (
                       <StyledTableCell
                         key={Math.random()}
-                        align="center"
+                        align="left"
+                        style={{ paddingLeft: 10 }}
                         className={milestoneClassName}
                         onClick={() => handleClick(cell.label, milestone)}
                       >

@@ -103,6 +103,13 @@ function Users() {
             control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
             label="Widget view"
           />
+          {users && (
+          <div style={{ marginLeft: 20, marginTop: 12 }}>
+            <h3>
+              Users count {users.length}
+            </h3>
+          </div>
+          )}
         </div>
         <Button
           variant="contained"

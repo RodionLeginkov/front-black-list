@@ -53,8 +53,13 @@ export default function StickyHeadTable() {
   }, [sort, order]);
   return (
     <div className={classes.container}>
-      <div className={classes.projectsHeader}>
+      <div className={classes.projectsHeader} style={{ justifyContent: 'start' }}>
         <h1>Projects</h1>
+        {milestones && (
+        <h3 style={{ marginTop: 22, marginLeft: 30 }}>
+          Projects count `{milestones.length}
+        </h3>
+        )}
       </div>
       <Grid
         className={classes.usersWrapper}

@@ -77,6 +77,13 @@ export default function StickyHeadTable() {
             control={<Switch checked={widgetView} onChange={handleChange} color='primary' />}
             label="Widget view"
           />
+          {projects && (
+          <div style={{ marginLeft: 20, marginTop: 12 }}>
+            <h3>
+              Customers count {projects.length}
+            </h3>
+          </div>
+          )}
         </div>
         <ButtonGroup className={classes.buttonGroup} color="primary" aria-label="outlined primary button group">
           <Button

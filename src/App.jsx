@@ -55,7 +55,7 @@ function App() {
 
   useLayoutEffect(() => {
     const loginToken = localStorage.getItem('token');
-    if (jwt_decode(loginToken).exp < Date.now() / 1000) {
+    if (loginToken && jwt_decode(loginToken).exp < Date.now() / 1000) {
       NotificationManager.error('Plese login again');
       localStorage.clear();
     }

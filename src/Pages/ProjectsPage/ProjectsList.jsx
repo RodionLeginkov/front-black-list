@@ -106,7 +106,7 @@ export default function ProjectsList(props) {
                 {project.name}
               </StyledTableCell>
               <StyledTableCell align="left" style={{ whiteSpace: 'noWrap' }}>{project.customer}</StyledTableCell>
-              <StyledTableCell align="left" style={{ whiteSpace: 'noWrap' }}>{project.description}</StyledTableCell>
+              <StyledTableCell align="left" style={{ whiteSpace: 'pre-wrap' }}>{project.description}</StyledTableCell>
               <StyledTableCell align="left" style={{ whiteSpace: 'noWrap' }}>{project.type}</StyledTableCell>
               <StyledTableCell align="left" style={{ whiteSpace: 'noWrap' }}>{project.intensity}</StyledTableCell>
               <StyledTableCell align="left" style={{ whiteSpace: 'noWrap' }}>{project.location}</StyledTableCell>

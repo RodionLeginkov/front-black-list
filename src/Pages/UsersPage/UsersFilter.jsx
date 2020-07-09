@@ -305,7 +305,7 @@ const UsersFilter = (props) => {
                 <MenuItem value="Name">Name</MenuItem>
                 <MenuItem value="Senioiry">Seniority</MenuItem>
                 <MenuItem value="Role">Role</MenuItem>
-                <MenuItem value="Loads">Loads</MenuItem>
+                <MenuItem value="Loads">Total Load</MenuItem>
                 <MenuItem value="current_task">Current Task</MenuItem>
                 <MenuItem value="project_ready">Project Ready</MenuItem>
                 <MenuItem value="english_skill">English Skill</MenuItem>

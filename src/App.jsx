@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core/styles';
 import axios from 'axios';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
+import jwt_decode from 'jwt-decode';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import Navbar from './components/NavBar/Navbar.jsx';
 import Users from './Pages/UsersPage/Users.jsx';
@@ -54,6 +55,10 @@ function App() {
 
   useLayoutEffect(() => {
     const loginToken = localStorage.getItem('token');
+    if (jwt_decode(loginToken).exp < Date.now() / 1000) {
+      NotificationManager.error('Plese login again');
+      localStorage.clear();
+    }
     axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
     // eslint-disable-next-line dot-notation
     axios.defaults.headers.common['authorization'] = loginToken;
@@ -69,6 +74,7 @@ function App() {
         return Promise.reject(error);
       },
     );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

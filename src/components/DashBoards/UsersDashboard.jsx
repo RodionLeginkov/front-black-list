@@ -15,7 +15,7 @@ const UserDashboard = (props) => {
     {
       id: 'Team Leads',
       value: takeCount('team_leader'),
-      label: 'Team Leads',
+      label: 'TL',
       color: 'hsl(274, 70%, 50%)',
     },
     {
@@ -81,7 +81,7 @@ const UserDashboard = (props) => {
           },
           legends: {
             text: {
-              fontSize: 19,
+              fontSize: 16,
             },
           },
         }}
@@ -90,7 +90,7 @@ const UserDashboard = (props) => {
             anchor: 'bottom',
             direction: 'row',
             translateY: 56,
-            itemWidth: 140,
+            itemWidth: 86,
             itemHeight: 28,
             itemTextColor: 'white',
             symbolSize: 20,

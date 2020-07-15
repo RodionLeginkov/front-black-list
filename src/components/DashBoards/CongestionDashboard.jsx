@@ -57,7 +57,7 @@ const CongestionDashboard = (props) => {
         },
         legends: {
           text: {
-            fontSize: 19,
+            fontSize: 16,
           },
         },
       }}
@@ -66,7 +66,7 @@ const CongestionDashboard = (props) => {
           anchor: 'bottom',
           direction: 'row',
           translateY: 56,
-          itemWidth: 140,
+          itemWidth: 100,
           itemHeight: 28,
           itemTextColor: 'white',
           symbolSize: 20,

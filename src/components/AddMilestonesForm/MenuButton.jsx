@@ -5,13 +5,14 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
+import Autorenew from '@material-ui/icons/Autorenew';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import UnarchiveSharpIcon from '@material-ui/icons/UnarchiveSharp';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
-import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
+import { deleteMilestone, updateMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import AddNewDeathRattleModal from '../AddNewDeathRattleModal/AddNewDeathRattleModal.jsx';
 
@@ -30,12 +31,29 @@ export default function MenuButton(props) {
     projectView,
   } = props;
 
+  const promoteMilestone = {
+    user_uuid: singleMilestone.user_uuid,
+    project_uuid: project.uuid,
+    person_uuid: null,
+    role: '',
+    rate: null,
+    rate_type: '',
+    load: null,
+    start_date: singleMilestone.start_date,
+    end_date: null,
+    Users: singleMilestone.Users,
+    platform: '',
+    withdraw: '',
+    comment: '',
+    status: 'Active',
+  };
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [deathRattleModelOpen, setDeathRattleModelOpen] = useState(false);
   const [archive, setArchive] = useState(false);
+  const [promote, setPromote] = useState(false);
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
@@ -54,6 +72,12 @@ export default function MenuButton(props) {
   };
   const handleChange = (e) => {
     e.stopPropagation();
+    setAddUserModalOpen(true);
+    console.log('00000000');
+  };
+  const handlePromote = (e) => {
+    e.stopPropagation();
+    setPromote(true);
     setAddUserModalOpen(true);
   };
   const handleDelete = () => {
@@ -124,6 +148,13 @@ export default function MenuButton(props) {
               </IconButton>
             </MenuItem>
           </Tooltip>
+          <Tooltip title='Promoute'>
+            <MenuItem style={{ padding: '0, 8px' }}>
+              <IconButton onClick={handlePromote}>
+                <Autorenew style={{ fontSize: '20px' }} />
+              </IconButton>
+            </MenuItem>
+          </Tooltip>
         </div>
       </Menu>
       <AddNewMilestoneModal
@@ -156,6 +187,43 @@ export default function MenuButton(props) {
           projectView
         />
       ) : ''}
+      {promote ? (
+        <AddNewMilestoneModal
+          projectMilestones={project.projectMilestones}
+          addUserModalOpen={addUserModalOpen}
+          setAddUserModalOpen={setAddUserModalOpen}
+          curProject={project}
+          initialMilestone={singleMilestone}
+          isExpired={isExpired}
+          archive={archive}
+          setArchive={setArchive}
+          projectId={projectId}
+          newProjectId={newProjectId}
+          milestoneEdit={milestoneEdit}
+          promoteMilestone={promoteMilestone}
+          promote={promote}
+          setPromote={setPromote}
+        />
+      ) : ''}
+      {(promote && projectView) ? (
+        <AddNewMilestoneModal
+          projectMilestones={project.projectMilestones}
+          addUserModalOpen={addUserModalOpen}
+          setAddUserModalOpen={setAddUserModalOpen}
+          curProject={project}
+          initialMilestone={singleMilestone}
+          isExpired={isExpired}
+          archive={archive}
+          setArchive={setArchive}
+          projectId={projectId}
+          newProjectId={newProjectId}
+          milestoneEdit={milestoneEdit}
+          promoteMilestone={promoteMilestone}
+          promote={promote}
+          setPromote={setPromote}
+          projectView
+        />
+      ) : '' }
       <AddNewDeathRattleModal
         projectMilestones={project.projectMilestones}
         curProject={project}

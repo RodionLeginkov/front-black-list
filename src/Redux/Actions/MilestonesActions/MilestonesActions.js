@@ -1,6 +1,8 @@
 import { NotificationManager } from 'react-notifications';
 import { postMilestone, deleteMilestones, updateMilestones } from './MilestonesApi';
 import {
+  PROMOTE_MILESTONE,
+  PROMOTE_MILESTONE_SUCCESS,
   POST_MILESTONE_ERROR,
   POST_MILESTONE_SUCCESS,
   POST_MILESTONE,
@@ -46,3 +48,14 @@ export const updateMilestone = (milestone) => async (dispatch) => {
     dispatch({ type: UPDATE_MILESTONE_ERROR, payload: error });
   }
 };
+
+export const promotedMilestones = (milestone) => async (dispatch) => {
+  try {
+    dispatch({ type: PROMOTE_MILESTONE });
+    const { data } = await postMilestone(milestone);
+    NotificationManager.success('The resource was promoting');
+    dispatch({ type: PROMOTE_MILESTONE_SUCCESS, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+}

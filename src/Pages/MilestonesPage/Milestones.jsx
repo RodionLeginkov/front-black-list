@@ -57,7 +57,7 @@ export default function StickyHeadTable() {
         <h1>Projects</h1>
         {milestones && (
         <h3 style={{ marginTop: 22, marginLeft: 30 }}>
-          Projects count `{milestones.length}
+          Projects count {milestones.length}
         </h3>
         )}
       </div>

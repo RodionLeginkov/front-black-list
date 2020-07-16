@@ -30,20 +30,23 @@ const CongestionDashboard = (props) => {
     <ResponsivePie
       data={dashData}
       margin={{
-        top: 40, right: 20, bottom: 80, left: 80,
+        top: 40, right: 160, bottom: 120, left: 0,
       }}
       colors={{ scheme: 'nivo' }}
-      borderWidth={4}
+      borderWidth={2}
+      innerRadius={0.5}
+      padAngle={1.5}
+      cornerRadius={4}
       borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
       radialLabelsSkipAngle={1}
       radialLabelsTextXOffset={6}
-      radialLabelsTextColor="white"
+      radialLabelsTextColor="black"
       radialLabelsLinkOffset={0}
       radialLabelsLinkDiagonalLength={30}
       radialLabelsLinkHorizontalLength={30}
       radialLabelsLinkStrokeWidth={5}
       radialLabelsLinkColor={{ from: 'color' }}
-      slicesLabelsSkipAngle={1}
+      slicesLabelsSkipAngle={10}
       slicesLabelsTextColor="#333333"
       isInteractive={false}
       fontSize={230}
@@ -61,14 +64,49 @@ const CongestionDashboard = (props) => {
           },
         },
       }}
+      defs={[
+        {
+          id: 'dots',
+          type: 'patternDots',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
+          size: 4,
+          padding: 1,
+          stagger: true,
+        },
+        {
+          id: 'lines',
+          type: 'patternLines',
+          background: 'inherit',
+          color: 'rgba(255, 255, 255, 0.3)',
+          rotation: -45,
+          lineWidth: 6,
+          spacing: 10,
+        },
+      ]}
+      fill={[
+        {
+          match: {
+            id: 'Earning',
+          },
+          id: 'dots',
+        },
+        {
+          match: {
+            id: 'Train/help',
+          },
+          id: 'dots',
+        },
+      ]}
       legends={[
         {
-          anchor: 'bottom',
-          direction: 'row',
-          translateY: 56,
+          anchor: 'right',
+          direction: 'column',
+          translateY: 0,
+          translateX: 40,
           itemWidth: 140,
-          itemHeight: 28,
-          itemTextColor: 'white',
+          itemHeight: 40,
+          itemTextColor: 'black',
           symbolSize: 20,
           symbolShape: 'circle',
         },

@@ -11,7 +11,7 @@ const UserDashboard = (props) => {
       return count;
     }
   };
-  const dashData = [
+  let dashData = [
     {
       id: 'Team Leads',
       value: takeCount('team_leader'),
@@ -49,19 +49,24 @@ const UserDashboard = (props) => {
       color: 'hsl(319, 70%, 50%)',
     },
   ];
+  dashData = dashData.filter((item) => item.value !== 0);
+  console.log(dashData);
   return (
     <>
       <ResponsivePie
         data={dashData}
         margin={{
-          top: 40, right: 20, bottom: 80, left: 80,
+          top: 40, right: 0, bottom: 120, left: 120,
         }}
         colors={{ scheme: 'nivo' }}
-        borderWidth={4}
+        borderWidth={2}
+        innerRadius={0.5}
+        padAngle={1.5}
+        cornerRadius={4}
         borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
         radialLabelsSkipAngle={1}
         radialLabelsTextXOffset={6}
-        radialLabelsTextColor="white"
+        radialLabelsTextColor="black"
         radialLabelsLinkOffset={0}
         radialLabelsLinkDiagonalLength={30}
         radialLabelsLinkHorizontalLength={30}
@@ -85,14 +90,79 @@ const UserDashboard = (props) => {
             },
           },
         }}
+        defs={[
+          {
+            id: 'dots',
+            type: 'patternDots',
+            background: 'inherit',
+            color: 'rgba(255, 255, 255, 0.3)',
+            size: 4,
+            padding: 1,
+            stagger: true,
+          },
+          {
+            id: 'lines',
+            type: 'patternLines',
+            background: 'inherit',
+            color: 'rgba(255, 255, 255, 0.3)',
+            rotation: -45,
+            lineWidth: 6,
+            spacing: 10,
+          },
+        ]}
+        fill={[
+          {
+            match: {
+              id: 'Team Leads',
+            },
+            id: 'dots',
+          },
+          {
+            match: {
+              id: 'Middle',
+            },
+            id: 'dots',
+          },
+          {
+            match: {
+              id: 'Junior',
+            },
+            id: 'dots',
+          },
+          {
+            match: {
+              id: 'Senior',
+            },
+            id: 'dots',
+          },
+          {
+            match: {
+              id: 'Interns',
+            },
+            id: 'lines',
+          },
+          {
+            match: {
+              id: 'Junior',
+            },
+            id: 'lines',
+          },
+          {
+            match: {
+              id: 'Managers',
+            },
+            id: 'lines',
+          },
+        ]}
         legends={[
           {
-            anchor: 'bottom',
-            direction: 'row',
-            translateY: 56,
+            anchor: 'right',
+            direction: 'column',
+            translateY: 0,
+            translateX: 5,
             itemWidth: 140,
-            itemHeight: 28,
-            itemTextColor: 'white',
+            itemHeight: 40,
+            itemTextColor: 'black',
             symbolSize: 20,
             symbolShape: 'circle',
           },

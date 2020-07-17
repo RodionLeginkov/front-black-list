@@ -8,8 +8,11 @@ import FileCopySharpIcon from '@material-ui/icons/FileCopySharp';
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import UnarchiveSharpIcon from '@material-ui/icons/UnarchiveSharp';
+import Popover from '@material-ui/core/Popover';
 import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import { getProject, getProjects } from '../../Redux/Actions/ProjectsActions/ProjectActions';
 import { deleteMilestone } from '../../Redux/Actions/MilestonesActions/MilestonesActions';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
@@ -36,6 +39,19 @@ export default function MenuButton(props) {
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [deathRattleModelOpen, setDeathRattleModelOpen] = useState(false);
   const [archive, setArchive] = useState(false);
+  const [popconfirm, setPopconfirm] = React.useState(null);
+  const pop = Boolean(popconfirm);
+
+  const handlePopOpen = (event) => {
+    setPopconfirm(popconfirm ? null : event.currentTarget);
+  };
+
+  const handlePopClose = () => {
+    setPopconfirm(null);
+  };
+
+  const id = pop ? 'simple-popper' : undefined;
+
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
@@ -69,6 +85,7 @@ export default function MenuButton(props) {
     }
     // dispatch(getProject(project.uuid));
   };
+
   return (
     <div>
       <Tooltip title="More info">
@@ -117,13 +134,54 @@ export default function MenuButton(props) {
               <FileCopySharpIcon style={{ fontSize: '20px' }} />
             </IconButton>
           </MenuItem>
-          <Tooltip title="Delete milestone">
-            <MenuItem style={{ padding: '0, 8px' }}>
-              <IconButton onClick={handleDelete}>
-                <DeleteSharpIcon style={{ fontSize: '20px' }} />
-              </IconButton>
-            </MenuItem>
-          </Tooltip>
+
+          <MenuItem style={{ padding: '0, 8px' }}>
+            <IconButton onClick={handlePopOpen}>
+              <DeleteSharpIcon style={{ fontSize: '20px' }} />
+              <Popover
+                id={id}
+                open={pop}
+                anchorEl={popconfirm}
+                onClose={handlePopClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+              >
+                <Box style={{ wordWrap: 'break-word', textAlign: 'center', width: 300 }} p={1}>
+                  <p>
+                    Are you sure to delete milestone for project
+                    {' '}
+                    {project.name}
+                    {' '}
+                    ?
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleDelete}
+                      style={{ width: 80 }}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={handlePopClose}
+                      style={{ width: 80 }}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </Box>
+              </Popover>
+            </IconButton>
+          </MenuItem>
+
         </div>
       </Menu>
       <AddNewMilestoneModal

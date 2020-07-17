@@ -11,6 +11,7 @@ import CreateSharpIcon from '@material-ui/icons/CreateSharp';
 import TableRow from '@material-ui/core/TableRow';
 import AddPersonModal from '../AddPersonModal/AddPersonModal.jsx';
 import { getProject } from '../../Redux/Actions/ProjectsActions/ProjectActions';
+import DeletePersonModal from './DeletePersonModal';
 
 const PersonListItem = (props) => {
   const {
@@ -24,6 +25,19 @@ const PersonListItem = (props) => {
   } = props;
   const dispatch = useDispatch();
   const [personModalOpen, setPersonModalOpen] = useState(false);
+  const [openPopUp, setOpenPopUp] = useState(false);
+
+  const handlePopOpen = () => {
+    setOpenPopUp(true);
+  };
+
+  const handleClosePopUp = () => {
+    setOpenPopUp(false);
+  };
+
+
+  console.log(curProject);
+
   const handleDelete = async (id) => {
     if (projectId) {
       await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
@@ -67,7 +81,7 @@ const PersonListItem = (props) => {
                   <CreateSharpIcon />
                 </IconButton>
 
-                <IconButton onClick={() => handleDelete(person.uuid)}>
+                <IconButton onClick={handlePopOpen}>
                   <DeleteSharpIcon />
                 </IconButton>
               </>
@@ -84,6 +98,14 @@ const PersonListItem = (props) => {
         isEdit={isEdit}
         newProjectId={newProjectId}
         curProject={curProject}
+      />
+      <DeletePersonModal
+        handleClosePopUp={handleClosePopUp}
+        openPopUp={openPopUp}
+        person={person}
+        curProject={curProject}
+        projectId={projectId}
+        personDelete={personDelete}
       />
       {/* <Grid item sm={3}>
         <TextField

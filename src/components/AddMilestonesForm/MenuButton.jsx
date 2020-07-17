@@ -56,9 +56,7 @@ export default function MenuButton(props) {
   const [addUserModalOpen, setAddUserModalOpen] = useState(false);
   const [deathRattleModelOpen, setDeathRattleModelOpen] = useState(false);
   const [archive, setArchive] = useState(false);
-<<<<<<< HEAD
   const [promote, setPromote] = useState(false);
-=======
   const [popconfirm, setPopconfirm] = React.useState(null);
   const pop = Boolean(popconfirm);
 
@@ -72,7 +70,6 @@ export default function MenuButton(props) {
 
   const id = pop ? 'simple-popper' : undefined;
 
->>>>>>> feature/dashboard
   const handleClick = (event) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
@@ -92,7 +89,6 @@ export default function MenuButton(props) {
   const handleChange = (e) => {
     e.stopPropagation();
     setAddUserModalOpen(true);
-    console.log('00000000');
   };
   const handlePromote = (e) => {
     e.stopPropagation();
@@ -208,6 +204,13 @@ export default function MenuButton(props) {
               </Popover>
             </IconButton>
           </MenuItem>
+          <Tooltip title='Promoute'>
+            <MenuItem style={{ padding: '0, 8px' }}>
+              <IconButton onClick={handlePromote}>
+                <Autorenew style={{ fontSize: '20px' }} />
+              </IconButton>
+            </MenuItem>
+          </Tooltip>
 
         </div>
       </Menu>

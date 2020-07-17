@@ -35,14 +35,22 @@ function Home() {
   return (
     <>
       <div className={classes.homeTopSection}>
-        <h1 style={{ marginTop: '150px', marginBottom: '-20px' }}> Exceed</h1>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <h4 style={{ marginLeft: 150 }}>Team</h4>
-          <h4 style={{ marginLeft: 150 }}>Developers</h4>
-        </div>
-        <div style={{ height: 400, display: 'flex' }}>
-        <UserDashboard users={users} />
-        <CongestionDashboard users={users} />
+        <h1 style={{ marginTop: '150px', marginBottom: '20px' }}> Exceed</h1>
+        <div style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between', marginBottom: -70, marginTop: 20,
+          }}
+          >
+            <h4 style={{ marginLeft: 450, color: 'black', fontWeight: '100' }}>Team</h4>
+            <h4 style={{ marginRight: 370, color: 'black', fontWeight: '100' }}>Developers</h4>
+          </div>
+          <div style={{
+            height: 400, display: 'flex',
+          }}
+          >
+            <UserDashboard users={users} />
+            <CongestionDashboard users={users} />
+          </div>
         </div>
       </div>
     </>

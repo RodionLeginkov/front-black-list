@@ -80,7 +80,7 @@ export default function DeleteModal(props) {
         <Fade in={deleteModalIsOpen}>
           <div className={clsx(classes.paper, classes.modalWidth)}>
             <h2 className={classes.header}>
-              Delete project:
+              Are you sure to delete project:
               {name}
               ?
             </h2>

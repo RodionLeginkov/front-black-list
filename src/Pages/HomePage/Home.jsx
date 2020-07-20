@@ -41,8 +41,8 @@ function Home() {
             display: 'flex', justifyContent: 'space-between', marginBottom: -70, marginTop: 20,
           }}
           >
-            <h4 style={{ marginLeft: 450, color: 'black', fontWeight: '100' }}>Team</h4>
-            <h4 style={{ marginRight: 370, color: 'black', fontWeight: '100' }}>Developers</h4>
+            <h4 style={{ marginLeft: 440, color: 'black', fontWeight: '100' }}>Team</h4>
+            <h4 style={{ marginRight: 340, color: 'black', fontWeight: '100' }}>Developers</h4>
           </div>
           <div style={{
             height: 400, display: 'flex',

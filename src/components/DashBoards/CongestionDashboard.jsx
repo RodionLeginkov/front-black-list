@@ -21,7 +21,7 @@ const CongestionDashboard = (props) => {
     <ResponsivePie
       data={dashData}
       margin={{
-        top: 40, right: 160, bottom: 120, left: 0,
+        top: 40, right: 100, bottom: 60, left: 0,
       }}
       colors={{ scheme: 'nivo' }}
       borderWidth={2}

@@ -51,7 +51,7 @@ const UserDashboard = (props) => {
       <ResponsivePie
         data={dashData}
         margin={{
-          top: 40, right: 0, bottom: 120, left: 120,
+          top: 40, right: 0, bottom: 60, left: 100,
         }}
         colors={{ scheme: 'nivo' }}
         borderWidth={2}

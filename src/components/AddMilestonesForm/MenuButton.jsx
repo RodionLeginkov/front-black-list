@@ -151,13 +151,13 @@ export default function MenuButton(props) {
               </IconButton>
             </MenuItem>
           </Tooltip>
-
-          <MenuItem style={{ padding: '0, 8px' }}>
-            <IconButton>
-              <FileCopySharpIcon style={{ fontSize: '20px' }} />
-            </IconButton>
-          </MenuItem>
-
+          <Tooltip title='Promote'>
+            <MenuItem style={{ padding: '0, 8px' }}>
+              <IconButton onClick={handlePromote}>
+                <Autorenew style={{ fontSize: '20px' }} />
+              </IconButton>
+            </MenuItem>
+          </Tooltip>
           <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton onClick={handlePopOpen}>
               <DeleteSharpIcon style={{ fontSize: '20px' }} />
@@ -204,13 +204,6 @@ export default function MenuButton(props) {
               </Popover>
             </IconButton>
           </MenuItem>
-          <Tooltip title='Promoute'>
-            <MenuItem style={{ padding: '0, 8px' }}>
-              <IconButton onClick={handlePromote}>
-                <Autorenew style={{ fontSize: '20px' }} />
-              </IconButton>
-            </MenuItem>
-          </Tooltip>
 
         </div>
       </Menu>

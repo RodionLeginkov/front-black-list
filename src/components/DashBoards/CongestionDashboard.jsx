@@ -3,26 +3,17 @@ import { ResponsivePie } from '@nivo/pie';
 
 const CongestionDashboard = (props) => {
   const { users } = props;
-  let count = 0;
-  const takeCount = () => {
-    if (users) {
-      count = users.filter((item) => (item.role === 'middle_developer' || 'senior_developer' || 'junior_developer' || 'intern') && item.rate > 0).length;
-      console.log(count, 'lllllllllll');
-      return count;
-    }
-  };
   const developers = ['middle_developer', 'senior_developer', 'junior_developer', 'intern'];
+  const userCount = users.filter((item) => (developers.includes(item.role))).length;
   const dashData = [
     {
       id: 'Earning',
       value: users.filter((item) => (developers.includes(item.role)) && (item.current_rate > 0)).length,
-      label: 'Earning',
       color: 'hsl(274, 70%, 50%)',
     },
     {
       id: 'Train/help',
       value: users.filter((item) => (developers.includes(item.role)) && (item.current_rate === '0')).length,
-      label: 'Train/help',
       color: 'hsl(83, 70%, 50%)',
     },
   ];
@@ -37,6 +28,8 @@ const CongestionDashboard = (props) => {
       innerRadius={0.5}
       padAngle={1.5}
       cornerRadius={4}
+      radialLabel={(d) => `${d.id} (${d.value})`}
+      sliceLabel={(d) => `${(d.value / userCount) * 100}%`}
       borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
       radialLabelsSkipAngle={1}
       radialLabelsTextXOffset={6}
@@ -96,19 +89,6 @@ const CongestionDashboard = (props) => {
             id: 'Train/help',
           },
           id: 'dots',
-        },
-      ]}
-      legends={[
-        {
-          anchor: 'right',
-          direction: 'column',
-          translateY: 0,
-          translateX: 40,
-          itemWidth: 140,
-          itemHeight: 40,
-          itemTextColor: 'black',
-          symbolSize: 20,
-          symbolShape: 'circle',
         },
       ]}
     />

@@ -4,6 +4,7 @@ import CongestionDashboard from '../../components/DashBoards/CongestionDashboard
 
 const UserDashboard = (props) => {
   const { users } = props;
+  const userCount = users.length;
   let count = 0;
   const takeCount = (name) => {
     if (users) {
@@ -15,37 +16,31 @@ const UserDashboard = (props) => {
     {
       id: 'Team Leads',
       value: takeCount('team_leader'),
-      label: 'TL',
       color: 'hsl(274, 70%, 50%)',
     },
     {
       id: 'Junior',
       value: takeCount('junior_developer'),
-      label: 'Junior',
       color: 'hsl(258, 70%, 50%)',
     },
     {
       id: 'Middle',
       value: takeCount('middle_developer'),
-      label: 'Middle',
       color: 'hsl(83, 70%, 50%)',
     },
     {
       id: 'Senior',
       value: takeCount('senior_developer'),
-      label: 'Senior',
       color: 'hsl(109, 70%, 50%)',
     },
     {
       id: 'Interns',
       value: takeCount('intern'),
-      label: 'Interns',
       color: 'hsl(166, 70%, 50%)',
     },
     {
       id: 'Managers',
       value: takeCount('ceo') + takeCount('cto') + takeCount('sales_manager') + takeCount('office_manager') + takeCount('hr_manager'),
-      label: 'Managers',
       color: 'hsl(319, 70%, 50%)',
     },
   ];
@@ -62,8 +57,10 @@ const UserDashboard = (props) => {
         borderWidth={2}
         innerRadius={0.5}
         padAngle={1.5}
+        radialLabel={(d) => `${d.id} (${d.value})`}
         cornerRadius={4}
         borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
+        sliceLabel={(d) => `${(d.value / userCount) * 100}%`}
         radialLabelsSkipAngle={1}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="black"
@@ -152,19 +149,6 @@ const UserDashboard = (props) => {
               id: 'Managers',
             },
             id: 'lines',
-          },
-        ]}
-        legends={[
-          {
-            anchor: 'right',
-            direction: 'column',
-            translateY: 0,
-            translateX: 5,
-            itemWidth: 140,
-            itemHeight: 40,
-            itemTextColor: 'black',
-            symbolSize: 20,
-            symbolShape: 'circle',
           },
         ]}
       />

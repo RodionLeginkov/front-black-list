@@ -68,6 +68,10 @@ const MilestonesList = (props) => {
       startDate = new Date(milestone.Person.start_date);
       startDate = startDate.toLocaleString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     }
+    if (milestone.Person == null) {
+      const date = new Date(milestone.start_date);
+      startDate = date ? `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}` : 'Not-started';
+    }
     let personName = '';
     let personParticipants = [];
     if (milestone.Person !== null) {

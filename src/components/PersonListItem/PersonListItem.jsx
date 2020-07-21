@@ -36,7 +36,6 @@ const PersonListItem = (props) => {
   };
 
 
-  console.log(curProject);
 
   const handleDelete = async (id) => {
     if (projectId) {

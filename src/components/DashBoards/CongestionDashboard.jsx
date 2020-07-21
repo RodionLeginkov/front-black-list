@@ -13,7 +13,7 @@ const CongestionDashboard = (props) => {
     },
     {
       id: 'Train/help',
-      value: users.filter((item) => (developers.includes(item.role)) && (item.current_rate === '0')).length,
+      value: users.filter((item) => (developers.includes(item.role)) && (item.current_rate <= 0)).length,
       color: 'hsl(83, 70%, 50%)',
     },
   ];
@@ -29,9 +29,9 @@ const CongestionDashboard = (props) => {
       padAngle={1.5}
       cornerRadius={4}
       radialLabel={(d) => `${d.id} (${d.value})`}
-      sliceLabel={(d) => `${(d.value / userCount) * 100}%`}
+      sliceLabel={(d) => `${(Math.round((d.value / userCount) * 100))}%`}
       borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
-      radialLabelsSkipAngle={1}
+      radialLabelsSkipAngle={10}
       radialLabelsTextXOffset={6}
       radialLabelsTextColor="black"
       radialLabelsLinkOffset={0}
@@ -39,7 +39,7 @@ const CongestionDashboard = (props) => {
       radialLabelsLinkHorizontalLength={30}
       radialLabelsLinkStrokeWidth={5}
       radialLabelsLinkColor={{ from: 'color' }}
-      slicesLabelsSkipAngle={10}
+      slicesLabelsSkipAngle={16}
       slicesLabelsTextColor="#333333"
       isInteractive={false}
       fontSize={230}

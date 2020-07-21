@@ -213,7 +213,6 @@ export default function AddNewMilestoneModal(props) {
           milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
           if (newProjectId) await dispatch(getProject(newProjectId));
           if (curProject.uuid) {
-            console.log('44444');
             await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
             await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
             if (projectId) await dispatch(getProject(curProject.uuid));

@@ -56,7 +56,7 @@ function CurrentTaskField(props) {
     //   e.target.value += '\n';
     // }
   };
-  console.log('new', newTask);
+
   const handleOnBlur = () => {
     if (changedFields.current_task !== newTask.text) {
       handleAddTask();

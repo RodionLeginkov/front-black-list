@@ -42,7 +42,7 @@ export default function MenuButton(props) {
     rate: null,
     rate_type: '',
     load: null,
-    start_date: singleMilestone.start_date,
+    start_date: singleMilestone.end_date || new Date(),
     end_date: null,
     Users: singleMilestone.Users,
     platform: '',

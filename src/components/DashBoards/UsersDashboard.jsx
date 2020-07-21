@@ -45,7 +45,6 @@ const UserDashboard = (props) => {
     },
   ];
   dashData = dashData.filter((item) => item.value !== 0);
-  console.log(dashData);
   return (
     <>
       <ResponsivePie
@@ -60,7 +59,7 @@ const UserDashboard = (props) => {
         radialLabel={(d) => `${d.id} (${d.value})`}
         cornerRadius={4}
         borderColor={{ from: 'color', modifiers: [['darker', 2]] }}
-        sliceLabel={(d) => `${(d.value / userCount) * 100}%`}
+        sliceLabel={(d) => `${(Math.round((d.value / userCount) * 100))}%`}
         radialLabelsSkipAngle={1}
         radialLabelsTextXOffset={6}
         radialLabelsTextColor="black"
@@ -69,7 +68,7 @@ const UserDashboard = (props) => {
         radialLabelsLinkHorizontalLength={30}
         radialLabelsLinkStrokeWidth={5}
         radialLabelsLinkColor={{ from: 'color' }}
-        slicesLabelsSkipAngle={1}
+        slicesLabelsSkipAngle={10}
         slicesLabelsTextColor="#333333"
         isInteractive={false}
         fontSize={140}

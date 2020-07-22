@@ -192,7 +192,7 @@ export default function AddNewMilestoneModal(props) {
         } else if (initialMilestone && curProject.uuid) {
           if (projectId) {
             if (promote) {
-              await dispatch(updateMilestone({ ...initialMilestone, status: 'Archived', end_date: curDate }));
+              await dispatch(updateMilestone({ ...initialMilestone, status: 'Archived', end_date: initialMilestone.end_date == null ? (curDate) : (initialMilestone.end_date) }));
               await dispatch(promotedMilestones({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
               await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
               await dispatch(getProject(curProject.uuid));
@@ -221,7 +221,7 @@ export default function AddNewMilestoneModal(props) {
         }
         if (projectView) {
           if (promote) {
-            await dispatch(updateMilestone({ ...initialMilestone, status: 'Archived', end_date: curDate }));
+            await dispatch(updateMilestone({ ...initialMilestone, status: 'Archived', end_date: initialMilestone.end_date == null ? (curDate) : (initialMilestone.end_date) }));
             await dispatch(promotedMilestones({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
             await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
             await dispatch(getProject(curProject.uuid));

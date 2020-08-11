@@ -143,6 +143,8 @@ function Users() {
         setActive={setActive}
         activeButton={activeButton}
         setActiveButton={setActiveButton}
+        visibeCells={visibeCells}
+        setVisibeCells={setVisibeCells}
       />
       {/* <Pagination count={10} color="primary" /> */}
       <Grid

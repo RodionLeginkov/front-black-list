@@ -83,7 +83,7 @@ const UsersFilter = (props) => {
     filterRole, setFilterRole, filterBar, setFilterBar, sort,
     setSort, open, setOpen, order, setOrder, selectButton, setSelectButton,
     profitable, setProfitable, profitButton, setProfitButton, active, setActive,
-    activeButton, setActiveButton,
+    activeButton, setActiveButton, visibeCells, setVisibeCells,
   } = props;
 
   // const dispatch = useDispatch();
@@ -250,8 +250,60 @@ const UsersFilter = (props) => {
             >
               Archived
             </Button>
-
-
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button
+              onClick={() => {
+                setVisibeCells(['Name', 'Seniority', 'Role', 'Comment']);
+                if (active === 'HR-Data') {
+                  setActive('');
+                  setActiveButton('');
+                  setVisibeCells(['Name',
+                    'Comment',
+                    'Current project',
+                    'Role in the project',
+                    'Current rate',
+                    'Load(h/week)',
+                    'Role',
+                    'Project Ready',
+                    'Seniority',
+                    'Total Load',
+                    'English Skill']);
+                } else {
+                  setActive('HR-Data');
+                  setActiveButton('HR-Data');
+                }
+              }}
+              className={(activeButton === 'HR-Data') ? classes.button : classes.buttonOf}
+            >
+              HR-data
+            </Button>
+            <Button
+              onClick={() => {
+                setVisibeCells(['Name', 'Current project', 'Load(h/week)', 'Current rate']);
+                if (active === 'Productivity') {
+                  setActive('');
+                  setActiveButton('');
+                  setVisibeCells(['Name',
+                    'Comment',
+                    'Current project',
+                    'Role in the project',
+                    'Current rate',
+                    'Load(h/week)',
+                    'Role',
+                    'Project Ready',
+                    'Seniority',
+                    'Total Load',
+                    'English Skill']);
+                } else {
+                  setActive('Productivity');
+                  setActiveButton('Productivity');
+                }
+              }}
+              className={(activeButton === 'Productivity') ? classes.button : classes.buttonOf}
+            >
+              Productivity
+            </Button>
           </ButtonGroup>
         </div>
 

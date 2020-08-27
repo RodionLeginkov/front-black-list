@@ -57,6 +57,7 @@ export const userRoles = [
   { label: 'Middle Developer', value: 'middle_developer' },
   { label: 'Senior Developer', value: 'senior_developer' },
   { label: 'Intern', value: 'intern' },
+  { label: 'Candidate', value: 'candidate' },
 ];
 export const englishLevels = [
   { label: 'Beginner', value: 'beginner' },

@@ -19,6 +19,11 @@ const UserDashboard = (props) => {
       color: 'hsl(274, 70%, 50%)',
     },
     {
+      id: 'Candidate',
+      value: takeCount('candidate'),
+      color: 'hsl(20, 70%, 50%)'
+    },
+    {
       id: 'Junior',
       value: takeCount('junior_developer'),
       color: 'hsl(258, 70%, 50%)',
@@ -146,6 +151,12 @@ const UserDashboard = (props) => {
           {
             match: {
               id: 'Managers',
+            },
+            id: 'lines',
+          },
+          {
+            match: {
+              id: 'Candidate',
             },
             id: 'lines',
           },

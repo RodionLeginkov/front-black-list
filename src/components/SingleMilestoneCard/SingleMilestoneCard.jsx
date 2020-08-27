@@ -203,11 +203,18 @@ const SingleMilestoneCard = (props) => {
           currentProject
         />
         <CardContent style={{ padding: '7px' }}>
-          <Typography>
-            {milestone.rate}
-            {' '}
-            {paymentType}
-          </Typography>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Typography>
+              {milestone.rate}
+              {' '}
+              {paymentType}
+            </Typography>
+            <Typography style={{ marginRight: '20px' }}>
+              {'Load:'}
+              {' '}
+              {milestone.load}
+            </Typography>
+          </div>
           <Typography>
             {startDate}
           </Typography>

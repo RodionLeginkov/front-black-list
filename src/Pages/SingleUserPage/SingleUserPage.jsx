@@ -218,7 +218,6 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   };
   const user = useSelector((state) => state.users.currentUser);
   const users = useSelector((state) => getFilteredUsers(state));
-  // console.log(user.email);
 
 
   let userCurrentTask;
@@ -234,9 +233,7 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
     if (!user || !user.UserMilestones || !user.UsersTasks || userId !== user.uuid) {
       dispatch(getUser(userId, ''));
     }
-    if (!users.length) {
-      dispatch(getUsers('', '', '', true, '', ''));
-    }
+    dispatch(getUsers('', '', '', true, '', ''));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, userId, user]);
 

@@ -143,14 +143,6 @@ export default function MenuButton(props) {
               </IconButton>
             </MenuItem>
           </Tooltip>
-
-          <Tooltip title="Archive milestone">
-            <MenuItem style={{ padding: '0, 8px' }}>
-              <IconButton onClick={handleArchive}>
-                <UnarchiveSharpIcon style={{ fontSize: '20px' }} />
-              </IconButton>
-            </MenuItem>
-          </Tooltip>
           <Tooltip title='Promote'>
             <MenuItem style={{ padding: '0, 8px' }}>
               <IconButton onClick={handlePromote}>
@@ -158,6 +150,9 @@ export default function MenuButton(props) {
               </IconButton>
             </MenuItem>
           </Tooltip>
+          {Math.round(
+            (new Date() - new Date(singleMilestone.start_date)) / (60 * 60 * 24 * 1000),
+          ) <= 7 && (
           <MenuItem style={{ padding: '0, 8px' }}>
             <IconButton onClick={handlePopOpen}>
               <DeleteSharpIcon style={{ fontSize: '20px' }} />
@@ -204,7 +199,14 @@ export default function MenuButton(props) {
               </Popover>
             </IconButton>
           </MenuItem>
-
+          )}
+          <Tooltip title="Archive milestone">
+            <MenuItem style={{ padding: '0, 8px' }}>
+              <IconButton onClick={handleArchive}>
+                <UnarchiveSharpIcon style={{ fontSize: '20px' }} />
+              </IconButton>
+            </MenuItem>
+          </Tooltip>
         </div>
       </Menu>
       <AddNewMilestoneModal

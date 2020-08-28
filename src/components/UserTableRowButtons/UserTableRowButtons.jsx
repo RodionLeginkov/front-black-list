@@ -1,8 +1,6 @@
 import React from 'react';
-import CloseSharpIcon from '@material-ui/icons/CloseSharp';
-import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import EditSharpIcon from '@material-ui/icons/EditSharp';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
@@ -67,20 +65,15 @@ function UserTableRowButtons(props) {
           </>
         ) : (
           <div className={classes.buttons}>
-            <Button>
-              <CheckSharpIcon />
-            </Button>
-            <Button
-              name="closeButton"
-              onMouseDown={handleCancel}
-            >
-              <CloseSharpIcon />
-            </Button>
-            <Button
-              onMouseDown={handeCloseTask}
-            >
-              <CheckCircleOutlineIcon />
-            </Button>
+            <>
+              <Button
+                title="Clear comment"
+                onMouseDown={handeCloseTask}
+                style={{ marginLeft: '-20px' }}
+              >
+                <DeleteIcon />
+              </Button>
+            </>
           </div>
         )}
     </>

@@ -182,7 +182,9 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
   const [value, setValue] = React.useState(0);
   const [subtract, setSubtract] = useState('');
 
-
+  const user = useSelector((state) => state.users.currentUser);
+  const users = useSelector((state) => getFilteredUsers(state));
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -211,13 +213,13 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
   const handleClickInvite = () => {
     dispatch(inviteUsers({ email: user.email }));
+    dispatch(updateUser({ ...user, invited: true }));
   };
 
   const handleCloseTaskTable = () => {
     setTaskHistoryTable(!taskHistoryTable);
   };
-  const user = useSelector((state) => state.users.currentUser);
-  const users = useSelector((state) => getFilteredUsers(state));
+
 
 
   let userCurrentTask;
@@ -335,16 +337,30 @@ const UserInfo = ({ match: { params: { userId }, path } }) => {
 
 
             <span>
-              <Button
-                onClick={handleClickInvite}
-                disabled={!user.email}
-                variant="outlined"
-                color="primary"
-                size="large"
-                className={classes.inviteButton}
-              >
-                Reset password
-              </Button>
+              {user.invited ? (
+                <Button
+                  onClick={handleClickInvite}
+                  disabled={!user.email}
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  className={classes.inviteButton}
+                >
+                  Reset password
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleClickInvite}
+                  disabled={!user.email}
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  className={classes.inviteButton}
+                >
+                  Send Invite
+                </Button>
+              ) }
+
             </span>
             {/* </div> */}
           </Tooltip>

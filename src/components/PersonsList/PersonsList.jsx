@@ -109,6 +109,7 @@ const PersonsList = (props) => {
               isEdit={isEdit}
               newProjectId={newProjectId}
               curProject={curProject}
+              key={projectId}
             />
           ))}
         </TableBody>

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import AddNewMilestoneModal from '../AddNewMilestoneModal/AddNewMilestoneModal.jsx';
 import SingleMilestoneCard from '../SingleMilestoneCard/SingleMilestoneCard.jsx';
 import MilestonesTableOnSinglePages from '../MilestonesTableOnSinglePages/MilestonesTableOnSinglePages.jsx';
-
+import moment from 'moment';
 
 function AddMilestonesForm(props) {
   const {
@@ -37,6 +37,7 @@ function AddMilestonesForm(props) {
   };
   const show = archived ? 'history' : 'resourse';
   const choosenMilestones = projectMilestones.filter((milestone) => (archived ? milestone.status === 'Archived' : milestone.status !== 'Archived'));
+  choosenMilestones.sort((first, second) => moment(second.start_date.slice(0, 10), 'YYYY.MM.DD') - moment(first.start_date.slice(0, 10), 'YYYY.MM.DD'));
   const milestones = widgetView[show] ? choosenMilestones.map((milestone) => (
     <SingleMilestoneCard
       showInfo={showInfo}

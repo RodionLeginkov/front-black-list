@@ -57,7 +57,8 @@ const useStyles = makeStyles(() => ({
   },
   descriptionText: {
     fontSize: '16px',
-    paddingLeft: '5px',
+    padding: '10px',
+    whiteSpace: 'pre-wrap',
   },
   description: {
     margin: '4px 13px',

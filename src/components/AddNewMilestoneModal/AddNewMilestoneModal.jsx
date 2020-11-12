@@ -123,7 +123,7 @@ export default function AddNewMilestoneModal(props) {
     user_uuid: '',
     load: '',
     role: '',
-    // start_date: '',
+    start_date: '',
   });
 
   const [errorsDeathRattle, setErrorsDeathRattle] = useState({
@@ -135,7 +135,7 @@ export default function AddNewMilestoneModal(props) {
       user_uuid: '',
       load: '',
       role: '',
-      // start_date: '',
+      start_date: '',
     });
     setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
     setIsError(false);

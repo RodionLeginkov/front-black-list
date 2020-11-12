@@ -123,7 +123,7 @@ export default function AddNewMilestoneModal(props) {
     user_uuid: '',
     load: '',
     role: '',
-    // start_date: '',
+    start_date: '',
   });
 
   const [errorsDeathRattle, setErrorsDeathRattle] = useState({
@@ -135,7 +135,7 @@ export default function AddNewMilestoneModal(props) {
       user_uuid: '',
       load: '',
       role: '',
-      // start_date: '',
+      start_date: '',
     });
     setErrorsDeathRattle({ ...errorsDeathRattle, end_date: '' });
     setIsError(false);
@@ -203,9 +203,10 @@ export default function AddNewMilestoneModal(props) {
             }
           } else {
             // milestoneEdit(initialMilestone, project);
+            // eslint-disable-next-line no-lonely-if
             if (newProjectId) {
               await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
-              await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0 }));
+              await dispatch(updateMilestone({ ...project, project_uuid: newProjectId, rate: project.rate !== '' ? project.rate : 0, startDate: project.startDate !== null ? project.start_date : curDate }));
               await dispatch(getProject(curProject.uuid));
             }
           }
@@ -213,8 +214,8 @@ export default function AddNewMilestoneModal(props) {
           milestonesChange({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 });
           if (newProjectId) await dispatch(getProject(newProjectId));
           if (curProject.uuid) {
-            await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0 }));
-            await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || new Date('2020-06-03 05:00:32.945000 +00:00'), curProject: curProject.workEnd || new Date('2020-06-03 15:00:32.952000 +00:00') });
+            await dispatch(addMilestone({ ...project, project_uuid: curProject.uuid, rate: project.rate !== '' ? project.rate : 0, startDate: project.start_date == null ? curDate : project.start_date }));
+            await axios.put(`/project/${curProject.uuid}`, { ...curProject, workStart: curProject.workStart || curDate });
             if (projectId) await dispatch(getProject(curProject.uuid));
             else if (newProjectId) await dispatch(getProject(newProjectId));
           }
@@ -510,7 +511,7 @@ export default function AddNewMilestoneModal(props) {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
                 <KeyboardDatePicker
-                  error={!project.start_date && isError}
+                  error={!project.start_date}
                   helperText={(!project.start_date && isError) ? 'Empty field.' : ''}
                   className={clsx(classes.formControl, classes.inputForm)}
                   style={{ width: '100%' }}
@@ -520,7 +521,7 @@ export default function AddNewMilestoneModal(props) {
                   format="dd/MM/yyyy"
                   autoOk
                   margin="normal"
-                  value={project.start_date}
+                  value={project.start_date || curDate}
                   label="Start Date"
                   onChange={startDateChange}
                 />
